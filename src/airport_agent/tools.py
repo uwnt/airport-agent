@@ -148,6 +148,8 @@ def _split_codes(codes, cache_dir):
                 wanted.append(m.iata)
         else:
             not_ranked.append({"code": m.iata, "name": m.name, "reason": _plain(m.scope_reason)})
+    if not wanted and not not_ranked:
+        raise ToolError("no airport code given; give one or more codes such as BOS or KSFO")
     return wanted, not_ranked
 
 
@@ -163,7 +165,7 @@ def rank_airports(region=None, codes=None, preset=None, top=None, cache_dir=None
     metrics_list, settings = _context(cache_dir, settings)
     preset = preset or settings.scoring["default_preset"]
     outside = []
-    if codes:
+    if codes is not None:
         codes, outside = _split_codes(codes, cache_dir)
         if not codes:
             return {
@@ -453,6 +455,9 @@ def _is_codes(value):
 
 
 def _is_whole(value):
+    # The model may send a whole number as 5.0; that counts (run_tool passes it on as 5).
+    if isinstance(value, float):
+        return value.is_integer()
     return isinstance(value, int) and not isinstance(value, bool)
 
 
@@ -494,6 +499,8 @@ def run_tool(name, args, cache_dir=None):
     problem = _bad_argument(name, args)
     if problem:
         return {"error": problem}
+    if isinstance(args.get("top"), float):
+        args = {**args, "top": int(args["top"])}
     try:
         return tool(**args, cache_dir=cache_dir)
     except CacheMissingError as error:

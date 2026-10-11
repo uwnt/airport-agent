@@ -244,3 +244,25 @@ def test_q4_sfo_tool_path_gives_the_model_the_verified_runway_facts_and_friction
     assert friction["sources"] and all(s.startswith("https://") for s in friction["sources"])
     for signal in pressure["signals"].values():
         assert "missing" in signal or has_source_and_date(signal)
+
+
+@pytest.mark.parametrize(
+    ("tool", "args"),
+    [
+        ("demand_pressure", {"code": ""}),
+        ("demand_pressure", {"code": " "}),
+        ("rank_airports", {"codes": ""}),
+        ("rank_airports", {"codes": []}),
+    ],
+)
+def test_a_blank_code_is_a_plain_error_not_a_national_ranking(tool, args):
+    # Review round 2: blank codes failed with an IndexError or fell back to the national top 10.
+    result = run_tool(tool, args)
+    assert "no airport code given" in result["error"]
+
+
+def test_top_sent_as_a_whole_float_works():
+    # Review round 2: the model may send 5.0 for 5.
+    result = run_tool("rank_airports", {"top": 5.0})
+    assert "error" not in result and len(result["rows"]) == 5
+    assert "error" in run_tool("rank_airports", {"top": 5.5})
