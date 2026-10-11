@@ -2,6 +2,7 @@
 
 import dataclasses
 import random
+from datetime import date
 from pathlib import Path
 
 import pytest
@@ -46,7 +47,19 @@ def without_constraints(real):
 
 
 def friction(name, tier):
-    return {"name": name, "tier": tier, "description": name, "sources": ["s"], "domain_notes": [1]}
+    return {
+        "name": name,
+        "tier": tier,
+        "description": name,
+        "sources": ["s"],
+        "domain_notes": [1],
+        "checked": "2026-10-11",
+        "review_by": "2030-12-31",
+    }
+
+
+def without(entry, key):
+    return {k: v for k, v in entry.items() if k != key}
 
 
 def airport(
@@ -441,6 +454,20 @@ MIX = SCORING["strain_mix"]
         (SCORING, {"AAA": [{**friction("cap", "hard_cap"), "sources": []}]}, "sources"),
         (SCORING, {"AAA": [{**friction("cap", "hard_cap"), "sources": "s"}]}, "sources"),
         (SCORING, {"AAA": "cap"}, "AAA"),
+        (SCORING, {"AAA": [without(friction("cap", "hard_cap"), "checked")]}, "checked"),
+        (SCORING, {"AAA": [without(friction("cap", "hard_cap"), "review_by")]}, "review_by"),
+        (SCORING, {"AAA": [{**friction("cap", "hard_cap"), "checked": "last May"}]}, "checked"),
+        (
+            SCORING,
+            {"AAA": [{**friction("cap", "hard_cap"), "review_by": "2030-13-01"}]},
+            "review_by",
+        ),
+        (SCORING, {"AAA": [{**friction("cap", "hard_cap"), "review_by": 2030}]}, "review_by"),
+        (
+            SCORING,
+            {"AAA": [{**friction("cap", "hard_cap"), "review_by": "2026-10-10"}]},
+            "review_by is before checked",
+        ),
     ],
 )
 def test_a_settings_mistake_raises_a_plain_error_naming_the_key(
@@ -509,3 +536,31 @@ def test_settings_root_is_the_working_folder_when_installed_as_a_package(tmp_pat
     assert (scoring._settings_root(tmp_path / "site-packages") / "config").resolve() == (
         tmp_path / "config"
     )
+
+
+def test_a_past_review_by_marks_the_friction_stale_but_the_penalty_still_applies():
+    constraints = {"DDD": [{**friction("cap", "hard_cap"), "review_by": "2027-10-11"}]}
+    fresh = by_code(rank(FOUR, settings=settings(constraints), today=date(2027, 10, 11)))["DDD"]
+    stale = by_code(rank(FOUR, settings=settings(constraints), today=date(2027, 10, 12)))["DDD"]
+    assert not fresh.friction.stale
+    assert stale.friction.stale
+    assert stale.friction.review_by == date(2027, 10, 11)
+    assert stale.friction.checked == date(2026, 10, 11)
+    assert stale.score == fresh.score  # flagged, not dropped
+
+
+def test_the_table_marks_a_stale_friction_and_says_when_it_was_due():
+    constraints = {"DDD": [{**friction("cap", "hard_cap"), "review_by": "2027-10-11"}]}
+    config = settings(constraints)
+    results = rank(FOUR, settings=config, today=date(2028, 1, 1))
+    table = scoring.format_table(list(results), config, "balanced", 4)
+    assert "-30 cap (stale)" in table
+    assert "DDD: cap may be out of date: due for re-check on 2027-10-11" in table
+    fresh = rank(FOUR, settings=config, today=date(2027, 1, 1))
+    assert "stale" not in scoring.format_table(list(fresh), config, "balanced", 4)
+
+
+def test_yaml_dates_are_accepted_as_dates():
+    entry = {**friction("cap", "hard_cap"), "checked": date(2026, 10, 11)}
+    entry["review_by"] = date(2027, 10, 11)
+    assert by_code(rank(FOUR, settings=settings({"AAA": [entry]})))["AAA"].friction.points == 30

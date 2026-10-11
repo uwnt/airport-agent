@@ -71,7 +71,9 @@ Numbers
 
 Facts and general knowledge
 - Facts about an airport (caps, curfews, runways, history) may be stated as fact only if they are
-  in airport_profile's verified_facts; cite the note number and a source link.
+  in airport_profile's verified_facts; cite the note number and a source link, and state the
+  fact's checked date ("checked 2026-10-11"). If a fact or a friction penalty has stale: true,
+  say it may be out of date and give its review_by date (the penalty still applies).
 - Anything else you add from your own knowledge must be marked "(general knowledge)" and must
   contain no numbers.
 
