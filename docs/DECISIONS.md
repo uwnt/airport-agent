@@ -237,3 +237,19 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
 - Because: every airport in DOT Table 1a must be ranked or explained (D11), and a gap shown is
   better than a number quietly based on less data.
 - Revisit if: a keyword match ever picks the wrong airport.
+
+## D21: Snapshots use only data published by their date (proposed; owner to confirm)
+- Chose: `refresh --as-of YYYY-MM` keeps only data that was public by the end of that month.
+  BTS on-time: a month counts once it ended at least 91 days earlier (BTS posts each month 6 to 13
+  weeks after it ends; January 2026 appeared 90 days after month end). DOT Table 1a: a quarter
+  counts 6 whole months after it ends; this is an assumption (2026 Q1 appeared about 5 months after
+  quarter end, and 2026 Q2 was still missing on 2026-10-11). BTS boardings: years up to the year
+  before. OurAirports: today's file in every snapshot, since it keeps no history; the manifest
+  says so. OpenSky: latest snapshot only; older ones show long-haul as "not available for this
+  date". In the 2019 snapshot, growth vs 2019 is empty with the reason "this snapshot is the 2019
+  baseline". Three snapshots are committed: 2019-12, 2021-12 and the latest.
+- Over: using whatever the API returns today for an old date (a 2019 snapshot would quietly use
+  data nobody had in 2019); a fixed 3-month BTS lag (a snapshot dated end of April 2026 would
+  include January 2026, which appeared on 1 May).
+- Because: comparing snapshots must show what an analyst could actually have known at the time.
+- Revisit if: DOT's release dates are found published, so the 6-month assumption can be checked.
