@@ -7,16 +7,18 @@ The four example questions: **Q1** New England expansion candidates · **Q2** LA
 **Q3** long-haul share out of Anchorage · **Q4** unmet demand at SFO, and why.
 
 ## DOT Consumer Airfare Report, Table 1a
-- **Gives:** for each airport pair and quarter (1993 to 2026 Q1): passengers per day, average fare,
+- **Gives:** for each airport pair and quarter (1993 onward per the DOT table documentation; our sample holds only 2019 Q1 and 2026 Q1): passengers per day, average fare,
   distance, the largest carrier and its share.
 - **Helps with:** Q1 (volume, growth, fare premium), Q2 and Q4 (volume, growth).
 - **Can't:**
   - **No Alaska:** Anchorage has no rows, so Q3 needs OpenSky.
   - **Domestic only:** international passengers are not in it.
-  - **Busiest markets only:** small airports are undercounted. BTV shows ~250 passengers a day,
-    far below its real traffic. Treat small-airport totals as a lower bound.
+  - **Small airports may be undercounted.** The table covers a limited set of markets (DOT table
+    documentation; not re-checked), and BTV shows only 253 passengers a day in 2026 Q1 in our
+    sample. Treat small-airport totals as a lower bound until checked against another source.
 - **Trap found:** compare the same quarter across years. A first run comparing Q4 2019 with
-  Q1 2026 made Boston look 24% down; the committed sample (Q1 vs Q1) shows 10% down.
+  Q1 2026 made Boston look 24% down (first run, not kept); the committed sample (Q1 2026 vs
+  Q1 2019) shows BOS down 10.2%.
 
 ## BTS enplanements (top 50 airports)
 - **Gives:** boarded passengers per airport per year, 2003–2023, with coordinates.
@@ -37,7 +39,7 @@ The four example questions: **Q1** New England expansion candidates · **Q2** LA
 
   | | SFO | EWR | BOS | ORD | LAX | SNA | ANC |
   |---|---|---|---|---|---|---|---|
-  | NAS delay min per landed flight | 15.2 | 12.9 | 9.7 | 8.1 | 2.3 | 2.2 | 1.9 |
+  | NAS delay min per landed flight | 15.2 | 13.2 | 9.7 | 8.1 | 2.3 | 2.2 | 1.9 |
   | Cancelled | 1.3% | 8.0% | 5.9% | 4.4% | 1.3% | 1.0% | 0.7% |
 
 - **Can't, or watch out:**
@@ -49,6 +51,9 @@ The four example questions: **Q1** New England expansion candidates · **Q2** LA
   - **One summer month is not a year.**
   - **Large raw files:** each month is a ~32 MB download; we keep only the per-airport summary.
   - **About 2–3 months behind.**
+  - **Diverted flights:** the first July 2026 summary counted diverted flights as landed at their
+    original destination (effect small; EWR moved from 12.9 to 13.2 when excluded). The script
+    and the committed sample now exclude them.
 
 ## FAA NAS Status
 - **Gives:** delay programs, ground stops and closures, right now.
@@ -64,21 +69,25 @@ The four example questions: **Q1** New England expansion candidates · **Q2** LA
   (OpenSky uses `KSFO`), and the coordinates give distances for Q3.
 - **Watch:**
   - Alaska ICAO codes start with P (Anchorage is `PANC`), so "add a K" is wrong.
-  - 70 of the 679 have no `icao_code`; `gps_code` fills most of them, leaving 19 with no
-    four-letter code. All the airports in our four questions have one.
+  - 70 of the 679 have no `icao_code`; only 18 of those have a four-letter `gps_code`
+    (33 have a 3-character local code and 19 have none), so 52 have no four-letter code at all.
+    All the airports in our four questions (BOS, LAX, SNA, SFO, ANC, BDL, PVD, MHT, PWM, BTV)
+    have one.
   - The list includes 42 seaplane bases and 3 heliports; filter by type when ranking.
 
 ## OpenSky Network (free account)
 - **Gives:** actual departures and arrivals per airport from transponder data, with an *estimated*
   destination.
 - **Helps with:** Q3 (where Anchorage flights go), flights per hour for Q2.
-- **Sample:** 552 departures from Anchorage in two days.
+- **Sample:** 552 departures from Anchorage in two days (138 are private aircraft). The sample is
+  trimmed to the fields we use, and private tail numbers are masked as `PRIVATE`.
 - **Can't, or watch out:**
   - **Cargo and private flights are mixed in.** Prefixes like GTI, FDX, CKS, UPS and NAC are
-    cargo; callsigns that are an N-number (`N` followed by digits) are private aircraft. Note NAC
-    (Northern Air Cargo) also starts with N. Filter by a fixed passenger-airline list.
-  - **Local flying:** 23 flights went from Anchorage back to Anchorage, and 57 of the 63 to nearby
-    Kenai (PAEN) are private N-number aircraft. Exclude same-airport and short hops before
+    cargo; callsigns that are a US tail number are private aircraft: after trimming spaces, match
+    `^N[0-9][0-9A-Z]{0,4}$` (for example N269TD, N795J). NAC (Northern Air Cargo) starts with N
+    but is not matched by this rule. Filter by a fixed passenger-airline list.
+  - **Local flying:** 23 flights went from Anchorage back to Anchorage, and 58 of the 63 to nearby
+    Kenai (PAEN) are private tail-number aircraft. Exclude same-airport and short hops before
     computing a long-haul share.
   - **Destination unknown for ~14%** of flights.
   - **Terms restrict commercial use** (see decision D5).
