@@ -30,6 +30,8 @@ LAGS = load_config()["point_in_time"]
         ("2026-04", (2025, 12), (2025, 3)),
         # Jul 2026 arrived 21 Sep 2026 and 2026 Q1 on 3 Sep 2026: both usable by end of October.
         ("2026-10", (2026, 7), (2026, 1)),
+        # Six months before August is February, mid-quarter: Q1 2026 hasn't ended long enough.
+        ("2026-08", (2026, 5), (2025, 4)),
     ],
 )
 def test_newest_month_and_quarter_published_by_as_of(as_of, month, quarter):
