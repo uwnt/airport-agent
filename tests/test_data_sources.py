@@ -300,6 +300,15 @@ def test_long_haul_rules():
     )
 
 
+def test_long_haul_means_strictly_over_the_line():
+    coords = {"PANC": (61.17, -150.0), "KSEA": (47.45, -122.31)}
+    miles = ourairports.great_circle_miles(coords["PANC"], coords["KSEA"])
+    flights = [{"callsign": "ASA1", "estArrivalAirport": "KSEA"}]
+    at_the_line = opensky.long_haul_share(flights, "PANC", coords, ["ASA"], 100, miles)
+    just_over = opensky.long_haul_share(flights, "PANC", coords, ["ASA"], 100, miles - 1)
+    assert (at_the_line["long_haul"], just_over["long_haul"]) == (0, 1)
+
+
 def test_missing_credentials_raise_unavailable(monkeypatch, tmp_path):
     monkeypatch.delenv("OPENSKY_CLIENT_ID", raising=False)
     monkeypatch.delenv("OPENSKY_CLIENT_SECRET", raising=False)
