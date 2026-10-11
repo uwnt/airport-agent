@@ -63,15 +63,18 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
 ## D7: What the score measures (signals)
 - Chose: two scored dimensions. **Strain**: NAS delay per landed flight, meaning BTS's `NASDelay`
   minutes (delay BTS attributes to the "National Aviation System": airport and airspace) on flights
-  arriving at the airport, divided by flights that landed there; the cancellation rate (diverted flights excluded), and the fare premium versus markets of
-  similar distance (DOT Table 1a). **Growth**: passengers per day versus the same quarter of 2019
-  (DOT Table 1a). Friction (D10) is subtracted.
+  arriving at the airport, divided by flights that landed there; the cancellation rate (diverted
+  flights excluded), and the fare premium versus markets of similar distance (DOT Table 1a).
+  **Growth**: passengers per day versus the same quarter of 2019 (DOT Table 1a). Friction (D10) is
+  subtracted.
 - Time windows: Strain uses the latest 12 months of BTS data (now Aug 2025 to Jul 2026), so one odd
-  month can't drive the ranking. Growth compares the latest DOT quarter with the same quarter of 2019.
+  month can't drive the ranking. Growth compares the latest DOT quarter with the same quarter of
+  2019.
 - Fare premium (latest DOT quarter): for each of the airport's markets, its fare per mile divided by
-  the passenger-weighted national average fare per mile for markets in the same distance band (0–500, 500–1,000,
-  1,000–1,500 and over 1,500 miles); then the passenger-weighted average of those ratios across the
-  airport's markets. 1.0 means fares are normal for those distances; 1.2 means 20% above.
+  the passenger-weighted national average fare per mile for markets in the same distance band
+  (0–500, 500–1,000, 1,000–1,500 and over 1,500 miles); then the passenger-weighted average of those
+  ratios across the airport's markets. 1.0 means fares are normal for those distances; 1.2 means 20%
+  above.
 - Growth: percent change in the airport's total passengers per day (summed over all its Table 1a
   markets in each period, whichever pairs are listed) between the latest quarter and the same
   quarter of 2019. Percent, not absolute, so small and large airports compare fairly.
@@ -102,9 +105,9 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
   delay counts 25% of the score, cancellations 12.5% and fare premium 12.5%.
 - Over: one fixed set (can't answer "rank by growth instead"); equal thirds inside Strain (treats
   fare premium, an indirect signal, the same as measured delay).
-- Because: equal weight is the easiest split to defend (both strain and growth are needed), and named
-  presets let the agent switch views without new code. Weights live in YAML, so they can be changed
-  live without Python.
+- Because: equal weight is the easiest split to defend (both strain and growth are needed), and
+  named presets let the agent switch views without new code. Weights live in YAML, so they can be
+  changed live without Python.
 - Revisit if: one preset turns out to drive every answer.
 
 ## D10: Friction is a sourced penalty from a curated file
@@ -117,18 +120,19 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
 - Over: no friction in the score (SNA would rank as if it could grow freely); adding penalties
   together (overlapping limits count twice); penalties hard-coded in Python (same numbers, invisible
   to a reviewer).
-- Because: it is a judgement input, so it must be visible, sourced and easy to change. The design doc
-  says it is judgement.
+- Because: it is a judgement input, so it must be visible, sourced and easy to change. The design
+  doc says it is judgement.
 - Revisit if: penalties of 30 move airports more than the signals do. Percentile scores cluster near
   the middle, so check the spread once real scores exist.
 
 ## D11: Scope: commercial airports in DOT Table 1a, lower 48
-- Chose: rank airports with commercial service in DOT Table 1a in the lower 48. Alaska and Hawaii are
-  not ranked; Anchorage is answered only through OpenSky questions (D13). Out of scope: cargo
-  economics, financing, airline strategy, construction cost; the agent says so and offers what it can
-  do.
-- Over: including Alaska (DOT Table 1a has no Anchorage rows, so it would rank with missing signals);
-  only the top 50 hubs (drops the New England airports the first example question asks about).
+- Chose: rank airports with commercial service in DOT Table 1a in the lower 48. Alaska and Hawaii
+  are not ranked; Anchorage is answered only through OpenSky questions (D13). Out of scope: cargo
+  economics, financing, airline strategy, construction cost; the agent says so and offers what it
+  can do.
+- Over: including Alaska (DOT Table 1a has no Anchorage rows, so it would rank with missing
+  signals); only the top 50 hubs (drops the New England airports the first example question asks
+  about).
 - Because: the same data sources for every ranked airport keep the ranks comparable. Small airports
   stay in, flagged by D12 rather than dropped.
 - Revisit if: the analysts ask about Hawaii, or a source with Alaska fare data appears.
@@ -137,18 +141,19 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
 - Chose: an airport is **Low confidence** if any scoring signal is missing, or if it has fewer than
   10 markets (distinct airport pairs in DOT Table 1a for the latest quarter). The score is still
   shown, with the flag and the reason. The threshold is in `config/scoring.yaml`.
-- Over: dropping thin airports (New England's small airports would vanish from the New England question).
+- Over: dropping thin airports (New England's small airports would vanish from the New England
+  question).
 - Because: Table 1a lists only the busiest markets, so few listed markets means the fare and growth
   numbers rest on a small part of the airport's traffic. An analyst should see the airport and know
   how much to trust its number.
 - Revisit if: most airports in a region end up flagged.
 
 ## D13: Anchorage long-haul share (OpenSky)
-- Chose: share = long-haul departures ÷ departures with a known destination, counting only
-  passenger airlines (a fixed list of callsign prefixes, kept in configuration and set when the data
-  layer is built). Same-airport flights and destinations 100 miles or closer are
-  dropped. "Long-haul" = over 1,400 miles great-circle distance (from OurAirports coordinates). Flights with no known destination (~14% in the sample) are reported separately with
-  their count, never guessed.
+- Chose: share = long-haul departures ÷ departures with a known destination, counting only passenger
+  airlines (a fixed list of callsign prefixes, kept in configuration and set when the data layer is
+  built). Same-airport flights and destinations 100 miles or closer are dropped. "Long-haul" = over
+  1,400 miles great-circle distance (from OurAirports coordinates). Flights with no known
+  destination (~14% in the sample) are reported separately with their count, never guessed.
 - Over: 1,500 miles (would leave out Seattle, about 1,445 miles away and the main route to the lower
   48); "destination outside Alaska" (that's leaving the state, not distance); counting every flight
   (mixes cargo and private flights into a passenger question).
