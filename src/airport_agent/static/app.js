@@ -111,8 +111,10 @@ function rankingView(name, result) {
     bar.append(strainSeg, growthSeg);
     if (penalty > 0) {
       const frictionSeg = el("span", { class: "seg friction" });
+      // The hatched part covers the points the penalty took: from the score up to the score
+      // before friction (shorter than the penalty when the score stopped at 0).
       frictionSeg.style.left = `${Math.max(row.score, 0)}%`;
-      frictionSeg.style.width = `${penalty}%`;
+      frictionSeg.style.width = `${Math.max(row.score_before_friction - row.score, 0)}%`;
       bar.append(frictionSeg);
     }
     const strainText = strainParts
