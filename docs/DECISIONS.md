@@ -223,3 +223,17 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
 - Over: counting every airline (mixes cargo into a passenger question).
 - Because: D13 counts passenger airlines only.
 - Revisit if: one of the left-out airlines starts scheduled passenger service through Anchorage.
+
+## D19: Airport codes the sources disagree on, and missing months
+- Chose: when DOT or BTS uses a code that OurAirports no longer lists as the airport's code (West
+  Palm Beach: PBI in DOT and BTS, DJT in OurAirports), match it through an exact entry in
+  OurAirports' keywords for a US airport with scheduled service, and show a note saying so. A code
+  that still can't be matched (today only US territories such as SJU and GUM) is listed with its
+  reason in the build's manifest, never dropped silently. If a month in the 12-month BTS window
+  can't be downloaded, it is recorded as a gap and named in the delay and cancellation notes
+  ("11 of 12 months; missing: Jan 2026"); it is never filled in.
+- Over: a hand-kept alias list (needs upkeep and hides the source of the match); dropping unmatched
+  airports (PBI vanished from the ranking); stopping the whole build for one missing month.
+- Because: every airport in DOT Table 1a must be ranked or explained (D11), and a gap shown is
+  better than a number quietly based on less data.
+- Revisit if: a keyword match ever picks the wrong airport.
