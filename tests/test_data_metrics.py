@@ -10,6 +10,7 @@ from airport_agent.data.metrics import (
     UnknownAirportError,
     airport_metrics,
     all_airport_metrics,
+    load_cache,
 )
 
 
@@ -64,6 +65,15 @@ def test_anchorage(sample_cache):
     assert anc.long_haul_share.as_of == "2026-10-09 to 2026-10-10"
     assert "17 with no destination" in anc.long_haul_share.note
     assert anc.cancellation_rate is not None  # BTS on-time covers Anchorage
+
+
+def test_anchorage_without_usable_flights_says_why(sample_cache):
+    # Review round 3: Anchorage must not get the "only for Anchorage" reason.
+    cache = load_cache(sample_cache)
+    cache["opensky"]["data"]["PANC"]["share"] = None
+    anc = airport_metrics("PANC", cache=cache)
+    assert anc.long_haul_share is None
+    assert anc.missing["long_haul_share"].startswith("no passenger departures with a known")
 
 
 def test_all_airport_metrics_is_the_lower_48_in_table_1a(sample_cache):

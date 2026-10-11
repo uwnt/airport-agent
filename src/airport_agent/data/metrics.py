@@ -222,8 +222,12 @@ def _add_long_haul(airport, iata, cache, signals, missing):
     """OpenSky long-haul share (Anchorage only)."""
     sky = cache[opensky.SUMMARY_NAME]
     row = sky["data"].get(airport["icao"] or "")
-    if row is None or row["share"] is None:
+    if row is None:
         missing["long_haul_share"] = "computed only for Anchorage (OpenSky)"
+    elif row["share"] is None:
+        missing["long_haul_share"] = (
+            f"no passenger departures with a known destination in {sky['manifest']['as_of']}"
+        )
     else:
         signals["long_haul_share"] = Metric(
             row["share"],
