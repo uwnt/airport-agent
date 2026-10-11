@@ -60,7 +60,11 @@ class DataVersion:
         if self.checked_at is None or now - self.checked_at >= minutes * 60:
             self.checked_at = now
             store = self.store or open_store()
-            latest = store.latest()
+            try:
+                latest = store.latest()
+            except OSError as error:
+                log.warning("Can't reach the data store, keeping the snapshot in use: %s", error)
+                return self.snapshot
             if latest and (self.snapshot is None or latest != self.snapshot.version):
                 try:
                     folder = store.get(latest)

@@ -160,3 +160,26 @@ def test_server_keeps_its_snapshot_when_the_store_is_empty(store):
     store.newest = None
     data.checked_at = -20_000
     assert data.current().version == "2019-12"
+
+
+def test_server_keeps_its_snapshot_when_the_store_cannot_be_reached(store, caplog):
+    now = [0.0]
+    store.add("2021-12", "2021-12-31")
+    data = server.DataVersion(store, clock=lambda: now[0])
+    assert data.current().version == "2021-12"
+
+    def unreachable():
+        raise OSError("share is down")
+
+    store.latest = unreachable
+    now[0] += 10 * 60
+    assert data.current().version == "2021-12"
+    assert "share is down" in caplog.text
+
+
+def test_unreachable_store_at_startup_gives_no_snapshot(store):
+    def unreachable():
+        raise OSError("share is down")
+
+    store.latest = unreachable
+    assert server.DataVersion(store, clock=lambda: 0.0).current() is None
