@@ -38,14 +38,18 @@ from airport_agent.scoring import (
 
 log = logging.getLogger(__name__)
 
+
 # In the source tree the notes sit at the repo root; installed as a package (the Docker image),
 # they are found from the working folder (/app), like config/scoring.yaml in scoring.py.
 _REPO = Path(__file__).resolve().parents[2]
-DOMAIN_NOTES_PATH = (
-    _REPO / "docs" / "DOMAIN_NOTES.md"
-    if (_REPO / "docs" / "DOMAIN_NOTES.md").exists()
-    else Path("docs/DOMAIN_NOTES.md")
-)
+
+
+def _notes_path(repo=_REPO):
+    in_repo = repo / "docs" / "DOMAIN_NOTES.md"
+    return in_repo if in_repo.exists() else Path("docs/DOMAIN_NOTES.md")
+
+
+DOMAIN_NOTES_PATH = _notes_path()
 DEFAULT_TOP = 10  # rows shown when a ranking asks for no region and no codes
 FRACTIONS = {"cancellation_rate", "largest_carrier_share", "long_haul_share"}
 TOP_QUARTILE = 75
@@ -247,7 +251,7 @@ def _pick_version(version, folders, latest):
     name = latest if version == "latest" else version
     if name in folders:
         return name
-    choices = ", ".join([*folders, "latest"]) if folders else "none built"
+    choices = ", ".join([*folders, *(["latest"] if latest else [])]) or "none built"
     raise ToolError(f"no data version {version!r}; available versions: {choices}")
 
 
@@ -298,16 +302,21 @@ def compare_over_time(code, from_version, to_version, preset=None, cache_dir=Non
         raise ToolError(f"give two different versions to compare; both are {versions[0]!r}")
     settings = settings or load_settings()
     preset = preset or settings.scoring["default_preset"]
-    found, standing = [], []
+    found = {}
     for version in versions:
         try:
-            found.append(airport_metrics(code, folders[version]))
+            found[version] = airport_metrics(code, folders[version])
         except UnknownAirportError as error:
-            raise ToolError(f"{code!r} is not in the {version} data: {error}") from None
-        standing.append(
-            _standing(found[-1], all_airport_metrics(folders[version]), preset, settings)
-        )
-    m_before, m_after = found
+            found[version] = error
+    missing = [v for v in versions if isinstance(found[v], UnknownAirportError)]
+    if len(missing) == 2:
+        raise ToolError(f"{code!r} is in neither data version: {found[missing[0]]}")
+    if missing:
+        raise ToolError(f"{code!r} is not in the {missing[0]} data: {found[missing[0]]}")
+    standing = [
+        _standing(found[v], all_airport_metrics(folders[v]), preset, settings) for v in versions
+    ]
+    m_before, m_after = (found[v] for v in versions)
     sides = [
         {
             "version": v,

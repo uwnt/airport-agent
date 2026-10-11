@@ -349,7 +349,7 @@ def test_compare_over_time_needs_two_different_versions():
 
 def test_compare_over_time_unknown_airport_names_the_snapshot():
     result = over_time(code="ZZZ", from_version="2019-12", to_version="latest")
-    assert "'ZZZ' is not in the 2019-12 data" in result["error"]
+    assert "'ZZZ' is in neither data version" in result["error"]
 
 
 def test_compare_over_time_airport_absent_from_one_snapshot(tmp_path):
@@ -409,3 +409,38 @@ def test_compare_over_time_carries_no_internal_decision_labels():
 def test_compare_over_time_says_so_when_given_one_snapshot_folder(run):
     result = run("compare_over_time", code="SFO", from_version="2019-12", to_version="latest")
     assert "folder of data snapshots, not a single snapshot" in result["error"]
+
+
+def test_compare_over_time_offers_latest_only_when_a_latest_snapshot_exists(tmp_path):
+    store = tmp_path / "store"
+    for version in ("2019-12", "2021-12"):
+        shutil.copytree(Path("data/snapshots") / version, store / version)
+    result = run_tool(
+        "compare_over_time",
+        {"code": "SFO", "from_version": "2019-12", "to_version": "latest"},
+        cache_dir=store,
+    )
+    assert result["error"].endswith("available versions: 2019-12, 2021-12")
+
+
+def test_out_of_scope_and_unmeasured_reasons_carry_no_decision_labels(run):
+    # The two scope messages the label removal touched: an airport not in DOT Table 1a for the
+    # data's date (the sample fares cover New England only) and a code outside the lower 48.
+    results = [
+        run("airport_profile", code="ABQ"),
+        run("rank_airports", codes=["BOS", "ABQ"]),
+        run("rank_airports", codes=["BOS", "HNL"]),
+    ]
+    text = json.dumps(results)
+    assert "no DOT Table 1a rows" in text and "lower-48" in text
+    assert not [text[max(m.start() - 60, 0) : m.end() + 5] for m in re.finditer(r"\bD\d+\b", text)]
+
+
+def test_domain_notes_are_found_from_the_working_folder_when_installed(tmp_path, monkeypatch):
+    # Installed as a package (the Docker image), there is no repo around the code: the notes
+    # are read from docs/ under the working folder, where the Dockerfile copies them (/app).
+    assert tools._notes_path(tmp_path / "venv") == Path("docs/DOMAIN_NOTES.md")
+    (tmp_path / "docs").mkdir()
+    shutil.copy(tools.DOMAIN_NOTES_PATH, tmp_path / "docs" / "DOMAIN_NOTES.md")
+    monkeypatch.chdir(tmp_path)
+    assert tools.domain_facts("SFO", path=tools._notes_path(tmp_path / "venv"))
