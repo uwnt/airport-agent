@@ -170,6 +170,15 @@ def test_july_sample_matches_data_sources_table():
     assert totals["SNA"]["nas_delay_per_landed_flight"] == pytest.approx(2.21, abs=0.01)
 
 
+def test_diverted_flights_leave_the_cancel_denominator_on_real_ewr_counts():
+    # EWR, July 2026, from the built cache (bts_ontime_2026_07.json). DATA_SOURCES.md: D7 moves
+    # EWR from 8.0% (802 / 10074 = 0.0796) to 8.2% (802 / (10074 - 239) = 0.0815).
+    ewr = {"scheduled": 10074, "cancelled": 802, "diverted": 239, "landed": 9033}
+    total = bts_ontime.aggregate([{"EWR": {**ewr, "nas_delay_minutes": 119296.0}}])["EWR"]
+    assert total["cancellation_rate"] == 0.0815
+    assert round(total["cancellation_rate"], 3) == 0.082 != round(802 / 10074, 3)
+
+
 def test_latest_twelve_months():
     assert bts_ontime.months_back(2026, 7, 12)[0] == (2025, 8)
     assert bts_ontime.months_back(2026, 7, 12)[-1] == (2026, 7)
