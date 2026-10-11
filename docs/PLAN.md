@@ -121,18 +121,18 @@ These habits come from running real projects, and each one shows up in the grade
       - roll forward and roll back by image tag.
 
 ## Who does what
-You're new to Python, so the goal is **understand and change every part**, not type it.
+AI agents write the code; you decide, review every step, and must be able to **explain and change every part**.
 
 | Part | Who writes | What you must be able to do |
 |---|---|---|
 | Scope, KPI, weights, out-of-scope list | **You decide**; Claude lays out the options | Defend every choice |
-| Scoring (`scoring.py`, `config/scoring.yaml`, tests) | **Together**, in small pieces; you make the follow-up changes yourself | Explain every line; change a weight or rule live (weights are in YAML, no Python needed) |
+| Scoring (`scoring.py`, `config/scoring.yaml`, tests) | AI agents write; you get a file-by-file walkthrough, then make a small change yourself (a weight or a rule in `config/scoring.yaml`) | Explain every line; change a weight or rule live (weights are in YAML, no Python needed) |
 | Agent instructions and tool descriptions (mostly plain English) | Claude drafts; you edit | Explain where AI is used and how it's kept honest |
 | Data refresh, agent loop, server, chat page, Docker, CI | Claude writes; you get a code tour after each step | Say what each file does and how a question flows through it |
 | `docs/DESIGN.md`, README "How I work with AI" | **You write**; Claude reviews | It's your reasoning in your words |
 
 About 1,700–1,800 lines in total; the part you need to know deeply is about 250 (scoring plus the
-agent instructions). Step 4 starts with a 45-minute Python crash course on this project's own code.
+agent instructions). After each step you get a file-by-file walkthrough and review it.
 
 **On the call:** "I designed it and directed AI to write it. I reviewed every part, built the
 scoring rules with it, and can change anything." That's true and credible.
@@ -221,7 +221,7 @@ The address and Fly organisation are decided then.
 | 1 | Data spike: call every source by hand | 1:00 | A sample of each saved under `data/samples/`; notes on what each can answer |
 | 2 | Scope and KPI design (**your decisions**) | 1:00 | `docs/DECISIONS.md` has the KPI, weights, region rules and out-of-scope list |
 | 3 | Data layer: clients plus local cache | 1:30 | Metrics for any airport come back from the cache with an "as of" date |
-| 4 | Python crash course + scoring engine (**built together**) | 2:45 | Pure functions, tests pass, a ranking for New England prints from the CLI |
+| 4 | Scoring engine, then a small change of your own | 2:00 | Pure functions, tests pass, a ranking for New England prints from the CLI |
 | 5 | The agent: Gemini with tools, plus the no-key mode | 2:30 | The four example questions answered in a terminal chat, with follow-ups |
 | 6 | Chat UI: streaming, ranking visuals, responsive (+ voice bonus) | 2:00 (+0:30) | Answers stream, tool steps show, rankings render as bars, and it works on a phone-width window; the mic works in Chrome |
 | 6b | Docker: two-stage image, refresh + serve, compose, CI build and smoke test | 1:15 | CI builds the image, `/health` reports the commit; `docker compose up` works on your laptop |
@@ -355,7 +355,7 @@ lets the agent say "based on DOT fare data through 2026 Q1".
 
 **Claude drafts; you read** each module and explain it back before it's committed.
 
-## Step 4 — Scoring engine (2:45, incl. a 45-min Python crash course) — built together
+## Step 4 — Scoring engine (2:00)
 **What:** `scoring.py` contains pure functions:
 - normalize each signal;
 - combine them with the weights from Step 2;
@@ -377,7 +377,7 @@ numbers the code computed, so it doesn't invent them. Pure functions plus tests 
 - *Put the scoring inside the prompt.* Not deterministic, and not testable.
 - *A rules engine or config DSL.* Over-engineered for five signals.
 
-**Built together:** Claude writes small pieces, you explain each back and make the follow-up changes yourself. Weights live in `config/scoring.yaml`. This is the code they'll ask you to change on the call.
+**Who writes:** AI agents write the code; you get a file-by-file walkthrough and review it. Then you make a small change yourself (a weight or a rule in `config/scoring.yaml`) to show it can be changed live. Weights live in `config/scoring.yaml`. This is the code they'll ask you to change on the call.
 
 ## Step 5 — The agent (2:00)
 **What:** Google Gemini through the `google-genai` Python SDK with **function calling** (tool use). The model decides which tool to

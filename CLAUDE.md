@@ -3,7 +3,7 @@
 A one-day take-home: an AI agent that helps investment analysts find US airports where terminal
 expansion is most promising. It uses public aviation data, deterministic scoring, and Google Gemini
 with tools behind a chat UI (built with Claude Code). The full brief, the timeline and the reasoning for every step are in
-`docs/PLAN.md`. Read it at the start of every session and continue from the first unchecked step.
+`docs/PLAN.md`. The pinned "Product roadmap" issue decides what comes next; `docs/PLAN.md` holds the reasoning for each step.
 
 ## How we work
 The owner leads the project and will defend it in a follow-up call. For every step:
@@ -13,15 +13,16 @@ The owner leads the project and will defend it in a follow-up call. For every st
    - The owner **decides** scope, KPI and weights. Present options with a recommendation; never pick
      silently.
    - **AI agents write the code** for each step, on a branch with a PR; the PR gets an independent
-     AI review before merge (see D6). The owner then goes through it with the main session and must
+     AI review before merge (see D6). The owner then goes through it with the AI assistant and must
      be able to explain and change every part.
    - **Weights, presets and friction penalties live in `config/scoring.yaml`**, not in code, so a
-     live change needs no Python.
+     live change needs no Python. After the scoring is written, the owner makes a small change
+     themselves (a weight, a rule, a new signal) so they can change it live on the follow-up call.
    - The owner **writes `docs/DESIGN.md` and the README's "How I work with AI"** in their own words;
      the AI reviews. Don't write these for them.
    - End every step with a **code tour**: what was written, file by file, in plain words.
-3. **After each step:** log any decision in `docs/DECISIONS.md` and check the item off in the
-   roadmap issue.
+3. **After each step:** log any decision in `docs/DECISIONS.md` and tick the item in the
+   roadmap issue and the checkbox in `docs/PLAN.md`.
 
 ## Rules for this repo
 - **The repo will be public.** Nothing in it may reveal secrets, internal server details or other
