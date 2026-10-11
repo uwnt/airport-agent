@@ -81,6 +81,7 @@ def test_verified_facts_are_only_checked_rows_naming_the_airport():
     assert [f["note"] for f in sna] == [2, 3, 5]
     assert all(f["sources"] and f["sources"][0].startswith("https://") for f in sna)
     assert "**" not in sna[0]["fact"]
+    assert "9.9M" not in sna[2]["fact"]  # a figure the check dropped is not passed on
     assert [f["note"] for f in tools.domain_facts("LAX")] == [5]  # note 4 is unverified
     assert tools.domain_facts("BOS") == []
 

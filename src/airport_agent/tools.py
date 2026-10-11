@@ -212,7 +212,8 @@ def domain_facts(code, path=DOMAIN_NOTES_PATH):
         cells = [c.strip() for c in line.strip().strip("|").split("|")]
         if len(cells) != 6 or not cells[0].isdigit() or not cells[5].startswith("✅"):
             continue
-        claim = cells[1].replace("**", "")
+        # Drop the "(The ... is dropped)" asides: they name figures that failed the check.
+        claim = re.sub(r"\s*\(The [^)]*dropped\)", "", cells[1].replace("**", ""))
         if re.search(rf"\b{re.escape(code)}\b", claim):
             facts.append(
                 {
