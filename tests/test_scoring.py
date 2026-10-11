@@ -315,6 +315,21 @@ def test_yaml_weights_drive_the_result(tmp_path):
     assert results["CCC"].score == pytest.approx(75)
 
 
+def test_preset_that_weighs_none_of_an_airports_signals_scores_it_zero(tmp_path):
+    # Review round 2: strain 0 with an airport missing growth divided by zero.
+    text = SCORING_PATH.read_text(encoding="utf-8").replace(
+        "    strain: 50\n    growth: 50", "    strain: 0\n    growth: 50"
+    )
+    path = tmp_path / "scoring.yaml"
+    path.write_text(text, encoding="utf-8")
+    growth_only = without_constraints(load_settings(path, CONSTRAINTS_PATH))
+    no_growth = airport("NOG", delay=5, cancel=0.02, fare=1.0)
+    results = by_code(rank([*FOUR, no_growth], settings=growth_only))
+    assert results["NOG"].score == 0
+    assert results["NOG"].confidence == "Low"
+    assert "none of its signals carries weight" in results["NOG"].confidence_reasons[-1]
+
+
 def test_constraints_file_has_the_owner_tiers():
     real = load_settings()
     assert set(real.constraints) == {"SNA", "SFO"}

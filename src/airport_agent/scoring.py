@@ -437,7 +437,9 @@ def score_airport(metrics, signal_percentiles, weights, settings, preset):
                 SignalScore(name, LABELS[name], None, None, 0.0, 0.0, metrics.missing.get(name))
             )
             continue
-        weight = weights[name] / present_weight  # a missing signal's weight is spread out here
+        # A missing signal's weight is spread out here. If the preset gives none of the airport's
+        # signals any weight (strain 0 and growth missing), it has nothing to be scored on: 0.
+        weight = weights[name] / present_weight if present_weight else 0.0
         percentile = signal_percentiles[name][code]
         signals.append(
             SignalScore(name, LABELS[name], metric, percentile, weight, weight * percentile)
@@ -447,6 +449,9 @@ def score_airport(metrics, signal_percentiles, weights, settings, preset):
     on_file = frictions(code, settings)
     friction = on_file[0] if on_file else NO_FRICTION
     confidence, reasons = _confidence(metrics, settings)
+    if present and not present_weight:
+        confidence = "Low"
+        reasons = (*reasons, f"none of its signals carries weight in the {preset} preset")
     return AirportScore(
         code=code,
         name=metrics.name,
