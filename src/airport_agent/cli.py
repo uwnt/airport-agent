@@ -88,12 +88,20 @@ def _ranking_table(result):
         friction_text = (
             "none" if not friction["points"] else f"-{friction['points']:g} {friction['name']}"
         )
+        # A stale friction keeps its marker even when the name is cut to fit the column.
+        shown = friction_text[:14] + " (stale)" if friction.get("stale") else friction_text[:22]
         lines.append(
             f"{row['rank']:>3} {row['national_rank']:>4}  "
             f"{(row['code'] + ' ' + row['name'])[:36]:<36} {row['score']:>5}  {points}  "
-            f"{friction_text[:22]:<22} {row['confidence']}"
+            f"{shown:<22} {row['confidence']}"
         )
     lines.append("Signal columns: points added (percentile x weight); '-' = missing.")
+    for row in result["rows"]:
+        if row["friction"].get("stale"):
+            friction = row["friction"]
+            lines.append(
+                f"  {row['code']} stale friction: {friction['name']}, {friction['stale_note']}"
+            )
     for row in result["rows"]:
         if row.get("confidence_reasons"):
             lines.append(f"  {row['code']} low confidence: " + "; ".join(row["confidence_reasons"]))
@@ -168,7 +176,11 @@ def format_result(name, result):
         for metric, reason in result["missing"].items():
             lines.append(f"  {metric:<28} {'-':>12}  missing: {reason}")
         for fact in result["verified_facts"]:
-            lines.append(f"  Verified fact (domain note {fact['note']}): {fact['fact']}")
+            stale = f" [{fact['stale_note']}]" if fact.get("stale") else ""
+            lines.append(
+                f"  Verified fact (domain note {fact['note']}, checked {fact['checked']}): "
+                f"{fact['fact']}{stale}"
+            )
             lines += [f"    {link}" for link in fact["sources"]]
     elif name == "long_haul_share" and result.get("available"):
         share = result["long_haul_share"]

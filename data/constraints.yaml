@@ -5,6 +5,9 @@
 #   description  the fact, in plain words
 #   sources      primary-source links
 #   domain_notes the item numbers in docs/DOMAIN_NOTES.md where the fact was checked
+#   checked      the date (YYYY-MM-DD) the fact was verified against its sources
+#   review_by    the date it must be re-checked: the earliest review_by of its domain_notes rows.
+#                After it the penalty still applies, but the scoring output marks it stale.
 # Only facts marked verified in docs/DOMAIN_NOTES.md go here. The owner assigns each tier.
 # If an airport has several constraints, only the largest penalty counts (they overlap).
 # An airport with no entry has no penalty ("none on file").
@@ -20,6 +23,8 @@ SNA:
       - https://www.ocair.com/about/administration/settlement-agreement/key-provisions-settlement-agreement
       - https://www.ocair.com/about/administration/settlement-agreement/settlement-agreement-faqs
     domain_notes: [2]
+    checked: 2026-10-11
+    review_by: 2030-12-31
   - name: Curfew
     tier: minor
     description: >-
@@ -31,6 +36,8 @@ SNA:
       - https://www.ocair.com/about/administration/access-noise/reports-resources/
       - https://www.ocair.com/about/administration/settlement-agreement/settlement-agreement-faqs
     domain_notes: [3, 2]
+    checked: 2026-10-11
+    review_by: 2030-12-31
 
 SFO:
   - name: Runway spacing and Bay fill
@@ -47,3 +54,5 @@ SFO:
       - https://www.govinfo.gov/content/pkg/FR-1999-07-01/html/99-16756.htm
       - https://sfbos.org/introduction-4
     domain_notes: [6, 7]
+    checked: 2026-10-11
+    review_by: 2027-10-11
