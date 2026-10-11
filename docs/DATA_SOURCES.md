@@ -80,7 +80,7 @@ The four example questions: **Q1** New England expansion candidates · **Q2** LA
   destination.
 - **Helps with:** Q3 (where Anchorage flights go), flights per hour for Q2.
 - **Sample:** 552 departures from Anchorage in two days (138 are private aircraft). The sample is
-  trimmed to the fields we use, and private tail numbers are masked as `PRIVATE`.
+  trimmed to the fields we use, and US private tail numbers (N-numbers) are masked as `PRIVATE`; a few non-US registrations may remain.
 - **Can't, or watch out:**
   - **Cargo and private flights are mixed in.** Prefixes like GTI, FDX, CKS, UPS and NAC are
     cargo; callsigns that are a US tail number are private aircraft: after trimming spaces, match
