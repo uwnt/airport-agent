@@ -1,0 +1,49 @@
+# Friction: limits on an airport's growth that the data can't see (decision D10).
+# One entry per airport code. Each constraint has:
+#   name         a short label
+#   tier         minor, major or hard_cap; the points for each tier are in config/scoring.yaml
+#   description  the fact, in plain words
+#   sources      primary-source links
+#   domain_notes the item numbers in docs/DOMAIN_NOTES.md where the fact was checked
+# Only facts marked verified in docs/DOMAIN_NOTES.md go here. The owner assigns each tier.
+# If an airport has several constraints, only the largest penalty counts (they overlap).
+# An airport with no entry has no penalty ("none on file").
+
+SNA:
+  - name: Passenger cap
+    tier: hard_cap
+    description: >-
+      Annual passenger cap under the 1985 settlement agreement as amended: 11.8 million through
+      2025; 12.2 million for 2026 to 2030, or 12.5 million only if 11.21 million were served in
+      2021 to 2025 and certain mitigation measures are met. The agreement runs to 31 Dec 2030.
+    sources:
+      - https://www.ocair.com/about/administration/settlement-agreement/key-provisions-settlement-agreement
+      - https://www.ocair.com/about/administration/settlement-agreement/settlement-agreement-faqs
+    domain_notes: [2]
+  - name: Curfew
+    tier: minor
+    description: >-
+      No commercial departures from 10 pm to 7 am (8 am on Sundays) and no commercial arrivals
+      from 11 pm to 7 am (8 am on Sundays); the Airport Director may allow exceptions for
+      emergency, mechanical, air traffic control or weather delays. The curfew obligation runs to
+      2035.
+    sources:
+      - https://www.ocair.com/about/administration/access-noise/reports-resources/
+      - https://www.ocair.com/about/administration/settlement-agreement/settlement-agreement-faqs
+    domain_notes: [3, 2]
+
+SFO:
+  - name: Runway spacing and Bay fill
+    tier: major
+    description: >-
+      Runways 28L and 28R are 750 ft apart, so in instrument conditions (low cloud or fog) they
+      can't take side-by-side arrivals, and the hourly rate falls from 104-107 to 71-78
+      operations. Widening the gap needs Bay fill: a BCDC permit, and since 2001 (Proposition D)
+      a city vote for any project with more than 100 acres of fill. The 1999 runway plan
+      considered up to about 1,500 acres of fill; the runways were never moved.
+    sources:
+      - https://www.faa.gov/documentLibrary/media/Order/2017-07-10_JO_7110.308B_Simultaneous_Dependent_Approaches_to_Closely_Parallel_Runways.pdf
+      - https://www.faa.gov/sites/faa.gov/files/airports/planning_capacity/profiles/SFO-Airport-Capacity-Profile-2019.pdf
+      - https://www.govinfo.gov/content/pkg/FR-1999-07-01/html/99-16756.htm
+      - https://sfbos.org/introduction-4
+    domain_notes: [6, 7]

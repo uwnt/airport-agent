@@ -100,7 +100,7 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
 - Revisit if: a free source gives gate or terminal capacity, which would measure strain directly.
 
 ## D8: Combine signals as a weighted sum of percentile ranks
-- Chose: each signal becomes a 0–100 percentile rank across every airport in scope (D11), including
+- Chose: each signal becomes a 0–100 percentile rank across every ranked airport (D11, D20), including
   Low-confidence ones: rank ÷ number of airports that have that signal × 100, so the top airport
   scores 100; ties share the average rank. For cancellations, delay, fare premium and growth,
   higher means more promising. The ranks are combined as a weighted sum.
@@ -128,8 +128,8 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
 - Chose: `data/constraints.yaml`, one entry per airport, each constraint with a source link and a
   tier: minor (10 points, e.g. a curfew), major (20) or hard cap (30), taken off the 0–100 score.
   The owner assigns each tier. If an airport has several constraints, only the largest penalty
-  counts, because constraints overlap (SNA: passenger cap 30 and curfew 10, so 30). The score never
-  goes below 0. Only facts marked ✅ in `docs/DOMAIN_NOTES.md` qualify. No entry means no penalty,
+  counts, because constraints overlap (SNA: passenger cap 30 and curfew 10, so 30). SFO: runway
+  spacing and Bay fill, major (20), set by the owner at Step 4. The score never goes below 0. Only facts marked ✅ in `docs/DOMAIN_NOTES.md` qualify. No entry means no penalty,
   shown as "none on file".
 - Over: no friction in the score (SNA would rank as if it could grow freely); adding penalties
   together (overlapping limits count twice); penalties hard-coded in Python (same numbers, invisible
@@ -216,8 +216,9 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
 - Because: answers must not drift during a demo, and the data date should be visible in git.
 - Revisit if: a snapshot grows past the size budget.
 
-## D18: Passenger airline list for the Anchorage long-haul share (proposed; owner to confirm)
-- Chose: callsign prefixes ASA, QXE, DAL, UAL, AAL, SCX, RVF, CFG, ICE, in `config/sources.yaml`.
+## D18: Passenger airline list for the Anchorage long-haul share
+- Chose: callsign prefixes ASA, QXE, DAL, UAL, AAL, SCX, RVF, CFG, ICE, in `config/sources.yaml`
+  (confirmed by the owner at Step 4).
   Left out: CPA, CAL, EVA, KAL, whose Anchorage flights are mostly cargo stops; a callsign alone
   can't tell their cargo flights from passenger ones.
 - Over: counting every airline (mixes cargo into a passenger question).
@@ -237,3 +238,17 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
 - Because: every airport in DOT Table 1a must be ranked or explained (D11), and a gap shown is
   better than a number quietly based on less data.
 - Revisit if: a keyword match ever picks the wrong airport.
+
+## D20: Only airports with measured delay data are ranked
+- Chose: an airport needs the signals listed in `required_signals` in `config/scoring.yaml` to be
+  ranked; today that is NAS delay only. Airports without it are listed as "not ranked" with the
+  reason and left out of the percentile population, so they don't move anyone else's ranks. D8's
+  weight spreading still covers other gaps (BGR has no growth signal: ranked, Low confidence).
+- Over: requiring delay and growth (stricter; also unranks BGR and MDT); counting a missing signal
+  as the 50th percentile (a gap would look average instead of absent); keeping D8 unchanged (on
+  real data, 9 small fields with only a fare premium took ranks 1 to 7, because that one signal
+  carried their whole score).
+- Because: fare premium alone is an indirect sign (D7, D9); without measured delay there is no
+  basis to judge strain.
+- Revisit if: airports missing growth keep ranking near the top (MDT is #2 with no growth signal and
+  2 markets); adding `growth_vs_2019` to the list is a one-line change.
