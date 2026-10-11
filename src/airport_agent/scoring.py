@@ -23,6 +23,7 @@ Run `uv run python -m airport_agent.scoring --region "New England"` for a table.
 
 import argparse
 import dataclasses
+import datetime
 import sys
 from dataclasses import dataclass
 from pathlib import Path
@@ -114,6 +115,9 @@ class Friction:
     description: str
     sources: tuple[str, ...]
     domain_notes: tuple[int, ...]
+    checked: datetime.date | None = None  # when the fact was verified against its source
+    review_by: datetime.date | None = None  # when it must be re-checked
+    stale: bool = False  # review_by has passed; the penalty still applies
 
 
 NO_FRICTION = Friction(NONE_ON_FILE, "none", 0, NONE_ON_FILE, (), ())
@@ -311,6 +315,25 @@ def _check_constraints(constraints):
             notes = entry.get("domain_notes", [])
             if not isinstance(notes, list) or not all(_is_number(n) for n in notes):
                 raise SettingsError(f"{where}: {name}: domain_notes must be a list of numbers")
+            checked = _check_date(f"{where}: {name}", "checked", entry)
+            review_by = _check_date(f"{where}: {name}", "review_by", entry)
+            if review_by < checked:
+                raise SettingsError(f"{where}: {name}: review_by is before checked")
+
+
+def _check_date(where, key, entry):
+    """A date written as YYYY-MM-DD (YAML may already have turned it into a date)."""
+    value = entry.get(key)
+    if isinstance(value, datetime.datetime):
+        value = None
+    elif isinstance(value, str):
+        try:
+            value = datetime.date.fromisoformat(value)
+        except ValueError:
+            value = None
+    if not isinstance(value, datetime.date):
+        raise SettingsError(f"{where}: {key} must be a date written like 2026-10-11")
+    return value
 
 
 def _constraints_by_code(metrics_list, constraints):
@@ -385,7 +408,7 @@ def signal_weights(settings, preset):
     return weights
 
 
-def frictions(code, settings):
+def frictions(code, settings, today):
     """Every constraint on file for an airport, largest penalty first (file order breaks ties)."""
     points = settings.scoring["friction_points"]
     found = [
@@ -396,6 +419,9 @@ def frictions(code, settings):
             description=" ".join(c["description"].split()),
             sources=tuple(c["sources"]),
             domain_notes=tuple(c.get("domain_notes", ())),
+            checked=_check_date("", "checked", c),
+            review_by=_check_date("", "review_by", c),
+            stale=today > _check_date("", "review_by", c),
         )
         for c in settings.constraints.get(code) or []
     ]
@@ -430,7 +456,7 @@ def _confidence(metrics, settings):
     return ("Low" if reasons else "High"), tuple(reasons)
 
 
-def score_airport(metrics, signal_percentiles, weights, settings, preset):
+def score_airport(metrics, signal_percentiles, weights, settings, preset, today):
     """One airport's score from its percentiles; ranks are filled in by `rank`.
 
     `signal_percentiles` maps each signal name to {code: percentile} over all ranked airports.
@@ -455,7 +481,7 @@ def score_airport(metrics, signal_percentiles, weights, settings, preset):
         )
 
     pre_friction = sum(s.contribution for s in signals)
-    on_file = frictions(code, settings)
+    on_file = frictions(code, settings, today)
     friction = on_file[0] if on_file else NO_FRICTION
     confidence, reasons = _confidence(metrics, settings)
     if present and not present_weight:
@@ -486,7 +512,7 @@ def _order(result):
     return (-round(result.score, 9), -round(result.pre_friction_score, 9), result.code)
 
 
-def rank(metrics_list, preset=None, region=None, codes=None, settings=None):
+def rank(metrics_list, preset=None, region=None, codes=None, settings=None, today=None):
     """Score and rank airports; returns a Ranking: AirportScore objects, best first.
 
     Airports missing a required signal are not scored: they go to `.not_ranked` with the reason,
@@ -498,7 +524,11 @@ def rank(metrics_list, preset=None, region=None, codes=None, settings=None):
 
     A mistake in the settings, including a constraints code that names none of the airports in
     `metrics_list`, raises SettingsError.
+
+    `today` (default: the real date) decides which frictions are stale (past their review_by);
+    a stale friction still counts.
     """
+    today = today or datetime.date.today()
     settings = settings or load_settings()
     validate_settings(settings.scoring, settings.constraints)
     settings = dataclasses.replace(
@@ -526,7 +556,10 @@ def rank(metrics_list, preset=None, region=None, codes=None, settings=None):
         for name in SCORED_SIGNALS
     }
     results = sorted(
-        (score_airport(m, signal_percentiles, weights, settings, preset) for m in ranked.values()),
+        (
+            score_airport(m, signal_percentiles, weights, settings, preset, today)
+            for m in ranked.values()
+        ),
         key=_order,
     )
     results = [dataclasses.replace(r, national_rank=i) for i, r in enumerate(results, 1)]
@@ -579,6 +612,7 @@ def format_table(results, settings, preset, total, not_ranked=()):
         + f"  {'Friction':<20} Confidence",
     ]
     notes = []
+    stale_notes = []
     for r in results:
         points = "  ".join(
             f"{s.contribution:6.1f}" if s.metric is not None else f"{'-':>6}" for s in r.signals
@@ -586,9 +620,16 @@ def format_table(results, settings, preset, total, not_ranked=()):
         friction = (
             "none" if r.friction is NO_FRICTION else f"-{r.friction.points:g} {r.friction.name}"
         )
+        if r.friction.stale:
+            friction = friction[:12] + " (stale)"
+            stale_notes.append(
+                f"  {r.code}: {r.friction.name} may be out of date: due for re-check on "
+                f"{r.friction.review_by.isoformat()}; the penalty still applies."
+            )
+        shown = friction if r.friction.stale else friction[:20]
         lines.append(
             f"{r.rank:>3} {r.national_rank:>4}  {(r.code + ' ' + r.name)[:34]:<34} "
-            f"{r.score:5.1f}  {points}  {friction[:20]:<20} {r.confidence}"
+            f"{r.score:5.1f}  {points}  {shown:<20} {r.confidence}"
         )
         if r.confidence_reasons:
             notes.append(f"  {r.code}: " + "; ".join(r.confidence_reasons))
@@ -597,6 +638,9 @@ def format_table(results, settings, preset, total, not_ranked=()):
         "Signal columns: points each signal added (percentile × weight); score = their sum "
         "minus friction, never below 0. '-' = missing."
     )
+    if stale_notes:
+        lines.append("Stale friction:")
+        lines.extend(stale_notes)
     if notes:
         lines.append("Low confidence:")
         lines.extend(notes)
