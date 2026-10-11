@@ -59,3 +59,17 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
 - Known limit: OpenSky's terms restrict commercial use, and an investment firm is commercial. Stated
   in the design doc; a paid feed with a commercial license is the production upgrade.
 - Revisit if: the work moves from a demo to real client use.
+
+## D6: AI agents write the code; I review every step
+- Chose: AI agents write each step's code on a branch with a pull request. An independent AI
+  reviewer checks every PR; each finding is fixed or declined with a reason. I then go through the
+  step with the AI assistant (walkthrough, code tour) and merge. At the scoring step only, I also make a small change myself
+  (a weight, a rule or a new signal).
+- Over: typing the code myself, or writing it line by line with the AI (more of my time
+  on mechanics, for the same understanding the walkthrough gives).
+- Because: the brief grades reasoning and design. My time goes into the decisions (scope, KPI,
+  weights), checking the work, and being able to explain and change every part.
+- Unchanged: I decide scope, KPI and weights; weights live in `config/scoring.yaml` so I can change
+  them live; I write `docs/DESIGN.md` and "How I work with AI" myself.
+- Revisit if: a walkthrough shows I can't explain or change a part; then that part is rebuilt
+  in smaller pieces with me checking each.

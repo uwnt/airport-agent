@@ -96,7 +96,7 @@ These habits come from running real projects, and each one shows up in the grade
 - [ ] A grounding test: every number in an answer appears in a tool result.
 - [ ] A scope line in answers and the UI: decision support, not investment advice; what the score
       leaves out.
-- [ ] One Python version, pinned in `pyproject.toml` and used in the Dockerfile. The server has 3.14,
+- [ ] One Python version, pinned in `pyproject.toml` and used in the Dockerfile. The dev machine has 3.14,
       while slim images are usually 3.12 or 3.13, so pick one deliberately.
 - [ ] A `Makefile`: `run`, `test`, `lint`, `refresh`, `docker`.
 - [ ] **The image builds for both amd64 and arm64** (Docker buildx in CI). Many reviewers use
@@ -121,21 +121,21 @@ These habits come from running real projects, and each one shows up in the grade
       - roll forward and roll back by image tag.
 
 ## Who does what
-You're new to Python, so the goal is **understand and change every part**, not type it.
+AI agents write the code; you decide, review every step, and must be able to **explain and change every part**.
 
 | Part | Who writes | What you must be able to do |
 |---|---|---|
-| Scope, KPI, weights, out-of-scope list | **You decide**; Claude lays out the options | Defend every choice |
-| Scoring (`scoring.py`, `config/scoring.yaml`, tests) | **Together**, in small pieces; you make the follow-up changes yourself | Explain every line; change a weight or rule live (weights are in YAML, no Python needed) |
-| Agent instructions and tool descriptions (mostly plain English) | Claude drafts; you edit | Explain where AI is used and how it's kept honest |
-| Data refresh, agent loop, server, chat page, Docker, CI | Claude writes; you get a code tour after each step | Say what each file does and how a question flows through it |
-| `docs/DESIGN.md`, README "How I work with AI" | **You write**; Claude reviews | It's your reasoning in your words |
+| Scope, KPI, weights, out-of-scope list | **You decide**; AI agents lay out the options | Defend every choice |
+| Scoring (`scoring.py`, `config/scoring.yaml`, tests) | AI agents write; you get a file-by-file walkthrough, then make a small change yourself (a weight, a rule or a new signal; weights and rules live in `config/scoring.yaml`) | Explain every line; change a weight or rule live (weights are in YAML, no Python needed) |
+| Agent instructions and tool descriptions (mostly plain English) | AI agents write; you edit | Explain where AI is used and how it's kept honest |
+| Data refresh, agent loop, server, chat page, Docker, CI | AI agents write; you get a code tour after each step | Say what each file does and how a question flows through it |
+| `docs/DESIGN.md`, README "How I work with AI" | **You write**; an independent AI reviewer reviews | It's your reasoning in your words |
 
 About 1,700–1,800 lines in total; the part you need to know deeply is about 250 (scoring plus the
-agent instructions). Step 4 starts with a 45-minute Python crash course on this project's own code.
+agent instructions). After each step you get a file-by-file walkthrough and review it.
 
-**On the call:** "I designed it and directed AI to write it. I reviewed every part, built the
-scoring rules with it, and can change anything." That's true and credible.
+**On the call:** "I designed it and directed AI agents to write it. I reviewed every part, changed a
+scoring rule myself, and can change anything." That's true and credible.
 
 ## What the public data can actually answer (checked 2026-10-11)
 Before planning features, we checked which free sources respond today. The 1-hour data spike in
@@ -191,7 +191,7 @@ website is not required. Aim for:
   2. `docker compose up` after cloning;
   3. `uv run` for Python developers.
 
-  This server has no Docker, so the image is built and smoke-tested **in GitHub Actions** on every PR,
+  Docker is not used on the dev machine, so the image is built and smoke-tested **in GitHub Actions** on every PR,
   and published to GHCR at the `v1.0` tag.
 
 **A reviewer without a Gemini key:**
@@ -222,7 +222,7 @@ The address and Fly organisation are decided then.
 | 1 | Data spike: call every source by hand | 1:00 | A sample of each saved under `data/samples/`; notes on what each can answer |
 | 2 | Scope and KPI design (**your decisions**) | 1:00 | `docs/DECISIONS.md` has the KPI, weights, region rules and out-of-scope list |
 | 3 | Data layer: clients plus local cache | 1:30 | Metrics for any airport come back from the cache with an "as of" date |
-| 4 | Python crash course + scoring engine (**built together**) | 2:45 | Pure functions, tests pass, a ranking for New England prints from the CLI |
+| 4 | Scoring engine, then a small change of your own | 2:00 | Pure functions, tests pass, a ranking for New England prints from the CLI |
 | 5 | The agent: Gemini with tools, plus the no-key mode | 2:30 | The four example questions answered in a terminal chat, with follow-ups |
 | 6 | Chat UI: streaming, ranking visuals, responsive (+ voice bonus) | 2:00 (+0:30) | Answers stream, tool steps show, rankings render as bars, and it works on a phone-width window; the mic works in Chrome |
 | 6b | Docker: two-stage image, refresh + serve, compose, CI build and smoke test | 1:15 | CI builds the image, `/health` reports the commit; `docker compose up` works on your laptop |
@@ -245,13 +245,12 @@ than designing the scoring.
 - Run `uv init`, add ruff and pytest, and add one CI workflow.
 
 **Why:** The repo, secrets and checks come first, because fixing them later means rewriting history.
-The token is limited to one repo because this server's `gh` login belongs to a different account, and we must not
-switch the whole machine to yours. Commands run as `doppler run -- gh …` use your token for that one
-command only.
+The token is limited to one repo. GitHub commands use your token per command (`doppler run -- gh …`);
+never change the machine's GitHub login.
 
 **Alternatives:**
-- *Use the server's existing GitHub login.* Wrong account, and the commits would be tied to it.
-- *Run `gh auth switch`.* That changes the login for every session on the box, including ops.
+- *Use the machine's existing GitHub login.* Wrong account, and the commits would be tied to it.
+- *Run `gh auth switch`.* That changes the machine's login for everything else that uses it.
 - *A `.env` file.* It's easy to commit by accident before a public push. Doppler keeps the value off
   disk entirely.
 - *pip + venv instead of uv.* It works, but uv gives a lockfile (`uv.lock`) and one command for
@@ -284,7 +283,7 @@ or dropped. These feed the Expansion Friction inputs in Step 2.
 **You own:** running the calls and writing the notes in your own words.
 
 ## Step 2 — Scope and KPI design (1:00) — your decisions
-**What:** Decide what "promising for terminal expansion" means as numbers. Claude will present
+**What:** Decide what "promising for terminal expansion" means as numbers. AI agents will present
 options; you choose and record each choice in `docs/DECISIONS.md` with the reason.
 
 **A strong starting structure** (from the outside research): three dimensions.
@@ -354,9 +353,9 @@ lets the agent say "based on DOT fare data through 2026 Q1".
 - *pandas vs polars.* polars is faster, but pandas is what reviewers read fluently, and our data is
   small.
 
-**Claude drafts; you read** each module and explain it back before it's committed.
+**AI agents write** each module; you review the PR and get a walkthrough after the step.
 
-## Step 4 — Scoring engine (2:45, incl. a 45-min Python crash course) — built together
+## Step 4 — Scoring engine (2:00)
 **What:** `scoring.py` contains pure functions:
 - normalize each signal;
 - combine them with the weights from Step 2;
@@ -378,7 +377,7 @@ numbers the code computed, so it doesn't invent them. Pure functions plus tests 
 - *Put the scoring inside the prompt.* Not deterministic, and not testable.
 - *A rules engine or config DSL.* Over-engineered for five signals.
 
-**Built together:** Claude writes small pieces, you explain each back and make the follow-up changes yourself. Weights live in `config/scoring.yaml`. This is the code they'll ask you to change on the call.
+**Who writes:** AI agents write the code; you get a file-by-file walkthrough and review it. Then you make a small change yourself (a weight, a rule or a new signal; weights and rules live in `config/scoring.yaml`) to show it can be changed live. Weights live in `config/scoring.yaml`. This is the code they'll ask you to change on the call.
 
 ## Step 5 — The agent (2:00)
 **What:** Google Gemini through the `google-genai` Python SDK with **function calling** (tool use). The model decides which tool to
@@ -503,7 +502,7 @@ Python toolchain and the code readable in one sitting.
   `docker compose run --rm refresh`.
 
 **Why:** It's the easiest way for a reviewer to run it: no Python setup, one command. Building in CI
-proves it works, since we can't run Docker on this server.
+proves it works, since we can't run Docker on the dev machine.
 
 **Alternatives:**
 - *uv only.* Simple for Python developers, but a non-Python reviewer has to install a toolchain.
