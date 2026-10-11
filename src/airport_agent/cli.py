@@ -97,6 +97,12 @@ def _ranking_table(result):
         )
     lines.append("Signal columns: points added (percentile x weight); '-' = missing.")
     for row in result["rows"]:
+        if row["friction"].get("stale"):
+            friction = row["friction"]
+            lines.append(
+                f"  {row['code']} stale friction: {friction['name']}, {friction['stale_note']}"
+            )
+    for row in result["rows"]:
         if row.get("confidence_reasons"):
             lines.append(f"  {row['code']} low confidence: " + "; ".join(row["confidence_reasons"]))
     for n in result.get("not_ranked", []):

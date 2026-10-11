@@ -89,7 +89,8 @@ def test_no_key_change_over_time_question_prints_a_change_table():
 def test_no_key_tables_mark_a_stale_friction_and_a_stale_fact():
     stale_day = datetime.date(2028, 1, 1)
     ranking = tools.rank_airports(codes=["SFO"], today=stale_day)
-    assert "(stale)" in cli.format_result("rank_airports", ranking)
+    table = cli.format_result("rank_airports", ranking)
+    assert "(stale)" in table and "due for re-check on 2027-10-11" in table
     profile = tools.airport_profile("SFO", today=stale_day)
     text = cli.format_result("airport_profile", profile)
     assert "checked 2026-10-11" in text

@@ -132,6 +132,7 @@ def _row(result):
     if result.friction_not_counted:
         row["friction_not_counted"] = [
             f"{f.name} ({f.tier}, {f.points:g} points; only the largest penalty counts)"
+            + (f"; {_stale_note(f.review_by.isoformat())}" if f.stale else "")
             for f in result.friction_not_counted
         ]
     if result.confidence_reasons:
@@ -376,10 +377,7 @@ def domain_facts(code, path=DOMAIN_NOTES_PATH, today=None):
     except OSError:
         return []
     facts = []
-    for line in text.splitlines():
-        cells = [c.strip() for c in line.strip().strip("|").split("|")]
-        if len(cells) != 8 or not cells[0].isdigit() or not cells[5].startswith("✅"):
-            continue
+    for cells, checked, review_by in verified_rows(text):
         # Drop the "(The ... is dropped)" asides: they name figures that failed the check.
         claim = re.sub(r"\s*\(The [^)]*dropped\)", "", cells[1].replace("**", ""))
         if re.search(rf"\b{re.escape(code)}\b", claim):
@@ -387,14 +385,39 @@ def domain_facts(code, path=DOMAIN_NOTES_PATH, today=None):
                 "note": int(cells[0]),
                 "fact": claim,
                 "sources": re.findall(r"\]\((https?://[^)\s]+)\)", cells[4]),
-                "checked": cells[6],
-                "review_by": cells[7],
+                "checked": checked.isoformat(),
+                "review_by": review_by.isoformat(),
             }
-            if datetime.date.fromisoformat(cells[7]) < today:
+            if review_by < today:
                 fact["stale"] = True
-                fact["stale_note"] = _stale_note(cells[7])
+                fact["stale_note"] = _stale_note(review_by.isoformat())
             facts.append(fact)
     return facts
+
+
+def verified_rows(text):
+    """(cells, checked, review_by) for each verified (✅) row of the notes table.
+
+    A verified row without both dates, or in the old six-column shape, raises ToolError naming
+    the row, so a mistake in the notes shows up instead of the fact silently disappearing.
+    """
+    for line in text.splitlines():
+        cells = [c.strip() for c in line.strip().strip("|").split("|")]
+        if not cells[0].isdigit() or not any(c.startswith("✅") for c in cells[5:6]):
+            continue
+        where = f"docs/DOMAIN_NOTES.md note {cells[0]}"
+        if len(cells) != 8:
+            raise ToolError(f"{where}: needs the Checked and Review by columns")
+        try:
+            checked, review_by = (datetime.date.fromisoformat(c) for c in cells[6:8])
+        except ValueError:
+            raise ToolError(
+                f"{where}: Checked and Review by must be dates like 2026-10-11, "
+                f"found {cells[6]!r} and {cells[7]!r}"
+            ) from None
+        if review_by < checked:
+            raise ToolError(f"{where}: Review by {review_by} is before Checked {checked}")
+        yield cells, checked, review_by
 
 
 def airport_profile(code, cache_dir=None, today=None):
