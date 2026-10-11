@@ -1,4 +1,5 @@
-"""Data layer: fetch public sources, cache small per-airport summaries, read them back.
+"""Data layer: fetch public sources, publish small dated snapshots, read them back.
 
-Build the cache with `python -m airport_agent.data`; read it with `metrics.airport_metrics`.
+Build a snapshot with `airport-agent refresh [--as-of YYYY-MM]`; read it with
+`metrics.airport_metrics`. Snapshots live in the store DATA_STORE names (store.py).
 """

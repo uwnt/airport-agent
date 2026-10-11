@@ -1,0 +1,80 @@
+{
+ "as_of": "2026-10-11",
+ "built_at": "2026-10-11T17:54:18+00:00",
+ "commit": "e36a505bb8b2ef7a6638d543347646b1f45c73ea",
+ "files": [
+  "bts_enplanements.json",
+  "bts_ontime.json",
+  "dot_fares.json",
+  "opensky.json",
+  "ourairports.json"
+ ],
+ "point_in_time_rule": "latest: the newest data each source serves on the build date",
+ "sources": {
+  "bts_enplanements": {
+   "as_of": "2023",
+   "fetched_at": "2026-10-11T17:54:16+00:00",
+   "source": "BTS passenger boardings (top 50 airports)",
+   "source_url": "https://data.bts.gov/resource/2ydv-qfge.json"
+  },
+  "bts_ontime": {
+   "as_of": "Aug 2025 to Jul 2026",
+   "fetched_at": "2026-10-11T17:54:15+00:00",
+   "months": [
+    "2025-08",
+    "2025-09",
+    "2025-10",
+    "2025-11",
+    "2025-12",
+    "2026-01",
+    "2026-02",
+    "2026-03",
+    "2026-04",
+    "2026-05",
+    "2026-06",
+    "2026-07"
+   ],
+   "source": "BTS On-Time Performance (Reporting Carrier)",
+   "source_url": "https://transtats.bts.gov/PREZIP/"
+  },
+  "dot_fares": {
+   "as_of": "2026 Q1",
+   "baseline": "2019 Q1",
+   "distance_band_edges_miles": [
+    500,
+    1000,
+    1500
+   ],
+   "fetched_at": "2026-10-11T17:54:13+00:00",
+   "source": "DOT Consumer Airfare Report, Table 1a",
+   "source_url": "https://datahub.transportation.gov/resource/tfrh-tu9e.json"
+  },
+  "opensky": {
+   "as_of": "2026-10-04 to 2026-10-10",
+   "fetched_at": "2026-10-11T17:54:18+00:00",
+   "source": "OpenSky Network (estimated destinations)",
+   "source_url": "https://opensky-network.org/api/flights/departure"
+  },
+  "ourairports": {
+   "as_of": "2026-10-11",
+   "fetched_at": "2026-10-11T17:54:18+00:00",
+   "matched_by_keyword": {
+    "PBI": "DJT"
+   },
+   "note": "current file: OurAirports keeps no history",
+   "source": "OurAirports",
+   "source_url": "https://davidmegginson.github.io/ourairports-data/airports.csv",
+   "unresolved_codes": {
+    "BQN": "in BTS On-Time Performance (Reporting Carrier); OurAirports lists it in PR, not the US",
+    "GUM": "in BTS On-Time Performance (Reporting Carrier); OurAirports lists it in GU, not the US",
+    "PPG": "in BTS On-Time Performance (Reporting Carrier); OurAirports lists it in AS, not the US",
+    "PSE": "in BTS On-Time Performance (Reporting Carrier); OurAirports lists it in PR, not the US",
+    "SJU": "in BTS On-Time Performance (Reporting Carrier), BTS passenger boardings (top 50 airports); OurAirports lists it in PR, not the US",
+    "SPN": "in BTS On-Time Performance (Reporting Carrier); OurAirports lists it in MP, not the US",
+    "STT": "in BTS On-Time Performance (Reporting Carrier); OurAirports lists it in VI, not the US",
+    "STX": "in BTS On-Time Performance (Reporting Carrier); OurAirports lists it in VI, not the US"
+   }
+  }
+ },
+ "version": "latest-2026-10-11"
+}

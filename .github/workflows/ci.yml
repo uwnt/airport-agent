@@ -46,6 +46,9 @@ jobs:
       - name: Test
         run: uv run pytest
 
+      - name: Snapshot size budget
+        run: uv run python scripts/check_snapshots.py
+
       - name: TODOs carry an issue number
         run: |
           bad="$(git grep -nP '\bTODO\b(?!\(#[0-9]+\))' -- ':!*.md' ':!.github/**' ':!uv.lock' ':!data/**' ':!scripts/ci-local' || true)"

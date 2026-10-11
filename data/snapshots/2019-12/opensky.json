@@ -1,0 +1,12 @@
+{
+ "data": {
+  "PANC": null
+ },
+ "manifest": {
+  "as_of": "2019-12-31",
+  "fetched_at": "2026-10-11T17:47:27+00:00",
+  "note": "not available for this date (OpenSky free history is short)",
+  "source": "OpenSky Network (estimated destinations)",
+  "source_url": "https://opensky-network.org/api/flights/departure"
+ }
+}

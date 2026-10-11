@@ -1,0 +1,210 @@
+{
+ "data": {
+  "ATL": {
+   "enplanements": 20616190,
+   "rank": 1
+  },
+  "AUS": {
+   "enplanements": 3160369,
+   "rank": 33
+  },
+  "BNA": {
+   "enplanements": 4067904,
+   "rank": 27
+  },
+  "BOS": {
+   "enplanements": 6039103,
+   "rank": 19
+  },
+  "BWI": {
+   "enplanements": 5498077,
+   "rank": 22
+  },
+  "CLE": {
+   "enplanements": 1995252,
+   "rank": 45
+  },
+  "CLT": {
+   "enplanements": 13068728,
+   "rank": 6
+  },
+  "CMH": {
+   "enplanements": 1588390,
+   "rank": 50
+  },
+  "CVG": {
+   "enplanements": 1724498,
+   "rank": 49
+  },
+  "DAL": {
+   "enplanements": 3772590,
+   "rank": 29
+  },
+  "DCA": {
+   "enplanements": 3648020,
+   "rank": 30
+  },
+  "DEN": {
+   "enplanements": 16387857,
+   "rank": 3
+  },
+  "DFW": {
+   "enplanements": 18595640,
+   "rank": 2
+  },
+  "DTW": {
+   "enplanements": 6818138,
+   "rank": 18
+  },
+  "EWR": {
+   "enplanements": 7978508,
+   "rank": 15
+  },
+  "FLL": {
+   "enplanements": 8039529,
+   "rank": 14
+  },
+  "HNL": {
+   "enplanements": 3088623,
+   "rank": 34
+  },
+  "HOU": {
+   "enplanements": 3183294,
+   "rank": 32
+  },
+  "IAD": {
+   "enplanements": 3882184,
+   "rank": 28
+  },
+  "IAH": {
+   "enplanements": 8665304,
+   "rank": 11
+  },
+  "IND": {
+   "enplanements": 1997159,
+   "rank": 44
+  },
+  "JFK": {
+   "enplanements": 8272328,
+   "rank": 13
+  },
+  "LAS": {
+   "enplanements": 10597513,
+   "rank": 8
+  },
+  "LAX": {
+   "enplanements": 14087518,
+   "rank": 5
+  },
+  "LGA": {
+   "enplanements": 4151432,
+   "rank": 26
+  },
+  "MCI": {
+   "enplanements": 2188734,
+   "rank": 43
+  },
+  "MCO": {
+   "enplanements": 10520521,
+   "rank": 9
+  },
+  "MDW": {
+   "enplanements": 4367194,
+   "rank": 25
+  },
+  "MIA": {
+   "enplanements": 8586668,
+   "rank": 12
+  },
+  "MSP": {
+   "enplanements": 7087166,
+   "rank": 17
+  },
+  "MSY": {
+   "enplanements": 2647892,
+   "rank": 38
+  },
+  "OAK": {
+   "enplanements": 2260331,
+   "rank": 42
+  },
+  "ORD": {
+   "enplanements": 14602924,
+   "rank": 4
+  },
+  "PDX": {
+   "enplanements": 3472025,
+   "rank": 31
+  },
+  "PHL": {
+   "enplanements": 5841074,
+   "rank": 21
+  },
+  "PHX": {
+   "enplanements": 10607346,
+   "rank": 7
+  },
+  "PIT": {
+   "enplanements": 1748353,
+   "rank": 48
+  },
+  "RDU": {
+   "enplanements": 2348466,
+   "rank": 39
+  },
+  "RSW": {
+   "enplanements": 2970976,
+   "rank": 36
+  },
+  "SAN": {
+   "enplanements": 4666336,
+   "rank": 24
+  },
+  "SAT": {
+   "enplanements": 1926681,
+   "rank": 46
+  },
+  "SEA": {
+   "enplanements": 9433869,
+   "rank": 10
+  },
+  "SFO": {
+   "enplanements": 7746347,
+   "rank": 16
+  },
+  "SJC": {
+   "enplanements": 2299322,
+   "rank": 41
+  },
+  "SJU": {
+   "enplanements": 2347697,
+   "rank": 40
+  },
+  "SLC": {
+   "enplanements": 5994074,
+   "rank": 20
+  },
+  "SMF": {
+   "enplanements": 2747793,
+   "rank": 37
+  },
+  "SNA": {
+   "enplanements": 1818505,
+   "rank": 47
+  },
+  "STL": {
+   "enplanements": 3086961,
+   "rank": 35
+  },
+  "TPA": {
+   "enplanements": 5015700,
+   "rank": 23
+  }
+ },
+ "manifest": {
+  "as_of": "2020",
+  "fetched_at": "2026-10-11T17:54:00+00:00",
+  "source": "BTS passenger boardings (top 50 airports)",
+  "source_url": "https://data.bts.gov/resource/2ydv-qfge.json"
+ }
+}

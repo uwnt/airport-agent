@@ -32,6 +32,7 @@ TOKEN_URL = (
     "https://auth.opensky-network.org/auth/realms/opensky-network/protocol/openid-connect/token"
 )
 SUMMARY_NAME = "opensky"
+NOT_AVAILABLE = "not available for this date (OpenSky free history is short)"
 _KEEP = ("callsign", "estDepartureAirport", "estArrivalAirport", "firstSeen", "lastSeen")
 # US private tail numbers: N, a digit, then up to four digits or letters (N269TD, N795J).
 _PRIVATE = re.compile(r"^N[0-9][0-9A-Z]{0,4}$")
@@ -85,6 +86,11 @@ def fetch_departures(airport, days, cache_dir, now=None):
         raise OpenSkyUnavailable(f"OpenSky request failed (HTTP {error.code}).") from error
     except NETWORK_ERRORS as error:
         raise OpenSkyUnavailable(f"OpenSky could not be reached ({error}).") from error
+
+
+def day_of(path):
+    """The UTC day a cached departures file covers, from its name (opensky_panc_2026-10-04.json)."""
+    return Path(path).stem.rsplit("_", 1)[-1]
 
 
 def load_flights(paths):

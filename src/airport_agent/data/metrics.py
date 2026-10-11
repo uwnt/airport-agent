@@ -1,6 +1,8 @@
-"""Every signal for one airport, each with its source and as-of date, read from the local cache.
+"""Every signal for one airport, each with its source and as-of date, read from a data snapshot.
 
-No network: this reads only the summaries `python -m airport_agent.data` writes into the cache.
+No network: this reads only the summaries `airport-agent refresh` writes into a snapshot. By default
+that is the latest snapshot in the data store (store.py); pass `version` for another one, or
+`cache_dir` for a folder of summaries (tests do).
 Sources have different dates (a DOT quarter, 12 BTS months, a 2023 boardings figure, a few days
 of OpenSky flights), so each number carries its own `as_of`; dates are never merged.
 
@@ -11,7 +13,8 @@ A signal that is missing is None, and `Metrics.missing` says why
 from dataclasses import dataclass, field
 
 from airport_agent.data import bts_enplanements, bts_ontime, dot_fares, opensky, ourairports
-from airport_agent.data.cache import DEFAULT_CACHE_DIR, load_config, read_summary
+from airport_agent.data.cache import load_config, read_summary
+from airport_agent.data.store import snapshot_dir
 
 SIGNALS = (
     "nas_delay_per_landed_flight",
@@ -73,8 +76,12 @@ def _source(manifest):
     return f"{manifest['source']} ({manifest['source_url']})"
 
 
-def load_cache(cache_dir=DEFAULT_CACHE_DIR):
-    """Every source summary from the cache, plus the code lookup. Raises CacheMissingError."""
+def load_cache(cache_dir=None, version=None):
+    """Every source summary, plus the code lookup. Raises CacheMissingError.
+
+    Reads `cache_dir` if given, else snapshot `version` from the store, else the latest snapshot.
+    """
+    cache_dir = cache_dir or snapshot_dir(version)
     summaries = {
         name: read_summary(cache_dir, name)
         for name in (
@@ -141,7 +148,9 @@ def _add_dot_fares(airport, iata, cache, signals, missing):
         )
         signals["market_count"] = Metric(row["market_count"], "markets", source, as_of)
         if row["growth_pct"] is None:
-            missing["growth_vs_2019"] = f"no DOT Table 1a rows for {baseline}"
+            missing["growth_vs_2019"] = (
+                fares["manifest"].get("no_growth_reason") or f"no DOT Table 1a rows for {baseline}"
+            )
         else:
             signals["growth_vs_2019"] = Metric(
                 row["growth_pct"],
@@ -221,9 +230,12 @@ def _add_boardings(airport, iata, cache, signals, missing):
 def _add_long_haul(airport, iata, cache, signals, missing):
     """OpenSky long-haul share (Anchorage only)."""
     sky = cache[opensky.SUMMARY_NAME]
-    row = sky["data"].get(airport["icao"] or "")
-    if row is None:
+    icao = airport["icao"] or ""
+    row = sky["data"].get(icao)
+    if icao not in sky["data"]:
         missing["long_haul_share"] = "computed only for Anchorage (OpenSky)"
+    elif row is None:  # an older snapshot: OpenSky has no data for its date
+        missing["long_haul_share"] = sky["manifest"]["note"]
     elif row["share"] is None:
         missing["long_haul_share"] = (
             f"no passenger departures with a known destination in {sky['manifest']['as_of']}"
@@ -268,13 +280,14 @@ def _build(airport, cache):
     )
 
 
-def airport_metrics(code, cache_dir=DEFAULT_CACHE_DIR, cache=None):
+def airport_metrics(code, cache_dir=None, cache=None, version=None):
     """Every signal for one airport, by IATA or ICAO code ("BOS", "KBOS", "PANC", "anc").
 
-    Reads only the cache. Raises CacheMissingError if it hasn't been built, UnknownAirportError
-    for an unknown code. Pass `cache` (from `load_cache`) to avoid re-reading it for many airports.
+    Reads only the snapshot (see `load_cache` for which one). Raises CacheMissingError if it
+    hasn't been built, UnknownAirportError for an unknown code. Pass `cache` (from `load_cache`)
+    to avoid re-reading it for many airports.
     """
-    cache = cache or load_cache(cache_dir)
+    cache = cache or load_cache(cache_dir, version)
     airport = ourairports.find_airport(code, cache["lookup"])
     if airport is None:
         key = (code or "").strip().upper()
@@ -284,13 +297,13 @@ def airport_metrics(code, cache_dir=DEFAULT_CACHE_DIR, cache=None):
     return _build(airport, cache)
 
 
-def all_airport_metrics(cache_dir=DEFAULT_CACHE_DIR):
+def all_airport_metrics(cache_dir=None, version=None):
     """Metrics for every airport in scope (D11), sorted by IATA code; scoring ranks them all.
 
     A DOT code with no OurAirports airport can't be placed in a state, so it is left out here;
     the build lists every such code with its reason in the airports manifest (`unresolved_codes`).
     """
-    cache = load_cache(cache_dir)
+    cache = load_cache(cache_dir, version)
     result = []
     for code in sorted(cache[dot_fares.SUMMARY_NAME]["data"]):
         airport = ourairports.find_airport(code, cache["lookup"])

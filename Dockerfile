@@ -1,5 +1,6 @@
 # syntax=docker/dockerfile:1
-# Image for the web server. Two stages: the first installs the locked dependencies and the app
+# One image, two commands: the web server (default) and `airport-agent refresh`, which builds a
+# new data snapshot (see docker-compose.yml). Two stages: the first installs the locked dependencies and the app
 # into a virtual environment with uv; the second copies only that environment onto a clean Python,
 # so build tools and caches never reach the final image.
 #
@@ -53,7 +54,15 @@ RUN groupadd --system --gid 10001 app \
 WORKDIR /app
 # Only the venv: the app is installed inside it, so no source files are needed.
 COPY --from=build --chown=app:app /app/.venv /app/.venv
-# The data snapshot (/app/data) and the `refresh` command are added with the data pipeline (#14).
+# Settings, the friction constraints scoring reads, the committed data snapshots and the OpenSky
+# sample `refresh` falls back on. The app reads them relative to /app (DATA_STORE defaults to
+# file://data/snapshots); `airport-agent refresh` (on the venv's PATH) writes new snapshots there
+# and its downloads to /app/data/cache.
+COPY --chown=app:app config ./config
+COPY --chown=app:app data/constraints.yaml ./data/
+COPY --chown=app:app data/snapshots ./data/snapshots
+COPY --chown=app:app data/samples/opensky_departures_panc.json ./data/samples/
+RUN mkdir -p /app/data/cache && chown -R app:app /app/data
 
 # The commit last, so a new commit only rebuilds the layers below.
 ARG RELEASE_SHA=""
