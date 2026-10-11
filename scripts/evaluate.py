@@ -14,8 +14,8 @@ the data doesn't cover, a code that isn't an airport, an out-of-scope question, 
 in a follow-up, and an ambiguous place name. Answers are written as the model gave them: this
 run is evidence, so nothing here tries to make them look better.
 
-Cost = input tokens x input price + (output + thinking tokens) x output price, from PRICES. All
-input tokens are charged at the full price (no cache discount), so the cost is an upper bound.
+Cost = input tokens x input price + (output + thinking tokens) x output price, from PRICES, using
+the token counts the API reports. See COST_CAVEAT: those counts look too low for the input.
 """
 
 import argparse
@@ -59,6 +59,13 @@ PRICES = {
     # Prompts up to 200k tokens (all of ours are far below).
     "gemini-3.1-pro-preview": [(None, 2.00, 12.00)],
 }
+
+COST_CAVEAT = (
+    "The token counts are those the API reports. Checked 2026-10-11: the reported input count "
+    "hardly grows when a tool result is sent back (a ranking result of about 11,000 characters "
+    "added about 30 input tokens), so tool results seem not to be counted, and the real input "
+    "cost may be higher than shown. No cache discount is applied."
+)
 
 _LOCAL_PATH = re.compile(r"(?<![\w:/.])/(?:root|home|tmp|Users|var|opt|srv|mnt)/[^\s\"'`)<>]*")
 
@@ -272,8 +279,9 @@ def index(model, settings, rows, on):
         f"(total {money(total_cost if cost_known else None)}, {questions} questions).",
         "",
         f"Prices: {PRICES_SOURCE}, checked {PRICES_CHECKED}. Cost = input tokens x input price "
-        "+ (output + thinking tokens) x output price; every input token is charged in full, so "
-        "this is an upper bound.",
+        "+ (output + thinking tokens) x output price.",
+        "",
+        COST_CAVEAT,
         "",
         "Numbers not found in tool results: numbers in the answer that appear in none of the "
         "conversation's tool results, allowing for rounding and for shares quoted as "
