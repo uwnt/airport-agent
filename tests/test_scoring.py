@@ -4,6 +4,7 @@ import random
 
 import pytest
 
+from airport_agent import scoring
 from airport_agent.data.metrics import Metric, Metrics, all_airport_metrics
 from airport_agent.scoring import (
     CONSTRAINTS_PATH,
@@ -282,3 +283,18 @@ def test_sample_cache_ranks_every_airport_with_real_settings(sample_cache):
             assert (s.metric is None) == (s.percentile is None)
     sfo = rank(metrics, codes=["SFO"])[0]
     assert sfo.friction.points == 20 and sfo.friction.domain_notes == (6, 7)
+
+
+def test_cli_prints_the_new_england_table(sample_cache, monkeypatch, capsys):
+    monkeypatch.setattr(scoring, "all_airport_metrics", lambda: all_airport_metrics(sample_cache))
+    assert scoring.main(["--region", "New England"]) == 0
+    out = capsys.readouterr().out
+    assert "Preset: balanced" in out and "BOS " in out and "SFO" not in out
+    assert scoring.main(["--codes", "SFO", "--preset", "growth-focused"]) == 0
+    assert "-20 Runway spacing" in capsys.readouterr().out
+
+
+def test_cli_says_how_to_build_missing_data(tmp_path, monkeypatch, capsys):
+    monkeypatch.chdir(tmp_path)  # no data/cache here
+    assert scoring.main([]) == 1
+    assert "python -m airport_agent.data" in capsys.readouterr().err

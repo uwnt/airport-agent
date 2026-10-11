@@ -13,15 +13,20 @@ How a score is made, for one airport:
 
 Weights, presets and penalties come from config/scoring.yaml. Everything here is pure (no network,
 no model) except `load_settings`, which only reads the two YAML files.
+
+Run `uv run python -m airport_agent.scoring --region "New England"` for a table.
 """
 
+import argparse
 import dataclasses
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 
 import yaml
 
-from airport_agent.data.metrics import Metric
+from airport_agent.data.cache import BUILD_COMMAND, CacheMissingError
+from airport_agent.data.metrics import Metric, all_airport_metrics
 from airport_agent.data.regions import REGIONS, resolve_place
 
 _REPO = Path(__file__).resolve().parents[2]
@@ -319,3 +324,77 @@ def _wanted_codes(in_scope, region, codes):
             )
         return wanted
     return None
+
+
+# --- Command line ---------------------------------------------------------------------------
+
+
+def format_table(results, settings, preset, total):
+    """A plain-text table: rank, airport, score, each signal's points, friction, confidence."""
+    weights = signal_weights(settings, preset)
+    lines = [
+        f"Preset: {preset} ("
+        + ", ".join(f"{LABELS[n]} {weights[n] * 100:g}%" for n in SCORED_SIGNALS)
+        + f"). National rank is out of {total} ranked airports.",
+        "",
+        f"{'#':>3} {'Natl':>4}  {'Airport':<34} {'Score':>5}  "
+        + "  ".join(f"{LABELS[n][:6]:>6}" for n in SCORED_SIGNALS)
+        + f"  {'Friction':<20} Confidence",
+    ]
+    notes = []
+    for r in results:
+        points = "  ".join(
+            f"{s.contribution:6.1f}" if s.metric is not None else f"{'-':>6}" for s in r.signals
+        )
+        friction = (
+            "none" if r.friction is NO_FRICTION else f"-{r.friction.points:g} {r.friction.name}"
+        )
+        lines.append(
+            f"{r.rank:>3} {r.national_rank:>4}  {(r.code + ' ' + r.name)[:34]:<34} "
+            f"{r.score:5.1f}  {points}  {friction[:20]:<20} {r.confidence}"
+        )
+        if r.confidence_reasons:
+            notes.append(f"  {r.code}: " + "; ".join(r.confidence_reasons))
+    lines.append("")
+    lines.append(
+        "Signal columns: points each signal added (percentile × weight); score = their sum "
+        "minus friction, never below 0. '-' = missing."
+    )
+    if notes:
+        lines.append("Low confidence:")
+        lines.extend(notes)
+    return "\n".join(lines)
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(
+        prog="python -m airport_agent.scoring",
+        description="Rank airports for terminal expansion from the local data cache.",
+    )
+    parser.add_argument("--preset", help="balanced (default), growth-focused, congestion-focused")
+    place = parser.add_mutually_exclusive_group()
+    place.add_argument("--region", help='a named region, e.g. "New England" or "LA area"')
+    place.add_argument("--codes", help="airport codes separated by commas, e.g. BOS,SFO")
+    parser.add_argument("--top", type=int, help="show only the first N rows")
+    args = parser.parse_args(argv)
+
+    try:
+        metrics_list = all_airport_metrics()
+    except CacheMissingError as error:
+        print(f"No data built yet ({error}). Build it with: {BUILD_COMMAND}", file=sys.stderr)
+        return 1
+    settings = load_settings()
+    preset = args.preset or settings.scoring["default_preset"]
+    codes = args.codes.split(",") if args.codes else None
+    try:
+        results = rank(metrics_list, preset, region=args.region, codes=codes, settings=settings)
+    except UnknownPlaceError as error:
+        print(error, file=sys.stderr)
+        return 2
+    total = sum(1 for m in metrics_list if m.in_scope)
+    print(format_table(results[: args.top] if args.top else results, settings, preset, total))
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
