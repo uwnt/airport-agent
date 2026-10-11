@@ -2,8 +2,8 @@
 
 A snapshot is a folder of per-source summary JSONs plus `manifest.json`, whose `version` names it
 (`2019-12`, `2021-12`, `latest-2026-10-11`) and whose `as_of` (YYYY-MM-DD) dates it.
-`latest()` is the complete snapshot with the newest `as_of`; on a tie, the one built last (then
-the later same-day name).
+`latest()` is the newest complete plain refresh (`latest-YYYY-MM-DD[-N]`); on a tie, the one built
+last (then the later same-day name). Point-in-time snapshots are fetched by name with `get()`.
 Published snapshots never change: `publish` refuses a version that is already there.
 
 The environment variable DATA_STORE picks the store. Only `file://<folder>` is built (default
