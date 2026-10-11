@@ -2,7 +2,9 @@
 
 A snapshot is a folder of per-source summary JSONs plus `manifest.json`, whose `version` names it
 (`2019-12`, `2021-12`, `latest-2026-10-11`) and whose `as_of` (YYYY-MM-DD) dates it.
-`latest()` is the snapshot with the newest `as_of`; on a tie, the one built last.
+`latest()` is the complete snapshot with the newest `as_of`; on a tie, the one built last (then
+the later same-day name).
+Published snapshots never change: `publish` refuses a version that is already there.
 
 The environment variable DATA_STORE picks the store. Only `file://<folder>` is built (default
 `file://data/snapshots`, relative to the working directory; `file:///data` is absolute).
@@ -83,7 +85,11 @@ class FileStore:
                 log.warning("Skipping data snapshot %r in %r: %s", folder.name, self, problem)
         if not manifests:
             return None
-        return max(manifests, key=lambda m: (m["as_of"], m.get("built_at", "")))["version"]
+        # Ties: built last, then the later same-day name (latest-2026-10-11-2 after the plain one).
+        return max(
+            manifests,
+            key=lambda m: (m["as_of"], m.get("built_at", ""), len(m["version"]), m["version"]),
+        )["version"]
 
     def get(self, version):
         """The local folder holding this version; raises CacheMissingError if it isn't complete."""
@@ -95,20 +101,28 @@ class FileStore:
             raise CacheMissingError(f"Data snapshot {version!r} in {self!r} is broken: {problem}.")
         return path
 
-    def publish(self, snapshot_dir):
-        """Copy a built snapshot folder in under its manifest's version; replaces that version.
+    def exists(self, version):
+        """True if a folder by this version name is in the store (complete or not)."""
+        return (self.root / _check_version(version)).exists()
 
-        Copied under a temporary name and renamed when complete, so readers never see half of it.
+    def publish(self, snapshot_dir):
+        """Copy a built snapshot folder in under its manifest's version.
+
+        Snapshots never change once published, so a reader never mixes files of two builds:
+        a version already in the store is refused (ValueError). Copied under a hidden temporary
+        name and renamed when complete, so readers never see half of it.
         """
         version = _check_version(read_manifest(snapshot_dir)["version"])
         target = self.root / version
-        partial, old = self.root / f".{version}.part", self.root / f".{version}.old"
+        if target.exists():
+            raise ValueError(
+                f"Data snapshot {version!r} is already in {self!r}; published snapshots never "
+                "change. Build it under another version name."
+            )
+        partial = self.root / f".{version}.part"
         shutil.rmtree(partial, ignore_errors=True)
         shutil.copytree(snapshot_dir, partial)
-        if target.exists():
-            target.rename(old)
-        partial.rename(target)
-        shutil.rmtree(old, ignore_errors=True)
+        partial.rename(target)  # fails if the same version appeared meanwhile: never replaces
         return version
 
 

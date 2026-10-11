@@ -6,7 +6,11 @@ source with its URL, as-of, fetch time, gaps and unresolved codes, and the code'
 publishes the folder to the data store chosen by DATA_STORE (store.py).
 
 - `--as-of 2019-12` -> version `2019-12`: only data published by 31 Dec 2019 (see asof.py).
-- no `--as-of` -> version `latest-YYYY-MM-DD` (today): the newest data each source has.
+- no `--as-of` -> version `latest-YYYY-MM-DD` (today): the newest data each source has; a second
+  plain refresh on the same day is `latest-YYYY-MM-DD-2`, then `-3`, and so on.
+
+Published snapshots never change (store.py): `--as-of` for a version already in the store is
+refused before anything is downloaded.
 
 Raw BTS ZIPs are deleted once their month is summarised (`--keep-raw` keeps them); the small
 per-month summaries stay in the cache, so a later refresh does not download those months again.
@@ -68,6 +72,14 @@ def write_manifest(folder, version, as_of_date, rule, commit, built_at=None):
     )
 
 
+def next_latest_version(store, today):
+    """`latest-YYYY-MM-DD` for today, or `-2`, `-3`, ... if that name is taken."""
+    version, n = f"latest-{today.isoformat()}", 1
+    while store.exists(version if n == 1 else f"{version}-{n}"):
+        n += 1
+    return version if n == 1 else f"{version}-{n}"
+
+
 def refresh(as_of=None, cache_dir=DEFAULT_CACHE_DIR, store=None, keep_raw=False, today=None):
     """Build and publish one snapshot; returns its version. Network.
 
@@ -79,13 +91,17 @@ def refresh(as_of=None, cache_dir=DEFAULT_CACHE_DIR, store=None, keep_raw=False,
     as_of_date = asof.parse_as_of(as_of) if as_of else None
     if as_of_date and as_of_date.replace(day=1) > today:
         raise ValueError(f"--as-of {as_of} is in the future")
-    version = as_of or f"latest-{today.isoformat()}"
+    store = store or open_store()
+    version = as_of or next_latest_version(store, today)
+    if store.exists(version):
+        raise ValueError(
+            f"Data snapshot {version!r} is already in {store!r}; published snapshots never change."
+        )
     staging = Path(cache_dir) / "staging" / version
     shutil.rmtree(staging, ignore_errors=True)
     build.build_cache(cache_dir, delete_raw=not keep_raw, out_dir=staging, as_of=as_of_date)
     rule = rule_text(as_of_date, load_config()["point_in_time"])
     write_manifest(staging, version, as_of_date or today, rule, current_commit())
-    store = store or open_store()
     store.publish(staging)
     shutil.rmtree(staging)
     print(f"Published snapshot {version} to {store!r}", flush=True)

@@ -123,12 +123,13 @@ def test_store_publish_get_latest(tmp_path):
     assert store.latest() == "latest-2026-10-11"
 
 
-def test_store_publish_replaces_a_version(tmp_path):
+def test_store_publish_refuses_an_existing_version(tmp_path):
     store = FileStore(tmp_path / "store")
     store.publish(make_snapshot(tmp_path / "a", "2019-12", "2019-12-31", "2026-01-01"))
-    store.publish(make_snapshot(tmp_path / "b", "2019-12", "2019-12-31", "2026-02-02"))
+    with pytest.raises(ValueError, match="'2019-12' is already in .*never change"):
+        store.publish(make_snapshot(tmp_path / "b", "2019-12", "2019-12-31", "2026-02-02"))
     assert json.loads((store.get("2019-12") / "manifest.json").read_text())["built_at"] == (
-        "2026-02-02"
+        "2026-01-01"
     )
     assert [p.name for p in (tmp_path / "store").iterdir()] == ["2019-12"]
 
@@ -243,6 +244,30 @@ def test_plain_refresh_is_latest(work, offline_build):
     assert version == "latest-2026-10-11" == store.latest()
     assert offline_build[0]["as_of"] is None
     assert read_summary(store.get(version), "opensky")["data"]["PANC"]["share"] is not None
+
+
+def test_second_plain_refresh_on_a_day_gets_its_own_version(work, offline_build):
+    store = FileStore(work / "store")
+    today = date(2026, 10, 11)
+    first = refresh.refresh(None, work / "cache", store, today=today)
+    built_first = (store.get(first) / "manifest.json").read_bytes()
+    second = refresh.refresh(None, work / "cache", store, today=today)
+    third = refresh.refresh(None, work / "cache", store, today=today)
+    assert (first, second, third) == (
+        "latest-2026-10-11",
+        "latest-2026-10-11-2",
+        "latest-2026-10-11-3",
+    )
+    assert (store.get(first) / "manifest.json").read_bytes() == built_first  # untouched
+    assert store.latest() == third  # same as-of date: the one built last
+
+
+def test_refresh_refuses_an_as_of_already_published(work, offline_build):
+    store = FileStore(work / "store")
+    refresh.refresh("2019-12", work / "cache", store, today=date(2026, 10, 11))
+    with pytest.raises(ValueError, match="'2019-12' is already in"):
+        refresh.refresh("2019-12", work / "cache", store, today=date(2026, 10, 11))
+    assert len(offline_build) == 1  # refused before building (no downloads)
 
 
 def test_refresh_refuses_a_future_month(work, offline_build):
