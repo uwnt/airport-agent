@@ -1,5 +1,7 @@
 """Parsing and summarising each source, offline, on data/samples/."""
 
+import json
+import urllib.error
 from datetime import date
 from pathlib import Path
 
@@ -9,12 +11,14 @@ from conftest import SAMPLES, load_sample_json, ontime_sample_as_month
 from airport_agent.data import (
     bts_enplanements,
     bts_ontime,
+    build,
     dot_fares,
     faa_nas_status,
     opensky,
     ourairports,
 )
 from airport_agent.data.cache import load_config
+from airport_agent.data.metrics import airport_metrics
 
 AIRPORTS_CSV = SAMPLES / "ourairports_us_scheduled.csv"
 BANDS = [500, 1000, 1500]
@@ -205,6 +209,53 @@ def test_latest_twelve_months():
         lambda y, m: (y, m) in published, today=date(2026, 10, 11)
     )
     assert newest == (2026, 7)
+
+
+def _cached_months(cache_dir, months):
+    counts = {"scheduled": 10, "cancelled": 1, "diverted": 1, "landed": 8, "nas_delay_minutes": 8}
+    for year, month in months:
+        bts_ontime.write_month_summary(cache_dir, year, month, {"BOS": counts})
+
+
+def test_missing_month_in_the_window_is_a_gap_not_filled(tmp_path):
+    window = bts_ontime.months_back(2026, 7, 12)
+    _cached_months(tmp_path, [m for m in window if m != (2026, 1)])
+
+    def fetch(year, month, cache_dir):  # only the uncached middle month is downloaded
+        assert (year, month) == (2026, 1)
+        raise urllib.error.HTTPError(bts_ontime.month_url(year, month), 404, "Not Found", {}, None)
+
+    build.build_ontime(
+        tmp_path,
+        load_config(),
+        exists=lambda y, m: (y, m) <= (2026, 7),
+        fetch=fetch,
+        today=date(2026, 10, 11),
+    )
+    summary = json.loads((tmp_path / "bts_ontime.json").read_text(encoding="utf-8"))
+    manifest = summary["manifest"]
+    assert manifest["as_of"] == "Aug 2025 to Jul 2026"  # the whole window, stated
+    assert len(manifest["months"]) == 11 and "2026-01" not in manifest["months"]
+    assert manifest["gaps"] == {"2026-01": "BTS answered HTTP 404"}
+    assert manifest["note"] == "11 of 12 months; missing: Jan 2026 (BTS answered HTTP 404)"
+    assert summary["data"]["BOS"]["months"] == 11 and summary["data"]["BOS"]["scheduled"] == 110
+
+
+def test_unreachable_bts_stops_the_build_with_a_reason(tmp_path):
+    def exists(year, month):
+        raise urllib.error.URLError("timed out")
+
+    with pytest.raises(build.BuildError, match="can't reach BTS"):
+        build.build_ontime(tmp_path, load_config(), exists=exists, today=date(2026, 10, 11))
+
+
+def test_month_note_reaches_the_metrics(sample_cache):
+    gaps = {(2026, 6): "BTS answered HTTP 404"}
+    build.write_ontime(sample_cache, {(2026, 7): ontime_sample_as_month()}, gaps=gaps)
+    bos = airport_metrics("BOS", sample_cache)
+    assert bos.cancellation_rate.as_of == "Jun 2026 to Jul 2026"
+    assert "1 of 2 months; missing: Jun 2026" in bos.cancellation_rate.note
+    assert "missing: Jun 2026" in bos.nas_delay_per_landed_flight.note
 
 
 # --- OpenSky -----------------------------------------------------------------------------------

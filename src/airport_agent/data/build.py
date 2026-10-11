@@ -9,6 +9,7 @@ The BTS step downloads about 12 × 32 MB; months already summarised are not down
 
 import argparse
 import sys
+import urllib.error
 from pathlib import Path
 
 from airport_agent.data import (
@@ -28,10 +29,12 @@ from airport_agent.data.cache import (
 
 SAMPLES_DIR = Path("data/samples")
 OPENSKY_SAMPLE = "opensky_departures_panc.json"
-
-
 # Sources whose airport codes must each match an OurAirports airport.
 CODE_SOURCES = (dot_fares, bts_ontime, bts_enplanements)
+
+
+class BuildError(Exception):
+    """A step can't finish (for example, BTS can't be reached); the message says why."""
 
 
 def source_codes(cache_dir):
@@ -97,20 +100,34 @@ def write_fares(cache_dir, latest_rows, baseline_rows, latest, baseline, config,
     )
 
 
-def write_ontime(cache_dir, monthly, fetched_at=None):
-    """`monthly` maps (year, month) to that month's per-airport summary."""
+def _month_range(months):
+    return " to ".join(dict.fromkeys(bts_ontime.month_label(*m) for m in (months[0], months[-1])))
+
+
+def write_ontime(cache_dir, monthly, fetched_at=None, gaps=None):
+    """`monthly` maps (year, month) to that month's per-airport summary.
+
+    `gaps` maps a (year, month) inside the window that has no data to the reason. A gap is
+    never filled: the as-of states the whole window and the note says which months are missing.
+    """
+    gaps = gaps or {}
     months = sorted(monthly)
+    window = sorted([*monthly, *gaps])
+    extra = {}
+    if gaps:
+        missing = ", ".join(f"{bts_ontime.month_label(*m)} ({gaps[m]})" for m in sorted(gaps))
+        extra["gaps"] = {f"{y}-{m:02d}": reason for (y, m), reason in sorted(gaps.items())}
+        extra["note"] = f"{len(months)} of {len(window)} months; missing: {missing}"
     return write_summary(
         cache_dir,
         bts_ontime.SUMMARY_NAME,
         bts_ontime.aggregate([monthly[key] for key in months]),
         source=bts_ontime.SOURCE,
         source_url=bts_ontime.SOURCE_URL,
-        as_of=" to ".join(
-            dict.fromkeys(bts_ontime.month_label(*m) for m in (months[0], months[-1]))
-        ),
+        as_of=_month_range(window),
         months=[f"{year}-{month:02d}" for year, month in months],
         fetched_at=fetched_at,
+        **extra,
     )
 
 
@@ -154,6 +171,50 @@ def _log(message):
     print(message, flush=True)
 
 
+def build_ontime(
+    cache_dir,
+    config,
+    exists=bts_ontime.month_exists,
+    fetch=bts_ontime.fetch_month,
+    delete_raw=False,
+    today=None,
+):
+    """Summarise the latest BTS on-time months into the cache. Network (through `exists`, `fetch`).
+
+    A month in the window that BTS doesn't serve (404) or that fails to download is recorded as a
+    gap, not filled. If BTS can't be reached to find the newest month, raises BuildError.
+    """
+    try:
+        newest = bts_ontime.latest_available_month(exists, today=today)
+    except (urllib.error.URLError, TimeoutError) as error:
+        raise BuildError(
+            f"BTS on-time: can't reach BTS to find the newest month: {error}"
+        ) from error
+    monthly, gaps = {}, {}
+    for year, month in bts_ontime.months_back(*newest, config["bts_ontime"]["months"]):
+        summary = bts_ontime.read_month_summary(cache_dir, year, month)
+        if summary is None:
+            label = bts_ontime.month_label(year, month)
+            _log(f"BTS on-time: {label} (download and summarise)")
+            try:
+                zip_path = fetch(year, month, cache_dir)
+            except (urllib.error.URLError, TimeoutError) as error:  # HTTPError is a URLError
+                code = getattr(error, "code", None)
+                gaps[(year, month)] = (
+                    f"BTS answered HTTP {code}" if code else f"download failed: {error}"
+                )
+                _log(f"BTS on-time: {label} left out, {gaps[(year, month)]}")
+                continue
+            summary = bts_ontime.summarise_zip(zip_path)
+            bts_ontime.write_month_summary(cache_dir, year, month, summary)
+        if delete_raw:
+            (cache_dir / bts_ontime.raw_name(year, month)).unlink(missing_ok=True)
+        monthly[(year, month)] = summary
+    if not monthly:
+        raise BuildError(f"BTS on-time: no month in the window could be read: {gaps}")
+    return write_ontime(cache_dir, monthly, gaps=gaps)
+
+
 def build_cache(cache_dir=DEFAULT_CACHE_DIR, delete_raw=False):
     """Fetch every source and write its summary into `cache_dir`. Network."""
     cache_dir = Path(cache_dir)
@@ -171,19 +232,7 @@ def build_cache(cache_dir=DEFAULT_CACHE_DIR, delete_raw=False):
     }
     write_fares(cache_dir, rows[latest], rows[baseline], latest, baseline, config)
 
-    newest = bts_ontime.latest_available_month(bts_ontime.month_exists)
-    monthly = {}
-    for year, month in bts_ontime.months_back(*newest, config["bts_ontime"]["months"]):
-        summary = bts_ontime.read_month_summary(cache_dir, year, month)
-        if summary is None:
-            _log(f"BTS on-time: {bts_ontime.month_label(year, month)} (download and summarise)")
-            zip_path = bts_ontime.fetch_month(year, month, cache_dir)
-            summary = bts_ontime.summarise_zip(zip_path)
-            bts_ontime.write_month_summary(cache_dir, year, month, summary)
-        if delete_raw:
-            (cache_dir / bts_ontime.raw_name(year, month)).unlink(missing_ok=True)
-        monthly[(year, month)] = summary
-    write_ontime(cache_dir, monthly)
+    build_ontime(cache_dir, config, delete_raw=delete_raw)
 
     _log("BTS boardings: downloading the top-50 list")
     raw = bts_enplanements.fetch_enplanements(cache_dir)
@@ -218,7 +267,11 @@ def main(argv=None):
         "--delete-raw", action="store_true", help="delete each BTS ZIP once it is summarised"
     )
     args = parser.parse_args(argv)
-    build_cache(args.cache_dir, delete_raw=args.delete_raw)
+    try:
+        build_cache(args.cache_dir, delete_raw=args.delete_raw)
+    except BuildError as error:
+        print(f"Build stopped: {error}", file=sys.stderr)
+        return 1
     return 0
 
 

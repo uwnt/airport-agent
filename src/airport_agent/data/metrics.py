@@ -178,6 +178,8 @@ def _build(airport, cache):
         )
     else:
         note = f"{row['landed']} landed of {row['scheduled']} scheduled in {row['months']} months"
+        if ontime["manifest"].get("note"):
+            note += f"; {ontime['manifest']['note']}"
         if row["nas_delay_per_landed_flight"] is None:
             missing["nas_delay_per_landed_flight"] = "no landed flights"
         else:
@@ -196,7 +198,8 @@ def _build(airport, cache):
                 "cancelled ÷ (scheduled − diverted)",
                 source,
                 as_of,
-                f"{row['cancelled']} cancelled, {row['diverted']} diverted",
+                f"{row['cancelled']} cancelled, {row['diverted']} diverted"
+                + (f"; {ontime['manifest']['note']}" if ontime["manifest"].get("note") else ""),
             )
 
     # BTS boardings (context size only).

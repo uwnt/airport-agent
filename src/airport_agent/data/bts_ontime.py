@@ -72,13 +72,19 @@ def latest_available_month(exists, today=None, look_back=12):
 
 
 def month_exists(year, month):
-    """True if BTS has published this month's ZIP. Network (HEAD request)."""
+    """True if BTS has published this month's ZIP. Network (HEAD request).
+
+    Only a 404 means "not published"; any other error is raised, so an outage can't quietly
+    make an older month look like the newest.
+    """
     request = urllib.request.Request(month_url(year, month), method="HEAD")
     try:
         with urllib.request.urlopen(request, timeout=60) as response:
             return response.status == 200
-    except urllib.error.HTTPError:
-        return False
+    except urllib.error.HTTPError as error:
+        if error.code == 404:
+            return False
+        raise
 
 
 def fetch_month(year, month, cache_dir):
