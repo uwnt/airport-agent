@@ -42,6 +42,9 @@ The four example questions: **Q1** New England expansion candidates · **Q2** LA
   | NAS delay min per landed flight | 15.2 | 13.2 | 9.7 | 8.1 | 2.3 | 2.2 | 1.9 |
   | Cancelled | 1.3% | 8.0% | 5.9% | 4.4% | 1.3% | 1.0% | 0.7% |
 
+  Cancellations here are cancelled ÷ scheduled arrivals. The data layer follows D7 and leaves
+  diverted flights out of the denominator, which moves EWR from 8.0% to 8.2%.
+
 - **Can't, or watch out:**
   - **Delay is filed at the arrival airport**, wherever it was caused (origin, en route). So it
     means "delay on flights into SFO", not strictly "delay at SFO".

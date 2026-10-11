@@ -196,3 +196,30 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
   that can miss or blur passages, which works against "every number from a tool".
 - Revisit if: analysts want to ask about large document sets, such as airport master plans or FAA
   reports.
+
+## D16: The data layer computes the measured values; scoring only ranks them
+- Chose: the data layer returns finished per-airport values (NAS delay per landed flight,
+  cancellation rate, fare premium, growth vs the same quarter of 2019, market count), each with its
+  source and as-of date. Scoring (Step 4) turns them into percentile ranks and applies the weights.
+- Over: the data layer returns raw rows and scoring computes everything (one much larger scoring
+  step, harder to explain and to change live).
+- Because: each value is a measurement with its own source and date, so it belongs with the data;
+  scoring stays small and pure.
+- Revisit if: a signal needs data from more than one source at once.
+
+## D17: A small dated snapshot is committed; raw downloads are not
+- Chose: raw downloads stay in `data/cache/` (not in git). Small per-airport summaries are
+  committed as dated snapshots by the `refresh` command, so a fresh checkout and the
+  Docker image give the same answers without downloading anything.
+- Over: cache only (every new machine must download several hundred MB first, and numbers can
+  change between runs).
+- Because: answers must not drift during a demo, and the data date should be visible in git.
+- Revisit if: a snapshot grows past the size budget.
+
+## D18: Passenger airline list for the Anchorage long-haul share (proposed; owner to confirm)
+- Chose: callsign prefixes ASA, QXE, DAL, UAL, AAL, SCX, RVF, CFG, ICE, in `config/sources.yaml`.
+  Left out: CPA, CAL, EVA, KAL, whose Anchorage flights are mostly cargo stops; a callsign alone
+  can't tell their cargo flights from passenger ones.
+- Over: counting every airline (mixes cargo into a passenger question).
+- Because: D13 counts passenger airlines only.
+- Revisit if: one of the left-out airlines starts scheduled passenger service through Anchorage.
