@@ -71,6 +71,7 @@ The owner is building this to learn and will defend it in a follow-up call. For 
 uv sync                          # install
 doppler run -- uv run pytest     # test
 uv run ruff check . && uv run ruff format --check .   # lint
+scripts/ci-local                 # everything CI's ci job runs, before a PR (also: make ci)
 doppler run -- uv run python -m airport_agent.cli     # terminal chat (Step 5)
 doppler run -- uv run uvicorn airport_agent.server:app --reload   # web chat (Step 6)
 ```
