@@ -2,8 +2,9 @@
 
 The raw month (~32 MB ZIP) is cached in data/cache/ and never committed; only the per-airport
 summary goes to data/samples/. Delay causes are recorded on the arriving flight, so we group by
-Dest: this is "delay on flights into X", whatever the cause's location. Cancelled flights have no
-delay minutes, so delay averages divide by flights that landed; cancellations are a separate rate.
+Dest: this is "delay on flights into X", whatever the cause's location. Cancelled and diverted
+flights (diverted ones landed elsewhere, not at Dest) are not counted as landed, so delay averages
+divide by flights that landed at Dest; cancellations are a separate rate.
 Run: uv run python scripts/spike/bts_ontime.py
 """
 
@@ -26,7 +27,11 @@ def number(text):
 
 if not CACHE.exists():
     CACHE.parent.mkdir(parents=True, exist_ok=True)
-    urllib.request.urlretrieve(URL, CACHE)
+    # Download to a temporary name and rename only when complete, so a dropped download
+    # can't leave a truncated ZIP that later runs would trust.
+    partial = CACHE.with_name(CACHE.name + ".part")
+    urllib.request.urlretrieve(URL, partial)
+    partial.replace(CACHE)
 
 totals = {}  # airport code -> running sums
 with zipfile.ZipFile(CACHE) as archive:
@@ -34,10 +39,12 @@ with zipfile.ZipFile(CACHE) as archive:
     with archive.open(csv_name) as raw:
         for row in csv.DictReader(io.TextIOWrapper(raw, encoding="utf-8")):
             t = totals.setdefault(
-                row["Dest"], {"arrivals": 0, "cancelled": 0, "nas_min": 0.0, "weather_min": 0.0}
+                row["Dest"],
+                {"arrivals": 0, "cancelled": 0, "diverted": 0, "nas_min": 0.0, "weather_min": 0.0},
             )
             t["arrivals"] += 1
             t["cancelled"] += int(number(row["Cancelled"]))
+            t["diverted"] += int(number(row["Diverted"]))
             t["nas_min"] += number(row["NASDelay"])
             t["weather_min"] += number(row["WeatherDelay"])
 
@@ -53,7 +60,7 @@ with OUT.open("w", newline="") as f:
         ]
     )
     for code, t in sorted(totals.items(), key=lambda item: -item[1]["arrivals"]):
-        landed = t["arrivals"] - t["cancelled"]
+        landed = t["arrivals"] - t["cancelled"] - t["diverted"]
         if landed == 0:
             continue
         writer.writerow(
