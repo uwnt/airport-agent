@@ -21,7 +21,7 @@ def test_finds_whole_numbers_decimals_commas_percents_and_points():
 def test_skips_dates_years_list_markers_and_digits_inside_codes():
     answer = (
         "1. BOS leads (as of 2026-07, checked 2026-10-11).\n"
-        "2) Since 2019 KSFO and A320 traffic grew 5 points."
+        "2) Since 2019 KSFO, A320 and lower-48 traffic grew 5 points."
     )
     assert texts(numbers_in(answer)) == ["5"]
 
@@ -57,8 +57,10 @@ def test_numbers_inside_tool_text_count():
     results = [
         {"definition": "departures flying over 1,400 miles"},
         {"verified_facts": [{"note": 6, "fact": "runways 750 ft apart"}]},
+        {"sources": ["https://example.gov/JO_7110.308B_Approaches.pdf"]},
     ]
-    assert unsupported_numbers("Over 1,400 miles; 750 ft apart (note 6).", results) == []
+    answer = "Over 1,400 miles; 750 ft apart (note 6; FAA Order JO 7110.308B)."
+    assert unsupported_numbers(answer, results) == []
 
 
 def test_invented_numbers_are_flagged_once_each_in_order():

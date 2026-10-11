@@ -13,7 +13,8 @@ What counts as a number in an answer:
   tool's change of -1.2.
 - Not counted: dates (2026-10-11, 2019-12), standalone years from 1990 to 2035 ("since 2019"),
   list markers at the start of a line ("1." or "2)"), and digits inside a word or code (KSFO,
-  A320, gemini-3). Digits followed by letters ("28L") count as the number (28).
+  A320) or joined to a word by a hyphen (lower-48, gemini-3). Digits followed by letters ("28L")
+  count as the number (28).
 - Cited note numbers ("note 6") are numbers like any other: the tools give each verified fact
   its note number, so a correct citation is found in the results.
 
@@ -22,8 +23,8 @@ When a stated number matches a tool number:
   12.83), comparing sizes without signs;
 - for a "%" or "pp" number, also the tool number times 100, since shares come as fractions
   (`value` 0.128) beside their percentage (`value_pct` 12.8);
-- tool numbers are every number value in a result, and every number written inside its text
-  (a definition's "1,400 miles", a fact's "750 ft").
+- tool numbers are every number value in a result, and every run of digits written inside its
+  text, read loosely (a definition's "1,400 miles", a fact's "750 ft", a link's "7110.308B").
 Whole numbers match loosely (a stated 3 matches any tool number from 2.5 to 3.5), so the check
 catches invented figures, not small slips.
 """
@@ -34,9 +35,10 @@ from dataclasses import dataclass
 _DATE = re.compile(r"\b\d{4}-\d{2}(?:-\d{2})?\b")
 _LIST_MARKER = re.compile(r"^(\s*)\d+[.)](?=\s)", re.M)
 _NUMBER = re.compile(
-    r"(?<![\w.,])(\d{1,3}(?:,\d{3})+|\d+)(\.\d+)?"
+    r"(?<![\w.,])(?<![A-Za-z]-)(\d{1,3}(?:,\d{3})+|\d+)(\.\d+)?"
     r"(?:\s?(%|pp\b|percentage points?\b))?"
 )
+_ANY_DIGITS = re.compile(r"\d{1,3}(?:,\d{3})+(?:\.\d+)?|\d+(?:\.\d+)?")
 _FIRST_YEAR, _LAST_YEAR = 1990, 2035
 
 
@@ -77,7 +79,7 @@ def tool_numbers(results):
         if isinstance(node, (int, float)):
             found.add(abs(float(node)))
         elif isinstance(node, str):
-            found.update(n.value for n in numbers_in(node))
+            found.update(float(n.replace(",", "")) for n in _ANY_DIGITS.findall(node))
         elif isinstance(node, dict):
             for value in node.values():
                 walk(value)
