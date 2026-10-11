@@ -54,12 +54,12 @@ The owner leads the project and will defend it in a follow-up call. For every st
   demonstrates):
   - Each PR body has **What / Why / Tested** (the exact commands run and their result) and
     **Decisions** (links to `docs/DECISIONS.md` entries).
-  - Before merge, each PR gets an **independent AI review**: dispatch an independent reviewer agent
-    with a short card (the PR's diff, its goal, 2–3 risk areas). Post its findings and what was done
-    about each as **one plain-English PR comment** headed "Independent AI review".
-  - Fix or explicitly decline each finding before the owner merges.
-  - No internal jargon in anything public: no round counters, no internal labels, no internal tool
-    names.
+  - Before merge, each PR gets an **independent AI review** through the standard review step: a
+    reviewer agent reads the PR's final version, and each round's verdict and findings are recorded
+    on the PR. That record is the review; no second summary comment.
+  - Fix each finding, or decline it on the PR with a reason, before the owner merges.
+  - Review and approval labels are set only by the review and merge scripts, never by hand.
+  - No internal jargon in public text: no internal labels or internal tool names.
 - **Deterministic core:** scoring is pure (no network, no model) and tested. Every number the agent
   states comes from a tool; general knowledge is labelled as such. Domain facts come only from
   `docs/DOMAIN_NOTES.md`, and only those marked ✅ are stated as fact.

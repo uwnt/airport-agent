@@ -28,7 +28,7 @@ These habits come from running real projects, and each one shows up in the grade
 | **Least code**: standard library first, then what's already installed, then a small dependency | Reviewers read every line. Less code makes your reasoning easier to see. |
 | **The deterministic core is pure and tested** | Scoring takes numbers in and gives numbers out, with no network and no model. That's how you prove it's "not only LLM output". |
 | **Small commits, clear messages, one PR per step** | Your git history is the story of your thinking, and they will read it. |
-| **An independent AI review on every PR**, posted as a readable comment, each finding fixed or declined with a reason | Shows you treat AI output as something to check, not to trust. This is your established workflow, shown on purpose. |
+| **An independent AI review on every PR**, recorded on the PR round by round, each finding fixed or declined with a reason | Shows you treat AI output as something to check, not to trust. This is your established workflow, shown on purpose. |
 | **Secrets only in Doppler, never in git** | The repo goes public. One leaked key ends the conversation. |
 | **Verify before saying done** | Run the four example questions for real before claiming they work. |
 | **Say what you don't know** | It's a graded requirement here, not just politeness. |
