@@ -127,5 +127,5 @@ def test_code_matched_by_keyword_is_ranked(sample_cache):
 
 
 def test_missing_cache_says_how_to_build_it(tmp_path):
-    with pytest.raises(CacheMissingError, match="python -m airport_agent.data"):
+    with pytest.raises(CacheMissingError, match="airport-agent refresh"):
         airport_metrics("BOS", tmp_path / "empty")
