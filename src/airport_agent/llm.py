@@ -35,9 +35,13 @@ import os
 from dataclasses import dataclass, field
 
 from google import genai
+from google.genai import types
 
 DEFAULT_MODEL = "gemini-3.8-flash"
 PRO_MODEL = "gemini-3.1-pro-preview"
+# Retried: short-lived server errors only. Not 429: a spent daily quota comes back as 429 with a
+# Retry-After of hours, and the SDK would sleep that long; the user should see the error at once.
+RETRY = types.HttpRetryOptions(attempts=3, http_status_codes=[408, 500, 502, 503, 504])
 
 SYSTEM_PROMPT = """\
 You help investment analysts judge which US airports are most promising for terminal expansion.
@@ -114,7 +118,8 @@ class GeminiClient:
 
     def __init__(self, settings):
         self.settings = settings
-        self.client = genai.Client()  # reads GEMINI_API_KEY from the environment
+        # Reads GEMINI_API_KEY from the environment.
+        self.client = genai.Client(http_options=types.HttpOptions(retry_options=RETRY))
 
     def next_steps(self, history, tools, system_prompt):
         interaction = self.client.interactions.create(

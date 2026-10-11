@@ -137,3 +137,16 @@ def test_only_llm_imports_the_google_sdk():
         )
     ]
     assert importers == ["llm.py"]
+
+
+def test_a_spent_quota_fails_at_once_instead_of_waiting_for_retry_after(monkeypatch):
+    # Google answers a spent daily quota with 429 and a Retry-After of hours; the SDK would
+    # sleep that long. Only short-lived server errors are retried.
+    from airport_agent import llm
+
+    seen = {}
+    monkeypatch.setattr(llm.genai, "Client", lambda **kwargs: seen.update(kwargs))
+    llm.GeminiClient(settings_from_env({}))
+    retry = seen["http_options"].retry_options
+    assert 429 not in retry.http_status_codes
+    assert 503 in retry.http_status_codes and retry.attempts > 1
