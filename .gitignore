@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.ruff_cache/
+
+# Data cache (re-fetchable); samples in data/samples/ are committed as test fixtures
+data/cache/
+
+# Secrets: never commit
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Personal call notes
+docs/QA_PREP.md
