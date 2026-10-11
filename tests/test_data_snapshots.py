@@ -117,7 +117,7 @@ def test_store_publish_get_latest(tmp_path):
     assert store.latest() is None
     for version, as_of in [("2021-12", "2021-12-31"), ("2019-12", "2019-12-31")]:
         assert store.publish(make_snapshot(tmp_path / version, version, as_of)) == version
-    assert store.latest() == "2021-12"  # newest as-of, not the last published
+    assert store.latest() is None  # point-in-time snapshots are fetched by name only
     assert (store.get("2019-12") / "manifest.json").exists()
     store.publish(make_snapshot(tmp_path / "new", "latest-2026-10-11", "2026-10-11"))
     assert store.latest() == "latest-2026-10-11"
@@ -150,32 +150,43 @@ def test_store_missing_version_and_empty_store(tmp_path):
 
 def test_store_latest_skips_publish_leftovers_and_incomplete_folders(tmp_path):
     store = FileStore(tmp_path)
-    make_snapshot(tmp_path / "2019-12", "2019-12", "2019-12-31")
-    for hidden in (".2026-09.part", ".2026-09.old"):  # a publish in progress or cut short
-        make_snapshot(tmp_path / hidden, "2026-09", "2026-09-30")
-    incomplete = make_snapshot(tmp_path / "2026-08", "2026-08", "2026-08-31")
+    make_snapshot(tmp_path / "latest-2026-06-30", "latest-2026-06-30", "2026-06-30")
+    for hidden in (
+        ".latest-2026-09-30.part",
+        ".latest-2026-09-30.old",
+    ):  # a publish in progress or cut short
+        make_snapshot(tmp_path / hidden, "latest-2026-09-30", "2026-09-30")
+    incomplete = make_snapshot(tmp_path / "latest-2026-08-31", "latest-2026-08-31", "2026-08-31")
     manifest = json.loads((incomplete / "manifest.json").read_text())
     (incomplete / "manifest.json").write_text(json.dumps({**manifest, "files": ["dot_fares.json"]}))
-    make_snapshot(tmp_path / "2026-07", "2021-12", "2026-07-31")  # names another version
-    assert store.latest() == "2019-12"
-    assert store.get(store.latest()).name == "2019-12"
-    with pytest.raises(CacheMissingError, match="'2026-08'.*missing dot_fares.json"):
-        store.get("2026-08")
+    make_snapshot(tmp_path / "latest-2026-07-31", "2021-12", "2026-07-31")  # names another version
+    assert store.latest() == "latest-2026-06-30"
+    assert store.get(store.latest()).name == "latest-2026-06-30"
+    with pytest.raises(CacheMissingError, match="'latest-2026-08-31'.*missing dot_fares.json"):
+        store.get("latest-2026-08-31")
 
 
 @pytest.mark.parametrize(
     ("manifest", "problem"),
-    [("{", "can't be read"), ('{"version": "2026-10"}', "no as_of date")],
+    [("{", "can't be read"), ('{"version": "latest-2026-10-15"}', "no as_of date")],
 )
 def test_store_skips_a_broken_manifest(tmp_path, caplog, manifest, problem):
     store = FileStore(tmp_path)
-    make_snapshot(tmp_path / "2019-12", "2019-12", "2019-12-31")
-    (tmp_path / "2026-10").mkdir()
-    (tmp_path / "2026-10" / "manifest.json").write_text(manifest, encoding="utf-8")
-    assert store.latest() == "2019-12"
-    assert "'2026-10'" in caplog.text and problem in caplog.text
-    with pytest.raises(CacheMissingError, match=f"'2026-10'.*broken: .*{problem}"):
-        store.get("2026-10")
+    make_snapshot(tmp_path / "latest-2026-06-30", "latest-2026-06-30", "2026-06-30")
+    (tmp_path / "latest-2026-10-15").mkdir()
+    (tmp_path / "latest-2026-10-15" / "manifest.json").write_text(manifest, encoding="utf-8")
+    assert store.latest() == "latest-2026-06-30"
+    assert "'latest-2026-10-15'" in caplog.text and problem in caplog.text
+    with pytest.raises(CacheMissingError, match=f"'latest-2026-10-15'.*broken: .*{problem}"):
+        store.get("latest-2026-10-15")
+
+
+def test_latest_is_the_newest_plain_refresh_not_a_later_rebuild_of_an_older_month(tmp_path):
+    store = FileStore(tmp_path)
+    make_snapshot(tmp_path / "latest-2026-10-15", "latest-2026-10-15", "2026-10-15")
+    make_snapshot(tmp_path / "2026-10", "2026-10", "2026-10-31")  # `refresh --as-of 2026-10`
+    assert store.latest() == "latest-2026-10-15"
+    assert store.get("2026-10").name == "2026-10"
 
 
 def test_data_store_env_picks_the_store(monkeypatch, tmp_path):
@@ -190,14 +201,14 @@ def test_data_store_env_picks_the_store(monkeypatch, tmp_path):
 
 def test_metrics_read_the_latest_or_a_named_snapshot(monkeypatch, work, sample_cache):
     store = work / "store"
-    for version, as_of in [("2019-12", "2019-12-31"), ("2021-12", "2021-12-31")]:
+    for version, as_of in [("2019-12", "2019-12-31"), ("latest-2021-12-31", "2021-12-31")]:
         shutil.copytree(sample_cache, store / version)
         (store / version / "manifest.json").write_text(
             json.dumps({"version": version, "as_of": as_of}), encoding="utf-8"
         )
     build.write_opensky_unavailable(store / "2019-12", load_config(), "2019-12-31")
     monkeypatch.setenv("DATA_STORE", f"file://{store}")
-    assert airport_metrics("PANC").long_haul_share is not None  # latest = 2021-12
+    assert airport_metrics("PANC").long_haul_share is not None  # latest = the plain refresh
     assert airport_metrics("PANC", version="2019-12").long_haul_share is None
 
 

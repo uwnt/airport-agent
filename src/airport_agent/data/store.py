@@ -60,6 +60,9 @@ def snapshot_problem(folder):
     return None
 
 
+_PLAIN = re.compile(r"^latest-\d{4}-\d{2}-\d{2}(-\d+)?$")
+
+
 class FileStore:
     """Snapshots as sub-folders of one local folder (or network share)."""
 
@@ -70,14 +73,19 @@ class FileStore:
         return f"file://{self.root}"
 
     def latest(self):
-        """The complete snapshot with the newest as-of date, or None when there is none.
+        """The newest complete plain refresh (`latest-YYYY-MM-DD[-N]`), or None when there is none.
 
+        "Latest" means the newest PLAIN refresh: point-in-time snapshots (`2019-12`, `2021-12`,
+        any `--as-of`) are never returned here, only fetched by name with get(). Otherwise a
+        historical rebuild run later would outrank current data.
         Other folders (a publish in progress or cut short, a broken manifest) are skipped; a
         broken one is logged in one line.
         """
         manifests = []
         folders = sorted(p for p in self.root.iterdir() if p.is_dir()) if self.root.is_dir() else []
         for folder in folders:
+            if not _PLAIN.match(folder.name):
+                continue
             problem = snapshot_problem(folder)
             if problem is None:
                 manifests.append(read_manifest(folder))

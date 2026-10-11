@@ -262,7 +262,7 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
   before. OurAirports: today's file in every snapshot, since it keeps no history; the manifest
   says so. OpenSky: latest snapshot only; older ones show long-haul as "not available for this
   date". In the 2019 snapshot, growth vs 2019 is empty with the reason "this snapshot is the 2019
-  baseline". Three snapshots are committed: 2019-12, 2021-12 and the latest.
+  baseline". Three snapshots are committed: 2019-12, 2021-12 and the latest. "Latest" means the newest plain refresh: only versions named `latest-YYYY-MM-DD[-N]` count, and point-in-time snapshots (`2019-12`, `2021-12`, any `--as-of`) are fetched only by name.
 - Over: using whatever the API returns today for an old date (a 2019 snapshot would quietly use
   data nobody had in 2019); a fixed 3-month BTS lag (a snapshot dated end of April 2026 would
   include January 2026, which appeared on 1 May).
