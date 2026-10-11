@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Run the same checks as CI's `ci` job, locally, before opening or updating a PR.
+# (The secrets scan runs in CI only.)
+set -euo pipefail
+cd "$(dirname "$0")/.."
+
+uv sync --locked
+uv run ruff check .
+uv run ruff format --check .
+uv run pytest
+bad="$(git grep --untracked -nP '\bTODO\b(?!\(#[0-9]+\))' -- ':!*.md' ':!.github/**' ':!uv.lock' ':!data/**' ':!scripts/ci-local' || true)"
+if [ -n "$bad" ]; then
+  echo "$bad"
+  echo "TODO without an issue number, write TODO(#123)" >&2
+  exit 1
+fi
+echo "ci-local: all checks passed"
