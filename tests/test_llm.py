@@ -122,6 +122,7 @@ def test_system_prompt_states_the_rules():
         "Assumptions and data",
         "not investment advice",
         "out of scope",
+        "Otherwise don't mention scope",
     ):
         assert rule in SYSTEM_PROMPT, rule
 
