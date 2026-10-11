@@ -1,0 +1,44 @@
+# How airports are scored (decisions D8 to D12 in docs/DECISIONS.md). Change numbers here, not in
+# Python: the next ranking uses them. Check a change with
+#   uv run python -m airport_agent.scoring --region "New England"
+#
+# Each signal becomes a percentile from 0 to 100 (the top airport gets 100). The score is the
+# weighted sum of those percentiles, minus the largest friction penalty, never below 0.
+
+# Which preset is used when none is asked for.
+default_preset: balanced
+
+# A preset splits the score between Strain (overload today) and Growth (demand rising).
+# The two numbers are shares; they don't have to add up to 100, only their ratio counts.
+presets:
+  balanced:
+    strain: 50
+    growth: 50
+  growth-focused:
+    strain: 30
+    growth: 70
+  congestion-focused:
+    strain: 70
+    growth: 30
+
+# How Strain is split between its three signals. The same in every preset, so under balanced:
+# delay 25% of the score, cancellations 12.5%, fare premium 12.5%. Only the ratio counts.
+strain_mix:
+  nas_delay_per_landed_flight: 50  # NAS delay minutes per landed flight (BTS, 12 months)
+  cancellation_rate: 25            # share of flights cancelled (BTS, 12 months)
+  fare_premium: 25                 # fares versus markets of similar distance (DOT Table 1a)
+
+# Low confidence (D12): an airport with fewer markets than this in DOT Table 1a is flagged, as is
+# any airport with a scoring signal missing. A missing signal's weight moves to the airport's
+# other signals, in proportion to their weights.
+low_confidence_min_markets: 10
+
+# Friction penalties, in points off the 0-100 score (D10). Each constraint in
+# data/constraints.yaml has one of these tiers. Only the largest penalty per airport counts.
+friction_points:
+  minor: 10
+  major: 20
+  hard_cap: 30
+
+# Ties (stated rule, fixed in the code): equal score -> the higher score before friction ranks
+# first; still equal -> alphabetical by airport code.
