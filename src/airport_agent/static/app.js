@@ -36,15 +36,11 @@ function el(tag, attrs = {}, ...children) {
 
 function render(markdown) {
   const clean = DOMPurify.sanitize(marked.parse(markdown || ""), { RETURN_DOM_FRAGMENT: true });
-  // Added after sanitising (never allowed through it): each table gets a scrolling, focusable
-  // wrapper, because Safari does not let a keyboard user focus a scroller on their own, and
-  // columns of short values (rank, counts) are marked so they do not get the wide text floor.
+  // Added after sanitising (never allowed through it): each table gets a scrolling wrapper
+  // (made focusable by markScrollers once it is known to overflow), and columns of short values (rank, counts) are marked so they do not get the wide text floor.
   for (const table of clean.querySelectorAll("table")) {
     const wrap = document.createElement("div");
     wrap.className = "table-wrap";
-    wrap.tabIndex = 0;
-    wrap.setAttribute("role", "region");
-    wrap.setAttribute("aria-label", "Table, scrolls sideways");
     table.replaceWith(wrap);
     wrap.append(table);
     const rows = [...table.rows];
@@ -58,6 +54,24 @@ function render(markdown) {
     }
   }
   return clean;
+}
+
+// Safari does not let a keyboard user focus a scroller on their own, so a table that overflows
+// gets a tab stop and a name; one that fits gets neither. Run when an answer is complete (not
+// while it streams, which would drop focus on each redraw) and again when the width changes.
+function markScrollers(container) {
+  const wraps = [...container.querySelectorAll(".table-wrap")];
+  wraps.forEach((wrap, index) => {
+    if (wrap.scrollWidth > wrap.clientWidth) {
+      wrap.tabIndex = 0;
+      wrap.setAttribute("role", "region");
+      wrap.setAttribute("aria-label", `Table ${index + 1} of ${wraps.length}, scrolls sideways`);
+    } else {
+      wrap.removeAttribute("tabindex");
+      wrap.removeAttribute("role");
+      wrap.removeAttribute("aria-label");
+    }
+  });
 }
 
 function describeArgs(args) {
@@ -255,6 +269,7 @@ async function ask({ message = "", calls = [], label }) {
 
   let text = "";
   let pending = false;
+  let finished = false;
   const stepItems = [];
   const draw = () => {
     pending = false;
@@ -262,6 +277,7 @@ async function ask({ message = "", calls = [], label }) {
   };
   const fail = (messageText) => {
     view.body.classList.remove("typing");
+    markScrollers(view.body);
     view.card.append(el("div", { class: "error", role: "alert", text: messageText }));
   };
 
@@ -297,12 +313,15 @@ async function ask({ message = "", calls = [], label }) {
         text += data.text;
         if (!pending) {
           pending = true;
-          requestAnimationFrame(draw);
+          // A frame queued before "done" must not redraw over the finished, marked-up answer.
+          requestAnimationFrame(() => { if (!finished) draw(); });
         }
       } else if (event === "done") {
         text = data.text;
+        finished = true;
         draw();
         view.body.classList.remove("typing");
+        markScrollers(view.body);
         if (message && !calls.length && state.info?.model) {
           state.history.push({ role: "user", text: message }, { role: "model", text: data.text.slice(0, MAX_TURN_CHARS) });
           state.history = state.history.slice(-MAX_TURNS);
@@ -473,7 +492,10 @@ function setUpMicrophone(submit) {
     };
     recognition.onerror = (event) => {
       sendWhenDone = false;
-      if (event.error === "not-allowed") box.placeholder = "Microphone access was refused";
+      if (event.error === "not-allowed") {
+        hintFollowsWidth = false; // keep this message when the screen is rotated
+        box.placeholder = "Microphone access was refused";
+      }
     };
     sendWhenDone = false;
     button.classList.add("listening");
@@ -516,6 +538,10 @@ function setUpHint() {
   };
   narrow.addEventListener("change", update);
   update();
+  // Tables may start or stop overflowing when the width changes (rotating a phone).
+  addEventListener("resize", () => {
+    for (const body of document.querySelectorAll(".answer .body:not(.typing)")) markScrollers(body);
+  });
 }
 
 async function start() {
