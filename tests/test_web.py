@@ -1,8 +1,10 @@
 """The chat page and POST /chat, with a fake model: no network and no key."""
 
 import json
+import re
 import shutil
 from datetime import date
+from pathlib import Path
 
 import pytest
 from fastapi.testclient import TestClient
@@ -290,3 +292,13 @@ def test_picker_tool_error_ends_with_an_error_event(web):
 
 def test_empty_question_is_refused(web):
     assert web.post("/chat", json={"message": "  "}).status_code == 422
+
+
+def test_the_page_keeps_its_history_within_the_server_limits():
+    # The page trims its history to these numbers; if the server's limits drift below them, a
+    # long conversation starts failing with 422 until the page is reloaded.
+    script = (Path(server.__file__).parent / "static" / "app.js").read_text(encoding="utf-8")
+    turns = int(re.search(r"const MAX_TURNS = (\d+);", script)[1])
+    chars = int(re.search(r"const MAX_TURN_CHARS = (\d+);", script)[1])
+    history = [{"role": "user", "text": "x" * chars}] * turns
+    server.ChatRequest(message="x", history=history)  # accepted, no ValidationError

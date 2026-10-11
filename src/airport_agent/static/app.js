@@ -4,6 +4,11 @@
 "use strict";
 
 const $ = (selector) => document.querySelector(selector);
+// The server accepts at most 40 earlier turns of 20,000 characters each (ChatRequest in server.py):
+// keep the most recent ones, so a long conversation never starts failing.
+const MAX_TURNS = 40;
+const MAX_TURN_CHARS = 20000;
+
 const state = { info: null, version: "latest", history: [], busy: false };
 
 const STEP_LABELS = {
@@ -274,7 +279,8 @@ async function ask({ message = "", calls = [], label }) {
         draw();
         view.body.classList.remove("typing");
         if (message && !calls.length && state.info?.model) {
-          state.history.push({ role: "user", text: message }, { role: "model", text: data.text });
+          state.history.push({ role: "user", text: message }, { role: "model", text: data.text.slice(0, MAX_TURN_CHARS) });
+          state.history = state.history.slice(-MAX_TURNS);
         }
       } else if (event === "error") {
         fail(data.message);
@@ -345,8 +351,9 @@ function setUpChoices(info) {
     note.textContent =
       "No model is connected (no Gemini API key on the server), so free-form questions are off. " +
       "The suggested questions and the picker still run the tools and show their results.";
-    $("#question").placeholder = "Free-form questions need the model";
-    $("#picker").open = true;
+    $("#question").placeholder = "Needs the model";
+    // Open on wide screens only: on a phone it would cover the suggested questions.
+    $("#picker").open = matchMedia("(min-width: 700px)").matches;
   }
   setBusy(false);
 }
@@ -476,10 +483,12 @@ async function start() {
   const submit = setUpQuestionBox();
   setUpPicker();
   $("#version").addEventListener("change", async (event) => {
+    const before = state.version;
     try {
       await loadInfo(event.target.value);
       $("#log").append(el("p", { class: "note", text: `Now answering from data version ${event.target.value}.` }));
     } catch (error) {
+      event.target.value = before; // keep showing the version the answers still come from
       $("#log").append(el("div", { class: "error", role: "alert", text: error.message }));
     }
   });

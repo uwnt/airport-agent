@@ -115,7 +115,7 @@ main { flex: 1; width: 100%; max-width: 56rem; margin: 0 auto; padding: 1.25rem;
 .body > :last-child { margin-bottom: 0; }
 .body table { border-collapse: collapse; display: block; overflow-x: auto; font-size: 0.9rem; }
 .body th, .body td { border: 1px solid var(--line); padding: 0.3rem 0.55rem; text-align: left; }
-.body pre { overflow-x: auto; background: var(--bg); padding: 0.6rem; border-radius: 8px; }
+.body pre { white-space: pre-wrap; overflow-wrap: anywhere; background: var(--bg); padding: 0.6rem; border-radius: 8px; }
 .body a { color: var(--accent); }
 .error {
   margin-top: 0.5rem; padding: 0.55rem 0.75rem; border-radius: 8px;
@@ -153,6 +153,7 @@ main { flex: 1; width: 100%; max-width: 56rem; margin: 0 auto; padding: 1.25rem;
 .how .table-wrap { overflow-x: auto; }
 .how table { border-collapse: collapse; margin: 0.35rem 0; font-size: 0.8rem; }
 .how th, .how td { border-bottom: 1px solid var(--line); padding: 0.2rem 0.5rem 0.2rem 0; text-align: left; vertical-align: top; }
+.how th, .how td:not(:nth-child(4)) { white-space: nowrap; } /* only the source column wraps; the table scrolls */
 .how pre { max-height: 18rem; overflow: auto; background: var(--bg); padding: 0.5rem; border-radius: 8px; }
 
 /* Composer and picker, docked at the bottom. */
