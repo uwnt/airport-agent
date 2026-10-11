@@ -76,6 +76,13 @@ def test_compare_needs_two_codes(run):
     assert "two or more" in run("compare_airports", codes=["BOS"])["error"]
 
 
+def test_compare_counts_airports_not_codes(run):
+    result = run("compare_airports", codes=["BOS", "KBOS"])
+    assert set(result) == {"error"}
+    assert "two or more different airports" in result["error"]
+    assert "BOS and KBOS are the same airport (BOS)" in result["error"]
+
+
 def test_profile_has_every_metric_with_source_and_missing_reasons(run):
     result = run("airport_profile", code="KBOS")
     assert result["code"] == "BOS" and result["ranked"] is True

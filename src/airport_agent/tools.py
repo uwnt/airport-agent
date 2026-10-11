@@ -204,8 +204,23 @@ def compare_airports(codes, preset=None, cache_dir=None, settings=None):
     """The ranking rows for two or more airports, side by side."""
     if isinstance(codes, str):
         codes = re.split(r"[,\s]+", codes)
-    if len([c for c in codes if str(c).strip()]) < 2:
-        raise ToolError("compare_airports needs two or more airport codes")
+    airports = {}  # IATA code -> the codes asked for that name it ("BOS", "KBOS")
+    for code in codes:
+        if not str(code).strip():
+            continue
+        try:
+            iata = airport_metrics(code, cache_dir).iata
+        except UnknownAirportError as error:
+            raise ToolError(str(error)) from None
+        airports.setdefault(iata, []).append(str(code).strip())
+    if len(airports) < 2:
+        same = [
+            f"{' and '.join(asked)} are the same airport ({iata})"
+            for iata, asked in airports.items()
+            if len(asked) > 1
+        ]
+        reason = f" ({'; '.join(same)})" if same else ""
+        raise ToolError(f"compare_airports needs two or more different airports{reason}")
     return rank_airports(codes=codes, preset=preset, cache_dir=cache_dir, settings=settings)
 
 
