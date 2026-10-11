@@ -120,7 +120,8 @@ function rankingView(name, result) {
     const strainText = strainParts
       .map(([label, s]) => `${label} ${s && "points" in s ? s.points : "missing"}`)
       .join(", ");
-    const frictionText = penalty ? `−${penalty} (${row.friction.name})` : "none";
+    const stale = row.friction.stale ? `, ${row.friction.stale_note}` : "";
+    const frictionText = penalty ? `−${penalty} (${row.friction.name}${stale})` : "none";
     bar.setAttribute(
       "aria-label",
       `${row.code}: score ${row.score}. Strain points: ${strainText}. ` +
