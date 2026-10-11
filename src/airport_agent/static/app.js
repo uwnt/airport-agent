@@ -35,7 +35,29 @@ function el(tag, attrs = {}, ...children) {
 }
 
 function render(markdown) {
-  return DOMPurify.sanitize(marked.parse(markdown || ""));
+  const clean = DOMPurify.sanitize(marked.parse(markdown || ""), { RETURN_DOM_FRAGMENT: true });
+  // Added after sanitising (never allowed through it): each table gets a scrolling, focusable
+  // wrapper, because Safari does not let a keyboard user focus a scroller on their own, and
+  // columns of short values (rank, counts) are marked so they do not get the wide text floor.
+  for (const table of clean.querySelectorAll("table")) {
+    const wrap = document.createElement("div");
+    wrap.className = "table-wrap";
+    wrap.tabIndex = 0;
+    wrap.setAttribute("role", "region");
+    wrap.setAttribute("aria-label", "Table, scrolls sideways");
+    table.replaceWith(wrap);
+    wrap.append(table);
+    const rows = [...table.rows];
+    const columns = Math.max(0, ...rows.map((r) => r.cells.length));
+    for (let c = 0; c < columns; c++) {
+      const cells = rows.map((r) => r.cells[c]).filter(Boolean);
+      const data = cells.filter((cell) => cell.tagName === "TD");
+      if (data.length && data.every((cell) => cell.textContent.trim().length <= 6)) {
+        for (const cell of cells) cell.classList.add("short");
+      }
+    }
+  }
+  return clean;
 }
 
 function describeArgs(args) {
@@ -236,7 +258,7 @@ async function ask({ message = "", calls = [], label }) {
   const stepItems = [];
   const draw = () => {
     pending = false;
-    view.body.innerHTML = render(text);
+    view.body.replaceChildren(render(text));
   };
   const fail = (messageText) => {
     view.body.classList.remove("typing");
@@ -355,6 +377,7 @@ function setUpChoices(info) {
       "No model is connected (no Gemini API key on the server), so free-form questions are off. " +
       "The suggested questions and the picker still run the tools and show their results.";
     $("#question").placeholder = "Needs the model";
+    hintFollowsWidth = false;
     // Open on wide screens only: on a phone it would cover the suggested questions.
     $("#picker").open = matchMedia("(min-width: 700px)").matches;
   }
@@ -482,7 +505,21 @@ function setUpMicrophone(submit) {
 
 // --- Start ------------------------------------------------------------------------------------
 
+// The full hint is in index.html; a phone gets a shorter one so it never wraps onto a hidden line.
+let hintFollowsWidth = true;
+function setUpHint() {
+  const box = $("#question");
+  const full = box.placeholder;
+  const narrow = matchMedia("(max-width: 700px)");
+  const update = () => {
+    if (hintFollowsWidth) box.placeholder = narrow.matches ? "Ask about airports…" : full;
+  };
+  narrow.addEventListener("change", update);
+  update();
+}
+
 async function start() {
+  setUpHint();
   const submit = setUpQuestionBox();
   setUpPicker();
   $("#version").addEventListener("change", async (event) => {

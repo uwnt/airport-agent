@@ -120,7 +120,7 @@ def test_page_loads_no_third_party_files(web):
 def test_markdown_is_always_sanitised(web):
     script = web.get("/static/app.js").text
     assert "DOMPurify.sanitize(marked.parse(" in script
-    assert script.count("innerHTML") == 1  # only the sanitised render
+    assert "innerHTML" not in script  # the sanitised render is the only way markup gets in
 
 
 def test_region_choices_are_known_regions():
@@ -309,3 +309,14 @@ def test_picker_arguments_are_size_limited():
     with pytest.raises(ValueError, match="under 1000 characters"):
         server.ChatRequest(**big)
     server.ChatRequest(calls=[{"name": "rank_airports", "args": {"region": "New England"}}])
+
+
+def test_tables_scroll_by_keyboard_and_short_hint_is_set_from_script():
+    # Answer tables get a focusable, named scroll wrapper after sanitising, and the narrow-screen
+    # hint comes from script, not from a ::placeholder rule browsers do not all honour.
+    static = Path(server.__file__).parent / "static"
+    script = (static / "app.js").read_text(encoding="utf-8")
+    css = (static / "app.css").read_text(encoding="utf-8")
+    assert script.index("DOMPurify.sanitize") < script.index("wrap.tabIndex = 0")
+    assert 'setAttribute("aria-label"' in script and "matchMedia" in script
+    assert "::placeholder" not in css
