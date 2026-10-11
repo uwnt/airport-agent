@@ -42,7 +42,8 @@ The owner is building this to learn and will defend it in a follow-up call. For 
 
 ## Rules for this repo
 - **The repo will be public.** Nothing in it may reveal secrets, internal server details or other
-  projects. No internal server paths, internal issue numbers, or names of other projects in files, commits,
+  projects. No internal server paths, internal issue numbers, or names of other projects or organisations
+  (the owner's own GitHub account name excepted) in files, commits,
   issues or PRs. Before every push, and before posting any issue, PR or comment text, check it:
   `grep -n -i -E -f .git/info/leak-patterns <files or text>` must print nothing. Reviewer agents
   carry server-wide rules, so rewrite their findings in plain words before posting.
