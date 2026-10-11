@@ -61,28 +61,39 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
 - Revisit if: the work moves from a demo to real client use.
 
 ## D7: What the score measures (signals)
-- Chose: two scored dimensions. **Strain**: airspace (NAS) delay minutes per landed flight and the
-  cancellation rate (BTS On-Time, diverted flights excluded), and the fare premium versus markets of
+- Chose: two scored dimensions. **Strain**: delay minutes per landed flight on flights into the
+  airport from BTS's "National Aviation System" (NAS) cause (airport and airspace, as BTS defines
+  it), the cancellation rate (diverted flights excluded), and the fare premium versus markets of
   similar distance (DOT Table 1a). **Growth**: passengers per day versus the same quarter of 2019
   (DOT Table 1a). Friction (D10) is subtracted.
+- Time windows: Strain uses the latest 12 months of BTS data (now Aug 2025 to Jul 2026), so one odd
+  month can't drive the ranking. Growth compares the latest DOT quarter with the same quarter of 2019.
+- Fare premium: the airport's passenger-weighted average fare per mile, divided by the national
+  average fare per mile for markets in the same distance band (0–500, 500–1,000, 1,000–1,500 and
+  over 1,500 miles).
 - Over: carrier concentration in the score (one dominant airline can mean captive demand or a risk,
   so its direction can't be defended; it is shown in answers, not scored); raw passenger volume
-  (size is not promise; it feeds confidence instead, D12); delay alone (it can't tell LAX from SNA,
-  both about 2.2 min).
+  (size is not promise); delay alone (it can't tell LAX from SNA: 2.3 vs 2.2 min in July 2026).
 - Because: "demand is outgrowing capacity" needs both a sign of overload today and a sign demand is
   rising, and these are the measured signals the free sources give us.
 - Revisit if: a free source gives gate or terminal capacity, which would measure strain directly.
 
 ## D8: Combine signals as a weighted sum of percentile ranks
-- Chose: each signal becomes a 0–100 percentile rank across the airports in scope, then a weighted sum.
+- Chose: each signal becomes a 0–100 percentile rank across every airport in scope (D11), including
+  Low-confidence ones; ties share the average rank. The ranks are combined as a weighted sum.
+- Missing signal: its weight is spread over the airport's other signals in proportion to their
+  weights, and the airport is flagged Low confidence with the missing signal named (D12).
 - Over: z-scores (keep real distances, but one outlier such as EWR's 8% cancellations stretches the
-  scale for everyone); a multiplicative score (one missing or zero signal wipes out the score).
+  scale for everyone); a multiplicative score (one missing or zero signal wipes out the score);
+  scoring a missing signal as 0 (a data gap would look like a real weakness).
 - Because: robust to outliers and easy to say out loud ("SFO is in the 95th percentile for delay").
 - Revisit if: analysts need to know how far apart two airports really are, not just their order.
 
 ## D9: Weights and presets, all in config/scoring.yaml
 - Chose: Balanced = Strain 50 / Growth 50 (the default). Growth-focused = 30 / 70.
-  Congestion-focused = 70 / 30. Inside Strain: delay 50, cancellations 25, fare premium 25.
+  Congestion-focused = 70 / 30. Inside Strain: delay 50, cancellations 25, fare premium 25. Presets
+  change only the Strain/Growth split; the mix inside Strain stays the same. So under Balanced,
+  delay counts 25% of the score, cancellations 12.5% and fare premium 12.5%.
 - Over: one fixed set (can't answer "rank by growth instead"); equal thirds inside Strain (treats
   fare premium, an indirect signal, the same as measured delay).
 - Because: equal weight is the easiest split to defend (both strain and growth are needed), and named
@@ -92,43 +103,51 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
 
 ## D10: Friction is a sourced penalty from a curated file
 - Chose: `data/constraints.yaml`, one entry per airport, each constraint with a source link and a
-  penalty of 10 (minor, e.g. a curfew), 20 (major) or 30 (a hard cap) points off the 0–100 score.
-  Only facts marked ✅ in `docs/DOMAIN_NOTES.md` qualify. No entry = no penalty, shown as "none on file".
-- Over: no friction in the score (SNA would rank as if it could grow freely); penalties hard-coded in
-  Python (same numbers, invisible to a reviewer).
+  tier: minor (10 points, e.g. a curfew), major (20) or hard cap (30), taken off the 0–100 score.
+  The owner assigns each tier. If an airport has several constraints, only the largest penalty
+  counts, because constraints overlap (SNA: passenger cap 30 and curfew 10, so 30). The score never
+  goes below 0. Only facts marked ✅ in `docs/DOMAIN_NOTES.md` qualify. No entry means no penalty,
+  shown as "none on file".
+- Over: no friction in the score (SNA would rank as if it could grow freely); adding penalties
+  together (overlapping limits count twice); penalties hard-coded in Python (same numbers, invisible
+  to a reviewer).
 - Because: it is a judgement input, so it must be visible, sourced and easy to change. The design doc
   says it is judgement.
-- Open: how several constraints at one airport combine (sum or the largest), settled when the
-  scoring is built.
-- Revisit if: the file grows beyond what one person can check.
+- Revisit if: penalties of 30 move airports more than the signals do. Percentile scores cluster near
+  the middle, so check the spread once real scores exist.
 
 ## D11: Scope: commercial airports in DOT Table 1a, lower 48
-- Chose: rank airports with commercial service in DOT Table 1a in the lower 48. Alaska is answered
-  only through OpenSky questions (no score). Out of scope: cargo economics, financing, airline
-  strategy, construction cost; the agent says so and offers what it can do.
-- Over: including Alaska and Hawaii (DOT has no Anchorage rows, so they'd rank with missing signals);
-  only the top 50 hubs (drops New England airports Q1 asks about).
-- Because: one consistent data source for every ranked airport keeps the ranks comparable. Small
-  airports stay in, flagged by D12 rather than dropped.
-- Revisit if: a source with Alaska and Hawaii fare data appears.
+- Chose: rank airports with commercial service in DOT Table 1a in the lower 48. Alaska and Hawaii are
+  not ranked; Anchorage is answered only through OpenSky questions (D13). Out of scope: cargo
+  economics, financing, airline strategy, construction cost; the agent says so and offers what it can
+  do.
+- Over: including Alaska (DOT Table 1a has no Anchorage rows, so it would rank with missing signals);
+  only the top 50 hubs (drops the New England airports Q1 asks about).
+- Because: the same data sources for every ranked airport keep the ranks comparable. Small airports
+  stay in, flagged by D12 rather than dropped.
+- Revisit if: the analysts ask about Hawaii, or a source with Alaska fare data appears.
 
 ## D12: Confidence flag for thin data
-- Chose: an airport is **Low confidence** if any scoring signal is missing or it has fewer than 10
-  markets in the DOT table. The score is still shown, with the flag and the reason. The threshold
-  is in `config/scoring.yaml`.
+- Chose: an airport is **Low confidence** if any scoring signal is missing, or if it has fewer than
+  10 markets (distinct airport pairs in DOT Table 1a for the latest quarter). The score is still
+  shown, with the flag and the reason. The threshold is in `config/scoring.yaml`.
 - Over: dropping thin airports (New England's small airports would vanish from Q1).
-- Because: an analyst should see the airport and know how much to trust its number.
+- Because: Table 1a lists only the busiest markets, so few listed markets means the fare and growth
+  numbers rest on a small part of the airport's traffic. An analyst should see the airport and know
+  how much to trust its number.
 - Revisit if: most airports in a region end up flagged.
 
 ## D13: Anchorage long-haul share (OpenSky)
-- Chose: count only flights by a fixed list of passenger-airline callsign prefixes; drop
-  same-airport and short local hops; "long-haul" = over 1,500 miles great-circle distance (from
-  OurAirports coordinates). Flights with no known destination (~14%) are reported separately, never
-  guessed.
-- Over: 3,000 miles (a tiny share that's hard to compare); counting every non-local flight (mixes
-  cargo and private flights into a passenger question).
-- Because: 1,500 miles is roughly Anchorage to Seattle and beyond, the natural line between in-state
-  and long-haul flying. The filter uses only what the data shows.
+- Chose: share = long-haul departures ÷ departures with a known destination, counting only
+  passenger airlines (a fixed list of callsign prefixes). Same-airport flights and destinations under
+  100 miles are dropped. "Long-haul" = over 1,400 miles great-circle distance (from OurAirports
+  coordinates). Flights with no known destination (~14% in the sample) are reported separately with
+  their count, never guessed.
+- Over: 1,500 miles (would leave out Seattle, about 1,445 miles away and the main route to the lower
+  48); "destination outside Alaska" (that's leaving the state, not distance); counting every flight
+  (mixes cargo and private flights into a passenger question).
+- Because: 1,400 miles sits just below Seattle. Every flight to the lower 48, Hawaii or Asia counts;
+  every in-state flight (Fairbanks about 260 miles, Juneau about 570) and nearby Canada does not.
 - Revisit if: OpenSky's destination estimates prove unreliable on a second sample.
 
 ## D14: When a domain fact counts as verified
@@ -142,8 +161,9 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
 - Revisit if: a primary source changes (the SNA settlement runs only to the end of 2030).
 
 ## D15: No retrieval (RAG) layer
-- Chose: no document index or vector database. Numbers come from tools over tables; the ten verified
-  facts come from a small lookup by airport.
+- Chose: no document index or vector database. Numbers come from tools over tables; the verified
+  domain facts (nine of ten today) come from a small lookup tool, by airport or by topic (such as
+  the PFC cap or how old BTS data is).
 - Over: RAG (split documents into chunks, find similar ones, paste them into the prompt).
 - Because: our data is structured numbers plus a short fact list. Retrieval would add a search step
   that can miss or blur passages, which works against "every number from a tool".
