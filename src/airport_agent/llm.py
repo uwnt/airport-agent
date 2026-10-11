@@ -11,6 +11,12 @@ How a question is answered (`ChatSession.send`):
    tools have run for this question (then it stops with a plain message).
 3. The answer and the history stay, so a follow-up ("and what about Hartford?") has context.
 
+Streaming (the web chat): `send(text, on_event=...)` reports each step as it happens, as
+`on_event(kind, data)`: "tool_start" (name, args) before a tool runs, "tool_result" (name, args,
+result) after it, and "text" (a piece of the answer) as the model writes it. With a listener the
+model call streams (`stream=True`) and its steps are put back together from the stream's events
+(`assemble_steps`), so the history is the same as without streaming.
+
 Settings come from the environment, each with a default:
 - GEMINI_API_KEY: the key; without it there is no model (the CLI offers fixed questions instead).
 - GEMINI_MODEL: default `gemini-3.8-flash` (Flash tier, stable). A Pro-tier alternative is
@@ -24,7 +30,11 @@ SDK calls follow Google's docs, read 2026-10-11 (google-genai 2.29.0): the Inter
 `client.interactions.create(model=..., input=history, tools=..., system_instruction=...,
 generation_config={"max_output_tokens": ..., "thinking_level": ...}, store=False)`; the
 response's `steps` include `function_call` steps (id, name, arguments), answered with
-`function_result` steps.
+`function_result` steps. Streaming (`stream=True`) yields events: `step.start` (the step's type;
+for a function call also its id and name), `step.delta` (`text`, `thought_signature`, or
+`arguments_delta`: a piece of the arguments' JSON, to be joined), `step.stop`,
+`interaction.completed` (no steps in it) and `error`.
+- https://ai.google.dev/gemini-api/docs/streaming
 - https://ai.google.dev/gemini-api/docs/function-calling
 - https://ai.google.dev/gemini-api/docs/models
 - https://googleapis.github.io/python-genai/
@@ -125,8 +135,9 @@ class GeminiClient:
         # Reads GEMINI_API_KEY from the environment.
         self.client = genai.Client(http_options=types.HttpOptions(retry_options=RETRY))
 
-    def next_steps(self, history, tools, system_prompt):
-        interaction = self.client.interactions.create(
+    def next_steps(self, history, tools, system_prompt, on_text=None):
+        """The model's next steps; with `on_text`, streamed, calling it with each piece of text."""
+        request = dict(
             model=self.settings.model,
             input=history,
             tools=tools,
@@ -138,7 +149,65 @@ class GeminiClient:
             store=False,
             timeout=self.settings.timeout_seconds,
         )
-        return [step.model_dump(mode="json", exclude_none=True) for step in interaction.steps]
+        if on_text is None:
+            interaction = self.client.interactions.create(**request)
+            return [step.model_dump(mode="json", exclude_none=True) for step in interaction.steps]
+        stream = self.client.interactions.create(**request, stream=True)
+        events = (event.model_dump(mode="json", exclude_none=True) for event in stream)
+        return assemble_steps(events, on_text)
+
+
+class ModelError(RuntimeError):
+    """The model reported an error in the middle of a streamed answer."""
+
+
+def assemble_steps(events, on_text):
+    """Join a stream's events (dicts) back into whole steps, as a non-streamed call returns them.
+
+    Each piece of answer text is also passed to `on_text` as it arrives. Function-call arguments
+    arrive as pieces of one JSON text and are decoded once the stream has ended.
+    """
+    steps, arguments = {}, {}
+    for event in events:
+        kind = event.get("event_type")
+        if kind == "error":
+            raise ModelError((event.get("error") or {}).get("message") or "the model failed")
+        index = event.get("index")
+        if kind == "step.start":
+            steps[index] = dict(event.get("step") or {})
+        elif kind == "step.delta":
+            step, delta = steps.setdefault(index, {}), event.get("delta") or {}
+            if delta.get("type") == "text":
+                piece = delta.get("text", "")
+                content = step.setdefault("content", [])
+                if not content or content[-1].get("type") != "text":
+                    content.append({"type": "text", "text": ""})
+                content[-1]["text"] += piece
+                if piece and step.get("type") == "model_output":
+                    on_text(piece)
+            elif delta.get("type") == "thought_signature":
+                step["signature"] = step.get("signature", "") + (delta.get("signature") or "")
+            elif delta.get("type") == "arguments_delta":
+                arguments[index] = arguments.get(index, "") + (delta.get("arguments") or "")
+    for index, text in arguments.items():
+        if text.strip():
+            steps[index]["arguments"] = json.loads(text)
+    return [steps[i] for i in sorted(steps)]
+
+
+def history_from_turns(turns):
+    """A conversation's earlier turns, as plain text, in the model's history format.
+
+    `turns` is a list of {"role": "user" or "model", "text": ...}: what the web page keeps and
+    sends back with each question, since the server keeps no conversation state. Only the text
+    is kept, not earlier tool results, so the model calls tools again for a follow-up's numbers.
+    """
+    kinds = {"user": "user_input", "model": "model_output"}
+    return [
+        {"type": kinds[t["role"]], "content": [{"type": "text", "text": t["text"]}]}
+        for t in turns
+        if t.get("role") in kinds and t.get("text")
+    ]
 
 
 @dataclass
@@ -193,26 +262,38 @@ class ChatSession:
     def reset(self):
         self.history = []
 
-    def send(self, user_text):
+    def send(self, user_text, on_event=None):
         """Answer one user message; returns an Answer with the text and the tools it ran.
 
+        `on_event(kind, data)`, if given, hears each step as it happens (see the module notes).
         If the model call fails, the history goes back to before this message and the error is
         raised, so the next message starts from a clean conversation.
         """
         start = len(self.history)
         try:
-            return self._answer(user_text)
+            return self._answer(user_text, on_event)
         except Exception:
             del self.history[start:]
             raise
 
-    def _answer(self, user_text):
+    def _next_steps(self, on_event):
+        if on_event is None:
+            return self.client.next_steps(self.history, self.tools, self.system_prompt)
+        return self.client.next_steps(
+            self.history,
+            self.tools,
+            self.system_prompt,
+            on_text=lambda piece: on_event("text", {"text": piece}),
+        )
+
+    def _answer(self, user_text, on_event=None):
+        tell = on_event or (lambda kind, data: None)
         self.history.append(
             {"type": "user_input", "content": [{"type": "text", "text": user_text}]}
         )
         calls = []
         while True:
-            steps = self.client.next_steps(self.history, self.tools, self.system_prompt)
+            steps = self._next_steps(on_event)
             self.history.extend(steps)
             requested = [s for s in steps if s.get("type") == "function_call"]
             if not requested:
@@ -221,7 +302,9 @@ class ChatSession:
                 if len(calls) >= self.settings.max_tool_calls:
                     return self._stop_at_limit(requested, call, calls)
                 args = call.get("arguments") or {}
+                tell("tool_start", {"name": call["name"], "args": args})
                 result = self.run_tool(call["name"], args)
+                tell("tool_result", {"name": call["name"], "args": args, "result": result})
                 calls.append(ToolCall(call["name"], args, result))
                 self.history.append(_result_step(call, result))
 
