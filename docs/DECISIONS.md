@@ -282,3 +282,35 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
 - Because: answers must come back fast enough for a live demo, and every limit is visible and
   changeable without code.
 - Revisit if: Step 7 shows the Pro tier answers the four questions clearly better.
+
+## D23: Every verified fact and penalty is dated, and stale ones are flagged
+- Chose: each verified fact in `docs/DOMAIN_NOTES.md` and each penalty in `data/constraints.yaml`
+  carries `checked` (when it was verified) and `review_by` (when it must be re-checked). Rules and
+  agreements are due on their known end date (the SNA passenger cap and curfew: 31 Dec 2030, when
+  the settlement agreement ends; the curfew itself runs to 2035, and the sooner date is used);
+  physical facts and statistics one year after checking. A penalty is due when its earliest note
+  is. After `review_by` the agent says the fact may be out of date and the tables mark the penalty
+  "stale"; the penalty still applies.
+- Over: undated facts (an answer could state a years-old rule as current); dropping a penalty once
+  stale (one missed re-check would silently change the ranking); watching the sources
+  automatically now (a separate, later step).
+- Because: a verified fact is a snapshot of the day it was checked, like the data; old facts must
+  be visibly old.
+- Revisit if: a rule changes before its review date, or the source watch is built.
+
+## D24: How the web chat behaves
+- Chose: a one-page chat with no framework or build step, streaming each tool step and the answer
+  as server-sent events; the server keeps no conversation state. Follow-up questions send earlier
+  turns as text only, so the tools run again rather than reusing old results. A tool that returns
+  an error shows as a failed step and the model still answers; a crash ends the answer with an
+  error message. A data source is marked stale (amber) when its data ends more than 18 months
+  before today, or before the snapshot's own date for older snapshots
+  (`freshness.stale_after_months` in `config/sources.yaml`). The over-time question picks its two
+  versions itself and ignores the version picker. The rank / compare / profile picker also works
+  when a key is set, and its results stay out of the chat history.
+- Over: reusing earlier tool results in follow-ups (a follow-up could quote numbers from another
+  data version); a framework with a build step (more to install and explain for one page);
+  keeping conversations on the server (state to store and clean up).
+- Because: every number on screen must come from a tool run for that question, and the page must
+  stay simple enough to change live.
+- Revisit if: follow-ups get slow or costly because the tools run again.
