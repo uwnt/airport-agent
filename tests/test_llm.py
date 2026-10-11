@@ -287,3 +287,90 @@ def test_history_from_turns_keeps_only_text_turns():
         {"type": "user_input", "content": [{"type": "text", "text": "Rank New England."}]},
         text("BOS leads."),
     ]
+
+
+# --- Token usage ------------------------------------------------------------------------------
+
+
+def test_usage_of_every_model_call_is_added_up_into_the_answer():
+    class CountingModel(FakeModel):
+        def next_steps(self, history, tools, system_prompt):
+            n = len(self.seen) + 1
+            self.last_usage = {"total_input_tokens": 100 * n, "total_output_tokens": n}
+            return super().next_steps(history, tools, system_prompt)
+
+    model = CountingModel([call("rank_airports", {}, "c1")], [text("BOS.")])
+    answer = session(model).send("Rank?")
+    assert answer.usage == {"total_input_tokens": 300, "total_output_tokens": 3}
+
+
+def test_a_model_that_reports_no_usage_gives_empty_usage():
+    assert session(FakeModel([text("hi")])).send("hello").usage == {}
+
+
+def test_usage_counts_keeps_only_the_whole_number_totals():
+    from airport_agent.llm import add_usage, usage_counts
+
+    raw = {
+        "total_input_tokens": 10,
+        "total_thought_tokens": 4,
+        "input_tokens_by_modality": [{"modality": "text", "tokens": 10}],
+        "total_output_tokens": None,
+    }
+    assert usage_counts(raw) == {"total_input_tokens": 10, "total_thought_tokens": 4}
+    assert usage_counts(None) == {}
+    assert add_usage({"total_input_tokens": 5}, raw) == {
+        "total_input_tokens": 15,
+        "total_thought_tokens": 4,
+    }
+
+
+def test_streamed_usage_comes_from_the_completed_event():
+    from airport_agent.llm import assemble_steps
+
+    events = [
+        {"event_type": "step.start", "index": 0, "step": {"type": "model_output"}},
+        {"event_type": "step.delta", "index": 0, "delta": {"type": "text", "text": "Hi"}},
+        {
+            "event_type": "interaction.completed",
+            "interaction": {
+                "status": "completed",
+                "usage": {"total_input_tokens": 7, "total_output_tokens": 2, "total_tokens": 9},
+            },
+        },
+    ]
+    usage = {}
+    assert assemble_steps(events, lambda piece: None, usage=usage) == [text("Hi")]
+    assert usage == {"total_input_tokens": 7, "total_output_tokens": 2, "total_tokens": 9}
+
+
+def test_client_keeps_the_last_calls_usage_streamed_or_not():
+    from airport_agent.llm import GeminiClient
+
+    class Dumpable:
+        def __init__(self, data):
+            self.data = data
+
+        def model_dump(self, **kwargs):
+            return self.data
+
+    class Interactions:
+        def create(self, stream=False, **request):
+            if stream:
+                return [
+                    Dumpable(
+                        {
+                            "event_type": "interaction.completed",
+                            "interaction": {"usage": {"total_output_tokens": 3}},
+                        }
+                    )
+                ]
+            return Dumpable({"steps": [text("Hi")], "usage": {"total_input_tokens": 11}})
+
+    client = GeminiClient.__new__(GeminiClient)
+    client.settings = Settings("fake-model", 100, 8, 1)
+    client.client = type("Fake", (), {"interactions": Interactions()})()
+    assert client.next_steps([], [], "prompt") == [text("Hi")]
+    assert client.last_usage == {"total_input_tokens": 11}
+    client.next_steps([], [], "prompt", on_text=lambda piece: None)
+    assert client.last_usage == {"total_output_tokens": 3}
