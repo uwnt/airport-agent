@@ -68,9 +68,13 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
   (DOT Table 1a). Friction (D10) is subtracted.
 - Time windows: Strain uses the latest 12 months of BTS data (now Aug 2025 to Jul 2026), so one odd
   month can't drive the ranking. Growth compares the latest DOT quarter with the same quarter of 2019.
-- Fare premium: the airport's passenger-weighted average fare per mile, divided by the national
-  average fare per mile for markets in the same distance band (0–500, 500–1,000, 1,000–1,500 and
-  over 1,500 miles).
+- Fare premium (latest DOT quarter): for each of the airport's markets, its fare per mile divided by
+  the national average fare per mile for markets in the same distance band (0–500, 500–1,000,
+  1,000–1,500 and over 1,500 miles); then the passenger-weighted average of those ratios across the
+  airport's markets. 1.0 means fares are normal for those distances; 1.2 means 20% above.
+- Growth: percent change in the airport's total passengers per day (summed over all its Table 1a
+  markets in each period, whichever pairs are listed) between the latest quarter and the same
+  quarter of 2019. Percent, not absolute, so small and large airports compare fairly.
 - Over: carrier concentration in the score (one dominant airline can mean captive demand or a risk,
   so its direction can't be defended; it is shown in answers, not scored); raw passenger volume
   (size is not promise); delay alone (it can't tell LAX from SNA: 2.3 vs 2.2 min in July 2026).
@@ -80,7 +84,8 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
 
 ## D8: Combine signals as a weighted sum of percentile ranks
 - Chose: each signal becomes a 0–100 percentile rank across every airport in scope (D11), including
-  Low-confidence ones; ties share the average rank. The ranks are combined as a weighted sum.
+  Low-confidence ones: rank ÷ number of airports × 100, so the top airport scores 100; ties share
+  the average rank. For cancellations, delay, fare premium and growth, higher means more promising. The ranks are combined as a weighted sum.
 - Missing signal: its weight is spread over the airport's other signals in proportion to their
   weights, and the airport is flagged Low confidence with the missing signal named (D12).
 - Over: z-scores (keep real distances, but one outlier such as EWR's 8% cancellations stretches the
@@ -122,7 +127,7 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
   economics, financing, airline strategy, construction cost; the agent says so and offers what it can
   do.
 - Over: including Alaska (DOT Table 1a has no Anchorage rows, so it would rank with missing signals);
-  only the top 50 hubs (drops the New England airports Q1 asks about).
+  only the top 50 hubs (drops the New England airports the first example question asks about).
 - Because: the same data sources for every ranked airport keep the ranks comparable. Small airports
   stay in, flagged by D12 rather than dropped.
 - Revisit if: the analysts ask about Hawaii, or a source with Alaska fare data appears.
@@ -131,7 +136,7 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
 - Chose: an airport is **Low confidence** if any scoring signal is missing, or if it has fewer than
   10 markets (distinct airport pairs in DOT Table 1a for the latest quarter). The score is still
   shown, with the flag and the reason. The threshold is in `config/scoring.yaml`.
-- Over: dropping thin airports (New England's small airports would vanish from Q1).
+- Over: dropping thin airports (New England's small airports would vanish from the New England question).
 - Because: Table 1a lists only the busiest markets, so few listed markets means the fare and growth
   numbers rest on a small part of the airport's traffic. An analyst should see the airport and know
   how much to trust its number.
@@ -139,15 +144,17 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
 
 ## D13: Anchorage long-haul share (OpenSky)
 - Chose: share = long-haul departures ÷ departures with a known destination, counting only
-  passenger airlines (a fixed list of callsign prefixes). Same-airport flights and destinations under
-  100 miles are dropped. "Long-haul" = over 1,400 miles great-circle distance (from OurAirports
+  passenger airlines (a fixed list of callsign prefixes, kept in configuration and set when the data
+  layer is built). Same-airport flights and destinations 100 miles or closer are dropped. "Long-haul" = over 1,400 miles great-circle distance (from OurAirports
   coordinates). Flights with no known destination (~14% in the sample) are reported separately with
   their count, never guessed.
 - Over: 1,500 miles (would leave out Seattle, about 1,445 miles away and the main route to the lower
   48); "destination outside Alaska" (that's leaving the state, not distance); counting every flight
   (mixes cargo and private flights into a passenger question).
-- Because: 1,400 miles sits just below Seattle. Every flight to the lower 48, Hawaii or Asia counts;
-  every in-state flight (Fairbanks about 260 miles, Juneau about 570) and nearby Canada does not.
+- Because: 1,400 miles sits just below Seattle, so the main routes to the lower 48, Hawaii and Asia
+  count (a few small airports in northwest Washington fall just under the line);
+  every in-state flight (Fairbanks about 260 miles, Juneau about 570) and Whitehorse or Vancouver
+  do not.
 - Revisit if: OpenSky's destination estimates prove unreliable on a second sample.
 
 ## D14: When a domain fact counts as verified
@@ -155,7 +162,7 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
   as fact. The LAX 2025 passenger figure stays unconfirmed (⬜, "reportedly") until it's opened on
   LAWA's own page, because it was read through a search index.
 - Over: keeping all corrected facts unverified (the SNA cap and SFO runway facts are central to two
-  of the four example questions).
+  of the brief's four example questions: LAX vs SNA, and unmet demand at SFO).
 - Because: the check against the primary source is what makes a fact safe to state; needing a
   correction shows the check worked.
 - Revisit if: a primary source changes (the SNA settlement runs only to the end of 2030).
