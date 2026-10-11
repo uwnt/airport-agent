@@ -14,6 +14,8 @@ OUT = Path("data/samples/ourairports_us_scheduled.csv")
 KEEP = [
     "iata_code",
     "icao_code",
+    "ident",
+    "gps_code",
     "name",
     "type",
     "iso_region",

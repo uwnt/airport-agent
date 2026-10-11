@@ -1,7 +1,9 @@
 """Spike: summarise one month of BTS On-Time Performance per arrival airport and save the summary.
 
 The raw month (~32 MB ZIP) is cached in data/cache/ and never committed; only the per-airport
-summary goes to data/samples/. Delay causes are recorded on arriving flights, so we group by Dest.
+summary goes to data/samples/. Delay causes are recorded on the arriving flight, so we group by
+Dest: this is "delay on flights into X", whatever the cause's location. Cancelled flights have no
+delay minutes, so delay averages divide by flights that landed; cancellations are a separate rate.
 Run: uv run python scripts/spike/bts_ontime.py
 """
 
@@ -45,15 +47,23 @@ with OUT.open("w", newline="") as f:
         [
             "airport",
             "arrivals",
-            "cancelled",
-            "nas_delay_min_per_arrival",
-            "weather_delay_min_per_arrival",
+            "cancel_rate",
+            "nas_delay_min_per_landed",
+            "weather_delay_min_per_landed",
         ]
     )
     for code, t in sorted(totals.items(), key=lambda item: -item[1]["arrivals"]):
-        n = t["arrivals"]
+        landed = t["arrivals"] - t["cancelled"]
+        if landed == 0:
+            continue
         writer.writerow(
-            [code, n, t["cancelled"], round(t["nas_min"] / n, 2), round(t["weather_min"] / n, 2)]
+            [
+                code,
+                t["arrivals"],
+                round(t["cancelled"] / t["arrivals"], 3),
+                round(t["nas_min"] / landed, 2),
+                round(t["weather_min"] / landed, 2),
+            ]
         )
 
 print(f"{sum(t['arrivals'] for t in totals.values()):,} flights, {len(totals)} airports")
