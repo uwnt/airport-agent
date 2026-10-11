@@ -1,0 +1,162 @@
+# Image: build the Docker image, start it and check /health reports this commit, check no secret
+# files are inside, then build it for amd64 and arm64. On a v* tag, publish it to GitHub's
+# container registry. Separate from ci.yml so `ci` stays one job; runs only when files that go
+# into the image change, on the same pull request events as ci.yml.
+name: Image
+
+on:
+  pull_request:
+    types: [opened, ready_for_review]
+    paths:
+      - Dockerfile
+      - .dockerignore
+      - docker-compose.yml
+      - pyproject.toml
+      - uv.lock
+      - src/**
+      - .github/workflows/image.yml
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+concurrency:
+  group: image-${{ github.ref }}
+  # Never cancel a pull_request run: a "cancelled" check on the PR blocks the merge.
+  cancel-in-progress: ${{ github.event_name == 'push' }}
+
+permissions:
+  contents: read
+
+env:
+  TEST_TAG: airport-agent:test
+
+jobs:
+  image:
+    name: image
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+
+      - uses: docker/setup-qemu-action@v4 # emulates arm64 for the multi-arch build
+      - uses: docker/setup-buildx-action@v4
+
+      - name: Build (amd64, loaded for testing)
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          platforms: linux/amd64
+          load: true
+          tags: ${{ env.TEST_TAG }}
+          build-args: |
+            RELEASE_SHA=${{ github.sha }}
+            SOURCE_URL=${{ github.server_url }}/${{ github.repository }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Run and check /health reports this commit
+        env:
+          EXPECTED: ${{ github.sha }}
+        run: |
+          docker run -d --name app -p 127.0.0.1:8000:8000 "$TEST_TAG"
+          body=""
+          for _ in $(seq 1 30); do
+            if body="$(curl -fsS http://127.0.0.1:8000/health)"; then break; fi
+            sleep 1
+          done
+          if [ -z "$body" ]; then
+            docker logs app
+            echo "::error::/health did not answer within 30 s"
+            exit 1
+          fi
+          echo "$body"
+          commit="$(echo "$body" | jq -r .commit)"
+          if [ "$commit" != "$EXPECTED" ]; then
+            echo "::error::/health commit is '$commit', expected '$EXPECTED'"
+            exit 1
+          fi
+
+      - name: Docker HEALTHCHECK passes
+        run: |
+          for _ in $(seq 1 30); do
+            status="$(docker inspect -f '{{.State.Health.Status}}' app)"
+            [ "$status" = healthy ] && { echo "healthy"; exit 0; }
+            sleep 2
+          done
+          docker inspect -f '{{json .State.Health}}' app
+          echo "::error::container never became healthy (last: $status)"
+          exit 1
+
+      - name: No secret files in the image
+        run: |
+          found="$(docker run --rm --entrypoint sh "$TEST_TAG" -c \
+            "find /app /home -xdev \( -name '.env*' -o -name '*.pem' -o -name '*.key' -o -name 'id_rsa*' \) -print")"
+          if [ -n "$found" ]; then
+            echo "$found"
+            echo "::error::secret-like files found in the image"
+            exit 1
+          fi
+          echo "none found"
+
+      - name: Stop the test container
+        if: always()
+        run: docker rm -f app || true
+
+      - name: Build (amd64 + arm64)
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: false
+          build-args: |
+            RELEASE_SHA=${{ github.sha }}
+            SOURCE_URL=${{ github.server_url }}/${{ github.repository }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  # Publishing gets its own job so only it holds the registry write permission.
+  publish:
+    name: publish
+    needs: image
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+
+      - uses: docker/setup-qemu-action@v4
+      - uses: docker/setup-buildx-action@v4
+
+      - uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - id: meta
+        uses: docker/metadata-action@v6
+        with:
+          images: ghcr.io/${{ github.repository }}
+          tags: |
+            type=ref,event=tag
+            type=sha,prefix=sha-,format=short
+
+      - name: Build and push (amd64 + arm64)
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            RELEASE_SHA=${{ github.sha }}
+            SOURCE_URL=${{ github.server_url }}/${{ github.repository }}
+          cache-from: type=gha
