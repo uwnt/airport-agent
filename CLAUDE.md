@@ -13,11 +13,12 @@ The owner is building this to learn and will defend it in a follow-up call. For 
    not that they type it.**
    - The owner **decides** scope, KPI and weights. Present options with a recommendation; never pick
      silently.
-   - **Claude writes the code**, in small pieces. After each piece, give a short plain-English
-     walkthrough, then ask the owner to explain it back or predict what a change would do.
-   - **The scoring is built together** (`scoring.py`, `config/scoring.yaml`, their tests). Write a
-     few lines at a time; after each, the owner makes the *next* small change themselves (a weight,
-     a rule, a new signal), with hints. They must be able to change it live on the call.
+   - **AI agents write the code** for each step, on a branch with a PR; the PR gets an independent
+     AI review before merge (see D6). The owner then goes through it with the main session: a
+     plain-English walkthrough, then the owner explains it back or predicts what a change would do.
+   - **The scoring** (`scoring.py`, `config/scoring.yaml`, their tests) gets the closest walkthrough:
+     after it, the owner makes a small change themselves (a weight, a rule, a new signal), with
+     hints. They must be able to change it live on the call.
    - **Weights, presets and friction penalties live in `config/scoring.yaml`**, not in code, so a
      live change needs no Python.
    - The owner **writes `docs/DESIGN.md` and the README's "How I work with AI"** in their own words;
