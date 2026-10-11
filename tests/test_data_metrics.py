@@ -1,9 +1,16 @@
 """airport_metrics on a cache built from data/samples/ (see conftest.sample_cache)."""
 
 import pytest
+from conftest import FETCHED_AT, SAMPLES
 
-from airport_agent.data.cache import CacheMissingError
-from airport_agent.data.metrics import SIGNALS, airport_metrics, all_airport_metrics
+from airport_agent.data import build, ourairports
+from airport_agent.data.cache import CacheMissingError, read_summary
+from airport_agent.data.metrics import (
+    SIGNALS,
+    UnknownAirportError,
+    airport_metrics,
+    all_airport_metrics,
+)
 
 
 def test_every_signal_has_a_value_or_a_reason(sample_cache):
@@ -67,8 +74,46 @@ def test_all_airport_metrics_is_the_lower_48_in_table_1a(sample_cache):
 
 
 def test_unknown_code(sample_cache):
-    with pytest.raises(KeyError):
+    with pytest.raises(UnknownAirportError, match="not an IATA or ICAO code"):
         airport_metrics("ZZZZ", sample_cache)
+
+
+def test_unresolved_source_codes_are_reported(sample_cache):
+    # The OurAirports sample lists Palm Beach only as DJT (no keywords column) and has no SJU,
+    # but the on-time sample has both: the build must say so instead of dropping them.
+    manifest = read_summary(sample_cache, ourairports.SUMMARY_NAME)["manifest"]
+    assert "PBI" in manifest["unresolved_codes"]
+    assert "BTS On-Time" in manifest["unresolved_codes"]["PBI"]
+    assert manifest["matched_by_keyword"] == {}
+    with pytest.raises(UnknownAirportError, match="no US airport in OurAirports"):
+        airport_metrics("PBI", sample_cache)
+
+
+def test_territory_code_names_its_country(sample_cache):
+    airports = ourairports.parse_airports(SAMPLES / "ourairports_us_scheduled.csv")
+    build.write_airports(sample_cache, airports, {"SJU": "PR"}, FETCHED_AT)
+    with pytest.raises(UnknownAirportError, match="OurAirports lists it in PR, not the US"):
+        airport_metrics("sju", sample_cache)
+
+
+def test_code_matched_by_keyword_is_ranked(sample_cache):
+    # Real data: DOT and BTS list Palm Beach as PBI (3 markets in the fare sample); OurAirports
+    # has it as DJT with "PBI" in its keywords, which the trimmed sample left out.
+    airports = ourairports.parse_airports(SAMPLES / "ourairports_us_scheduled.csv")
+    for airport in airports:
+        if airport["iata"] == "DJT":
+            airport["keywords"] = ["PBI", "MFW"]
+    build.write_airports(sample_cache, airports, fetched_at=FETCHED_AT)
+
+    manifest = read_summary(sample_cache, ourairports.SUMMARY_NAME)["manifest"]
+    assert manifest["matched_by_keyword"] == {"PBI": "DJT"}
+    assert "PBI" not in manifest["unresolved_codes"]
+    for code in ("PBI", "pbi", "DJT", "KDJT"):
+        pbi = airport_metrics(code, sample_cache)
+        assert (pbi.iata, pbi.icao, pbi.state, pbi.in_scope) == ("PBI", "KDJT", "FL", True)
+        assert pbi.cancellation_rate is not None and pbi.market_count.value == 3
+        assert pbi.code_note == "OurAirports lists this airport as DJT; DOT and BTS use PBI"
+    assert "PBI" in [m.iata for m in all_airport_metrics(sample_cache)]
 
 
 def test_missing_cache_says_how_to_build_it(tmp_path):

@@ -18,14 +18,55 @@ from airport_agent.data import (
     opensky,
     ourairports,
 )
-from airport_agent.data.cache import DEFAULT_CACHE_DIR, load_config, now_utc, write_summary
+from airport_agent.data.cache import (
+    DEFAULT_CACHE_DIR,
+    load_config,
+    now_utc,
+    read_summary,
+    write_summary,
+)
 
 SAMPLES_DIR = Path("data/samples")
 OPENSKY_SAMPLE = "opensky_departures_panc.json"
 
 
-def write_airports(cache_dir, airports, fetched_at=None):
+# Sources whose airport codes must each match an OurAirports airport.
+CODE_SOURCES = (dot_fares, bts_ontime, bts_enplanements)
+
+
+def source_codes(cache_dir):
+    """{code: [source names]} for every airport code in the DOT and BTS summaries."""
+    codes = {}
+    for module in CODE_SOURCES:
+        for code in read_summary(cache_dir, module.SUMMARY_NAME)["data"]:
+            codes.setdefault(code, []).append(module.SOURCE)
+    return codes
+
+
+def write_airports(cache_dir, airports, countries=None, fetched_at=None):
+    """Write the airport list; run after the DOT and BTS summaries, whose codes it checks.
+
+    The manifest lists codes matched by keyword (PBI) and, with a reason, every code that
+    matches no airport, so nothing drops out of the ranking unseen. `countries` comes from
+    `ourairports.countries_by_iata` and explains codes in US territories.
+    """
     fetched_at = fetched_at or now_utc()
+    codes = source_codes(cache_dir)
+    lookup = ourairports.build_lookup(airports, codes)
+    countries = countries or {}
+    unresolved = {}
+    for code in ourairports.unresolved_codes(codes, lookup):
+        where = (
+            f"OurAirports lists it in {countries[code]}, not the US"
+            if code in countries
+            else "no US airport in OurAirports has it as IATA, ICAO or keyword code"
+        )
+        unresolved[code] = f"in {', '.join(codes[code])}; {where}"
+    matched = {
+        code: airport["iata"]
+        for code, airport in lookup.items()
+        if airport["data_code"] == code != airport["iata"]
+    }
     return write_summary(
         cache_dir,
         ourairports.SUMMARY_NAME,
@@ -34,6 +75,8 @@ def write_airports(cache_dir, airports, fetched_at=None):
         source_url=ourairports.URL,
         as_of=fetched_at[:10],
         fetched_at=fetched_at,
+        matched_by_keyword=matched,
+        unresolved_codes=unresolved,
     )
 
 
@@ -117,9 +160,8 @@ def build_cache(cache_dir=DEFAULT_CACHE_DIR, delete_raw=False):
     config = load_config()
 
     _log("OurAirports: downloading the airport list")
-    raw = ourairports.fetch_airports(cache_dir)
-    write_airports(cache_dir, ourairports.parse_airports(raw))
-    coords = ourairports.parse_coordinates(raw)
+    airports_csv = ourairports.fetch_airports(cache_dir)
+    coords = ourairports.parse_coordinates(airports_csv)
 
     latest = dot_fares.fetch_latest_quarter()
     baseline = (config["dot_fares"]["baseline_year"], latest[1])
@@ -146,6 +188,15 @@ def build_cache(cache_dir=DEFAULT_CACHE_DIR, delete_raw=False):
     _log("BTS boardings: downloading the top-50 list")
     raw = bts_enplanements.fetch_enplanements(cache_dir)
     write_enplanements(cache_dir, dot_fares.load_rows(raw))
+
+    write_airports(
+        cache_dir,
+        ourairports.parse_airports(airports_csv),
+        ourairports.countries_by_iata(airports_csv),
+    )
+    unresolved = read_summary(cache_dir, ourairports.SUMMARY_NAME)["manifest"]["unresolved_codes"]
+    for code, reason in unresolved.items():
+        _log(f"OurAirports: {code} matches no airport ({reason})")
 
     settings = config["opensky"]
     try:

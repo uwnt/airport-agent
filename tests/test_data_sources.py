@@ -46,6 +46,24 @@ def test_icao_falls_back_to_a_four_letter_gps_code():
     assert ourairports.icao_of({"icao_code": "KSFO", "gps_code": "XXXX"}) == "KSFO"
 
 
+def test_source_code_found_by_keyword_only_when_needed():
+    base = {"state": "FL", "lat": 0.0, "lon": 0.0, "name": "", "municipality": None}
+    djt = {**base, "iata": "DJT", "icao": "KDJT", "type": "large_airport", "scheduled": True}
+    djt["keywords"] = ["PBI", "MFW"]
+    closed_field = {**djt, "iata": "AAA", "icao": "KAAA", "scheduled": False, "keywords": ["QQQ"]}
+    airports = [djt, closed_field]
+
+    assert "PBI" not in ourairports.build_lookup(airports)  # only codes the sources use
+    lookup = ourairports.build_lookup(airports, {"PBI", "QQQ", "SJU"})
+    assert lookup["PBI"] is lookup["DJT"] is lookup["KDJT"]
+    assert lookup["PBI"]["data_code"] == "PBI"
+    assert "MFW" not in lookup  # keywords the sources don't use are not codes
+    assert "QQQ" not in lookup  # only airports with scheduled service are matched
+    assert ourairports.unresolved_codes({"PBI", "QQQ", "SJU"}, lookup) == ["QQQ", "SJU"]
+    # A real IATA code always wins over a keyword, and DJT itself keeps its own code.
+    assert ourairports.build_lookup(airports, {"DJT", "PBI"})["DJT"]["data_code"] == "DJT"
+
+
 def test_duplicate_iata_prefers_scheduled_then_bigger_airport():
     base = {"state": "XX", "lat": 0.0, "lon": 0.0, "name": "", "municipality": None}
     small = {**base, "iata": "ABC", "icao": "KAAA", "type": "small_airport", "scheduled": True}

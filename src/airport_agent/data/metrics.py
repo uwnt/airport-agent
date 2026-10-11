@@ -27,6 +27,10 @@ SIGNALS = (
 )
 
 
+class UnknownAirportError(LookupError):
+    """No airport in the cache answers to this code; the message says why if the build knows."""
+
+
 @dataclass(frozen=True)
 class Metric:
     """One number (or carrier code) with where it came from and how current it is."""
@@ -40,7 +44,10 @@ class Metric:
 
 @dataclass(frozen=True)
 class Metrics:
-    """An airport's identity, scope and signals. A None signal has its reason in `missing`."""
+    """An airport's identity, scope and signals. A None signal has its reason in `missing`.
+
+    `iata` is the code DOT and BTS use; `code_note` says when OurAirports lists another (PBI).
+    """
 
     iata: str
     icao: str | None
@@ -59,6 +66,7 @@ class Metrics:
     enplanements: Metric | None = None
     long_haul_share: Metric | None = None
     missing: dict[str, str] = field(default_factory=dict)
+    code_note: str | None = None
 
 
 def _source(manifest):
@@ -78,7 +86,10 @@ def load_cache(cache_dir=DEFAULT_CACHE_DIR):
         )
     }
     airports = summaries[ourairports.SUMMARY_NAME]["data"]["airports"]
-    summaries["lookup"] = ourairports.build_lookup(airports)
+    codes = set().union(
+        *(summaries[m.SUMMARY_NAME]["data"] for m in (dot_fares, bts_ontime, bts_enplanements))
+    )
+    summaries["lookup"] = ourairports.build_lookup(airports, codes)
     summaries["config"] = load_config()
     return summaries
 
@@ -87,7 +98,7 @@ def _scope(airport, cache):
     manifest = cache[dot_fares.SUMMARY_NAME]["manifest"]
     if airport["state"] in cache["config"]["scope"]["excluded_states"]:
         return False, f"not ranked: only lower-48 airports are ranked ({airport['state']}, D11)"
-    if airport["iata"] not in cache[dot_fares.SUMMARY_NAME]["data"]:
+    if airport["data_code"] not in cache[dot_fares.SUMMARY_NAME]["data"]:
         return False, f"not ranked: no DOT Table 1a rows for {manifest['as_of']} (D11)"
     return True, f"ranked: lower 48 and in DOT Table 1a for {manifest['as_of']} (D11)"
 
@@ -95,7 +106,7 @@ def _scope(airport, cache):
 def _build(airport, cache):
     signals, missing = {}, {}
     in_scope, scope_reason = _scope(airport, cache)
-    iata = airport["iata"]
+    iata = airport["data_code"]  # the code DOT and BTS use for this airport
 
     # DOT Table 1a: fares, growth, volume, markets, largest carrier.
     fares = cache[dot_fares.SUMMARY_NAME]
@@ -228,6 +239,11 @@ def _build(airport, cache):
         in_scope=in_scope,
         scope_reason=scope_reason,
         missing=missing,
+        code_note=(
+            f"OurAirports lists this airport as {airport['iata']}; DOT and BTS use {iata}"
+            if iata != airport["iata"]
+            else None
+        ),
         **signals,
     )
 
@@ -235,18 +251,25 @@ def _build(airport, cache):
 def airport_metrics(code, cache_dir=DEFAULT_CACHE_DIR, cache=None):
     """Every signal for one airport, by IATA or ICAO code ("BOS", "KBOS", "PANC", "anc").
 
-    Reads only the cache. Raises CacheMissingError if it hasn't been built, KeyError for an
-    unknown code. Pass `cache` (from `load_cache`) to avoid re-reading it for many airports.
+    Reads only the cache. Raises CacheMissingError if it hasn't been built, UnknownAirportError
+    for an unknown code. Pass `cache` (from `load_cache`) to avoid re-reading it for many airports.
     """
     cache = cache or load_cache(cache_dir)
     airport = ourairports.find_airport(code, cache["lookup"])
     if airport is None:
-        raise KeyError(f"Unknown airport code: {code!r}")
+        key = (code or "").strip().upper()
+        unresolved = cache[ourairports.SUMMARY_NAME]["manifest"].get("unresolved_codes", {})
+        reason = unresolved.get(key, "not an IATA or ICAO code of a US airport in OurAirports")
+        raise UnknownAirportError(f"No airport for code {code!r}: {reason}")
     return _build(airport, cache)
 
 
 def all_airport_metrics(cache_dir=DEFAULT_CACHE_DIR):
-    """Metrics for every airport in scope (D11), sorted by IATA code; scoring ranks them all."""
+    """Metrics for every airport in scope (D11), sorted by IATA code; scoring ranks them all.
+
+    A DOT code with no OurAirports airport can't be placed in a state, so it is left out here;
+    the build lists every such code with its reason in the airports manifest (`unresolved_codes`).
+    """
     cache = load_cache(cache_dir)
     result = []
     for code in sorted(cache[dot_fares.SUMMARY_NAME]["data"]):

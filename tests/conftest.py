@@ -57,7 +57,6 @@ def sample_cache(tmp_path):
     """A cache directory built only from data/samples/, the way the real build writes it."""
     config = load_config()
     csv_path = SAMPLES / "ourairports_us_scheduled.csv"
-    build.write_airports(tmp_path, ourairports.parse_airports(csv_path), FETCHED_AT)
     fares = load_sample_json("dot_fares_new_england.json")
     build.write_fares(
         tmp_path,
@@ -70,6 +69,8 @@ def sample_cache(tmp_path):
     )
     build.write_ontime(tmp_path, {(2026, 7): ontime_sample_as_month()}, FETCHED_AT)
     build.write_enplanements(tmp_path, load_sample_json("bts_enplanements_top50.json"), FETCHED_AT)
+    # Last, as in the build: it checks every DOT and BTS code against the airport list.
+    build.write_airports(tmp_path, ourairports.parse_airports(csv_path), fetched_at=FETCHED_AT)
     build.write_opensky(
         tmp_path,
         load_sample_json("opensky_departures_panc.json"),
