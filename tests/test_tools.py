@@ -1,6 +1,7 @@
 """The agent's tools on a cache built from data/samples/ (New England fares, Anchorage flights)."""
 
 import json
+import re
 
 import pytest
 
@@ -144,3 +145,16 @@ def test_missing_cache_is_an_error_not_an_exception(tmp_path):
 def test_every_tool_is_declared_once():
     names = [d["name"] for d in tools.TOOL_DECLARATIONS]
     assert sorted(names) == sorted(tools.TOOLS)
+
+
+def test_results_carry_no_internal_decision_labels(run):
+    # The model copies wording from tool results into answers; "(D13)" means nothing to a user.
+    results = [
+        run("rank_airports", region="New England"),
+        run("compare_airports", codes=["BOS", "ANC"]),
+        run("airport_profile", code="ANC"),
+        run("long_haul_share", code="ANC", threshold_miles=1500),
+        run("demand_pressure", code="BDL"),
+    ]
+    text = json.dumps(results)
+    assert not [text[max(m.start() - 60, 0) : m.end() + 5] for m in re.finditer(r"\bD\d+\b", text)]

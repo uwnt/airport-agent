@@ -66,6 +66,13 @@ def _metric(metric, name=None):
     return result
 
 
+def _plain(text):
+    """Text without internal decision labels: "(AK, D11)" -> "(AK)"; the model would copy them."""
+    if not text:
+        return text
+    return re.sub(r"\s*\(D\d+\)", "", re.sub(r",\s*D\d+\b", "", text))
+
+
 def _context(cache_dir, settings):
     settings = settings or load_settings()
     return all_airport_metrics(cache_dir), settings
@@ -141,7 +148,7 @@ def _split_codes(codes, cache_dir):
             if m.iata not in wanted:
                 wanted.append(m.iata)
         else:
-            not_ranked.append({"code": m.iata, "name": m.name, "reason": m.scope_reason})
+            not_ranked.append({"code": m.iata, "name": m.name, "reason": _plain(m.scope_reason)})
     return wanted, not_ranked
 
 
@@ -180,7 +187,9 @@ def rank_airports(
         "region": region,
         "rows": shown,
         "not_ranked": outside
-        + [{"code": n.code, "name": n.name, "reason": n.reason} for n in ranking.not_ranked],
+        + [
+            {"code": n.code, "name": n.name, "reason": _plain(n.reason)} for n in ranking.not_ranked
+        ],
         "method": (
             "score = sum of each signal's percentile (0-100, across all airports ranked "
             "nationally) times its weight, minus the largest friction penalty, never below 0; "
@@ -237,7 +246,7 @@ def airport_profile(code, cache_dir=DEFAULT_CACHE_DIR):
         "name": m.name,
         "state": m.state,
         "ranked": m.in_scope,
-        "scope": m.scope_reason,
+        "scope": _plain(m.scope_reason),
         "metrics": {
             name: _metric(getattr(m, name), name)
             for name in SIGNALS
@@ -273,7 +282,7 @@ def long_haul_share(code, threshold_miles=None, cache_dir=DEFAULT_CACHE_DIR):
         "definition": (
             f"passenger-airline departures flying over {configured:,} miles great-circle, "
             "divided by those with a known destination; destinations 100 miles or closer and "
-            "same-airport returns dropped (D13)"
+            "same-airport returns dropped"
         ),
         "long_haul_share": _metric(m.long_haul_share, "long_haul_share"),
     }
@@ -295,7 +304,7 @@ def demand_pressure(code, cache_dir=DEFAULT_CACHE_DIR, settings=None):
     ranking = rank(metrics_list, codes=codes, settings=settings)
     if not ranking:
         n = ranking.not_ranked[0]
-        return {"code": n.code, "name": n.name, "ranked": False, "reason": n.reason}
+        return {"code": n.code, "name": n.name, "ranked": False, "reason": _plain(n.reason)}
     row = ranking[0]
     signals, high, low = {}, [], []
     for s in row.signals:
