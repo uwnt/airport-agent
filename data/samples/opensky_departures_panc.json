@@ -1,0 +1,3866 @@
+[
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791673899,
+  "lastSeen": 1791675224
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PANC",
+  "firstSeen": 1791673657,
+  "lastSeen": 1791675911
+ },
+ {
+  "callsign": "TNV54",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAVD",
+  "firstSeen": 1791670170,
+  "lastSeen": 1791672027
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791669978,
+  "lastSeen": 1791671242
+ },
+ {
+  "callsign": "ASA89",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PADQ",
+  "firstSeen": 1791669450,
+  "lastSeen": 1791672333
+ },
+ {
+  "callsign": "ASA66",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PACV",
+  "firstSeen": 1791667740,
+  "lastSeen": 1791669648
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791667536,
+  "lastSeen": 1791668936
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791666679,
+  "lastSeen": 1791668046
+ },
+ {
+  "callsign": "ASA679",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAFA",
+  "firstSeen": 1791666330,
+  "lastSeen": 1791668778
+ },
+ {
+  "callsign": "QXE2030",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAKN",
+  "firstSeen": 1791664680,
+  "lastSeen": 1791667966
+ },
+ {
+  "callsign": "DAZ11",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791664645,
+  "lastSeen": 1791666105
+ },
+ {
+  "callsign": "ASA1324",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KPDX",
+  "firstSeen": 1791664583,
+  "lastSeen": 1791675456
+ },
+ {
+  "callsign": "ASA595",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KSEA",
+  "firstSeen": 1791664234,
+  "lastSeen": 1791674189
+ },
+ {
+  "callsign": "NAC754",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791663980,
+  "lastSeen": 1791665827
+ },
+ {
+  "callsign": "AER21",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAJN",
+  "firstSeen": 1791662988,
+  "lastSeen": 1791669789
+ },
+ {
+  "callsign": "QXE2038",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PADL",
+  "firstSeen": 1791662661,
+  "lastSeen": 1791665902
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791662220,
+  "lastSeen": 1791663612
+ },
+ {
+  "callsign": "ASA7015",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791661770,
+  "lastSeen": 1791665932
+ },
+ {
+  "callsign": "DAL2768",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KSEA",
+  "firstSeen": 1791661423,
+  "lastSeen": 1791671505
+ },
+ {
+  "callsign": "RYA707",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791660660,
+  "lastSeen": 1791663398
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791660535,
+  "lastSeen": 1791662110
+ },
+ {
+  "callsign": "VTS880",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791660391,
+  "lastSeen": 1791663332
+ },
+ {
+  "callsign": "64",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAJN",
+  "firstSeen": 1791660191,
+  "lastSeen": 1791664525
+ },
+ {
+  "callsign": "AERT8",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PANC",
+  "firstSeen": 1791659213,
+  "lastSeen": 1791667111
+ },
+ {
+  "callsign": "LYC401",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791659136,
+  "lastSeen": 1791662033
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791658711,
+  "lastSeen": 1791660089
+ },
+ {
+  "callsign": "ASA440",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KSEA",
+  "firstSeen": 1791657698,
+  "lastSeen": 1791667550
+ },
+ {
+  "callsign": "VTS840",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791657592,
+  "lastSeen": 1791659748
+ },
+ {
+  "callsign": "AER53",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PADL",
+  "firstSeen": 1791657364,
+  "lastSeen": 1791662477
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791657277,
+  "lastSeen": 1791658847
+ },
+ {
+  "callsign": "ASA204",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791657006,
+  "lastSeen": 1791659811
+ },
+ {
+  "callsign": "CAL5234",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791656372,
+  "lastSeen": 1791675277
+ },
+ {
+  "callsign": "ASA1432",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAFA",
+  "firstSeen": 1791655650,
+  "lastSeen": 1791658073
+ },
+ {
+  "callsign": "ASA651",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KSEA",
+  "firstSeen": 1791655177,
+  "lastSeen": 1791665304
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791655174,
+  "lastSeen": 1791656695
+ },
+ {
+  "callsign": "ATN3379",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KSEA",
+  "firstSeen": 1791654934,
+  "lastSeen": 1791664762
+ },
+ {
+  "callsign": "SRY1601",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791654465,
+  "lastSeen": 1791656636
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PACV",
+  "firstSeen": 1791653822,
+  "lastSeen": 1791659531
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791653555,
+  "lastSeen": 1791654985
+ },
+ {
+  "callsign": "AER44",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAYA",
+  "firstSeen": 1791653494,
+  "lastSeen": 1791658724
+ },
+ {
+  "callsign": "ASA7011",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791653059,
+  "lastSeen": 1791656518
+ },
+ {
+  "callsign": "ASA594",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KSEA",
+  "firstSeen": 1791652907,
+  "lastSeen": 1791662968
+ },
+ {
+  "callsign": "ASA1407",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KPDX",
+  "firstSeen": 1791652627,
+  "lastSeen": 1791663387
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791651938,
+  "lastSeen": 1791653369
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAKL",
+  "firstSeen": 1791651822,
+  "lastSeen": 1791655516
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791651751,
+  "lastSeen": 1791653246
+ },
+ {
+  "callsign": "ASA230",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAOT",
+  "firstSeen": 1791651361,
+  "lastSeen": 1791656299
+ },
+ {
+  "callsign": "NAC720",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791650886,
+  "lastSeen": 1791654803
+ },
+ {
+  "callsign": "CAO1017",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791650704,
+  "lastSeen": 1791669567
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791650572,
+  "lastSeen": 1791652855
+ },
+ {
+  "callsign": "GTI8720",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KJAX",
+  "firstSeen": 1791650374,
+  "lastSeen": 1791674053
+ },
+ {
+  "callsign": "ASA7015",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PANC",
+  "firstSeen": 1791650160,
+  "lastSeen": 1791658344
+ },
+ {
+  "callsign": "EVA658",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791649973,
+  "lastSeen": 1791668610
+ },
+ {
+  "callsign": "SRY1101",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791649800,
+  "lastSeen": 1791655559
+ },
+ {
+  "callsign": "LYC403",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791649572,
+  "lastSeen": 1791655303
+ },
+ {
+  "callsign": "AER65",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791649390,
+  "lastSeen": 1791657147
+ },
+ {
+  "callsign": "GTI8052",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KMIA",
+  "firstSeen": 1791649110,
+  "lastSeen": 1791675433
+ },
+ {
+  "callsign": "SRY1401",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAHO",
+  "firstSeen": 1791648750,
+  "lastSeen": 1791650523
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791648255,
+  "lastSeen": 1791649676
+ },
+ {
+  "callsign": "CPA084",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KLAX",
+  "firstSeen": 1791647565,
+  "lastSeen": 1791662827
+ },
+ {
+  "callsign": "QXE2027",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791647316,
+  "lastSeen": 1791650051
+ },
+ {
+  "callsign": "QXE2002",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791647245,
+  "lastSeen": 1791650862
+ },
+ {
+  "callsign": "CAO1077",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KJFK",
+  "firstSeen": 1791647114,
+  "lastSeen": 1791670596
+ },
+ {
+  "callsign": "ATN9703",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KSEA",
+  "firstSeen": 1791646861,
+  "lastSeen": 1791656487
+ },
+ {
+  "callsign": "CKS597",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791646698,
+  "lastSeen": 1791665558
+ },
+ {
+  "callsign": "CKS523",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791646560,
+  "lastSeen": 1791665412
+ },
+ {
+  "callsign": "CSG2545",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KJFK",
+  "firstSeen": 1791646463,
+  "lastSeen": 1791669468
+ },
+ {
+  "callsign": "ASA48",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KSEA",
+  "firstSeen": 1791645873,
+  "lastSeen": 1791655859
+ },
+ {
+  "callsign": "ASA62",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAJN",
+  "firstSeen": 1791645488,
+  "lastSeen": 1791650025
+ },
+ {
+  "callsign": "NAC722",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAOT",
+  "firstSeen": 1791645390,
+  "lastSeen": 1791650009
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791644981,
+  "lastSeen": 1791646408
+ },
+ {
+  "callsign": "CKK231",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KJFK",
+  "firstSeen": 1791644201,
+  "lastSeen": 1791666996
+ },
+ {
+  "callsign": "GTI3037",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791644095,
+  "lastSeen": 1791663207
+ },
+ {
+  "callsign": "DAL853",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KSEA",
+  "firstSeen": 1791643345,
+  "lastSeen": 1791653328
+ },
+ {
+  "callsign": "VTS870",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791643266,
+  "lastSeen": 1791646032
+ },
+ {
+  "callsign": "GTI8977",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KJFK",
+  "firstSeen": 1791643120,
+  "lastSeen": 1791665758
+ },
+ {
+  "callsign": "AER52",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PADL",
+  "firstSeen": 1791641734,
+  "lastSeen": 1791646758
+ },
+ {
+  "callsign": "ASA408",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KSEA",
+  "firstSeen": 1791641576,
+  "lastSeen": 1791651459
+ },
+ {
+  "callsign": "SIA7980",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KDFW",
+  "firstSeen": 1791641018,
+  "lastSeen": 1791660749
+ },
+ {
+  "callsign": "ASA55",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791640294,
+  "lastSeen": 1791643166
+ },
+ {
+  "callsign": "GTI8530",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791640126,
+  "lastSeen": 1791659322
+ },
+ {
+  "callsign": "FDX6402",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KLAX",
+  "firstSeen": 1791640035,
+  "lastSeen": 1791655468
+ },
+ {
+  "callsign": "CLX251",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791639587,
+  "lastSeen": 1791658458
+ },
+ {
+  "callsign": "AER31",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAKN",
+  "firstSeen": 1791638468,
+  "lastSeen": 1791643340
+ },
+ {
+  "callsign": "GTI538",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KMIA",
+  "firstSeen": 1791637808,
+  "lastSeen": 1791664132
+ },
+ {
+  "callsign": "CSN5229",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791637447,
+  "lastSeen": 1791656399
+ },
+ {
+  "callsign": "GTI7172",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KDFW",
+  "firstSeen": 1791636685,
+  "lastSeen": 1791656758
+ },
+ {
+  "callsign": "CKK227",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791636540,
+  "lastSeen": 1791656691
+ },
+ {
+  "callsign": "ASA7005",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAJN",
+  "firstSeen": 1791635723,
+  "lastSeen": 1791640126
+ },
+ {
+  "callsign": "VPCLG",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KBED",
+  "firstSeen": 1791635481,
+  "lastSeen": 1791657318
+ },
+ {
+  "callsign": "CPA2095",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "VHHH",
+  "firstSeen": 1791634994,
+  "lastSeen": 1791672192
+ },
+ {
+  "callsign": "AER145",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PADQ",
+  "firstSeen": 1791634814,
+  "lastSeen": 1791640468
+ },
+ {
+  "callsign": "CKS551",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791634760,
+  "lastSeen": 1791653483
+ },
+ {
+  "callsign": "AER42",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PACV",
+  "firstSeen": 1791634032,
+  "lastSeen": 1791636909
+ },
+ {
+  "callsign": "CKS241",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KMIA",
+  "firstSeen": 1791633865,
+  "lastSeen": 1791660442
+ },
+ {
+  "callsign": "CAL5258",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KDFW",
+  "firstSeen": 1791633669,
+  "lastSeen": 1791653302
+ },
+ {
+  "callsign": "CKS997",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KLAX",
+  "firstSeen": 1791633540,
+  "lastSeen": 1791649427
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KOAK",
+  "firstSeen": 1791633160,
+  "lastSeen": 1791646117
+ },
+ {
+  "callsign": "GTI512",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791632676,
+  "lastSeen": 1791653217
+ },
+ {
+  "callsign": "CKS253",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KJFK",
+  "firstSeen": 1791632406,
+  "lastSeen": 1791654048
+ },
+ {
+  "callsign": "AER43",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAKT",
+  "firstSeen": 1791631787,
+  "lastSeen": 1791641528
+ },
+ {
+  "callsign": "PAC998",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KCVG",
+  "firstSeen": 1791631629,
+  "lastSeen": 1791652495
+ },
+ {
+  "callsign": "CAL5239",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "RCTP",
+  "firstSeen": 1791631470,
+  "lastSeen": 1791665776
+ },
+ {
+  "callsign": "GTI949",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KMIA",
+  "firstSeen": 1791631213,
+  "lastSeen": 1791657327
+ },
+ {
+  "callsign": "FDX6022",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KIND",
+  "firstSeen": 1791631098,
+  "lastSeen": 1791651177
+ },
+ {
+  "callsign": "FDX60",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KOAK",
+  "firstSeen": 1791630425,
+  "lastSeen": 1791643985
+ },
+ {
+  "callsign": "GTI238",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KLAX",
+  "firstSeen": 1791629910,
+  "lastSeen": 1791645267
+ },
+ {
+  "callsign": "CPA097",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "VHHH",
+  "firstSeen": 1791629795,
+  "lastSeen": 1791666644
+ },
+ {
+  "callsign": "AAE8553",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791629474,
+  "lastSeen": 1791649344
+ },
+ {
+  "callsign": "GTI731",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KMIA",
+  "firstSeen": 1791629192,
+  "lastSeen": 1791655366
+ },
+ {
+  "callsign": "ASA98",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KSEA",
+  "firstSeen": 1791628871,
+  "lastSeen": 1791638594
+ },
+ {
+  "callsign": "CAO8411",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791628741,
+  "lastSeen": 1791647774
+ },
+ {
+  "callsign": "AER41",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAJN",
+  "firstSeen": 1791627347,
+  "lastSeen": 1791634557
+ },
+ {
+  "callsign": "ASA532",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KSEA",
+  "firstSeen": 1791627240,
+  "lastSeen": 1791637216
+ },
+ {
+  "callsign": "UPS99",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KSDF",
+  "firstSeen": 1791626393,
+  "lastSeen": 1791647560
+ },
+ {
+  "callsign": "ASA593",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KPDX",
+  "firstSeen": 1791626109,
+  "lastSeen": 1791636506
+ },
+ {
+  "callsign": "DAL925",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KSEA",
+  "firstSeen": 1791625659,
+  "lastSeen": 1791635720
+ },
+ {
+  "callsign": "FDX5161",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KMEM",
+  "firstSeen": 1791625470,
+  "lastSeen": 1791646229
+ },
+ {
+  "callsign": "FDX6030",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KMEM",
+  "firstSeen": 1791625368,
+  "lastSeen": 1791645655
+ },
+ {
+  "callsign": "ASA1423",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KSEA",
+  "firstSeen": 1791625260,
+  "lastSeen": 1791634858
+ },
+ {
+  "callsign": "CAL5322",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KJFK",
+  "firstSeen": 1791624998,
+  "lastSeen": 1791646926
+ },
+ {
+  "callsign": "EVA634",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KJFK",
+  "firstSeen": 1791623335,
+  "lastSeen": 1791644997
+ },
+ {
+  "callsign": "GTI8602",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791622830,
+  "lastSeen": 1791652318
+ },
+ {
+  "callsign": "ASA1380",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KSEA",
+  "firstSeen": 1791621904,
+  "lastSeen": 1791631820
+ },
+ {
+  "callsign": "ASA47",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KPHX",
+  "firstSeen": 1791621586,
+  "lastSeen": 1791639313
+ },
+ {
+  "callsign": "CPA3277",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "VHHH",
+  "firstSeen": 1791621432,
+  "lastSeen": 1791659058
+ },
+ {
+  "callsign": "UAL1959",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KDEN",
+  "firstSeen": 1791621166,
+  "lastSeen": 1791638121
+ },
+ {
+  "callsign": "UPS72",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "ZGSZ",
+  "firstSeen": 1791620914,
+  "lastSeen": 1791658454
+ },
+ {
+  "callsign": "CKS919",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "CYYZ",
+  "firstSeen": 1791620820,
+  "lastSeen": 1791640846
+ },
+ {
+  "callsign": "CPA3429",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "VHHH",
+  "firstSeen": 1791620617,
+  "lastSeen": 1791658766
+ },
+ {
+  "callsign": "CKS982",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791620521,
+  "lastSeen": 1791649858
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PADQ",
+  "firstSeen": 1791620163,
+  "lastSeen": 1791624942
+ },
+ {
+  "callsign": "CKK225",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791619897,
+  "lastSeen": 1791640151
+ },
+ {
+  "callsign": "GTI365",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791619783,
+  "lastSeen": 1791639149
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791619640,
+  "lastSeen": 1791624883
+ },
+ {
+  "callsign": "FDX6229",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "ZGGG",
+  "firstSeen": 1791618408,
+  "lastSeen": 1791657554
+ },
+ {
+  "callsign": "ASA44",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KLAX",
+  "firstSeen": 1791618171,
+  "lastSeen": 1791634379
+ },
+ {
+  "callsign": "ASA1516",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KLAS",
+  "firstSeen": 1791618045,
+  "lastSeen": 1791633942
+ },
+ {
+  "callsign": "CAO1019",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791617812,
+  "lastSeen": 1791636827
+ },
+ {
+  "callsign": "NCR652",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KMIA",
+  "firstSeen": 1791617131,
+  "lastSeen": 1791642979
+ },
+ {
+  "callsign": "GTI8701",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791616872,
+  "lastSeen": 1791655414
+ },
+ {
+  "callsign": "FDX9646",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KMEM",
+  "firstSeen": 1791616355,
+  "lastSeen": 1791637139
+ },
+ {
+  "callsign": "KAL249",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KJFK",
+  "firstSeen": 1791616140,
+  "lastSeen": 1791638300
+ },
+ {
+  "callsign": "ASA362",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAFA",
+  "firstSeen": 1791614441,
+  "lastSeen": 1791616752
+ },
+ {
+  "callsign": "DAL377",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KMSP",
+  "firstSeen": 1791613131,
+  "lastSeen": 1791630849
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAJN",
+  "firstSeen": 1791612461,
+  "lastSeen": 1791616835
+ },
+ {
+  "callsign": "CKS810",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791611859,
+  "lastSeen": 1791645329
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791611730,
+  "lastSeen": 1791613041
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791610364,
+  "lastSeen": 1791611709
+ },
+ {
+  "callsign": "UAL450",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791609351,
+  "lastSeen": 1791629314
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PANC",
+  "firstSeen": 1791608956,
+  "lastSeen": 1791610122
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791608721,
+  "lastSeen": 1791610102
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAJN",
+  "firstSeen": 1791608672,
+  "lastSeen": 1791615380
+ },
+ {
+  "callsign": "GTI4611",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "RCTP",
+  "firstSeen": 1791608539,
+  "lastSeen": 1791643649
+ },
+ {
+  "callsign": "KYE9724",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KLAX",
+  "firstSeen": 1791608340,
+  "lastSeen": 1791623059
+ },
+ {
+  "callsign": "CPA090",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KLAX",
+  "firstSeen": 1791607533,
+  "lastSeen": 1791622715
+ },
+ {
+  "callsign": "ASA1515",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAFA",
+  "firstSeen": 1791607344,
+  "lastSeen": 1791609767
+ },
+ {
+  "callsign": "CPA2082",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791607064,
+  "lastSeen": 1791625813
+ },
+ {
+  "callsign": "AAL399",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KDFW",
+  "firstSeen": 1791606672,
+  "lastSeen": 1791627304
+ },
+ {
+  "callsign": "ASA7039",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KSEA",
+  "firstSeen": 1791606236,
+  "lastSeen": 1791615989
+ },
+ {
+  "callsign": "ETH3608",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791604564,
+  "lastSeen": 1791623618
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791604237,
+  "lastSeen": 1791605576
+ },
+ {
+  "callsign": "GTI854",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791604232,
+  "lastSeen": 1791622951
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KBFI",
+  "firstSeen": 1791604126,
+  "lastSeen": 1791613915
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791603122,
+  "lastSeen": 1791604491
+ },
+ {
+  "callsign": "",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAJN",
+  "firstSeen": 1791602832,
+  "lastSeen": 1791607195
+ },
+ {
+  "callsign": "GTI895",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791602705,
+  "lastSeen": 1791638381
+ },
+ {
+  "callsign": "NAC732",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791601595,
+  "lastSeen": 1791604372
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791601211,
+  "lastSeen": 1791602638
+ },
+ {
+  "callsign": "UPS95",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KSDF",
+  "firstSeen": 1791601021,
+  "lastSeen": 1791621508
+ },
+ {
+  "callsign": "ASA307",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PADQ",
+  "firstSeen": 1791600510,
+  "lastSeen": 1791603226
+ },
+ {
+  "callsign": "KAL277",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KDFW",
+  "firstSeen": 1791599987,
+  "lastSeen": 1791619521
+ },
+ {
+  "callsign": "RVV35",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAAQ",
+  "firstSeen": 1791599908,
+  "lastSeen": 1791601383
+ },
+ {
+  "callsign": "ASA81",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAFA",
+  "firstSeen": 1791599905,
+  "lastSeen": 1791602249
+ },
+ {
+  "callsign": "CAO1189",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KLAX",
+  "firstSeen": 1791599730,
+  "lastSeen": 1791615142
+ },
+ {
+  "callsign": "GTI8609",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KJFK",
+  "firstSeen": 1791598921,
+  "lastSeen": 1791620715
+ },
+ {
+  "callsign": "ASA45",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791597556,
+  "lastSeen": 1791600459
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791597546,
+  "lastSeen": 1791598799
+ },
+ {
+  "callsign": "LYC401",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791597166,
+  "lastSeen": 1791600986
+ },
+ {
+  "callsign": "AERT8",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PANC",
+  "firstSeen": 1791597151,
+  "lastSeen": 1791600859
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAFA",
+  "firstSeen": 1791597055,
+  "lastSeen": 1791600445
+ },
+ {
+  "callsign": "CAL5265",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "RCTP",
+  "firstSeen": 1791596948,
+  "lastSeen": 1791631649
+ },
+ {
+  "callsign": "NAC768",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791596885,
+  "lastSeen": 1791601076
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791596381,
+  "lastSeen": 1791597683
+ },
+ {
+  "callsign": "GTI658",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791596334,
+  "lastSeen": 1791615223
+ },
+ {
+  "callsign": "CLX5165",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "MMJC",
+  "firstSeen": 1791595662,
+  "lastSeen": 1791618957
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "44AK",
+  "firstSeen": 1791595050,
+  "lastSeen": 1791596117
+ },
+ {
+  "callsign": "ASA208",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KSEA",
+  "firstSeen": 1791594520,
+  "lastSeen": 1791605050
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791594465,
+  "lastSeen": 1791595869
+ },
+ {
+  "callsign": "CKS995",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KJFK",
+  "firstSeen": 1791594072,
+  "lastSeen": 1791615358
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791594063,
+  "lastSeen": 1791597171
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KHIO",
+  "firstSeen": 1791593838,
+  "lastSeen": 1791614823
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "2AK5",
+  "firstSeen": 1791593732,
+  "lastSeen": 1791597959
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PASX",
+  "firstSeen": 1791593665,
+  "lastSeen": 1791595458
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PANC",
+  "firstSeen": 1791593616,
+  "lastSeen": 1791598449
+ },
+ {
+  "callsign": "FDX86",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KOAK",
+  "firstSeen": 1791593438,
+  "lastSeen": 1791607055
+ },
+ {
+  "callsign": "ASA1722",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAFA",
+  "firstSeen": 1791593309,
+  "lastSeen": 1791595641
+ },
+ {
+  "callsign": "CSG2525",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "MMJC",
+  "firstSeen": 1791592540,
+  "lastSeen": 1791615959
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PANC",
+  "firstSeen": 1791592379,
+  "lastSeen": 1791599335
+ },
+ {
+  "callsign": "UPS81",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KONT",
+  "firstSeen": 1791592348,
+  "lastSeen": 1791606876
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791592006,
+  "lastSeen": 1791593468
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "1AK6",
+  "firstSeen": 1791591681,
+  "lastSeen": 1791594568
+ },
+ {
+  "callsign": "QXE2130",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAOT",
+  "firstSeen": 1791591664,
+  "lastSeen": 1791596389
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PANC",
+  "firstSeen": 1791591527,
+  "lastSeen": 1791594108
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "AK05",
+  "firstSeen": 1791591448,
+  "lastSeen": 1791593489
+ },
+ {
+  "callsign": "TNV54",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAIG",
+  "firstSeen": 1791591202,
+  "lastSeen": 1791594956
+ },
+ {
+  "callsign": "ASA50",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PHNL",
+  "firstSeen": 1791591157,
+  "lastSeen": 1791612260
+ },
+ {
+  "callsign": "CKS539",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791591081,
+  "lastSeen": 1791610580
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PASX",
+  "firstSeen": 1791590996,
+  "lastSeen": 1791593267
+ },
+ {
+  "callsign": "ASA7010",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791590990,
+  "lastSeen": 1791593735
+ },
+ {
+  "callsign": "ASA597",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KSEA",
+  "firstSeen": 1791590905,
+  "lastSeen": 1791601379
+ },
+ {
+  "callsign": "DAL928",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KSEA",
+  "firstSeen": 1791590678,
+  "lastSeen": 1791601309
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAMR",
+  "firstSeen": 1791590616,
+  "lastSeen": 1791593383
+ },
+ {
+  "callsign": "QXE2080",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KPDX",
+  "firstSeen": 1791590574,
+  "lastSeen": 1791601629
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791590527,
+  "lastSeen": 1791591948
+ },
+ {
+  "callsign": "FDX5601",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KMEM",
+  "firstSeen": 1791590465,
+  "lastSeen": 1791611661
+ },
+ {
+  "callsign": "CAO1055",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791590358,
+  "lastSeen": 1791609622
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAIG",
+  "firstSeen": 1791589960,
+  "lastSeen": 1791593757
+ },
+ {
+  "callsign": "UPS77",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KSDF",
+  "firstSeen": 1791589747,
+  "lastSeen": 1791610236
+ },
+ {
+  "callsign": "SIL1403",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAHO",
+  "firstSeen": 1791589484,
+  "lastSeen": 1791591514
+ },
+ {
+  "callsign": "AER67",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791589408,
+  "lastSeen": 1791598213
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "44AK",
+  "firstSeen": 1791589151,
+  "lastSeen": 1791590106
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PANC",
+  "firstSeen": 1791588997,
+  "lastSeen": 1791592728
+ },
+ {
+  "callsign": "UPS63",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KSDF",
+  "firstSeen": 1791588978,
+  "lastSeen": 1791609354
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791588819,
+  "lastSeen": 1791590108
+ },
+ {
+  "callsign": "UPS59",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KONT",
+  "firstSeen": 1791588805,
+  "lastSeen": 1791603644
+ },
+ {
+  "callsign": "ASA231",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791588693,
+  "lastSeen": 1791592168
+ },
+ {
+  "callsign": "KAL285",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KATL",
+  "firstSeen": 1791588573,
+  "lastSeen": 1791611201
+ },
+ {
+  "callsign": "OAE2509",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KRIV",
+  "firstSeen": 1791588441,
+  "lastSeen": 1791603701
+ },
+ {
+  "callsign": "FDX108",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KMEM",
+  "firstSeen": 1791587472,
+  "lastSeen": 1791608962
+ },
+ {
+  "callsign": "KAL233",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791587285,
+  "lastSeen": 1791606627
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791587258,
+  "lastSeen": 1791588681
+ },
+ {
+  "callsign": "AER81",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PANC",
+  "firstSeen": 1791586901,
+  "lastSeen": 1791592163
+ },
+ {
+  "callsign": "AERT8",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PASX",
+  "firstSeen": 1791586773,
+  "lastSeen": 1791589318
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PANC",
+  "firstSeen": 1791586376,
+  "lastSeen": 1791588680
+ },
+ {
+  "callsign": "ASA1417",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KSEA",
+  "firstSeen": 1791586295,
+  "lastSeen": 1791596928
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "AK24",
+  "firstSeen": 1791586281,
+  "lastSeen": 1791587443
+ },
+ {
+  "callsign": "UPS109",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KSDF",
+  "firstSeen": 1791586195,
+  "lastSeen": 1791606686
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791585901,
+  "lastSeen": 1791587339
+ },
+ {
+  "callsign": "ASA51",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791585875,
+  "lastSeen": 1791589978
+ },
+ {
+  "callsign": "SRY1103",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791585858,
+  "lastSeen": 1791591735
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791585649,
+  "lastSeen": 1791588808
+ },
+ {
+  "callsign": "CSG2505",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791585592,
+  "lastSeen": 1791604657
+ },
+ {
+  "callsign": "ASA7019",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PADL",
+  "firstSeen": 1791585512,
+  "lastSeen": 1791588676
+ },
+ {
+  "callsign": "GTI8523",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791584836,
+  "lastSeen": 1791603657
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PABG",
+  "firstSeen": 1791584643,
+  "lastSeen": 1791585988
+ },
+ {
+  "callsign": "DAL922",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KSEA",
+  "firstSeen": 1791584228,
+  "lastSeen": 1791594355
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "25AK",
+  "firstSeen": 1791584177,
+  "lastSeen": 1791587352
+ },
+ {
+  "callsign": "NCA164",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KDFW",
+  "firstSeen": 1791584122,
+  "lastSeen": 1791604010
+ },
+ {
+  "callsign": "CAL5311",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "RCTP",
+  "firstSeen": 1791583984,
+  "lastSeen": 1791619007
+ },
+ {
+  "callsign": "ASA89",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PADQ",
+  "firstSeen": 1791583880,
+  "lastSeen": 1791586567
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PABG",
+  "firstSeen": 1791583642,
+  "lastSeen": 1791584514
+ },
+ {
+  "callsign": "KAL8256",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "RKSI",
+  "firstSeen": 1791583537,
+  "lastSeen": 1791613719
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791583531,
+  "lastSeen": 1791584898
+ },
+ {
+  "callsign": "ASA9801",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAJN",
+  "firstSeen": 1791583170,
+  "lastSeen": 1791587587
+ },
+ {
+  "callsign": "GTI8254",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791583072,
+  "lastSeen": 1791613618
+ },
+ {
+  "callsign": "TNV54",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAVD",
+  "firstSeen": 1791582822,
+  "lastSeen": 1791584539
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "4AK6",
+  "firstSeen": 1791582348,
+  "lastSeen": 1791583990
+ },
+ {
+  "callsign": "GTI7134",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791582347,
+  "lastSeen": 1791602089
+ },
+ {
+  "callsign": "SRY1210",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791582117,
+  "lastSeen": 1791588329
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791581963,
+  "lastSeen": 1791584332
+ },
+ {
+  "callsign": "EVA693",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "RCTP",
+  "firstSeen": 1791581735,
+  "lastSeen": 1791617119
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791581624,
+  "lastSeen": 1791583033
+ },
+ {
+  "callsign": "ASA66",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PACV",
+  "firstSeen": 1791581317,
+  "lastSeen": 1791583297
+ },
+ {
+  "callsign": "DAZ11",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAFA",
+  "firstSeen": 1791581184,
+  "lastSeen": 1791585412
+ },
+ {
+  "callsign": "ASA7025",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAOT",
+  "firstSeen": 1791581091,
+  "lastSeen": 1791585833
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "1AK6",
+  "firstSeen": 1791581079,
+  "lastSeen": 1791582856
+ },
+ {
+  "callsign": "UPS76",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "ZGSZ",
+  "firstSeen": 1791580848,
+  "lastSeen": 1791620248
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "AA05",
+  "firstSeen": 1791580400,
+  "lastSeen": 1791581876
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "44AK",
+  "firstSeen": 1791580333,
+  "lastSeen": 1791581593
+ },
+ {
+  "callsign": "NAC772",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PADL",
+  "firstSeen": 1791580238,
+  "lastSeen": 1791583527
+ },
+ {
+  "callsign": "CAO1049",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KJFK",
+  "firstSeen": 1791579819,
+  "lastSeen": 1791601450
+ },
+ {
+  "callsign": "GTI856",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791579759,
+  "lastSeen": 1791598585
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791579729,
+  "lastSeen": 1791581094
+ },
+ {
+  "callsign": "ASA679",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAFA",
+  "firstSeen": 1791579556,
+  "lastSeen": 1791581935
+ },
+ {
+  "callsign": "CSG2683",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791579428,
+  "lastSeen": 1791598461
+ },
+ {
+  "callsign": "VTS880",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791579272,
+  "lastSeen": 1791583159
+ },
+ {
+  "callsign": "SVX41",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791578898,
+  "lastSeen": 1791581587
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PANC",
+  "firstSeen": 1791578643,
+  "lastSeen": 1791581999
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "2AK5",
+  "firstSeen": 1791578220,
+  "lastSeen": 1791582509
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791578043,
+  "lastSeen": 1791579461
+ },
+ {
+  "callsign": "QXE2030",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAKN",
+  "firstSeen": 1791577988,
+  "lastSeen": 1791581241
+ },
+ {
+  "callsign": "CON151",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791577365,
+  "lastSeen": 1791580938
+ },
+ {
+  "callsign": "GUN4TH",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PANC",
+  "firstSeen": 1791577067,
+  "lastSeen": 1791583468
+ },
+ {
+  "callsign": "OAE2522",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "ROTM",
+  "firstSeen": 1791576985,
+  "lastSeen": 1791611345
+ },
+ {
+  "callsign": "NAC1702",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791576481,
+  "lastSeen": 1791579068
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791576420,
+  "lastSeen": 1791577729
+ },
+ {
+  "callsign": "VTS890",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAKN",
+  "firstSeen": 1791576350,
+  "lastSeen": 1791579387
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "1AK8",
+  "firstSeen": 1791576310,
+  "lastSeen": 1791577729
+ },
+ {
+  "callsign": "UPS61",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KSDF",
+  "firstSeen": 1791576187,
+  "lastSeen": 1791596585
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "07AA",
+  "firstSeen": 1791576069,
+  "lastSeen": 1791577245
+ },
+ {
+  "callsign": "UPS96",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "RPLC",
+  "firstSeen": 1791576033,
+  "lastSeen": 1791614679
+ },
+ {
+  "callsign": "QXE2038",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PADL",
+  "firstSeen": 1791575893,
+  "lastSeen": 1791579158
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PASW",
+  "firstSeen": 1791575858,
+  "lastSeen": 1791578022
+ },
+ {
+  "callsign": "ASA1324",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KPDX",
+  "firstSeen": 1791575792,
+  "lastSeen": 1791586738
+ },
+ {
+  "callsign": "FDX5432",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "RKSI",
+  "firstSeen": 1791575678,
+  "lastSeen": 1791607396
+ },
+ {
+  "callsign": "GTI4316",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "RJGG",
+  "firstSeen": 1791575493,
+  "lastSeen": 1791603167
+ },
+ {
+  "callsign": "CFS8976",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAHO",
+  "firstSeen": 1791575385,
+  "lastSeen": 1791578313
+ },
+ {
+  "callsign": "NCA004",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "EHAM",
+  "firstSeen": 1791575218,
+  "lastSeen": 1791604889
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791574962,
+  "lastSeen": 1791579654
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "3AK5",
+  "firstSeen": 1791574817,
+  "lastSeen": 1791578827
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791574753,
+  "lastSeen": 1791576136
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PANC",
+  "firstSeen": 1791574693,
+  "lastSeen": 1791580570
+ },
+ {
+  "callsign": "UPS64",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "VHHH",
+  "firstSeen": 1791574608,
+  "lastSeen": 1791612419
+ },
+ {
+  "callsign": "ASA58",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791574530,
+  "lastSeen": 1791577508
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PANC",
+  "firstSeen": 1791574497,
+  "lastSeen": 1791577063
+ },
+ {
+  "callsign": "FDX85",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "RJAA",
+  "firstSeen": 1791574393,
+  "lastSeen": 1791600800
+ },
+ {
+  "callsign": "EVA642",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791574272,
+  "lastSeen": 1791593149
+ },
+ {
+  "callsign": "DAL2768",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KSEA",
+  "firstSeen": 1791574170,
+  "lastSeen": 1791584746
+ },
+ {
+  "callsign": "CAL5240",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791574049,
+  "lastSeen": 1791592903
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "RJBB",
+  "firstSeen": 1791573915,
+  "lastSeen": 1791603775
+ },
+ {
+  "callsign": "SVX42",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PANC",
+  "firstSeen": 1791573731,
+  "lastSeen": 1791576958
+ },
+ {
+  "callsign": "AER35",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAIL",
+  "firstSeen": 1791573420,
+  "lastSeen": 1791576980
+ },
+ {
+  "callsign": "CPA2094",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791573281,
+  "lastSeen": 1791592559
+ },
+ {
+  "callsign": "ASA64",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAJN",
+  "firstSeen": 1791573167,
+  "lastSeen": 1791577973
+ },
+ {
+  "callsign": "FDX5319",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "RJBB",
+  "firstSeen": 1791572677,
+  "lastSeen": 1791601619
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791572644,
+  "lastSeen": 1791574000
+ },
+ {
+  "callsign": "FDX169",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "WSSS",
+  "firstSeen": 1791571893,
+  "lastSeen": 1791620517
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791571838,
+  "lastSeen": 1791574421
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PFKK",
+  "firstSeen": 1791571740,
+  "lastSeen": 1791574742
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAFA",
+  "firstSeen": 1791571732,
+  "lastSeen": 1791574119
+ },
+ {
+  "callsign": "GTI755",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791571608,
+  "lastSeen": 1791590418
+ },
+ {
+  "callsign": "WGN503",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "RJSM",
+  "firstSeen": 1791571357,
+  "lastSeen": 1791594456
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "1AK6",
+  "firstSeen": 1791571351,
+  "lastSeen": 1791573172
+ },
+ {
+  "callsign": "FDX49",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "RCTP",
+  "firstSeen": 1791571208,
+  "lastSeen": 1791608246
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791571208,
+  "lastSeen": 1791573959
+ },
+ {
+  "callsign": "LYC401",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791571048,
+  "lastSeen": 1791576409
+ },
+ {
+  "callsign": "ASA204",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791570968,
+  "lastSeen": 1791573706
+ },
+ {
+  "callsign": "CFS8735",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791570933,
+  "lastSeen": 1791572397
+ },
+ {
+  "callsign": "ASA440",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KSEA",
+  "firstSeen": 1791570860,
+  "lastSeen": 1791582078
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791570843,
+  "lastSeen": 1791572217
+ },
+ {
+  "callsign": "TNV54",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAVD",
+  "firstSeen": 1791570707,
+  "lastSeen": 1791572694
+ },
+ {
+  "callsign": "UPS62",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "VHHH",
+  "firstSeen": 1791570622,
+  "lastSeen": 1791608855
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "1AK8",
+  "firstSeen": 1791570605,
+  "lastSeen": 1791572014
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PABG",
+  "firstSeen": 1791570464,
+  "lastSeen": 1791571872
+ },
+ {
+  "callsign": "CFS8663",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAFA",
+  "firstSeen": 1791570439,
+  "lastSeen": 1791573953
+ },
+ {
+  "callsign": "AER21",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAWG",
+  "firstSeen": 1791570360,
+  "lastSeen": 1791578896
+ },
+ {
+  "callsign": "UPS26",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "RKSI",
+  "firstSeen": 1791570251,
+  "lastSeen": 1791601169
+ },
+ {
+  "callsign": "CFS222",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KCOE",
+  "firstSeen": 1791569943,
+  "lastSeen": 1791587708
+ },
+ {
+  "callsign": "AER44",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAYA",
+  "firstSeen": 1791569795,
+  "lastSeen": 1791574907
+ },
+ {
+  "callsign": "CFS8676",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAHO",
+  "firstSeen": 1791569757,
+  "lastSeen": 1791572859
+ },
+ {
+  "callsign": "ASA1432",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAFA",
+  "firstSeen": 1791569414,
+  "lastSeen": 1791572009
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAWR",
+  "firstSeen": 1791569029,
+  "lastSeen": 1791571376
+ },
+ {
+  "callsign": "CFS8661",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791569023,
+  "lastSeen": 1791570487
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791568841,
+  "lastSeen": 1791570230
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791568287,
+  "lastSeen": 1791572495
+ },
+ {
+  "callsign": "ATN3379",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KSEA",
+  "firstSeen": 1791568112,
+  "lastSeen": 1791578241
+ },
+ {
+  "callsign": "RYA907",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PADQ",
+  "firstSeen": 1791567959,
+  "lastSeen": 1791572061
+ },
+ {
+  "callsign": "ASA1407",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KPDX",
+  "firstSeen": 1791567121,
+  "lastSeen": 1791578093
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "4AK6",
+  "firstSeen": 1791566856,
+  "lastSeen": 1791568396
+ },
+ {
+  "callsign": "ASA7011",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791566736,
+  "lastSeen": 1791570174
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAFA",
+  "firstSeen": 1791566269,
+  "lastSeen": 1791568759
+ },
+ {
+  "callsign": "TNV141",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAHO",
+  "firstSeen": 1791566050,
+  "lastSeen": 1791568491
+ },
+ {
+  "callsign": "ASA651",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KSEA",
+  "firstSeen": 1791565745,
+  "lastSeen": 1791575848
+ },
+ {
+  "callsign": "TNV122",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PADQ",
+  "firstSeen": 1791565734,
+  "lastSeen": 1791569808
+ },
+ {
+  "callsign": "TNVV152",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791565444,
+  "lastSeen": 1791566646
+ },
+ {
+  "callsign": "TNV132",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAFA",
+  "firstSeen": 1791565413,
+  "lastSeen": 1791568928
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PANC",
+  "firstSeen": 1791565269,
+  "lastSeen": 1791568716
+ },
+ {
+  "callsign": "RYA410",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791565231,
+  "lastSeen": 1791568557
+ },
+ {
+  "callsign": "ASA230",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAOT",
+  "firstSeen": 1791565103,
+  "lastSeen": 1791569656
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791564961,
+  "lastSeen": 1791566266
+ },
+ {
+  "callsign": "CFS8664",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791564903,
+  "lastSeen": 1791566429
+ },
+ {
+  "callsign": "AIH587",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KJFK",
+  "firstSeen": 1791564858,
+  "lastSeen": 1791585979
+ },
+ {
+  "callsign": "CKS866D",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791564402,
+  "lastSeen": 1791594354
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PANC",
+  "firstSeen": 1791564279,
+  "lastSeen": 1791572078
+ },
+ {
+  "callsign": "GTI8228",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791563837,
+  "lastSeen": 1791584572
+ },
+ {
+  "callsign": "DAZ15",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PADQ",
+  "firstSeen": 1791563832,
+  "lastSeen": 1791568837
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791563582,
+  "lastSeen": 1791565015
+ },
+ {
+  "callsign": "SRY1101",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791563296,
+  "lastSeen": 1791568859
+ },
+ {
+  "callsign": "DAZ20",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAFA",
+  "firstSeen": 1791562899,
+  "lastSeen": 1791567253
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791562833,
+  "lastSeen": 1791574222
+ },
+ {
+  "callsign": "CPA3096",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791562516,
+  "lastSeen": 1791581529
+ },
+ {
+  "callsign": "TVJ9968",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "RJAA",
+  "firstSeen": 1791562299,
+  "lastSeen": 1791592227
+ },
+ {
+  "callsign": "ASA594",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KSEA",
+  "firstSeen": 1791562050,
+  "lastSeen": 1791572105
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "AK39",
+  "firstSeen": 1791561795,
+  "lastSeen": 1791562940
+ },
+ {
+  "callsign": "CKS819",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "MMJC",
+  "firstSeen": 1791561764,
+  "lastSeen": 1791585454
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791561727,
+  "lastSeen": 1791563061
+ },
+ {
+  "callsign": "AER65",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791561604,
+  "lastSeen": 1791568756
+ },
+ {
+  "callsign": "TNV54",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAVD",
+  "firstSeen": 1791560974,
+  "lastSeen": 1791562743
+ },
+ {
+  "callsign": "SRY1401",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAHO",
+  "firstSeen": 1791560797,
+  "lastSeen": 1791562407
+ },
+ {
+  "callsign": "NAC720",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791560581,
+  "lastSeen": 1791564509
+ },
+ {
+  "callsign": "ASA331",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAFA",
+  "firstSeen": 1791560480,
+  "lastSeen": 1791563159
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAFA",
+  "firstSeen": 1791560354,
+  "lastSeen": 1791563891
+ },
+ {
+  "callsign": "NAC722",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAOT",
+  "firstSeen": 1791560237,
+  "lastSeen": 1791564855
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791559926,
+  "lastSeen": 1791561440
+ },
+ {
+  "callsign": "CLX272",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791559860,
+  "lastSeen": 1791578317
+ },
+ {
+  "callsign": "QXE2002",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791559178,
+  "lastSeen": 1791562858
+ },
+ {
+  "callsign": "AZG923",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KDFW",
+  "firstSeen": 1791558883,
+  "lastSeen": 1791579618
+ },
+ {
+  "callsign": "ASA48",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KSEA",
+  "firstSeen": 1791558696,
+  "lastSeen": 1791568626
+ },
+ {
+  "callsign": "ASA62",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAJN",
+  "firstSeen": 1791558553,
+  "lastSeen": 1791563273
+ },
+ {
+  "callsign": "NCR525",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KMIA",
+  "firstSeen": 1791558129,
+  "lastSeen": 1791584163
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791557869,
+  "lastSeen": 1791559342
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791557745,
+  "lastSeen": 1791559242
+ },
+ {
+  "callsign": "CON131",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791557324,
+  "lastSeen": 1791561148
+ },
+ {
+  "callsign": "DAL853",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KSEA",
+  "firstSeen": 1791557113,
+  "lastSeen": 1791567552
+ },
+ {
+  "callsign": "YZR7451",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791556922,
+  "lastSeen": 1791576621
+ },
+ {
+  "callsign": "VTS870",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791556478,
+  "lastSeen": 1791559185
+ },
+ {
+  "callsign": "GTI8422",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KMIA",
+  "firstSeen": 1791556337,
+  "lastSeen": 1791583306
+ },
+ {
+  "callsign": "CAO1165",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KMIA",
+  "firstSeen": 1791556219,
+  "lastSeen": 1791582751
+ },
+ {
+  "callsign": "AER52",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "4AK7",
+  "firstSeen": 1791555626,
+  "lastSeen": 1791560332
+ },
+ {
+  "callsign": "GTI826",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791555468,
+  "lastSeen": 1791574959
+ },
+ {
+  "callsign": "ASA7015",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791555210,
+  "lastSeen": 1791558707
+ },
+ {
+  "callsign": "ASA408",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KSEA",
+  "firstSeen": 1791554865,
+  "lastSeen": 1791564958
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791554676,
+  "lastSeen": 1791555924
+ },
+ {
+  "callsign": "CKK231",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KJFK",
+  "firstSeen": 1791553835,
+  "lastSeen": 1791576057
+ },
+ {
+  "callsign": "B3358",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KATL",
+  "firstSeen": 1791553710,
+  "lastSeen": 1791576642
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791553146,
+  "lastSeen": 1791554512
+ },
+ {
+  "callsign": "CSN437",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791552951,
+  "lastSeen": 1791572549
+ },
+ {
+  "callsign": "GTI537",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791552860,
+  "lastSeen": 1791584219
+ },
+ {
+  "callsign": "AER31",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAKN",
+  "firstSeen": 1791552823,
+  "lastSeen": 1791557249
+ },
+ {
+  "callsign": "CPA096",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "MMJC",
+  "firstSeen": 1791552602,
+  "lastSeen": 1791576117
+ },
+ {
+  "callsign": "CLX5955",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791551895,
+  "lastSeen": 1791571042
+ },
+ {
+  "callsign": "GTI8976",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791551420,
+  "lastSeen": 1791585670
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791551254,
+  "lastSeen": 1791552581
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791550848,
+  "lastSeen": 1791555224
+ },
+ {
+  "callsign": "CSG2543",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KJFK",
+  "firstSeen": 1791550570,
+  "lastSeen": 1791571739
+ },
+ {
+  "callsign": "CPA072",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KMIA",
+  "firstSeen": 1791550364,
+  "lastSeen": 1791576861
+ },
+ {
+  "callsign": "SIA7952",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KDFW",
+  "firstSeen": 1791550245,
+  "lastSeen": 1791570134
+ },
+ {
+  "callsign": "ASA7005",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAJN",
+  "firstSeen": 1791550020,
+  "lastSeen": 1791554609
+ },
+ {
+  "callsign": "CKK227",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791549540,
+  "lastSeen": 1791568838
+ },
+ {
+  "callsign": "CPA2087",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791549403,
+  "lastSeen": 1791587565
+ },
+ {
+  "callsign": "AER145",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PADQ",
+  "firstSeen": 1791549106,
+  "lastSeen": 1791553167
+ },
+ {
+  "callsign": "UPS69",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KSDF",
+  "firstSeen": 1791548918,
+  "lastSeen": 1791568912
+ },
+ {
+  "callsign": "AER42",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PACV",
+  "firstSeen": 1791548065,
+  "lastSeen": 1791550547
+ },
+ {
+  "callsign": "GTI8106",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KMIA",
+  "firstSeen": 1791546785,
+  "lastSeen": 1791573251
+ },
+ {
+  "callsign": "VJT842",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "RCSS",
+  "firstSeen": 1791546563,
+  "lastSeen": 1791584713
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791545296,
+  "lastSeen": 1791551995
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "WSSL",
+  "firstSeen": 1791545074,
+  "lastSeen": 1791593081
+ },
+ {
+  "callsign": "GTI860",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791544894,
+  "lastSeen": 1791564509
+ },
+ {
+  "callsign": "CKS557",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791544855,
+  "lastSeen": 1791563655
+ },
+ {
+  "callsign": "FDX60",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KOAK",
+  "firstSeen": 1791544578,
+  "lastSeen": 1791558175
+ },
+ {
+  "callsign": "AER43",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAKT",
+  "firstSeen": 1791544350,
+  "lastSeen": 1791553873
+ },
+ {
+  "callsign": "FDX6401",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "VVNB",
+  "firstSeen": 1791544074,
+  "lastSeen": 1791586197
+ },
+ {
+  "callsign": "FDX9082",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KM01",
+  "firstSeen": 1791543903,
+  "lastSeen": 1791564505
+ },
+ {
+  "callsign": "KYE9520",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791543825,
+  "lastSeen": 1791562106
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAFA",
+  "firstSeen": 1791543030,
+  "lastSeen": 1791546648
+ },
+ {
+  "callsign": "GTI538",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KMIA",
+  "firstSeen": 1791542641,
+  "lastSeen": 1791569069
+ },
+ {
+  "callsign": "ASA98",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KSEA",
+  "firstSeen": 1791542100,
+  "lastSeen": 1791552037
+ },
+ {
+  "callsign": "FDX6030",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KM01",
+  "firstSeen": 1791541958,
+  "lastSeen": 1791562336
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KTEB",
+  "firstSeen": 1791541670,
+  "lastSeen": 1791562150
+ },
+ {
+  "callsign": "ASA593",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KPDX",
+  "firstSeen": 1791541433,
+  "lastSeen": 1791552614
+ },
+ {
+  "callsign": "AER41",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAJN",
+  "firstSeen": 1791540922,
+  "lastSeen": 1791548324
+ },
+ {
+  "callsign": "GTI8702",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KMIA",
+  "firstSeen": 1791540705,
+  "lastSeen": 1791567037
+ },
+ {
+  "callsign": "ASA532",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KSEA",
+  "firstSeen": 1791540420,
+  "lastSeen": 1791550537
+ },
+ {
+  "callsign": "CAL5266",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KDFW",
+  "firstSeen": 1791540231,
+  "lastSeen": 1791560425
+ },
+ {
+  "callsign": "GTI7172",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KDFW",
+  "firstSeen": 1791539610,
+  "lastSeen": 1791559849
+ },
+ {
+  "callsign": "GTI8528",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791539360,
+  "lastSeen": 1791557754
+ },
+ {
+  "callsign": "DAL925",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KSEA",
+  "firstSeen": 1791539027,
+  "lastSeen": 1791549110
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PANC",
+  "firstSeen": 1791538788,
+  "lastSeen": 1791556855
+ },
+ {
+  "callsign": "FDX5163",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KM01",
+  "firstSeen": 1791538684,
+  "lastSeen": 1791559090
+ },
+ {
+  "callsign": "ASA1423",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KSEA",
+  "firstSeen": 1791538462,
+  "lastSeen": 1791548509
+ },
+ {
+  "callsign": "NCR660",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "CYYZ",
+  "firstSeen": 1791538110,
+  "lastSeen": 1791556821
+ },
+ {
+  "callsign": "GTI8035",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KMIA",
+  "firstSeen": 1791537504,
+  "lastSeen": 1791563754
+ },
+ {
+  "callsign": "UPS71",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KSDF",
+  "firstSeen": 1791537343,
+  "lastSeen": 1791557193
+ },
+ {
+  "callsign": "ASA1380",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KSEA",
+  "firstSeen": 1791536467,
+  "lastSeen": 1791546455
+ },
+ {
+  "callsign": "CAO3103",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791535916,
+  "lastSeen": 1791554277
+ },
+ {
+  "callsign": "CKK621",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "CYYZ",
+  "firstSeen": 1791535821,
+  "lastSeen": 1791554933
+ },
+ {
+  "callsign": "AIH242",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791535644,
+  "lastSeen": 1791554716
+ },
+ {
+  "callsign": "UPS7893",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KONT",
+  "firstSeen": 1791535054,
+  "lastSeen": 1791552106
+ },
+ {
+  "callsign": "EVA668",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KATL",
+  "firstSeen": 1791534900,
+  "lastSeen": 1791556847
+ },
+ {
+  "callsign": "UAL1959",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KDEN",
+  "firstSeen": 1791534452,
+  "lastSeen": 1791550575
+ },
+ {
+  "callsign": "GTI812",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KJFK",
+  "firstSeen": 1791534097,
+  "lastSeen": 1791555145
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PATK",
+  "firstSeen": 1791533140,
+  "lastSeen": 1791535979
+ },
+ {
+  "callsign": "ASA47",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KPHX",
+  "firstSeen": 1791532724,
+  "lastSeen": 1791550529
+ },
+ {
+  "callsign": "CKS910",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791531960,
+  "lastSeen": 1791561999
+ },
+ {
+  "callsign": "CKK225",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791531882,
+  "lastSeen": 1791550923
+ },
+ {
+  "callsign": "ASA1516",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KLAS",
+  "firstSeen": 1791531513,
+  "lastSeen": 1791547488
+ },
+ {
+  "callsign": "GTI8838",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KNIP",
+  "firstSeen": 1791531121,
+  "lastSeen": 1791556448
+ },
+ {
+  "callsign": "ASA44",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KLAX",
+  "firstSeen": 1791530544,
+  "lastSeen": 1791546774
+ },
+ {
+  "callsign": "CKS998",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791530125,
+  "lastSeen": 1791560255
+ },
+ {
+  "callsign": "AIH247",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "RKSI",
+  "firstSeen": 1791529398,
+  "lastSeen": 1791560121
+ },
+ {
+  "callsign": "FDX6031",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "ZGGG",
+  "firstSeen": 1791528967,
+  "lastSeen": 1791567342
+ },
+ {
+  "callsign": "NCR652",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KMIA",
+  "firstSeen": 1791528856,
+  "lastSeen": 1791554450
+ },
+ {
+  "callsign": "CSG2537",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KLAX",
+  "firstSeen": 1791528382,
+  "lastSeen": 1791544127
+ },
+ {
+  "callsign": "ASA362",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAFA",
+  "firstSeen": 1791528025,
+  "lastSeen": 1791530508
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PADQ",
+  "firstSeen": 1791528017,
+  "lastSeen": 1791531753
+ },
+ {
+  "callsign": "GTI8676",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KDFW",
+  "firstSeen": 1791526817,
+  "lastSeen": 1791547184
+ },
+ {
+  "callsign": "LN557LM",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAFA",
+  "firstSeen": 1791526656,
+  "lastSeen": 1791529126
+ },
+ {
+  "callsign": "DAL377",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KMSP",
+  "firstSeen": 1791526478,
+  "lastSeen": 1791543307
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791525490,
+  "lastSeen": 1791526769
+ },
+ {
+  "callsign": "UAL450",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791524936,
+  "lastSeen": 1791543952
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791524911,
+  "lastSeen": 1791525879
+ },
+ {
+  "callsign": "FDX5236",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "RKSI",
+  "firstSeen": 1791524558,
+  "lastSeen": 1791554819
+ },
+ {
+  "callsign": "CSG2501",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791524310,
+  "lastSeen": 1791543201
+ },
+ {
+  "callsign": "EVA647",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791524221,
+  "lastSeen": 1791559069
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791523886,
+  "lastSeen": 1791525149
+ },
+ {
+  "callsign": "ASA7096",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAJN",
+  "firstSeen": 1791522694,
+  "lastSeen": 1791527066
+ },
+ {
+  "callsign": "EVA692",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KDFW",
+  "firstSeen": 1791522421,
+  "lastSeen": 1791542899
+ },
+ {
+  "callsign": "WGN315",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KLAX",
+  "firstSeen": 1791522142,
+  "lastSeen": 1791537469
+ },
+ {
+  "callsign": "AZG148",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791521973,
+  "lastSeen": 1791539993
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791521827,
+  "lastSeen": 1791523175
+ },
+ {
+  "callsign": "CPA3281",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "VHHH",
+  "firstSeen": 1791521645,
+  "lastSeen": 1791560485
+ },
+ {
+  "callsign": "FDX5813",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "RJBB",
+  "firstSeen": 1791521239,
+  "lastSeen": 1791551740
+ },
+ {
+  "callsign": "GTI4608",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KCVG",
+  "firstSeen": 1791520609,
+  "lastSeen": 1791539411
+ },
+ {
+  "callsign": "ASA1515",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAFA",
+  "firstSeen": 1791520230,
+  "lastSeen": 1791522620
+ },
+ {
+  "callsign": "AAL399",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KDFW",
+  "firstSeen": 1791519979,
+  "lastSeen": 1791540747
+ },
+ {
+  "callsign": "CPA3275",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791519483,
+  "lastSeen": 1791556805
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791519020,
+  "lastSeen": 1791520298
+ },
+ {
+  "callsign": "EVA654",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791518880,
+  "lastSeen": 1791537305
+ },
+ {
+  "callsign": "GTI8719",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "ROTM",
+  "firstSeen": 1791518381,
+  "lastSeen": 1791550279
+ },
+ {
+  "callsign": "CAL5312",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KJFK",
+  "firstSeen": 1791517807,
+  "lastSeen": 1791538286
+ },
+ {
+  "callsign": "UPS6083",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KSDF",
+  "firstSeen": 1791517410,
+  "lastSeen": 1791536142
+ },
+ {
+  "callsign": "GTI896",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791517275,
+  "lastSeen": 1791534635
+ },
+ {
+  "callsign": "GTI825",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KMIA",
+  "firstSeen": 1791517192,
+  "lastSeen": 1791543239
+ },
+ {
+  "callsign": "ASA70",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAJN",
+  "firstSeen": 1791517036,
+  "lastSeen": 1791521506
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791516905,
+  "lastSeen": 1791518205
+ },
+ {
+  "callsign": "GTI654",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791516393,
+  "lastSeen": 1791534073
+ },
+ {
+  "callsign": "KAL8250",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "RKSI",
+  "firstSeen": 1791515760,
+  "lastSeen": 1791546055
+ },
+ {
+  "callsign": "GTI8700",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791515300,
+  "lastSeen": 1791532619
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791514810,
+  "lastSeen": 1791516233
+ },
+ {
+  "callsign": "CAL5225",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "RCTP",
+  "firstSeen": 1791514792,
+  "lastSeen": 1791549809
+ },
+ {
+  "callsign": "CEO54",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "WIHH",
+  "firstSeen": 1791514216,
+  "lastSeen": 1791567877
+ },
+ {
+  "callsign": "GTI854",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PANC",
+  "firstSeen": 1791514025,
+  "lastSeen": 1791592769
+ },
+ {
+  "callsign": "ASA307",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PADQ",
+  "firstSeen": 1791513135,
+  "lastSeen": 1791515661
+ },
+ {
+  "callsign": "ASA81",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAFA",
+  "firstSeen": 1791513016,
+  "lastSeen": 1791515568
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PANC",
+  "firstSeen": 1791512454,
+  "lastSeen": 1791514172
+ },
+ {
+  "callsign": "ASA45",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791511334,
+  "lastSeen": 1791513983
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791511328,
+  "lastSeen": 1791512904
+ },
+ {
+  "callsign": "CKS416",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "ROAH",
+  "firstSeen": 1791511184,
+  "lastSeen": 1791542218
+ },
+ {
+  "callsign": "NAC1700",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KSEA",
+  "firstSeen": 1791510159,
+  "lastSeen": 1791520914
+ },
+ {
+  "callsign": "CPA3017",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "VHHH",
+  "firstSeen": 1791510016,
+  "lastSeen": 1791548596
+ },
+ {
+  "callsign": "ASA50",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PHNL",
+  "firstSeen": 1791509916,
+  "lastSeen": 1791531149
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PANC",
+  "firstSeen": 1791509808,
+  "lastSeen": 1791513507
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791509801,
+  "lastSeen": 1791511097
+ },
+ {
+  "callsign": "CKS601",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KORD",
+  "firstSeen": 1791509774,
+  "lastSeen": 1791527099
+ },
+ {
+  "callsign": "KAL8255",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KDFW",
+  "firstSeen": 1791509147,
+  "lastSeen": 1791529037
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "RJGG",
+  "firstSeen": 1791508724,
+  "lastSeen": 1791536800
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PANC",
+  "firstSeen": 1791508467,
+  "lastSeen": 1791509397
+ },
+ {
+  "callsign": "ASA208",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KSEA",
+  "firstSeen": 1791507944,
+  "lastSeen": 1791519343
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "1AK8",
+  "firstSeen": 1791507910,
+  "lastSeen": 1791509397
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791507735,
+  "lastSeen": 1791509153
+ },
+ {
+  "callsign": "VTS872",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791507663,
+  "lastSeen": 1791510266
+ },
+ {
+  "callsign": "ASA7010",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791507196,
+  "lastSeen": 1791509713
+ },
+ {
+  "callsign": "ASA1722",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAFA",
+  "firstSeen": 1791506966,
+  "lastSeen": 1791509519
+ },
+ {
+  "callsign": "LYC403",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791506764,
+  "lastSeen": 1791510358
+ },
+ {
+  "callsign": "GTI8608",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791506609,
+  "lastSeen": 1791537056
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KBFI",
+  "firstSeen": 1791506284,
+  "lastSeen": 1791516321
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "3AK5",
+  "firstSeen": 1791505943,
+  "lastSeen": 1791509726
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAEN",
+  "firstSeen": 1791505723,
+  "lastSeen": 1791507149
+ },
+ {
+  "callsign": "GTI8721",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KMIA",
+  "firstSeen": 1791505649,
+  "lastSeen": 1791532320
+ },
+ {
+  "callsign": "FDX5601",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KMEM",
+  "firstSeen": 1791505335,
+  "lastSeen": 1791525298
+ },
+ {
+  "callsign": "GTI8255",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KMIA",
+  "firstSeen": 1791505190,
+  "lastSeen": 1791529803
+ },
+ {
+  "callsign": "ASA597",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KSEA",
+  "firstSeen": 1791505093,
+  "lastSeen": 1791515833
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791504963,
+  "lastSeen": 1791507725
+ },
+ {
+  "callsign": "FDX22",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KIND",
+  "firstSeen": 1791504914,
+  "lastSeen": 1791523528
+ },
+ {
+  "callsign": "CKS598",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "RKSI",
+  "firstSeen": 1791504729,
+  "lastSeen": 1791535889
+ },
+ {
+  "callsign": "SIL1403",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAHO",
+  "firstSeen": 1791504725,
+  "lastSeen": 1791506549
+ },
+ {
+  "callsign": "QXE2130",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "PAOT",
+  "firstSeen": 1791504562,
+  "lastSeen": 1791509464
+ },
+ {
+  "callsign": "PRIVATE",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "89AK",
+  "firstSeen": 1791504497,
+  "lastSeen": 1791505529
+ },
+ {
+  "callsign": "DAL928",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KSEA",
+  "firstSeen": 1791504488,
+  "lastSeen": 1791515515
+ },
+ {
+  "callsign": "QXE2080",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": "KPDX",
+  "firstSeen": 1791504299,
+  "lastSeen": 1791516339
+ },
+ {
+  "callsign": "NAC2730",
+  "estDepartureAirport": "PANC",
+  "estArrivalAirport": null,
+  "firstSeen": 1791504094,
+  "lastSeen": 1791506665
+ }
+]

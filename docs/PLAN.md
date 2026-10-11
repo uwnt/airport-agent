@@ -237,7 +237,7 @@ than designing the scoring.
 
 ---
 
-## Step 0 — Setup (0:45)
+## Step 0 — Setup (0:45) ✅
 **What:**
 - Create a private repo `airport-agent` on your personal GitHub.
 - Create a fine-grained token limited to that one repo, and store it in Doppler as `GH_TOKEN`.

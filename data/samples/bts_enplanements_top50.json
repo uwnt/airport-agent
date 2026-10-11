@@ -1,0 +1,8402 @@
+[
+ {
+  "rank": "1",
+  "airport": "ATL",
+  "enplaned_passengers": "50925180",
+  "year": "2023",
+  "latitude": "33.63666667",
+  "longitude": "-84.42777778"
+ },
+ {
+  "rank": "2",
+  "airport": "DFW",
+  "enplaned_passengers": "39226359",
+  "year": "2023",
+  "latitude": "32.89722222",
+  "longitude": "-97.03777778"
+ },
+ {
+  "rank": "3",
+  "airport": "DEN",
+  "enplaned_passengers": "37839547",
+  "year": "2023",
+  "latitude": "39.86166667",
+  "longitude": "-104.67305556"
+ },
+ {
+  "rank": "4",
+  "airport": "LAX",
+  "enplaned_passengers": "36615633",
+  "year": "2023",
+  "latitude": "33.9425",
+  "longitude": "-118.40805556"
+ },
+ {
+  "rank": "5",
+  "airport": "ORD",
+  "enplaned_passengers": "35828284",
+  "year": "2023",
+  "latitude": "41.97694444",
+  "longitude": "-87.90805556"
+ },
+ {
+  "rank": "6",
+  "airport": "JFK",
+  "enplaned_passengers": "30511651",
+  "year": "2023",
+  "latitude": "40.64",
+  "longitude": "-73.77861111"
+ },
+ {
+  "rank": "7",
+  "airport": "MCO",
+  "enplaned_passengers": "28019056",
+  "year": "2023",
+  "latitude": "28.42944444",
+  "longitude": "-81.30888889"
+ },
+ {
+  "rank": "8",
+  "airport": "LAS",
+  "enplaned_passengers": "27642282",
+  "year": "2023",
+  "latitude": "36.08",
+  "longitude": "-115.15222222"
+ },
+ {
+  "rank": "9",
+  "airport": "CLT",
+  "enplaned_passengers": "25880504",
+  "year": "2023",
+  "latitude": "35.21361111",
+  "longitude": "-80.94916667"
+ },
+ {
+  "rank": "10",
+  "airport": "SEA",
+  "enplaned_passengers": "24550658",
+  "year": "2023",
+  "latitude": "47.45",
+  "longitude": "-122.31166667"
+ },
+ {
+  "rank": "11",
+  "airport": "MIA",
+  "enplaned_passengers": "24548544",
+  "year": "2023",
+  "latitude": "25.79527778",
+  "longitude": "-80.29"
+ },
+ {
+  "rank": "12",
+  "airport": "EWR",
+  "enplaned_passengers": "24516225",
+  "year": "2023",
+  "latitude": "40.6925",
+  "longitude": "-74.16861111"
+ },
+ {
+  "rank": "13",
+  "airport": "SFO",
+  "enplaned_passengers": "24176902",
+  "year": "2023",
+  "latitude": "37.61888889",
+  "longitude": "-122.37555556"
+ },
+ {
+  "rank": "14",
+  "airport": "PHX",
+  "enplaned_passengers": "23813822",
+  "year": "2023",
+  "latitude": "33.43416667",
+  "longitude": "-112.01166667"
+ },
+ {
+  "rank": "15",
+  "airport": "IAH",
+  "enplaned_passengers": "22209675",
+  "year": "2023",
+  "latitude": "29.98444444",
+  "longitude": "-95.34138889"
+ },
+ {
+  "rank": "16",
+  "airport": "BOS",
+  "enplaned_passengers": "19950456",
+  "year": "2023",
+  "latitude": "42.36305556",
+  "longitude": "-71.00638889"
+ },
+ {
+  "rank": "17",
+  "airport": "FLL",
+  "enplaned_passengers": "17036666",
+  "year": "2023",
+  "latitude": "26.07166667",
+  "longitude": "-80.14972222"
+ },
+ {
+  "rank": "18",
+  "airport": "MSP",
+  "enplaned_passengers": "16984511",
+  "year": "2023",
+  "latitude": "44.88194444",
+  "longitude": "-93.22166667"
+ },
+ {
+  "rank": "19",
+  "airport": "LGA",
+  "enplaned_passengers": "16171766",
+  "year": "2023",
+  "latitude": "40.77722222",
+  "longitude": "-73.8725"
+ },
+ {
+  "rank": "20",
+  "airport": "DTW",
+  "enplaned_passengers": "15350399",
+  "year": "2023",
+  "latitude": "42.2125",
+  "longitude": "-83.35333333"
+ },
+ {
+  "rank": "21",
+  "airport": "PHL",
+  "enplaned_passengers": "13629373",
+  "year": "2023",
+  "latitude": "39.87194444",
+  "longitude": "-75.24055556"
+ },
+ {
+  "rank": "22",
+  "airport": "SLC",
+  "enplaned_passengers": "12892409",
+  "year": "2023",
+  "latitude": "40.78833333",
+  "longitude": "-111.97777778"
+ },
+ {
+  "rank": "23",
+  "airport": "BWI",
+  "enplaned_passengers": "12765016",
+  "year": "2023",
+  "latitude": "39.17583333",
+  "longitude": "-76.66888889"
+ },
+ {
+  "rank": "24",
+  "airport": "DCA",
+  "enplaned_passengers": "12346579",
+  "year": "2023",
+  "latitude": "38.85138889",
+  "longitude": "-77.03777778"
+ },
+ {
+  "rank": "25",
+  "airport": "SAN",
+  "enplaned_passengers": "12156421",
+  "year": "2023",
+  "latitude": "32.73361111",
+  "longitude": "-117.18972222"
+ },
+ {
+  "rank": "26",
+  "airport": "IAD",
+  "enplaned_passengers": "12048559",
+  "year": "2023",
+  "latitude": "38.9475",
+  "longitude": "-77.46"
+ },
+ {
+  "rank": "27",
+  "airport": "TPA",
+  "enplaned_passengers": "11656432",
+  "year": "2023",
+  "latitude": "27.97555556",
+  "longitude": "-82.53333333"
+ },
+ {
+  "rank": "28",
+  "airport": "BNA",
+  "enplaned_passengers": "11195381",
+  "year": "2023",
+  "latitude": "36.12444444",
+  "longitude": "-86.67805556"
+ },
+ {
+  "rank": "29",
+  "airport": "AUS",
+  "enplaned_passengers": "10806571",
+  "year": "2023",
+  "latitude": "30.19444444",
+  "longitude": "-97.67"
+ },
+ {
+  "rank": "30",
+  "airport": "MDW",
+  "enplaned_passengers": "10646056",
+  "year": "2023",
+  "latitude": "41.78583333",
+  "longitude": "-87.7525"
+ },
+ {
+  "rank": "31",
+  "airport": "HNL",
+  "enplaned_passengers": "10101331",
+  "year": "2023",
+  "latitude": "21.31777778",
+  "longitude": "-157.92027778"
+ },
+ {
+  "rank": "32",
+  "airport": "DAL",
+  "enplaned_passengers": "8454181",
+  "year": "2023",
+  "latitude": "32.84583333",
+  "longitude": "-96.85083333"
+ },
+ {
+  "rank": "33",
+  "airport": "PDX",
+  "enplaned_passengers": "8115842",
+  "year": "2023",
+  "latitude": "45.58861111",
+  "longitude": "-122.59694444"
+ },
+ {
+  "rank": "34",
+  "airport": "STL",
+  "enplaned_passengers": "7297030",
+  "year": "2023",
+  "latitude": "38.74861111",
+  "longitude": "-90.37"
+ },
+ {
+  "rank": "35",
+  "airport": "RDU",
+  "enplaned_passengers": "7100843",
+  "year": "2023",
+  "latitude": "35.87777778",
+  "longitude": "-78.7875"
+ },
+ {
+  "rank": "36",
+  "airport": "HOU",
+  "enplaned_passengers": "6763389",
+  "year": "2023",
+  "latitude": "29.64583333",
+  "longitude": "-95.27722222"
+ },
+ {
+  "rank": "37",
+  "airport": "SMF",
+  "enplaned_passengers": "6363510",
+  "year": "2023",
+  "latitude": "38.69555556",
+  "longitude": "-121.59083333"
+ },
+ {
+  "rank": "38",
+  "airport": "MSY",
+  "enplaned_passengers": "6295092",
+  "year": "2023",
+  "latitude": "29.99333333",
+  "longitude": "-90.25916667"
+ },
+ {
+  "rank": "39",
+  "airport": "SJC",
+  "enplaned_passengers": "5944149",
+  "year": "2023",
+  "latitude": "37.36305556",
+  "longitude": "-121.92861111"
+ },
+ {
+  "rank": "40",
+  "airport": "SJU",
+  "enplaned_passengers": "5923308",
+  "year": "2023",
+  "latitude": "18.43944444",
+  "longitude": "-66.00222222"
+ },
+ {
+  "rank": "41",
+  "airport": "SNA",
+  "enplaned_passengers": "5658796",
+  "year": "2023",
+  "latitude": "33.67555556",
+  "longitude": "-117.86833333"
+ },
+ {
+  "rank": "42",
+  "airport": "MCI",
+  "enplaned_passengers": "5638639",
+  "year": "2023",
+  "latitude": "39.2975",
+  "longitude": "-94.71388889"
+ },
+ {
+  "rank": "43",
+  "airport": "OAK",
+  "enplaned_passengers": "5463750",
+  "year": "2023",
+  "latitude": "37.72138889",
+  "longitude": "-122.22111111"
+ },
+ {
+  "rank": "44",
+  "airport": "SAT",
+  "enplaned_passengers": "5304833",
+  "year": "2023",
+  "latitude": "29.53388889",
+  "longitude": "-98.46916667"
+ },
+ {
+  "rank": "45",
+  "airport": "RSW",
+  "enplaned_passengers": "4954658",
+  "year": "2023",
+  "latitude": "26.53611111",
+  "longitude": "-81.75527778"
+ },
+ {
+  "rank": "46",
+  "airport": "CLE",
+  "enplaned_passengers": "4791133",
+  "year": "2023",
+  "latitude": "41.40944444",
+  "longitude": "-81.85472222"
+ },
+ {
+  "rank": "47",
+  "airport": "IND",
+  "enplaned_passengers": "4764189",
+  "year": "2023",
+  "latitude": "39.71722222",
+  "longitude": "-86.29472222"
+ },
+ {
+  "rank": "48",
+  "airport": "PIT",
+  "enplaned_passengers": "4461267",
+  "year": "2023",
+  "latitude": "40.49138889",
+  "longitude": "-80.23277778"
+ },
+ {
+  "rank": "49",
+  "airport": "CVG",
+  "enplaned_passengers": "4256878",
+  "year": "2023",
+  "latitude": "39.04888889",
+  "longitude": "-84.66777778"
+ },
+ {
+  "rank": "50",
+  "airport": "CMH",
+  "enplaned_passengers": "4074915",
+  "year": "2023",
+  "latitude": "39.99694444",
+  "longitude": "-82.89222222"
+ },
+ {
+  "rank": "1",
+  "airport": "ATL",
+  "enplaned_passengers": "45373200",
+  "year": "2022",
+  "latitude": "33.63666667",
+  "longitude": "-84.42777778"
+ },
+ {
+  "rank": "2",
+  "airport": "DFW",
+  "enplaned_passengers": "35329966",
+  "year": "2022",
+  "latitude": "32.89722222",
+  "longitude": "-97.03777778"
+ },
+ {
+  "rank": "3",
+  "airport": "DEN",
+  "enplaned_passengers": "33749865",
+  "year": "2022",
+  "latitude": "39.86166667",
+  "longitude": "-104.67305556"
+ },
+ {
+  "rank": "4",
+  "airport": "ORD",
+  "enplaned_passengers": "33131613",
+  "year": "2022",
+  "latitude": "41.97694444",
+  "longitude": "-87.90805556"
+ },
+ {
+  "rank": "5",
+  "airport": "LAX",
+  "enplaned_passengers": "32285134",
+  "year": "2022",
+  "latitude": "33.9425",
+  "longitude": "-118.40805556"
+ },
+ {
+  "rank": "6",
+  "airport": "JFK",
+  "enplaned_passengers": "26988007",
+  "year": "2022",
+  "latitude": "40.64",
+  "longitude": "-73.77861111"
+ },
+ {
+  "rank": "7",
+  "airport": "LAS",
+  "enplaned_passengers": "25264808",
+  "year": "2022",
+  "latitude": "36.08",
+  "longitude": "-115.15222222"
+ },
+ {
+  "rank": "8",
+  "airport": "MCO",
+  "enplaned_passengers": "24442061",
+  "year": "2022",
+  "latitude": "28.42944444",
+  "longitude": "-81.30888889"
+ },
+ {
+  "rank": "9",
+  "airport": "MIA",
+  "enplaned_passengers": "23676327",
+  "year": "2022",
+  "latitude": "25.79527778",
+  "longitude": "-80.29"
+ },
+ {
+  "rank": "10",
+  "airport": "CLT",
+  "enplaned_passengers": "23091088",
+  "year": "2022",
+  "latitude": "35.21361111",
+  "longitude": "-80.94916667"
+ },
+ {
+  "rank": "11",
+  "airport": "SEA",
+  "enplaned_passengers": "22113500",
+  "year": "2022",
+  "latitude": "47.45",
+  "longitude": "-122.31166667"
+ },
+ {
+  "rank": "12",
+  "airport": "PHX",
+  "enplaned_passengers": "21790999",
+  "year": "2022",
+  "latitude": "33.43416667",
+  "longitude": "-112.01166667"
+ },
+ {
+  "rank": "13",
+  "airport": "EWR",
+  "enplaned_passengers": "21655978",
+  "year": "2022",
+  "latitude": "40.6925",
+  "longitude": "-74.16861111"
+ },
+ {
+  "rank": "14",
+  "airport": "SFO",
+  "enplaned_passengers": "20401847",
+  "year": "2022",
+  "latitude": "37.61888889",
+  "longitude": "-122.37555556"
+ },
+ {
+  "rank": "15",
+  "airport": "IAH",
+  "enplaned_passengers": "19800390",
+  "year": "2022",
+  "latitude": "29.98444444",
+  "longitude": "-95.34138889"
+ },
+ {
+  "rank": "16",
+  "airport": "BOS",
+  "enplaned_passengers": "17432694",
+  "year": "2022",
+  "latitude": "42.36305556",
+  "longitude": "-71.00638889"
+ },
+ {
+  "rank": "17",
+  "airport": "FLL",
+  "enplaned_passengers": "15365986",
+  "year": "2022",
+  "latitude": "26.07166667",
+  "longitude": "-80.14972222"
+ },
+ {
+  "rank": "18",
+  "airport": "MSP",
+  "enplaned_passengers": "15203320",
+  "year": "2022",
+  "latitude": "44.88194444",
+  "longitude": "-93.22166667"
+ },
+ {
+  "rank": "19",
+  "airport": "LGA",
+  "enplaned_passengers": "14368553",
+  "year": "2022",
+  "latitude": "40.77722222",
+  "longitude": "-73.8725"
+ },
+ {
+  "rank": "20",
+  "airport": "DTW",
+  "enplaned_passengers": "13730002",
+  "year": "2022",
+  "latitude": "42.2125",
+  "longitude": "-83.35333333"
+ },
+ {
+  "rank": "21",
+  "airport": "PHL",
+  "enplaned_passengers": "12401523",
+  "year": "2022",
+  "latitude": "39.87194444",
+  "longitude": "-75.24055556"
+ },
+ {
+  "rank": "22",
+  "airport": "SLC",
+  "enplaned_passengers": "12370406",
+  "year": "2022",
+  "latitude": "40.78833333",
+  "longitude": "-111.97777778"
+ },
+ {
+  "rank": "23",
+  "airport": "DCA",
+  "enplaned_passengers": "11540151",
+  "year": "2022",
+  "latitude": "38.85138889",
+  "longitude": "-77.03777778"
+ },
+ {
+  "rank": "24",
+  "airport": "SAN",
+  "enplaned_passengers": "11122123",
+  "year": "2022",
+  "latitude": "32.73361111",
+  "longitude": "-117.18972222"
+ },
+ {
+  "rank": "25",
+  "airport": "BWI",
+  "enplaned_passengers": "11063817",
+  "year": "2022",
+  "latitude": "39.17583333",
+  "longitude": "-76.66888889"
+ },
+ {
+  "rank": "26",
+  "airport": "TPA",
+  "enplaned_passengers": "10517678",
+  "year": "2022",
+  "latitude": "27.97555556",
+  "longitude": "-82.53333333"
+ },
+ {
+  "rank": "27",
+  "airport": "AUS",
+  "enplaned_passengers": "10358119",
+  "year": "2022",
+  "latitude": "30.19444444",
+  "longitude": "-97.67"
+ },
+ {
+  "rank": "28",
+  "airport": "IAD",
+  "enplaned_passengers": "10250900",
+  "year": "2022",
+  "latitude": "38.9475",
+  "longitude": "-77.46"
+ },
+ {
+  "rank": "29",
+  "airport": "BNA",
+  "enplaned_passengers": "9806500",
+  "year": "2022",
+  "latitude": "36.12444444",
+  "longitude": "-86.67805556"
+ },
+ {
+  "rank": "30",
+  "airport": "MDW",
+  "enplaned_passengers": "9636202",
+  "year": "2022",
+  "latitude": "41.78583333",
+  "longitude": "-87.7525"
+ },
+ {
+  "rank": "31",
+  "airport": "HNL",
+  "enplaned_passengers": "8799772",
+  "year": "2022",
+  "latitude": "21.31777778",
+  "longitude": "-157.92027778"
+ },
+ {
+  "rank": "32",
+  "airport": "DAL",
+  "enplaned_passengers": "7756791",
+  "year": "2022",
+  "latitude": "32.84583333",
+  "longitude": "-96.85083333"
+ },
+ {
+  "rank": "33",
+  "airport": "PDX",
+  "enplaned_passengers": "7233023",
+  "year": "2022",
+  "latitude": "45.58861111",
+  "longitude": "-122.59694444"
+ },
+ {
+  "rank": "34",
+  "airport": "STL",
+  "enplaned_passengers": "6692664",
+  "year": "2022",
+  "latitude": "38.74861111",
+  "longitude": "-90.37"
+ },
+ {
+  "rank": "35",
+  "airport": "HOU",
+  "enplaned_passengers": "6429032",
+  "year": "2022",
+  "latitude": "29.64583333",
+  "longitude": "-95.27722222"
+ },
+ {
+  "rank": "36",
+  "airport": "SMF",
+  "enplaned_passengers": "6034545",
+  "year": "2022",
+  "latitude": "38.69555556",
+  "longitude": "-121.59083333"
+ },
+ {
+  "rank": "37",
+  "airport": "MSY",
+  "enplaned_passengers": "5915160",
+  "year": "2022",
+  "latitude": "29.99333333",
+  "longitude": "-90.25916667"
+ },
+ {
+  "rank": "38",
+  "airport": "RDU",
+  "enplaned_passengers": "5830788",
+  "year": "2022",
+  "latitude": "35.87777778",
+  "longitude": "-78.7875"
+ },
+ {
+  "rank": "39",
+  "airport": "SJC",
+  "enplaned_passengers": "5577378",
+  "year": "2022",
+  "latitude": "37.36305556",
+  "longitude": "-121.92861111"
+ },
+ {
+  "rank": "40",
+  "airport": "SNA",
+  "enplaned_passengers": "5493611",
+  "year": "2022",
+  "latitude": "33.67555556",
+  "longitude": "-117.86833333"
+ },
+ {
+  "rank": "41",
+  "airport": "OAK",
+  "enplaned_passengers": "5424391",
+  "year": "2022",
+  "latitude": "37.72138889",
+  "longitude": "-122.22111111"
+ },
+ {
+  "rank": "42",
+  "airport": "RSW",
+  "enplaned_passengers": "5126597",
+  "year": "2022",
+  "latitude": "26.53611111",
+  "longitude": "-81.75527778"
+ },
+ {
+  "rank": "43",
+  "airport": "SJU",
+  "enplaned_passengers": "5012383",
+  "year": "2022",
+  "latitude": "18.43944444",
+  "longitude": "-66.00222222"
+ },
+ {
+  "rank": "44",
+  "airport": "MCI",
+  "enplaned_passengers": "4786019",
+  "year": "2022",
+  "latitude": "39.2975",
+  "longitude": "-94.71388889"
+ },
+ {
+  "rank": "45",
+  "airport": "SAT",
+  "enplaned_passengers": "4726816",
+  "year": "2022",
+  "latitude": "29.53388889",
+  "longitude": "-98.46916667"
+ },
+ {
+  "rank": "46",
+  "airport": "CLE",
+  "enplaned_passengers": "4224315",
+  "year": "2022",
+  "latitude": "41.40944444",
+  "longitude": "-81.85472222"
+ },
+ {
+  "rank": "47",
+  "airport": "IND",
+  "enplaned_passengers": "4190793",
+  "year": "2022",
+  "latitude": "39.71722222",
+  "longitude": "-86.29472222"
+ },
+ {
+  "rank": "48",
+  "airport": "OGG",
+  "enplaned_passengers": "4120490",
+  "year": "2022",
+  "latitude": "20.89861111",
+  "longitude": "-156.43055556"
+ },
+ {
+  "rank": "49",
+  "airport": "PIT",
+  "enplaned_passengers": "3898717",
+  "year": "2022",
+  "latitude": "40.49138889",
+  "longitude": "-80.23277778"
+ },
+ {
+  "rank": "50",
+  "airport": "CVG",
+  "enplaned_passengers": "3657458",
+  "year": "2022",
+  "latitude": "39.04888889",
+  "longitude": "-84.66777778"
+ },
+ {
+  "rank": "1",
+  "airport": "ATL",
+  "enplaned_passengers": "36665770",
+  "year": "2021",
+  "latitude": "33.63666667",
+  "longitude": "-84.42777778"
+ },
+ {
+  "rank": "2",
+  "airport": "DFW",
+  "enplaned_passengers": "30000592",
+  "year": "2021",
+  "latitude": "32.89722222",
+  "longitude": "-97.03777778"
+ },
+ {
+  "rank": "3",
+  "airport": "DEN",
+  "enplaned_passengers": "28628494",
+  "year": "2021",
+  "latitude": "39.86166667",
+  "longitude": "-104.67305556"
+ },
+ {
+  "rank": "4",
+  "airport": "ORD",
+  "enplaned_passengers": "26360630",
+  "year": "2021",
+  "latitude": "41.97694444",
+  "longitude": "-87.90805556"
+ },
+ {
+  "rank": "5",
+  "airport": "LAX",
+  "enplaned_passengers": "23628646",
+  "year": "2021",
+  "latitude": "33.9425",
+  "longitude": "-118.40805556"
+ },
+ {
+  "rank": "6",
+  "airport": "CLT",
+  "enplaned_passengers": "20889436",
+  "year": "2021",
+  "latitude": "35.21361111",
+  "longitude": "-80.94916667"
+ },
+ {
+  "rank": "7",
+  "airport": "MCO",
+  "enplaned_passengers": "19612255",
+  "year": "2021",
+  "latitude": "28.42944444",
+  "longitude": "-81.30888889"
+ },
+ {
+  "rank": "8",
+  "airport": "LAS",
+  "enplaned_passengers": "18951062",
+  "year": "2021",
+  "latitude": "36.08",
+  "longitude": "-115.15222222"
+ },
+ {
+  "rank": "9",
+  "airport": "PHX",
+  "enplaned_passengers": "18909415",
+  "year": "2021",
+  "latitude": "33.43416667",
+  "longitude": "-112.01166667"
+ },
+ {
+  "rank": "10",
+  "airport": "SEA",
+  "enplaned_passengers": "17385171",
+  "year": "2021",
+  "latitude": "47.45",
+  "longitude": "-122.31166667"
+ },
+ {
+  "rank": "11",
+  "airport": "MIA",
+  "enplaned_passengers": "17347798",
+  "year": "2021",
+  "latitude": "25.79527778",
+  "longitude": "-80.29"
+ },
+ {
+  "rank": "12",
+  "airport": "IAH",
+  "enplaned_passengers": "16231716",
+  "year": "2021",
+  "latitude": "29.98444444",
+  "longitude": "-95.34138889"
+ },
+ {
+  "rank": "13",
+  "airport": "JFK",
+  "enplaned_passengers": "15298439",
+  "year": "2021",
+  "latitude": "40.64",
+  "longitude": "-73.77861111"
+ },
+ {
+  "rank": "14",
+  "airport": "EWR",
+  "enplaned_passengers": "14507261",
+  "year": "2021",
+  "latitude": "40.6925",
+  "longitude": "-74.16861111"
+ },
+ {
+  "rank": "15",
+  "airport": "FLL",
+  "enplaned_passengers": "13583261",
+  "year": "2021",
+  "latitude": "26.07166667",
+  "longitude": "-80.14972222"
+ },
+ {
+  "rank": "16",
+  "airport": "MSP",
+  "enplaned_passengers": "12187341",
+  "year": "2021",
+  "latitude": "44.88194444",
+  "longitude": "-93.22166667"
+ },
+ {
+  "rank": "17",
+  "airport": "SFO",
+  "enplaned_passengers": "11725536",
+  "year": "2021",
+  "latitude": "37.61888889",
+  "longitude": "-122.37555556"
+ },
+ {
+  "rank": "18",
+  "airport": "DTW",
+  "enplaned_passengers": "11498633",
+  "year": "2021",
+  "latitude": "42.2125",
+  "longitude": "-83.35333333"
+ },
+ {
+  "rank": "19",
+  "airport": "BOS",
+  "enplaned_passengers": "10917523",
+  "year": "2021",
+  "latitude": "42.36305556",
+  "longitude": "-71.00638889"
+ },
+ {
+  "rank": "20",
+  "airport": "SLC",
+  "enplaned_passengers": "10783765",
+  "year": "2021",
+  "latitude": "40.78833333",
+  "longitude": "-111.97777778"
+ },
+ {
+  "rank": "21",
+  "airport": "PHL",
+  "enplaned_passengers": "9792156",
+  "year": "2021",
+  "latitude": "39.87194444",
+  "longitude": "-75.24055556"
+ },
+ {
+  "rank": "22",
+  "airport": "BWI",
+  "enplaned_passengers": "9176706",
+  "year": "2021",
+  "latitude": "39.17583333",
+  "longitude": "-76.66888889"
+ },
+ {
+  "rank": "23",
+  "airport": "TPA",
+  "enplaned_passengers": "8800090",
+  "year": "2021",
+  "latitude": "27.97555556",
+  "longitude": "-82.53333333"
+ },
+ {
+  "rank": "24",
+  "airport": "LGA",
+  "enplaned_passengers": "7847030",
+  "year": "2021",
+  "latitude": "40.77722222",
+  "longitude": "-73.8725"
+ },
+ {
+  "rank": "25",
+  "airport": "SAN",
+  "enplaned_passengers": "7808782",
+  "year": "2021",
+  "latitude": "32.73361111",
+  "longitude": "-117.18972222"
+ },
+ {
+  "rank": "26",
+  "airport": "MDW",
+  "enplaned_passengers": "7669456",
+  "year": "2021",
+  "latitude": "41.78583333",
+  "longitude": "-87.7525"
+ },
+ {
+  "rank": "27",
+  "airport": "BNA",
+  "enplaned_passengers": "7577165",
+  "year": "2021",
+  "latitude": "36.12444444",
+  "longitude": "-86.67805556"
+ },
+ {
+  "rank": "28",
+  "airport": "IAD",
+  "enplaned_passengers": "7188307",
+  "year": "2021",
+  "latitude": "38.9475",
+  "longitude": "-77.46"
+ },
+ {
+  "rank": "29",
+  "airport": "DCA",
+  "enplaned_passengers": "6731997",
+  "year": "2021",
+  "latitude": "38.85138889",
+  "longitude": "-77.03777778"
+ },
+ {
+  "rank": "30",
+  "airport": "AUS",
+  "enplaned_passengers": "6656778",
+  "year": "2021",
+  "latitude": "30.19444444",
+  "longitude": "-97.67"
+ },
+ {
+  "rank": "31",
+  "airport": "DAL",
+  "enplaned_passengers": "6459483",
+  "year": "2021",
+  "latitude": "32.84583333",
+  "longitude": "-96.85083333"
+ },
+ {
+  "rank": "32",
+  "airport": "HNL",
+  "enplaned_passengers": "5808303",
+  "year": "2021",
+  "latitude": "21.31777778",
+  "longitude": "-157.92027778"
+ },
+ {
+  "rank": "33",
+  "airport": "PDX",
+  "enplaned_passengers": "5757666",
+  "year": "2021",
+  "latitude": "45.58861111",
+  "longitude": "-122.59694444"
+ },
+ {
+  "rank": "34",
+  "airport": "HOU",
+  "enplaned_passengers": "5535651",
+  "year": "2021",
+  "latitude": "29.64583333",
+  "longitude": "-95.27722222"
+ },
+ {
+  "rank": "35",
+  "airport": "RSW",
+  "enplaned_passengers": "5077543",
+  "year": "2021",
+  "latitude": "26.53611111",
+  "longitude": "-81.75527778"
+ },
+ {
+  "rank": "36",
+  "airport": "STL",
+  "enplaned_passengers": "5062536",
+  "year": "2021",
+  "latitude": "38.74861111",
+  "longitude": "-90.37"
+ },
+ {
+  "rank": "37",
+  "airport": "SMF",
+  "enplaned_passengers": "4753882",
+  "year": "2021",
+  "latitude": "38.69555556",
+  "longitude": "-121.59083333"
+ },
+ {
+  "rank": "38",
+  "airport": "SJU",
+  "enplaned_passengers": "4714194",
+  "year": "2021",
+  "latitude": "18.43944444",
+  "longitude": "-66.00222222"
+ },
+ {
+  "rank": "39",
+  "airport": "RDU",
+  "enplaned_passengers": "4299900",
+  "year": "2021",
+  "latitude": "35.87777778",
+  "longitude": "-78.7875"
+ },
+ {
+  "rank": "40",
+  "airport": "MSY",
+  "enplaned_passengers": "4006134",
+  "year": "2021",
+  "latitude": "29.99333333",
+  "longitude": "-90.25916667"
+ },
+ {
+  "rank": "41",
+  "airport": "OAK",
+  "enplaned_passengers": "3947833",
+  "year": "2021",
+  "latitude": "37.72138889",
+  "longitude": "-122.22111111"
+ },
+ {
+  "rank": "42",
+  "airport": "MCI",
+  "enplaned_passengers": "3788405",
+  "year": "2021",
+  "latitude": "39.2975",
+  "longitude": "-94.71388889"
+ },
+ {
+  "rank": "43",
+  "airport": "SNA",
+  "enplaned_passengers": "3766120",
+  "year": "2021",
+  "latitude": "33.67555556",
+  "longitude": "-117.86833333"
+ },
+ {
+  "rank": "44",
+  "airport": "SAT",
+  "enplaned_passengers": "3642587",
+  "year": "2021",
+  "latitude": "29.53388889",
+  "longitude": "-98.46916667"
+ },
+ {
+  "rank": "45",
+  "airport": "SJC",
+  "enplaned_passengers": "3609116",
+  "year": "2021",
+  "latitude": "37.36305556",
+  "longitude": "-121.92861111"
+ },
+ {
+  "rank": "46",
+  "airport": "CLE",
+  "enplaned_passengers": "3541486",
+  "year": "2021",
+  "latitude": "41.40944444",
+  "longitude": "-81.85472222"
+ },
+ {
+  "rank": "47",
+  "airport": "IND",
+  "enplaned_passengers": "3461196",
+  "year": "2021",
+  "latitude": "39.71722222",
+  "longitude": "-86.29472222"
+ },
+ {
+  "rank": "48",
+  "airport": "PIT",
+  "enplaned_passengers": "3045740",
+  "year": "2021",
+  "latitude": "40.49138889",
+  "longitude": "-80.23277778"
+ },
+ {
+  "rank": "49",
+  "airport": "CVG",
+  "enplaned_passengers": "3029973",
+  "year": "2021",
+  "latitude": "39.04888889",
+  "longitude": "-84.66777778"
+ },
+ {
+  "rank": "50",
+  "airport": "OGG",
+  "enplaned_passengers": "2932090",
+  "year": "2021",
+  "latitude": "20.89861111",
+  "longitude": "-156.43055556"
+ },
+ {
+  "rank": "1",
+  "airport": "ATL",
+  "enplaned_passengers": "20616190",
+  "year": "2020",
+  "latitude": "33.63666667",
+  "longitude": "-84.42777778"
+ },
+ {
+  "rank": "2",
+  "airport": "DFW",
+  "enplaned_passengers": "18595640",
+  "year": "2020",
+  "latitude": "32.89722222",
+  "longitude": "-97.03777778"
+ },
+ {
+  "rank": "3",
+  "airport": "DEN",
+  "enplaned_passengers": "16387857",
+  "year": "2020",
+  "latitude": "39.86166667",
+  "longitude": "-104.67305556"
+ },
+ {
+  "rank": "4",
+  "airport": "ORD",
+  "enplaned_passengers": "14602924",
+  "year": "2020",
+  "latitude": "41.97694444",
+  "longitude": "-87.90805556"
+ },
+ {
+  "rank": "5",
+  "airport": "LAX",
+  "enplaned_passengers": "14087518",
+  "year": "2020",
+  "latitude": "33.9425",
+  "longitude": "-118.40805556"
+ },
+ {
+  "rank": "6",
+  "airport": "CLT",
+  "enplaned_passengers": "13068728",
+  "year": "2020",
+  "latitude": "35.21361111",
+  "longitude": "-80.94916667"
+ },
+ {
+  "rank": "7",
+  "airport": "PHX",
+  "enplaned_passengers": "10607346",
+  "year": "2020",
+  "latitude": "33.43416667",
+  "longitude": "-112.01166667"
+ },
+ {
+  "rank": "8",
+  "airport": "LAS",
+  "enplaned_passengers": "10597513",
+  "year": "2020",
+  "latitude": "36.08",
+  "longitude": "-115.15222222"
+ },
+ {
+  "rank": "9",
+  "airport": "MCO",
+  "enplaned_passengers": "10520521",
+  "year": "2020",
+  "latitude": "28.42944444",
+  "longitude": "-81.30888889"
+ },
+ {
+  "rank": "10",
+  "airport": "SEA",
+  "enplaned_passengers": "9433869",
+  "year": "2020",
+  "latitude": "47.45",
+  "longitude": "-122.31166667"
+ },
+ {
+  "rank": "11",
+  "airport": "IAH",
+  "enplaned_passengers": "8665304",
+  "year": "2020",
+  "latitude": "29.98444444",
+  "longitude": "-95.34138889"
+ },
+ {
+  "rank": "12",
+  "airport": "MIA",
+  "enplaned_passengers": "8586668",
+  "year": "2020",
+  "latitude": "25.79527778",
+  "longitude": "-80.29"
+ },
+ {
+  "rank": "13",
+  "airport": "JFK",
+  "enplaned_passengers": "8272328",
+  "year": "2020",
+  "latitude": "40.64",
+  "longitude": "-73.77861111"
+ },
+ {
+  "rank": "14",
+  "airport": "FLL",
+  "enplaned_passengers": "8039529",
+  "year": "2020",
+  "latitude": "26.07166667",
+  "longitude": "-80.14972222"
+ },
+ {
+  "rank": "15",
+  "airport": "EWR",
+  "enplaned_passengers": "7978508",
+  "year": "2020",
+  "latitude": "40.6925",
+  "longitude": "-74.16861111"
+ },
+ {
+  "rank": "16",
+  "airport": "SFO",
+  "enplaned_passengers": "7746347",
+  "year": "2020",
+  "latitude": "37.61888889",
+  "longitude": "-122.37555556"
+ },
+ {
+  "rank": "17",
+  "airport": "MSP",
+  "enplaned_passengers": "7087166",
+  "year": "2020",
+  "latitude": "44.88194444",
+  "longitude": "-93.22166667"
+ },
+ {
+  "rank": "18",
+  "airport": "DTW",
+  "enplaned_passengers": "6818138",
+  "year": "2020",
+  "latitude": "42.2125",
+  "longitude": "-83.35333333"
+ },
+ {
+  "rank": "19",
+  "airport": "BOS",
+  "enplaned_passengers": "6039103",
+  "year": "2020",
+  "latitude": "42.36305556",
+  "longitude": "-71.00638889"
+ },
+ {
+  "rank": "20",
+  "airport": "SLC",
+  "enplaned_passengers": "5994074",
+  "year": "2020",
+  "latitude": "40.78833333",
+  "longitude": "-111.97777778"
+ },
+ {
+  "rank": "21",
+  "airport": "PHL",
+  "enplaned_passengers": "5841074",
+  "year": "2020",
+  "latitude": "39.87194444",
+  "longitude": "-75.24055556"
+ },
+ {
+  "rank": "22",
+  "airport": "BWI",
+  "enplaned_passengers": "5498077",
+  "year": "2020",
+  "latitude": "39.17583333",
+  "longitude": "-76.66888889"
+ },
+ {
+  "rank": "23",
+  "airport": "TPA",
+  "enplaned_passengers": "5015700",
+  "year": "2020",
+  "latitude": "27.97555556",
+  "longitude": "-82.53333333"
+ },
+ {
+  "rank": "24",
+  "airport": "SAN",
+  "enplaned_passengers": "4666336",
+  "year": "2020",
+  "latitude": "32.73361111",
+  "longitude": "-117.18972222"
+ },
+ {
+  "rank": "25",
+  "airport": "MDW",
+  "enplaned_passengers": "4367194",
+  "year": "2020",
+  "latitude": "41.78583333",
+  "longitude": "-87.7525"
+ },
+ {
+  "rank": "26",
+  "airport": "LGA",
+  "enplaned_passengers": "4151432",
+  "year": "2020",
+  "latitude": "40.77722222",
+  "longitude": "-73.8725"
+ },
+ {
+  "rank": "27",
+  "airport": "BNA",
+  "enplaned_passengers": "4067904",
+  "year": "2020",
+  "latitude": "36.12444444",
+  "longitude": "-86.67805556"
+ },
+ {
+  "rank": "28",
+  "airport": "IAD",
+  "enplaned_passengers": "3882184",
+  "year": "2020",
+  "latitude": "38.9475",
+  "longitude": "-77.46"
+ },
+ {
+  "rank": "29",
+  "airport": "DAL",
+  "enplaned_passengers": "3772590",
+  "year": "2020",
+  "latitude": "32.84583333",
+  "longitude": "-96.85083333"
+ },
+ {
+  "rank": "30",
+  "airport": "DCA",
+  "enplaned_passengers": "3648020",
+  "year": "2020",
+  "latitude": "38.85138889",
+  "longitude": "-77.03777778"
+ },
+ {
+  "rank": "31",
+  "airport": "PDX",
+  "enplaned_passengers": "3472025",
+  "year": "2020",
+  "latitude": "45.58861111",
+  "longitude": "-122.59694444"
+ },
+ {
+  "rank": "32",
+  "airport": "HOU",
+  "enplaned_passengers": "3183294",
+  "year": "2020",
+  "latitude": "29.64583333",
+  "longitude": "-95.27722222"
+ },
+ {
+  "rank": "33",
+  "airport": "AUS",
+  "enplaned_passengers": "3160369",
+  "year": "2020",
+  "latitude": "30.19444444",
+  "longitude": "-97.67"
+ },
+ {
+  "rank": "34",
+  "airport": "HNL",
+  "enplaned_passengers": "3088623",
+  "year": "2020",
+  "latitude": "21.31777778",
+  "longitude": "-157.92027778"
+ },
+ {
+  "rank": "35",
+  "airport": "STL",
+  "enplaned_passengers": "3086961",
+  "year": "2020",
+  "latitude": "38.74861111",
+  "longitude": "-90.37"
+ },
+ {
+  "rank": "36",
+  "airport": "RSW",
+  "enplaned_passengers": "2970976",
+  "year": "2020",
+  "latitude": "26.53611111",
+  "longitude": "-81.75527778"
+ },
+ {
+  "rank": "37",
+  "airport": "SMF",
+  "enplaned_passengers": "2747793",
+  "year": "2020",
+  "latitude": "38.69555556",
+  "longitude": "-121.59083333"
+ },
+ {
+  "rank": "38",
+  "airport": "MSY",
+  "enplaned_passengers": "2647892",
+  "year": "2020",
+  "latitude": "29.99333333",
+  "longitude": "-90.25916667"
+ },
+ {
+  "rank": "39",
+  "airport": "RDU",
+  "enplaned_passengers": "2348466",
+  "year": "2020",
+  "latitude": "35.87777778",
+  "longitude": "-78.7875"
+ },
+ {
+  "rank": "40",
+  "airport": "SJU",
+  "enplaned_passengers": "2347697",
+  "year": "2020",
+  "latitude": "18.43944444",
+  "longitude": "-66.00222222"
+ },
+ {
+  "rank": "41",
+  "airport": "SJC",
+  "enplaned_passengers": "2299322",
+  "year": "2020",
+  "latitude": "37.36305556",
+  "longitude": "-121.92861111"
+ },
+ {
+  "rank": "42",
+  "airport": "OAK",
+  "enplaned_passengers": "2260331",
+  "year": "2020",
+  "latitude": "37.72138889",
+  "longitude": "-122.22111111"
+ },
+ {
+  "rank": "43",
+  "airport": "MCI",
+  "enplaned_passengers": "2188734",
+  "year": "2020",
+  "latitude": "39.2975",
+  "longitude": "-94.71388889"
+ },
+ {
+  "rank": "44",
+  "airport": "IND",
+  "enplaned_passengers": "1997159",
+  "year": "2020",
+  "latitude": "39.71722222",
+  "longitude": "-86.29472222"
+ },
+ {
+  "rank": "45",
+  "airport": "CLE",
+  "enplaned_passengers": "1995252",
+  "year": "2020",
+  "latitude": "41.40944444",
+  "longitude": "-81.85472222"
+ },
+ {
+  "rank": "46",
+  "airport": "SAT",
+  "enplaned_passengers": "1926681",
+  "year": "2020",
+  "latitude": "29.53388889",
+  "longitude": "-98.46916667"
+ },
+ {
+  "rank": "47",
+  "airport": "SNA",
+  "enplaned_passengers": "1818505",
+  "year": "2020",
+  "latitude": "33.67555556",
+  "longitude": "-117.86833333"
+ },
+ {
+  "rank": "48",
+  "airport": "PIT",
+  "enplaned_passengers": "1748353",
+  "year": "2020",
+  "latitude": "40.49138889",
+  "longitude": "-80.23277778"
+ },
+ {
+  "rank": "49",
+  "airport": "CVG",
+  "enplaned_passengers": "1724498",
+  "year": "2020",
+  "latitude": "39.04888889",
+  "longitude": "-84.66777778"
+ },
+ {
+  "rank": "50",
+  "airport": "CMH",
+  "enplaned_passengers": "1588390",
+  "year": "2020",
+  "latitude": "39.99694444",
+  "longitude": "-82.89222222"
+ },
+ {
+  "rank": "1",
+  "airport": "ATL",
+  "enplaned_passengers": "53486127",
+  "year": "2019",
+  "latitude": "33.63666667",
+  "longitude": "-84.42777778"
+ },
+ {
+  "rank": "2",
+  "airport": "LAX",
+  "enplaned_passengers": "42939973",
+  "year": "2019",
+  "latitude": "33.9425",
+  "longitude": "-118.40805556"
+ },
+ {
+  "rank": "3",
+  "airport": "ORD",
+  "enplaned_passengers": "40876846",
+  "year": "2019",
+  "latitude": "41.97694444",
+  "longitude": "-87.90805556"
+ },
+ {
+  "rank": "4",
+  "airport": "DFW",
+  "enplaned_passengers": "35770570",
+  "year": "2019",
+  "latitude": "32.89722222",
+  "longitude": "-97.03777778"
+ },
+ {
+  "rank": "5",
+  "airport": "DEN",
+  "enplaned_passengers": "33575095",
+  "year": "2019",
+  "latitude": "39.86166667",
+  "longitude": "-104.67305556"
+ },
+ {
+  "rank": "6",
+  "airport": "JFK",
+  "enplaned_passengers": "31118728",
+  "year": "2019",
+  "latitude": "40.64",
+  "longitude": "-73.77861111"
+ },
+ {
+  "rank": "7",
+  "airport": "SFO",
+  "enplaned_passengers": "27706442",
+  "year": "2019",
+  "latitude": "37.61888889",
+  "longitude": "-122.37555556"
+ },
+ {
+  "rank": "8",
+  "airport": "SEA",
+  "enplaned_passengers": "24961558",
+  "year": "2019",
+  "latitude": "47.45",
+  "longitude": "-122.31166667"
+ },
+ {
+  "rank": "9",
+  "airport": "MCO",
+  "enplaned_passengers": "24564014",
+  "year": "2019",
+  "latitude": "28.42944444",
+  "longitude": "-81.30888889"
+ },
+ {
+  "rank": "10",
+  "airport": "LAS",
+  "enplaned_passengers": "24414495",
+  "year": "2019",
+  "latitude": "36.08",
+  "longitude": "-115.15222222"
+ },
+ {
+  "rank": "11",
+  "airport": "CLT",
+  "enplaned_passengers": "24181051",
+  "year": "2019",
+  "latitude": "35.21361111",
+  "longitude": "-80.94916667"
+ },
+ {
+  "rank": "12",
+  "airport": "EWR",
+  "enplaned_passengers": "23151529",
+  "year": "2019",
+  "latitude": "40.6925",
+  "longitude": "-74.16861111"
+ },
+ {
+  "rank": "13",
+  "airport": "PHX",
+  "enplaned_passengers": "22410458",
+  "year": "2019",
+  "latitude": "33.43416667",
+  "longitude": "-112.01166667"
+ },
+ {
+  "rank": "14",
+  "airport": "IAH",
+  "enplaned_passengers": "21896977",
+  "year": "2019",
+  "latitude": "29.98444444",
+  "longitude": "-95.34138889"
+ },
+ {
+  "rank": "15",
+  "airport": "MIA",
+  "enplaned_passengers": "21315009",
+  "year": "2019",
+  "latitude": "25.79527778",
+  "longitude": "-80.29"
+ },
+ {
+  "rank": "16",
+  "airport": "BOS",
+  "enplaned_passengers": "20686410",
+  "year": "2019",
+  "latitude": "42.36305556",
+  "longitude": "-71.00638889"
+ },
+ {
+  "rank": "17",
+  "airport": "MSP",
+  "enplaned_passengers": "19152727",
+  "year": "2019",
+  "latitude": "44.88194444",
+  "longitude": "-93.22166667"
+ },
+ {
+  "rank": "18",
+  "airport": "DTW",
+  "enplaned_passengers": "18122016",
+  "year": "2019",
+  "latitude": "42.2125",
+  "longitude": "-83.35333333"
+ },
+ {
+  "rank": "19",
+  "airport": "FLL",
+  "enplaned_passengers": "17942566",
+  "year": "2019",
+  "latitude": "26.07166667",
+  "longitude": "-80.14972222"
+ },
+ {
+  "rank": "20",
+  "airport": "PHL",
+  "enplaned_passengers": "15995429",
+  "year": "2019",
+  "latitude": "39.87194444",
+  "longitude": "-75.24055556"
+ },
+ {
+  "rank": "21",
+  "airport": "LGA",
+  "enplaned_passengers": "15391626",
+  "year": "2019",
+  "latitude": "40.77722222",
+  "longitude": "-73.8725"
+ },
+ {
+  "rank": "22",
+  "airport": "BWI",
+  "enplaned_passengers": "13238628",
+  "year": "2019",
+  "latitude": "39.17583333",
+  "longitude": "-76.66888889"
+ },
+ {
+  "rank": "23",
+  "airport": "SLC",
+  "enplaned_passengers": "12829406",
+  "year": "2019",
+  "latitude": "40.78833333",
+  "longitude": "-111.97777778"
+ },
+ {
+  "rank": "24",
+  "airport": "SAN",
+  "enplaned_passengers": "12640740",
+  "year": "2019",
+  "latitude": "32.73361111",
+  "longitude": "-117.18972222"
+ },
+ {
+  "rank": "25",
+  "airport": "IAD",
+  "enplaned_passengers": "11868077",
+  "year": "2019",
+  "latitude": "38.9475",
+  "longitude": "-77.46"
+ },
+ {
+  "rank": "26",
+  "airport": "DCA",
+  "enplaned_passengers": "11576064",
+  "year": "2019",
+  "latitude": "38.85138889",
+  "longitude": "-77.03777778"
+ },
+ {
+  "rank": "27",
+  "airport": "TPA",
+  "enplaned_passengers": "10922377",
+  "year": "2019",
+  "latitude": "27.97555556",
+  "longitude": "-82.53333333"
+ },
+ {
+  "rank": "28",
+  "airport": "MDW",
+  "enplaned_passengers": "10063812",
+  "year": "2019",
+  "latitude": "41.78583333",
+  "longitude": "-87.7525"
+ },
+ {
+  "rank": "29",
+  "airport": "HNL",
+  "enplaned_passengers": "9892979",
+  "year": "2019",
+  "latitude": "21.31777778",
+  "longitude": "-157.92027778"
+ },
+ {
+  "rank": "30",
+  "airport": "PDX",
+  "enplaned_passengers": "9789568",
+  "year": "2019",
+  "latitude": "45.58861111",
+  "longitude": "-122.59694444"
+ },
+ {
+  "rank": "31",
+  "airport": "BNA",
+  "enplaned_passengers": "8922998",
+  "year": "2019",
+  "latitude": "36.12444444",
+  "longitude": "-86.67805556"
+ },
+ {
+  "rank": "32",
+  "airport": "AUS",
+  "enplaned_passengers": "8498092",
+  "year": "2019",
+  "latitude": "30.19444444",
+  "longitude": "-97.67"
+ },
+ {
+  "rank": "33",
+  "airport": "DAL",
+  "enplaned_passengers": "8068752",
+  "year": "2019",
+  "latitude": "32.84583333",
+  "longitude": "-96.85083333"
+ },
+ {
+  "rank": "34",
+  "airport": "STL",
+  "enplaned_passengers": "7752622",
+  "year": "2019",
+  "latitude": "38.74861111",
+  "longitude": "-90.37"
+ },
+ {
+  "rank": "35",
+  "airport": "SJC",
+  "enplaned_passengers": "7675954",
+  "year": "2019",
+  "latitude": "37.36305556",
+  "longitude": "-121.92861111"
+ },
+ {
+  "rank": "36",
+  "airport": "HOU",
+  "enplaned_passengers": "7056967",
+  "year": "2019",
+  "latitude": "29.64583333",
+  "longitude": "-95.27722222"
+ },
+ {
+  "rank": "37",
+  "airport": "RDU",
+  "enplaned_passengers": "6906877",
+  "year": "2019",
+  "latitude": "35.87777778",
+  "longitude": "-78.7875"
+ },
+ {
+  "rank": "38",
+  "airport": "MSY",
+  "enplaned_passengers": "6857851",
+  "year": "2019",
+  "latitude": "29.99333333",
+  "longitude": "-90.25916667"
+ },
+ {
+  "rank": "39",
+  "airport": "OAK",
+  "enplaned_passengers": "6540412",
+  "year": "2019",
+  "latitude": "37.72138889",
+  "longitude": "-122.22111111"
+ },
+ {
+  "rank": "40",
+  "airport": "SMF",
+  "enplaned_passengers": "6448574",
+  "year": "2019",
+  "latitude": "38.69555556",
+  "longitude": "-121.59083333"
+ },
+ {
+  "rank": "41",
+  "airport": "MCI",
+  "enplaned_passengers": "5747537",
+  "year": "2019",
+  "latitude": "39.2975",
+  "longitude": "-94.71388889"
+ },
+ {
+  "rank": "42",
+  "airport": "SNA",
+  "enplaned_passengers": "5150370",
+  "year": "2019",
+  "latitude": "33.67555556",
+  "longitude": "-117.86833333"
+ },
+ {
+  "rank": "43",
+  "airport": "RSW",
+  "enplaned_passengers": "5039408",
+  "year": "2019",
+  "latitude": "26.53611111",
+  "longitude": "-81.75527778"
+ },
+ {
+  "rank": "44",
+  "airport": "SAT",
+  "enplaned_passengers": "5020733",
+  "year": "2019",
+  "latitude": "29.53388889",
+  "longitude": "-98.46916667"
+ },
+ {
+  "rank": "45",
+  "airport": "CLE",
+  "enplaned_passengers": "4883595",
+  "year": "2019",
+  "latitude": "41.40944444",
+  "longitude": "-81.85472222"
+ },
+ {
+  "rank": "46",
+  "airport": "IND",
+  "enplaned_passengers": "4683917",
+  "year": "2019",
+  "latitude": "39.71722222",
+  "longitude": "-86.29472222"
+ },
+ {
+  "rank": "47",
+  "airport": "PIT",
+  "enplaned_passengers": "4675250",
+  "year": "2019",
+  "latitude": "40.49138889",
+  "longitude": "-80.23277778"
+ },
+ {
+  "rank": "48",
+  "airport": "SJU",
+  "enplaned_passengers": "4551439",
+  "year": "2019",
+  "latitude": "18.43944444",
+  "longitude": "-66.00222222"
+ },
+ {
+  "rank": "49",
+  "airport": "CVG",
+  "enplaned_passengers": "4395571",
+  "year": "2019",
+  "latitude": "39.04888889",
+  "longitude": "-84.66777778"
+ },
+ {
+  "rank": "50",
+  "airport": "CMH",
+  "enplaned_passengers": "4155133",
+  "year": "2019",
+  "latitude": "39.99694444",
+  "longitude": "-82.89222222"
+ },
+ {
+  "rank": "1",
+  "airport": "ATL",
+  "enplaned_passengers": "51849344",
+  "year": "2018",
+  "latitude": "33.63666667",
+  "longitude": "-84.42777778"
+ },
+ {
+  "rank": "2",
+  "airport": "LAX",
+  "enplaned_passengers": "42708391",
+  "year": "2018",
+  "latitude": "33.9425",
+  "longitude": "-118.40805556"
+ },
+ {
+  "rank": "3",
+  "airport": "ORD",
+  "enplaned_passengers": "39895823",
+  "year": "2018",
+  "latitude": "41.97694444",
+  "longitude": "-87.90805556"
+ },
+ {
+  "rank": "4",
+  "airport": "DFW",
+  "enplaned_passengers": "32780526",
+  "year": "2018",
+  "latitude": "32.89722222",
+  "longitude": "-97.03777778"
+ },
+ {
+  "rank": "5",
+  "airport": "DEN",
+  "enplaned_passengers": "31345636",
+  "year": "2018",
+  "latitude": "39.86166667",
+  "longitude": "-104.67305556"
+ },
+ {
+  "rank": "6",
+  "airport": "JFK",
+  "enplaned_passengers": "30590253",
+  "year": "2018",
+  "latitude": "40.64",
+  "longitude": "-73.77861111"
+ },
+ {
+  "rank": "7",
+  "airport": "SFO",
+  "enplaned_passengers": "27842003",
+  "year": "2018",
+  "latitude": "37.61888889",
+  "longitude": "-122.37555556"
+ },
+ {
+  "rank": "8",
+  "airport": "SEA",
+  "enplaned_passengers": "24001245",
+  "year": "2018",
+  "latitude": "47.45",
+  "longitude": "-122.31166667"
+ },
+ {
+  "rank": "9",
+  "airport": "LAS",
+  "enplaned_passengers": "23639452",
+  "year": "2018",
+  "latitude": "36.08",
+  "longitude": "-115.15222222"
+ },
+ {
+  "rank": "10",
+  "airport": "MCO",
+  "enplaned_passengers": "23168914",
+  "year": "2018",
+  "latitude": "28.42944444",
+  "longitude": "-81.30888889"
+ },
+ {
+  "rank": "11",
+  "airport": "EWR",
+  "enplaned_passengers": "22790278",
+  "year": "2018",
+  "latitude": "40.6925",
+  "longitude": "-74.16861111"
+ },
+ {
+  "rank": "12",
+  "airport": "CLT",
+  "enplaned_passengers": "22264473",
+  "year": "2018",
+  "latitude": "35.21361111",
+  "longitude": "-80.94916667"
+ },
+ {
+  "rank": "13",
+  "airport": "PHX",
+  "enplaned_passengers": "21618312",
+  "year": "2018",
+  "latitude": "33.43416667",
+  "longitude": "-112.01166667"
+ },
+ {
+  "rank": "14",
+  "airport": "IAH",
+  "enplaned_passengers": "21152449",
+  "year": "2018",
+  "latitude": "29.98444444",
+  "longitude": "-95.34138889"
+ },
+ {
+  "rank": "15",
+  "airport": "MIA",
+  "enplaned_passengers": "20682009",
+  "year": "2018",
+  "latitude": "25.79527778",
+  "longitude": "-80.29"
+ },
+ {
+  "rank": "16",
+  "airport": "BOS",
+  "enplaned_passengers": "19992126",
+  "year": "2018",
+  "latitude": "42.36305556",
+  "longitude": "-71.00638889"
+ },
+ {
+  "rank": "17",
+  "airport": "MSP",
+  "enplaned_passengers": "18322597",
+  "year": "2018",
+  "latitude": "44.88194444",
+  "longitude": "-93.22166667"
+ },
+ {
+  "rank": "18",
+  "airport": "FLL",
+  "enplaned_passengers": "17590273",
+  "year": "2018",
+  "latitude": "26.07166667",
+  "longitude": "-80.14972222"
+ },
+ {
+  "rank": "19",
+  "airport": "DTW",
+  "enplaned_passengers": "17412139",
+  "year": "2018",
+  "latitude": "42.2125",
+  "longitude": "-83.35333333"
+ },
+ {
+  "rank": "20",
+  "airport": "PHL",
+  "enplaned_passengers": "15260091",
+  "year": "2018",
+  "latitude": "39.87194444",
+  "longitude": "-75.24055556"
+ },
+ {
+  "rank": "21",
+  "airport": "LGA",
+  "enplaned_passengers": "15077066",
+  "year": "2018",
+  "latitude": "40.77722222",
+  "longitude": "-73.8725"
+ },
+ {
+  "rank": "22",
+  "airport": "BWI",
+  "enplaned_passengers": "13299197",
+  "year": "2018",
+  "latitude": "39.17583333",
+  "longitude": "-76.66888889"
+ },
+ {
+  "rank": "23",
+  "airport": "SLC",
+  "enplaned_passengers": "12217178",
+  "year": "2018",
+  "latitude": "40.78833333",
+  "longitude": "-111.97777778"
+ },
+ {
+  "rank": "24",
+  "airport": "SAN",
+  "enplaned_passengers": "12169251",
+  "year": "2018",
+  "latitude": "32.73361111",
+  "longitude": "-117.18972222"
+ },
+ {
+  "rank": "25",
+  "airport": "IAD",
+  "enplaned_passengers": "11612265",
+  "year": "2018",
+  "latitude": "38.9475",
+  "longitude": "-77.46"
+ },
+ {
+  "rank": "26",
+  "airport": "DCA",
+  "enplaned_passengers": "11346614",
+  "year": "2018",
+  "latitude": "38.85138889",
+  "longitude": "-77.03777778"
+ },
+ {
+  "rank": "27",
+  "airport": "MDW",
+  "enplaned_passengers": "10654642",
+  "year": "2018",
+  "latitude": "41.78583333",
+  "longitude": "-87.7525"
+ },
+ {
+  "rank": "28",
+  "airport": "TPA",
+  "enplaned_passengers": "10347029",
+  "year": "2018",
+  "latitude": "27.97555556",
+  "longitude": "-82.53333333"
+ },
+ {
+  "rank": "29",
+  "airport": "PDX",
+  "enplaned_passengers": "9797779",
+  "year": "2018",
+  "latitude": "45.58861111",
+  "longitude": "-122.59694444"
+ },
+ {
+  "rank": "30",
+  "airport": "HNL",
+  "enplaned_passengers": "9524017",
+  "year": "2018",
+  "latitude": "21.31777778",
+  "longitude": "-157.92027778"
+ },
+ {
+  "rank": "31",
+  "airport": "DAL",
+  "enplaned_passengers": "7808613",
+  "year": "2018",
+  "latitude": "32.84583333",
+  "longitude": "-96.85083333"
+ },
+ {
+  "rank": "32",
+  "airport": "BNA",
+  "enplaned_passengers": "7794655",
+  "year": "2018",
+  "latitude": "36.12444444",
+  "longitude": "-86.67805556"
+ },
+ {
+  "rank": "33",
+  "airport": "AUS",
+  "enplaned_passengers": "7703847",
+  "year": "2018",
+  "latitude": "30.19444444",
+  "longitude": "-97.67"
+ },
+ {
+  "rank": "34",
+  "airport": "STL",
+  "enplaned_passengers": "7587291",
+  "year": "2018",
+  "latitude": "38.74861111",
+  "longitude": "-90.37"
+ },
+ {
+  "rank": "35",
+  "airport": "HOU",
+  "enplaned_passengers": "7041307",
+  "year": "2018",
+  "latitude": "29.64583333",
+  "longitude": "-95.27722222"
+ },
+ {
+  "rank": "36",
+  "airport": "SJC",
+  "enplaned_passengers": "7019561",
+  "year": "2018",
+  "latitude": "37.36305556",
+  "longitude": "-121.92861111"
+ },
+ {
+  "rank": "37",
+  "airport": "OAK",
+  "enplaned_passengers": "6661463",
+  "year": "2018",
+  "latitude": "37.72138889",
+  "longitude": "-122.22111111"
+ },
+ {
+  "rank": "38",
+  "airport": "MSY",
+  "enplaned_passengers": "6566418",
+  "year": "2018",
+  "latitude": "29.99333333",
+  "longitude": "-90.25916667"
+ },
+ {
+  "rank": "39",
+  "airport": "RDU",
+  "enplaned_passengers": "6243499",
+  "year": "2018",
+  "latitude": "35.87777778",
+  "longitude": "-78.7875"
+ },
+ {
+  "rank": "40",
+  "airport": "SMF",
+  "enplaned_passengers": "5900861",
+  "year": "2018",
+  "latitude": "38.69555556",
+  "longitude": "-121.59083333"
+ },
+ {
+  "rank": "41",
+  "airport": "MCI",
+  "enplaned_passengers": "5778078",
+  "year": "2018",
+  "latitude": "39.2975",
+  "longitude": "-94.71388889"
+ },
+ {
+  "rank": "42",
+  "airport": "SNA",
+  "enplaned_passengers": "5195987",
+  "year": "2018",
+  "latitude": "33.67555556",
+  "longitude": "-117.86833333"
+ },
+ {
+  "rank": "43",
+  "airport": "SAT",
+  "enplaned_passengers": "4825734",
+  "year": "2018",
+  "latitude": "29.53388889",
+  "longitude": "-98.46916667"
+ },
+ {
+  "rank": "44",
+  "airport": "CLE",
+  "enplaned_passengers": "4678281",
+  "year": "2018",
+  "latitude": "41.40944444",
+  "longitude": "-81.85472222"
+ },
+ {
+  "rank": "45",
+  "airport": "IND",
+  "enplaned_passengers": "4632559",
+  "year": "2018",
+  "latitude": "39.71722222",
+  "longitude": "-86.29472222"
+ },
+ {
+  "rank": "46",
+  "airport": "PIT",
+  "enplaned_passengers": "4621770",
+  "year": "2018",
+  "latitude": "40.49138889",
+  "longitude": "-80.23277778"
+ },
+ {
+  "rank": "47",
+  "airport": "RSW",
+  "enplaned_passengers": "4601206",
+  "year": "2018",
+  "latitude": "26.53611111",
+  "longitude": "-81.75527778"
+ },
+ {
+  "rank": "48",
+  "airport": "CVG",
+  "enplaned_passengers": "4239797",
+  "year": "2018",
+  "latitude": "39.04888889",
+  "longitude": "-84.66777778"
+ },
+ {
+  "rank": "49",
+  "airport": "SJU",
+  "enplaned_passengers": "3986276",
+  "year": "2018",
+  "latitude": "18.43944444",
+  "longitude": "-66.00222222"
+ },
+ {
+  "rank": "50",
+  "airport": "CMH",
+  "enplaned_passengers": "3957772",
+  "year": "2018",
+  "latitude": "39.99694444",
+  "longitude": "-82.89222222"
+ },
+ {
+  "rank": "1",
+  "airport": "ATL",
+  "enplaned_passengers": "50242722",
+  "year": "2017",
+  "latitude": "33.63666667",
+  "longitude": "-84.42777778"
+ },
+ {
+  "rank": "2",
+  "airport": "LAX",
+  "enplaned_passengers": "41201368",
+  "year": "2017",
+  "latitude": "33.9425",
+  "longitude": "-118.40805556"
+ },
+ {
+  "rank": "3",
+  "airport": "ORD",
+  "enplaned_passengers": "38576914",
+  "year": "2017",
+  "latitude": "41.97694444",
+  "longitude": "-87.90805556"
+ },
+ {
+  "rank": "4",
+  "airport": "DFW",
+  "enplaned_passengers": "31794415",
+  "year": "2017",
+  "latitude": "32.89722222",
+  "longitude": "-97.03777778"
+ },
+ {
+  "rank": "5",
+  "airport": "DEN",
+  "enplaned_passengers": "29786721",
+  "year": "2017",
+  "latitude": "39.86166667",
+  "longitude": "-104.67305556"
+ },
+ {
+  "rank": "6",
+  "airport": "JFK",
+  "enplaned_passengers": "29489840",
+  "year": "2017",
+  "latitude": "40.64",
+  "longitude": "-73.77861111"
+ },
+ {
+  "rank": "7",
+  "airport": "SFO",
+  "enplaned_passengers": "26892259",
+  "year": "2017",
+  "latitude": "37.61888889",
+  "longitude": "-122.37555556"
+ },
+ {
+  "rank": "8",
+  "airport": "LAS",
+  "enplaned_passengers": "23150481",
+  "year": "2017",
+  "latitude": "36.08",
+  "longitude": "-115.15222222"
+ },
+ {
+  "rank": "9",
+  "airport": "SEA",
+  "enplaned_passengers": "22603648",
+  "year": "2017",
+  "latitude": "47.45",
+  "longitude": "-122.31166667"
+ },
+ {
+  "rank": "10",
+  "airport": "CLT",
+  "enplaned_passengers": "21994328",
+  "year": "2017",
+  "latitude": "35.21361111",
+  "longitude": "-80.94916667"
+ },
+ {
+  "rank": "11",
+  "airport": "MCO",
+  "enplaned_passengers": "21541625",
+  "year": "2017",
+  "latitude": "28.42944444",
+  "longitude": "-81.30888889"
+ },
+ {
+  "rank": "12",
+  "airport": "EWR",
+  "enplaned_passengers": "21541268",
+  "year": "2017",
+  "latitude": "40.6925",
+  "longitude": "-74.16861111"
+ },
+ {
+  "rank": "13",
+  "airport": "PHX",
+  "enplaned_passengers": "21163489",
+  "year": "2017",
+  "latitude": "33.43416667",
+  "longitude": "-112.01166667"
+ },
+ {
+  "rank": "14",
+  "airport": "MIA",
+  "enplaned_passengers": "20398699",
+  "year": "2017",
+  "latitude": "25.79527778",
+  "longitude": "-80.29"
+ },
+ {
+  "rank": "15",
+  "airport": "IAH",
+  "enplaned_passengers": "19578201",
+  "year": "2017",
+  "latitude": "29.98444444",
+  "longitude": "-95.34138889"
+ },
+ {
+  "rank": "16",
+  "airport": "BOS",
+  "enplaned_passengers": "18732868",
+  "year": "2017",
+  "latitude": "42.36305556",
+  "longitude": "-71.00638889"
+ },
+ {
+  "rank": "17",
+  "airport": "MSP",
+  "enplaned_passengers": "18372760",
+  "year": "2017",
+  "latitude": "44.88194444",
+  "longitude": "-93.22166667"
+ },
+ {
+  "rank": "18",
+  "airport": "DTW",
+  "enplaned_passengers": "17012535",
+  "year": "2017",
+  "latitude": "42.2125",
+  "longitude": "-83.35333333"
+ },
+ {
+  "rank": "19",
+  "airport": "FLL",
+  "enplaned_passengers": "15797758",
+  "year": "2017",
+  "latitude": "26.07166667",
+  "longitude": "-80.14972222"
+ },
+ {
+  "rank": "20",
+  "airport": "LGA",
+  "enplaned_passengers": "14603180",
+  "year": "2017",
+  "latitude": "40.77722222",
+  "longitude": "-73.8725"
+ },
+ {
+  "rank": "21",
+  "airport": "PHL",
+  "enplaned_passengers": "14253979",
+  "year": "2017",
+  "latitude": "39.87194444",
+  "longitude": "-75.24055556"
+ },
+ {
+  "rank": "22",
+  "airport": "BWI",
+  "enplaned_passengers": "12911408",
+  "year": "2017",
+  "latitude": "39.17583333",
+  "longitude": "-76.66888889"
+ },
+ {
+  "rank": "23",
+  "airport": "SLC",
+  "enplaned_passengers": "11605031",
+  "year": "2017",
+  "latitude": "40.78833333",
+  "longitude": "-111.97777778"
+ },
+ {
+  "rank": "24",
+  "airport": "DCA",
+  "enplaned_passengers": "11486052",
+  "year": "2017",
+  "latitude": "38.85138889",
+  "longitude": "-77.03777778"
+ },
+ {
+  "rank": "25",
+  "airport": "SAN",
+  "enplaned_passengers": "11131566",
+  "year": "2017",
+  "latitude": "32.73361111",
+  "longitude": "-117.18972222"
+ },
+ {
+  "rank": "26",
+  "airport": "IAD",
+  "enplaned_passengers": "10996953",
+  "year": "2017",
+  "latitude": "38.9475",
+  "longitude": "-77.46"
+ },
+ {
+  "rank": "27",
+  "airport": "MDW",
+  "enplaned_passengers": "10887746",
+  "year": "2017",
+  "latitude": "41.78583333",
+  "longitude": "-87.7525"
+ },
+ {
+  "rank": "28",
+  "airport": "HNL",
+  "enplaned_passengers": "9663189",
+  "year": "2017",
+  "latitude": "21.31777778",
+  "longitude": "-157.92027778"
+ },
+ {
+  "rank": "29",
+  "airport": "TPA",
+  "enplaned_passengers": "9518155",
+  "year": "2017",
+  "latitude": "27.97555556",
+  "longitude": "-82.53333333"
+ },
+ {
+  "rank": "30",
+  "airport": "PDX",
+  "enplaned_passengers": "9427416",
+  "year": "2017",
+  "latitude": "45.58861111",
+  "longitude": "-122.59694444"
+ },
+ {
+  "rank": "31",
+  "airport": "DAL",
+  "enplaned_passengers": "7575841",
+  "year": "2017",
+  "latitude": "32.84583333",
+  "longitude": "-96.85083333"
+ },
+ {
+  "rank": "32",
+  "airport": "STL",
+  "enplaned_passengers": "7160495",
+  "year": "2017",
+  "latitude": "38.74861111",
+  "longitude": "-90.37"
+ },
+ {
+  "rank": "33",
+  "airport": "BNA",
+  "enplaned_passengers": "6880414",
+  "year": "2017",
+  "latitude": "36.12444444",
+  "longitude": "-86.67805556"
+ },
+ {
+  "rank": "34",
+  "airport": "AUS",
+  "enplaned_passengers": "6800474",
+  "year": "2017",
+  "latitude": "30.19444444",
+  "longitude": "-97.67"
+ },
+ {
+  "rank": "35",
+  "airport": "HOU",
+  "enplaned_passengers": "6527615",
+  "year": "2017",
+  "latitude": "29.64583333",
+  "longitude": "-95.27722222"
+ },
+ {
+  "rank": "36",
+  "airport": "OAK",
+  "enplaned_passengers": "6393113",
+  "year": "2017",
+  "latitude": "37.72138889",
+  "longitude": "-122.22111111"
+ },
+ {
+  "rank": "37",
+  "airport": "SJC",
+  "enplaned_passengers": "6118896",
+  "year": "2017",
+  "latitude": "37.36305556",
+  "longitude": "-121.92861111"
+ },
+ {
+  "rank": "38",
+  "airport": "MSY",
+  "enplaned_passengers": "5996008",
+  "year": "2017",
+  "latitude": "29.99333333",
+  "longitude": "-90.25916667"
+ },
+ {
+  "rank": "39",
+  "airport": "RDU",
+  "enplaned_passengers": "5674758",
+  "year": "2017",
+  "latitude": "35.87777778",
+  "longitude": "-78.7875"
+ },
+ {
+  "rank": "40",
+  "airport": "MCI",
+  "enplaned_passengers": "5615686",
+  "year": "2017",
+  "latitude": "39.2975",
+  "longitude": "-94.71388889"
+ },
+ {
+  "rank": "41",
+  "airport": "SMF",
+  "enplaned_passengers": "5334457",
+  "year": "2017",
+  "latitude": "38.69555556",
+  "longitude": "-121.59083333"
+ },
+ {
+  "rank": "42",
+  "airport": "SNA",
+  "enplaned_passengers": "5080330",
+  "year": "2017",
+  "latitude": "33.67555556",
+  "longitude": "-117.86833333"
+ },
+ {
+  "rank": "43",
+  "airport": "CLE",
+  "enplaned_passengers": "4422441",
+  "year": "2017",
+  "latitude": "41.40944444",
+  "longitude": "-81.85472222"
+ },
+ {
+  "rank": "44",
+  "airport": "SAT",
+  "enplaned_passengers": "4362062",
+  "year": "2017",
+  "latitude": "29.53388889",
+  "longitude": "-98.46916667"
+ },
+ {
+  "rank": "45",
+  "airport": "RSW",
+  "enplaned_passengers": "4360355",
+  "year": "2017",
+  "latitude": "26.53611111",
+  "longitude": "-81.75527778"
+ },
+ {
+  "rank": "46",
+  "airport": "IND",
+  "enplaned_passengers": "4319798",
+  "year": "2017",
+  "latitude": "39.71722222",
+  "longitude": "-86.29472222"
+ },
+ {
+  "rank": "47",
+  "airport": "PIT",
+  "enplaned_passengers": "4270723",
+  "year": "2017",
+  "latitude": "40.49138889",
+  "longitude": "-80.23277778"
+ },
+ {
+  "rank": "48",
+  "airport": "SJU",
+  "enplaned_passengers": "4122926",
+  "year": "2017",
+  "latitude": "18.43944444",
+  "longitude": "-66.00222222"
+ },
+ {
+  "rank": "49",
+  "airport": "CVG",
+  "enplaned_passengers": "3760291",
+  "year": "2017",
+  "latitude": "39.04888889",
+  "longitude": "-84.66777778"
+ },
+ {
+  "rank": "50",
+  "airport": "CMH",
+  "enplaned_passengers": "3661949",
+  "year": "2017",
+  "latitude": "39.99694444",
+  "longitude": "-82.89222222"
+ },
+ {
+  "rank": "1",
+  "airport": "ATL",
+  "enplaned_passengers": "50482209",
+  "year": "2016",
+  "latitude": "33.63666667",
+  "longitude": "-84.42777778"
+ },
+ {
+  "rank": "2",
+  "airport": "LAX",
+  "enplaned_passengers": "39605966",
+  "year": "2016",
+  "latitude": "33.9425",
+  "longitude": "-118.40805556"
+ },
+ {
+  "rank": "3",
+  "airport": "ORD",
+  "enplaned_passengers": "37497233",
+  "year": "2016",
+  "latitude": "41.97694444",
+  "longitude": "-87.90805556"
+ },
+ {
+  "rank": "4",
+  "airport": "DFW",
+  "enplaned_passengers": "31259863",
+  "year": "2016",
+  "latitude": "32.89722222",
+  "longitude": "-97.03777778"
+ },
+ {
+  "rank": "5",
+  "airport": "JFK",
+  "enplaned_passengers": "29146483",
+  "year": "2016",
+  "latitude": "40.64",
+  "longitude": "-73.77861111"
+ },
+ {
+  "rank": "6",
+  "airport": "DEN",
+  "enplaned_passengers": "28242856",
+  "year": "2016",
+  "latitude": "39.86166667",
+  "longitude": "-104.67305556"
+ },
+ {
+  "rank": "7",
+  "airport": "SFO",
+  "enplaned_passengers": "25697968",
+  "year": "2016",
+  "latitude": "37.61888889",
+  "longitude": "-122.37555556"
+ },
+ {
+  "rank": "8",
+  "airport": "LAS",
+  "enplaned_passengers": "22615702",
+  "year": "2016",
+  "latitude": "36.08",
+  "longitude": "-115.15222222"
+ },
+ {
+  "rank": "9",
+  "airport": "SEA",
+  "enplaned_passengers": "21848314",
+  "year": "2016",
+  "latitude": "47.45",
+  "longitude": "-122.31166667"
+ },
+ {
+  "rank": "10",
+  "airport": "CLT",
+  "enplaned_passengers": "21495991",
+  "year": "2016",
+  "latitude": "35.21361111",
+  "longitude": "-80.94916667"
+ },
+ {
+  "rank": "11",
+  "airport": "PHX",
+  "enplaned_passengers": "20873709",
+  "year": "2016",
+  "latitude": "33.43416667",
+  "longitude": "-112.01166667"
+ },
+ {
+  "rank": "12",
+  "airport": "MIA",
+  "enplaned_passengers": "20505183",
+  "year": "2016",
+  "latitude": "25.79527778",
+  "longitude": "-80.29"
+ },
+ {
+  "rank": "13",
+  "airport": "MCO",
+  "enplaned_passengers": "20249277",
+  "year": "2016",
+  "latitude": "28.42944444",
+  "longitude": "-81.30888889"
+ },
+ {
+  "rank": "14",
+  "airport": "IAH",
+  "enplaned_passengers": "20039699",
+  "year": "2016",
+  "latitude": "29.98444444",
+  "longitude": "-95.34138889"
+ },
+ {
+  "rank": "15",
+  "airport": "EWR",
+  "enplaned_passengers": "19894515",
+  "year": "2016",
+  "latitude": "40.6925",
+  "longitude": "-74.16861111"
+ },
+ {
+  "rank": "16",
+  "airport": "MSP",
+  "enplaned_passengers": "18093055",
+  "year": "2016",
+  "latitude": "44.88194444",
+  "longitude": "-93.22166667"
+ },
+ {
+  "rank": "17",
+  "airport": "BOS",
+  "enplaned_passengers": "17713240",
+  "year": "2016",
+  "latitude": "42.36305556",
+  "longitude": "-71.00638889"
+ },
+ {
+  "rank": "18",
+  "airport": "DTW",
+  "enplaned_passengers": "16830820",
+  "year": "2016",
+  "latitude": "42.2125",
+  "longitude": "-83.35333333"
+ },
+ {
+  "rank": "19",
+  "airport": "LGA",
+  "enplaned_passengers": "14757890",
+  "year": "2016",
+  "latitude": "40.77722222",
+  "longitude": "-73.8725"
+ },
+ {
+  "rank": "20",
+  "airport": "PHL",
+  "enplaned_passengers": "14547946",
+  "year": "2016",
+  "latitude": "39.87194444",
+  "longitude": "-75.24055556"
+ },
+ {
+  "rank": "21",
+  "airport": "FLL",
+  "enplaned_passengers": "14220967",
+  "year": "2016",
+  "latitude": "26.07166667",
+  "longitude": "-80.14972222"
+ },
+ {
+  "rank": "22",
+  "airport": "BWI",
+  "enplaned_passengers": "12268706",
+  "year": "2016",
+  "latitude": "39.17583333",
+  "longitude": "-76.66888889"
+ },
+ {
+  "rank": "23",
+  "airport": "DCA",
+  "enplaned_passengers": "11450012",
+  "year": "2016",
+  "latitude": "38.85138889",
+  "longitude": "-77.03777778"
+ },
+ {
+  "rank": "24",
+  "airport": "SLC",
+  "enplaned_passengers": "11133170",
+  "year": "2016",
+  "latitude": "40.78833333",
+  "longitude": "-111.97777778"
+ },
+ {
+  "rank": "25",
+  "airport": "MDW",
+  "enplaned_passengers": "11026555",
+  "year": "2016",
+  "latitude": "41.78583333",
+  "longitude": "-87.7525"
+ },
+ {
+  "rank": "26",
+  "airport": "IAD",
+  "enplaned_passengers": "10572944",
+  "year": "2016",
+  "latitude": "38.9475",
+  "longitude": "-77.46"
+ },
+ {
+  "rank": "27",
+  "airport": "SAN",
+  "enplaned_passengers": "10325389",
+  "year": "2016",
+  "latitude": "32.73361111",
+  "longitude": "-117.18972222"
+ },
+ {
+  "rank": "28",
+  "airport": "HNL",
+  "enplaned_passengers": "9581929",
+  "year": "2016",
+  "latitude": "21.31777778",
+  "longitude": "-157.92027778"
+ },
+ {
+  "rank": "29",
+  "airport": "TPA",
+  "enplaned_passengers": "9145139",
+  "year": "2016",
+  "latitude": "27.97555556",
+  "longitude": "-82.53333333"
+ },
+ {
+  "rank": "30",
+  "airport": "PDX",
+  "enplaned_passengers": "9064803",
+  "year": "2016",
+  "latitude": "45.58861111",
+  "longitude": "-122.59694444"
+ },
+ {
+  "rank": "31",
+  "airport": "DAL",
+  "enplaned_passengers": "7539636",
+  "year": "2016",
+  "latitude": "32.84583333",
+  "longitude": "-96.85083333"
+ },
+ {
+  "rank": "32",
+  "airport": "STL",
+  "enplaned_passengers": "6761401",
+  "year": "2016",
+  "latitude": "38.74861111",
+  "longitude": "-90.37"
+ },
+ {
+  "rank": "33",
+  "airport": "BNA",
+  "enplaned_passengers": "6320383",
+  "year": "2016",
+  "latitude": "36.12444444",
+  "longitude": "-86.67805556"
+ },
+ {
+  "rank": "34",
+  "airport": "HOU",
+  "enplaned_passengers": "6275112",
+  "year": "2016",
+  "latitude": "29.64583333",
+  "longitude": "-95.27722222"
+ },
+ {
+  "rank": "35",
+  "airport": "AUS",
+  "enplaned_passengers": "6084798",
+  "year": "2016",
+  "latitude": "30.19444444",
+  "longitude": "-97.67"
+ },
+ {
+  "rank": "36",
+  "airport": "OAK",
+  "enplaned_passengers": "5911535",
+  "year": "2016",
+  "latitude": "37.72138889",
+  "longitude": "-122.22111111"
+ },
+ {
+  "rank": "37",
+  "airport": "MSY",
+  "enplaned_passengers": "5539302",
+  "year": "2016",
+  "latitude": "29.99333333",
+  "longitude": "-90.25916667"
+ },
+ {
+  "rank": "38",
+  "airport": "RDU",
+  "enplaned_passengers": "5386495",
+  "year": "2016",
+  "latitude": "35.87777778",
+  "longitude": "-78.7875"
+ },
+ {
+  "rank": "39",
+  "airport": "MCI",
+  "enplaned_passengers": "5376432",
+  "year": "2016",
+  "latitude": "39.2975",
+  "longitude": "-94.71388889"
+ },
+ {
+  "rank": "40",
+  "airport": "SJC",
+  "enplaned_passengers": "5308173",
+  "year": "2016",
+  "latitude": "37.36305556",
+  "longitude": "-121.92861111"
+ },
+ {
+  "rank": "41",
+  "airport": "SNA",
+  "enplaned_passengers": "5215420",
+  "year": "2016",
+  "latitude": "33.67555556",
+  "longitude": "-117.86833333"
+ },
+ {
+  "rank": "42",
+  "airport": "SMF",
+  "enplaned_passengers": "4964621",
+  "year": "2016",
+  "latitude": "38.69555556",
+  "longitude": "-121.59083333"
+ },
+ {
+  "rank": "43",
+  "airport": "SJU",
+  "enplaned_passengers": "4315855",
+  "year": "2016",
+  "latitude": "18.43944444",
+  "longitude": "-66.00222222"
+ },
+ {
+  "rank": "44",
+  "airport": "RSW",
+  "enplaned_passengers": "4236224",
+  "year": "2016",
+  "latitude": "26.53611111",
+  "longitude": "-81.75527778"
+ },
+ {
+  "rank": "45",
+  "airport": "IND",
+  "enplaned_passengers": "4192126",
+  "year": "2016",
+  "latitude": "39.71722222",
+  "longitude": "-86.29472222"
+ },
+ {
+  "rank": "46",
+  "airport": "SAT",
+  "enplaned_passengers": "4159625",
+  "year": "2016",
+  "latitude": "29.53388889",
+  "longitude": "-98.46916667"
+ },
+ {
+  "rank": "47",
+  "airport": "CLE",
+  "enplaned_passengers": "4058757",
+  "year": "2016",
+  "latitude": "41.40944444",
+  "longitude": "-81.85472222"
+ },
+ {
+  "rank": "48",
+  "airport": "PIT",
+  "enplaned_passengers": "3944155",
+  "year": "2016",
+  "latitude": "40.49138889",
+  "longitude": "-80.23277778"
+ },
+ {
+  "rank": "49",
+  "airport": "CMH",
+  "enplaned_passengers": "3554307",
+  "year": "2016",
+  "latitude": "39.99694444",
+  "longitude": "-82.89222222"
+ },
+ {
+  "rank": "50",
+  "airport": "OGG",
+  "enplaned_passengers": "3339326",
+  "year": "2016",
+  "latitude": "20.89861111",
+  "longitude": "-156.43055556"
+ },
+ {
+  "rank": "1",
+  "airport": "ATL",
+  "enplaned_passengers": "49320350",
+  "year": "2015",
+  "latitude": "33.63666667",
+  "longitude": "-84.42777778"
+ },
+ {
+  "rank": "2",
+  "airport": "LAX",
+  "enplaned_passengers": "36437547",
+  "year": "2015",
+  "latitude": "33.9425",
+  "longitude": "-118.40805556"
+ },
+ {
+  "rank": "3",
+  "airport": "ORD",
+  "enplaned_passengers": "36246894",
+  "year": "2015",
+  "latitude": "41.97694444",
+  "longitude": "-87.90805556"
+ },
+ {
+  "rank": "4",
+  "airport": "DFW",
+  "enplaned_passengers": "31568819",
+  "year": "2015",
+  "latitude": "32.89722222",
+  "longitude": "-97.03777778"
+ },
+ {
+  "rank": "5",
+  "airport": "JFK",
+  "enplaned_passengers": "27914944",
+  "year": "2015",
+  "latitude": "40.64",
+  "longitude": "-73.77861111"
+ },
+ {
+  "rank": "6",
+  "airport": "DEN",
+  "enplaned_passengers": "26251076",
+  "year": "2015",
+  "latitude": "39.86166667",
+  "longitude": "-104.67305556"
+ },
+ {
+  "rank": "7",
+  "airport": "SFO",
+  "enplaned_passengers": "24226199",
+  "year": "2015",
+  "latitude": "37.61888889",
+  "longitude": "-122.37555556"
+ },
+ {
+  "rank": "8",
+  "airport": "CLT",
+  "enplaned_passengers": "21894504",
+  "year": "2015",
+  "latitude": "35.21361111",
+  "longitude": "-80.94916667"
+ },
+ {
+  "rank": "9",
+  "airport": "LAS",
+  "enplaned_passengers": "21640009",
+  "year": "2015",
+  "latitude": "36.08",
+  "longitude": "-115.15222222"
+ },
+ {
+  "rank": "10",
+  "airport": "PHX",
+  "enplaned_passengers": "21330811",
+  "year": "2015",
+  "latitude": "33.43416667",
+  "longitude": "-112.01166667"
+ },
+ {
+  "rank": "11",
+  "airport": "IAH",
+  "enplaned_passengers": "20603152",
+  "year": "2015",
+  "latitude": "29.98444444",
+  "longitude": "-95.34138889"
+ },
+ {
+  "rank": "12",
+  "airport": "MIA",
+  "enplaned_passengers": "20596392",
+  "year": "2015",
+  "latitude": "25.79527778",
+  "longitude": "-80.29"
+ },
+ {
+  "rank": "13",
+  "airport": "SEA",
+  "enplaned_passengers": "20126331",
+  "year": "2015",
+  "latitude": "47.45",
+  "longitude": "-122.31166667"
+ },
+ {
+  "rank": "14",
+  "airport": "MCO",
+  "enplaned_passengers": "18743631",
+  "year": "2015",
+  "latitude": "28.42944444",
+  "longitude": "-81.30888889"
+ },
+ {
+  "rank": "15",
+  "airport": "EWR",
+  "enplaned_passengers": "18681924",
+  "year": "2015",
+  "latitude": "40.6925",
+  "longitude": "-74.16861111"
+ },
+ {
+  "rank": "16",
+  "airport": "MSP",
+  "enplaned_passengers": "17612755",
+  "year": "2015",
+  "latitude": "44.88194444",
+  "longitude": "-93.22166667"
+ },
+ {
+  "rank": "17",
+  "airport": "BOS",
+  "enplaned_passengers": "16311924",
+  "year": "2015",
+  "latitude": "42.36305556",
+  "longitude": "-71.00638889"
+ },
+ {
+  "rank": "18",
+  "airport": "DTW",
+  "enplaned_passengers": "16235470",
+  "year": "2015",
+  "latitude": "42.2125",
+  "longitude": "-83.35333333"
+ },
+ {
+  "rank": "19",
+  "airport": "PHL",
+  "enplaned_passengers": "15052828",
+  "year": "2015",
+  "latitude": "39.87194444",
+  "longitude": "-75.24055556"
+ },
+ {
+  "rank": "20",
+  "airport": "LGA",
+  "enplaned_passengers": "14319426",
+  "year": "2015",
+  "latitude": "40.77722222",
+  "longitude": "-73.8725"
+ },
+ {
+  "rank": "21",
+  "airport": "FLL",
+  "enplaned_passengers": "13022907",
+  "year": "2015",
+  "latitude": "26.07166667",
+  "longitude": "-80.14972222"
+ },
+ {
+  "rank": "22",
+  "airport": "BWI",
+  "enplaned_passengers": "11646550",
+  "year": "2015",
+  "latitude": "39.17583333",
+  "longitude": "-76.66888889"
+ },
+ {
+  "rank": "23",
+  "airport": "DCA",
+  "enplaned_passengers": "11229225",
+  "year": "2015",
+  "latitude": "38.85138889",
+  "longitude": "-77.03777778"
+ },
+ {
+  "rank": "24",
+  "airport": "MDW",
+  "enplaned_passengers": "10804532",
+  "year": "2015",
+  "latitude": "41.78583333",
+  "longitude": "-87.7525"
+ },
+ {
+  "rank": "25",
+  "airport": "SLC",
+  "enplaned_passengers": "10623922",
+  "year": "2015",
+  "latitude": "40.78833333",
+  "longitude": "-111.97777778"
+ },
+ {
+  "rank": "26",
+  "airport": "IAD",
+  "enplaned_passengers": "10375280",
+  "year": "2015",
+  "latitude": "38.9475",
+  "longitude": "-77.46"
+ },
+ {
+  "rank": "27",
+  "airport": "SAN",
+  "enplaned_passengers": "9982621",
+  "year": "2015",
+  "latitude": "32.73361111",
+  "longitude": "-117.18972222"
+ },
+ {
+  "rank": "28",
+  "airport": "HNL",
+  "enplaned_passengers": "9482201",
+  "year": "2015",
+  "latitude": "21.31777778",
+  "longitude": "-157.92027778"
+ },
+ {
+  "rank": "29",
+  "airport": "TPA",
+  "enplaned_passengers": "9111271",
+  "year": "2015",
+  "latitude": "27.97555556",
+  "longitude": "-82.53333333"
+ },
+ {
+  "rank": "30",
+  "airport": "PDX",
+  "enplaned_passengers": "8337544",
+  "year": "2015",
+  "latitude": "45.58861111",
+  "longitude": "-122.59694444"
+ },
+ {
+  "rank": "31",
+  "airport": "DAL",
+  "enplaned_passengers": "7025649",
+  "year": "2015",
+  "latitude": "32.84583333",
+  "longitude": "-96.85083333"
+ },
+ {
+  "rank": "32",
+  "airport": "STL",
+  "enplaned_passengers": "6159780",
+  "year": "2015",
+  "latitude": "38.74861111",
+  "longitude": "-90.37"
+ },
+ {
+  "rank": "33",
+  "airport": "HOU",
+  "enplaned_passengers": "5927873",
+  "year": "2015",
+  "latitude": "29.64583333",
+  "longitude": "-95.27722222"
+ },
+ {
+  "rank": "34",
+  "airport": "AUS",
+  "enplaned_passengers": "5785648",
+  "year": "2015",
+  "latitude": "30.19444444",
+  "longitude": "-97.67"
+ },
+ {
+  "rank": "35",
+  "airport": "BNA",
+  "enplaned_passengers": "5692397",
+  "year": "2015",
+  "latitude": "36.12444444",
+  "longitude": "-86.67805556"
+ },
+ {
+  "rank": "36",
+  "airport": "OAK",
+  "enplaned_passengers": "5496198",
+  "year": "2015",
+  "latitude": "37.72138889",
+  "longitude": "-122.22111111"
+ },
+ {
+  "rank": "37",
+  "airport": "MSY",
+  "enplaned_passengers": "5310862",
+  "year": "2015",
+  "latitude": "29.99333333",
+  "longitude": "-90.25916667"
+ },
+ {
+  "rank": "38",
+  "airport": "MCI",
+  "enplaned_passengers": "5117652",
+  "year": "2015",
+  "latitude": "39.2975",
+  "longitude": "-94.71388889"
+ },
+ {
+  "rank": "39",
+  "airport": "SNA",
+  "enplaned_passengers": "4942683",
+  "year": "2015",
+  "latitude": "33.67555556",
+  "longitude": "-117.86833333"
+ },
+ {
+  "rank": "40",
+  "airport": "RDU",
+  "enplaned_passengers": "4937036",
+  "year": "2015",
+  "latitude": "35.87777778",
+  "longitude": "-78.7875"
+ },
+ {
+  "rank": "41",
+  "airport": "SJC",
+  "enplaned_passengers": "4810906",
+  "year": "2015",
+  "latitude": "37.36305556",
+  "longitude": "-121.92861111"
+ },
+ {
+  "rank": "42",
+  "airport": "SMF",
+  "enplaned_passengers": "4709848",
+  "year": "2015",
+  "latitude": "38.69555556",
+  "longitude": "-121.59083333"
+ },
+ {
+  "rank": "43",
+  "airport": "SJU",
+  "enplaned_passengers": "4202960",
+  "year": "2015",
+  "latitude": "18.43944444",
+  "longitude": "-66.00222222"
+ },
+ {
+  "rank": "44",
+  "airport": "RSW",
+  "enplaned_passengers": "4160409",
+  "year": "2015",
+  "latitude": "26.53611111",
+  "longitude": "-81.75527778"
+ },
+ {
+  "rank": "45",
+  "airport": "SAT",
+  "enplaned_passengers": "4072769",
+  "year": "2015",
+  "latitude": "29.53388889",
+  "longitude": "-98.46916667"
+ },
+ {
+  "rank": "46",
+  "airport": "CLE",
+  "enplaned_passengers": "3871044",
+  "year": "2015",
+  "latitude": "41.40944444",
+  "longitude": "-81.85472222"
+ },
+ {
+  "rank": "47",
+  "airport": "IND",
+  "enplaned_passengers": "3870101",
+  "year": "2015",
+  "latitude": "39.71722222",
+  "longitude": "-86.29472222"
+ },
+ {
+  "rank": "48",
+  "airport": "PIT",
+  "enplaned_passengers": "3846329",
+  "year": "2015",
+  "latitude": "40.49138889",
+  "longitude": "-80.23277778"
+ },
+ {
+  "rank": "49",
+  "airport": "CMH",
+  "enplaned_passengers": "3301619",
+  "year": "2015",
+  "latitude": "39.99694444",
+  "longitude": "-82.89222222"
+ },
+ {
+  "rank": "50",
+  "airport": "OGG",
+  "enplaned_passengers": "3216243",
+  "year": "2015",
+  "latitude": "20.89861111",
+  "longitude": "-156.43055556"
+ },
+ {
+  "rank": "1",
+  "airport": "ATL",
+  "enplaned_passengers": "46576995",
+  "year": "2014",
+  "latitude": "33.63666667",
+  "longitude": "-84.42777778"
+ },
+ {
+  "rank": "2",
+  "airport": "LAX",
+  "enplaned_passengers": "34317756",
+  "year": "2014",
+  "latitude": "33.9425",
+  "longitude": "-118.40805556"
+ },
+ {
+  "rank": "3",
+  "airport": "ORD",
+  "enplaned_passengers": "33715086",
+  "year": "2014",
+  "latitude": "41.97694444",
+  "longitude": "-87.90805556"
+ },
+ {
+  "rank": "4",
+  "airport": "DFW",
+  "enplaned_passengers": "30774893",
+  "year": "2014",
+  "latitude": "32.89722222",
+  "longitude": "-97.03777778"
+ },
+ {
+  "rank": "5",
+  "airport": "JFK",
+  "enplaned_passengers": "26269264",
+  "year": "2014",
+  "latitude": "40.64",
+  "longitude": "-73.77861111"
+ },
+ {
+  "rank": "6",
+  "airport": "DEN",
+  "enplaned_passengers": "25977682",
+  "year": "2014",
+  "latitude": "39.86166667",
+  "longitude": "-104.67305556"
+ },
+ {
+  "rank": "7",
+  "airport": "SFO",
+  "enplaned_passengers": "22742818",
+  "year": "2014",
+  "latitude": "37.61888889",
+  "longitude": "-122.37555556"
+ },
+ {
+  "rank": "8",
+  "airport": "CLT",
+  "enplaned_passengers": "21519708",
+  "year": "2014",
+  "latitude": "35.21361111",
+  "longitude": "-80.94916667"
+ },
+ {
+  "rank": "9",
+  "airport": "LAS",
+  "enplaned_passengers": "20350445",
+  "year": "2014",
+  "latitude": "36.08",
+  "longitude": "-115.15222222"
+ },
+ {
+  "rank": "10",
+  "airport": "PHX",
+  "enplaned_passengers": "20328268",
+  "year": "2014",
+  "latitude": "33.43416667",
+  "longitude": "-112.01166667"
+ },
+ {
+  "rank": "11",
+  "airport": "IAH",
+  "enplaned_passengers": "19720183",
+  "year": "2014",
+  "latitude": "29.98444444",
+  "longitude": "-95.34138889"
+ },
+ {
+  "rank": "12",
+  "airport": "MIA",
+  "enplaned_passengers": "19102808",
+  "year": "2014",
+  "latitude": "25.79527778",
+  "longitude": "-80.29"
+ },
+ {
+  "rank": "13",
+  "airport": "SEA",
+  "enplaned_passengers": "17839761",
+  "year": "2014",
+  "latitude": "47.45",
+  "longitude": "-122.31166667"
+ },
+ {
+  "rank": "14",
+  "airport": "EWR",
+  "enplaned_passengers": "17709339",
+  "year": "2014",
+  "latitude": "40.6925",
+  "longitude": "-74.16861111"
+ },
+ {
+  "rank": "15",
+  "airport": "MCO",
+  "enplaned_passengers": "17237421",
+  "year": "2014",
+  "latitude": "28.42944444",
+  "longitude": "-81.30888889"
+ },
+ {
+  "rank": "16",
+  "airport": "MSP",
+  "enplaned_passengers": "16945930",
+  "year": "2014",
+  "latitude": "44.88194444",
+  "longitude": "-93.22166667"
+ },
+ {
+  "rank": "17",
+  "airport": "DTW",
+  "enplaned_passengers": "15758698",
+  "year": "2014",
+  "latitude": "42.2125",
+  "longitude": "-83.35333333"
+ },
+ {
+  "rank": "18",
+  "airport": "BOS",
+  "enplaned_passengers": "15480701",
+  "year": "2014",
+  "latitude": "42.36305556",
+  "longitude": "-71.00638889"
+ },
+ {
+  "rank": "19",
+  "airport": "PHL",
+  "enplaned_passengers": "14743480",
+  "year": "2014",
+  "latitude": "39.87194444",
+  "longitude": "-75.24055556"
+ },
+ {
+  "rank": "20",
+  "airport": "LGA",
+  "enplaned_passengers": "13519009",
+  "year": "2014",
+  "latitude": "40.77722222",
+  "longitude": "-73.8725"
+ },
+ {
+  "rank": "21",
+  "airport": "FLL",
+  "enplaned_passengers": "11969956",
+  "year": "2014",
+  "latitude": "26.07166667",
+  "longitude": "-80.14972222"
+ },
+ {
+  "rank": "22",
+  "airport": "BWI",
+  "enplaned_passengers": "10935444",
+  "year": "2014",
+  "latitude": "39.17583333",
+  "longitude": "-76.66888889"
+ },
+ {
+  "rank": "23",
+  "airport": "IAD",
+  "enplaned_passengers": "10393129",
+  "year": "2014",
+  "latitude": "38.9475",
+  "longitude": "-77.46"
+ },
+ {
+  "rank": "24",
+  "airport": "MDW",
+  "enplaned_passengers": "10292786",
+  "year": "2014",
+  "latitude": "41.78583333",
+  "longitude": "-87.7525"
+ },
+ {
+  "rank": "25",
+  "airport": "SLC",
+  "enplaned_passengers": "10128400",
+  "year": "2014",
+  "latitude": "40.78833333",
+  "longitude": "-111.97777778"
+ },
+ {
+  "rank": "26",
+  "airport": "DCA",
+  "enplaned_passengers": "10094528",
+  "year": "2014",
+  "latitude": "38.85138889",
+  "longitude": "-77.03777778"
+ },
+ {
+  "rank": "27",
+  "airport": "HNL",
+  "enplaned_passengers": "9382825",
+  "year": "2014",
+  "latitude": "21.31777778",
+  "longitude": "-157.92027778"
+ },
+ {
+  "rank": "28",
+  "airport": "SAN",
+  "enplaned_passengers": "9313358",
+  "year": "2014",
+  "latitude": "32.73361111",
+  "longitude": "-117.18972222"
+ },
+ {
+  "rank": "29",
+  "airport": "TPA",
+  "enplaned_passengers": "8496144",
+  "year": "2014",
+  "latitude": "27.97555556",
+  "longitude": "-82.53333333"
+ },
+ {
+  "rank": "30",
+  "airport": "PDX",
+  "enplaned_passengers": "7872999",
+  "year": "2014",
+  "latitude": "45.58861111",
+  "longitude": "-122.59694444"
+ },
+ {
+  "rank": "31",
+  "airport": "STL",
+  "enplaned_passengers": "6031960",
+  "year": "2014",
+  "latitude": "38.74861111",
+  "longitude": "-90.37"
+ },
+ {
+  "rank": "32",
+  "airport": "HOU",
+  "enplaned_passengers": "5787528",
+  "year": "2014",
+  "latitude": "29.64583333",
+  "longitude": "-95.27722222"
+ },
+ {
+  "rank": "33",
+  "airport": "BNA",
+  "enplaned_passengers": "5377716",
+  "year": "2014",
+  "latitude": "36.12444444",
+  "longitude": "-86.67805556"
+ },
+ {
+  "rank": "34",
+  "airport": "AUS",
+  "enplaned_passengers": "5215783",
+  "year": "2014",
+  "latitude": "30.19444444",
+  "longitude": "-97.67"
+ },
+ {
+  "rank": "35",
+  "airport": "OAK",
+  "enplaned_passengers": "5059122",
+  "year": "2014",
+  "latitude": "37.72138889",
+  "longitude": "-122.22111111"
+ },
+ {
+  "rank": "36",
+  "airport": "MCI",
+  "enplaned_passengers": "4962590",
+  "year": "2014",
+  "latitude": "39.2975",
+  "longitude": "-94.71388889"
+ },
+ {
+  "rank": "37",
+  "airport": "MSY",
+  "enplaned_passengers": "4853940",
+  "year": "2014",
+  "latitude": "29.99333333",
+  "longitude": "-90.25916667"
+ },
+ {
+  "rank": "38",
+  "airport": "RDU",
+  "enplaned_passengers": "4656151",
+  "year": "2014",
+  "latitude": "35.87777778",
+  "longitude": "-78.7875"
+ },
+ {
+  "rank": "39",
+  "airport": "SJC",
+  "enplaned_passengers": "4609868",
+  "year": "2014",
+  "latitude": "37.36305556",
+  "longitude": "-121.92861111"
+ },
+ {
+  "rank": "40",
+  "airport": "SNA",
+  "enplaned_passengers": "4581839",
+  "year": "2014",
+  "latitude": "33.67555556",
+  "longitude": "-117.86833333"
+ },
+ {
+  "rank": "41",
+  "airport": "DAL",
+  "enplaned_passengers": "4508205",
+  "year": "2014",
+  "latitude": "32.84583333",
+  "longitude": "-96.85083333"
+ },
+ {
+  "rank": "42",
+  "airport": "SMF",
+  "enplaned_passengers": "4379591",
+  "year": "2014",
+  "latitude": "38.69555556",
+  "longitude": "-121.59083333"
+ },
+ {
+  "rank": "43",
+  "airport": "SJU",
+  "enplaned_passengers": "4126366",
+  "year": "2014",
+  "latitude": "18.43944444",
+  "longitude": "-66.00222222"
+ },
+ {
+  "rank": "44",
+  "airport": "SAT",
+  "enplaned_passengers": "4007569",
+  "year": "2014",
+  "latitude": "29.53388889",
+  "longitude": "-98.46916667"
+ },
+ {
+  "rank": "45",
+  "airport": "RSW",
+  "enplaned_passengers": "3940186",
+  "year": "2014",
+  "latitude": "26.53611111",
+  "longitude": "-81.75527778"
+ },
+ {
+  "rank": "46",
+  "airport": "PIT",
+  "enplaned_passengers": "3803367",
+  "year": "2014",
+  "latitude": "40.49138889",
+  "longitude": "-80.23277778"
+ },
+ {
+  "rank": "47",
+  "airport": "CLE",
+  "enplaned_passengers": "3651233",
+  "year": "2014",
+  "latitude": "41.40944444",
+  "longitude": "-81.85472222"
+ },
+ {
+  "rank": "48",
+  "airport": "IND",
+  "enplaned_passengers": "3578430",
+  "year": "2014",
+  "latitude": "39.71722222",
+  "longitude": "-86.29472222"
+ },
+ {
+  "rank": "49",
+  "airport": "MKE",
+  "enplaned_passengers": "3214664",
+  "year": "2014",
+  "latitude": "42.94694444",
+  "longitude": "-87.89694444"
+ },
+ {
+  "rank": "50",
+  "airport": "CMH",
+  "enplaned_passengers": "3103277",
+  "year": "2014",
+  "latitude": "39.99694444",
+  "longitude": "-82.89222222"
+ },
+ {
+  "rank": "1",
+  "airport": "ATL",
+  "enplaned_passengers": "45272211",
+  "year": "2013",
+  "latitude": "33.63666667",
+  "longitude": "-84.42777778"
+ },
+ {
+  "rank": "2",
+  "airport": "LAX",
+  "enplaned_passengers": "32413921",
+  "year": "2013",
+  "latitude": "33.9425",
+  "longitude": "-118.40805556"
+ },
+ {
+  "rank": "3",
+  "airport": "ORD",
+  "enplaned_passengers": "32252263",
+  "year": "2013",
+  "latitude": "41.97694444",
+  "longitude": "-87.90805556"
+ },
+ {
+  "rank": "4",
+  "airport": "DFW",
+  "enplaned_passengers": "29026416",
+  "year": "2013",
+  "latitude": "32.89722222",
+  "longitude": "-97.03777778"
+ },
+ {
+  "rank": "5",
+  "airport": "DEN",
+  "enplaned_passengers": "25467417",
+  "year": "2013",
+  "latitude": "39.86166667",
+  "longitude": "-104.67305556"
+ },
+ {
+  "rank": "6",
+  "airport": "JFK",
+  "enplaned_passengers": "25068464",
+  "year": "2013",
+  "latitude": "40.64",
+  "longitude": "-73.77861111"
+ },
+ {
+  "rank": "7",
+  "airport": "SFO",
+  "enplaned_passengers": "21690907",
+  "year": "2013",
+  "latitude": "37.61888889",
+  "longitude": "-122.37555556"
+ },
+ {
+  "rank": "8",
+  "airport": "CLT",
+  "enplaned_passengers": "21327657",
+  "year": "2013",
+  "latitude": "35.21361111",
+  "longitude": "-80.94916667"
+ },
+ {
+  "rank": "9",
+  "airport": "LAS",
+  "enplaned_passengers": "19841306",
+  "year": "2013",
+  "latitude": "36.08",
+  "longitude": "-115.15222222"
+ },
+ {
+  "rank": "10",
+  "airport": "PHX",
+  "enplaned_passengers": "19504057",
+  "year": "2013",
+  "latitude": "33.43416667",
+  "longitude": "-112.01166667"
+ },
+ {
+  "rank": "11",
+  "airport": "MIA",
+  "enplaned_passengers": "19055480",
+  "year": "2013",
+  "latitude": "25.79527778",
+  "longitude": "-80.29"
+ },
+ {
+  "rank": "12",
+  "airport": "IAH",
+  "enplaned_passengers": "18911491",
+  "year": "2013",
+  "latitude": "29.98444444",
+  "longitude": "-95.34138889"
+ },
+ {
+  "rank": "13",
+  "airport": "EWR",
+  "enplaned_passengers": "17536449",
+  "year": "2013",
+  "latitude": "40.6925",
+  "longitude": "-74.16861111"
+ },
+ {
+  "rank": "14",
+  "airport": "MCO",
+  "enplaned_passengers": "16855169",
+  "year": "2013",
+  "latitude": "28.42944444",
+  "longitude": "-81.30888889"
+ },
+ {
+  "rank": "15",
+  "airport": "SEA",
+  "enplaned_passengers": "16641706",
+  "year": "2013",
+  "latitude": "47.45",
+  "longitude": "-122.31166667"
+ },
+ {
+  "rank": "16",
+  "airport": "MSP",
+  "enplaned_passengers": "16248994",
+  "year": "2013",
+  "latitude": "44.88194444",
+  "longitude": "-93.22166667"
+ },
+ {
+  "rank": "17",
+  "airport": "DTW",
+  "enplaned_passengers": "15666479",
+  "year": "2013",
+  "latitude": "42.2125",
+  "longitude": "-83.35333333"
+ },
+ {
+  "rank": "18",
+  "airport": "BOS",
+  "enplaned_passengers": "14787085",
+  "year": "2013",
+  "latitude": "42.36305556",
+  "longitude": "-71.00638889"
+ },
+ {
+  "rank": "19",
+  "airport": "PHL",
+  "enplaned_passengers": "14697111",
+  "year": "2013",
+  "latitude": "39.87194444",
+  "longitude": "-75.24055556"
+ },
+ {
+  "rank": "20",
+  "airport": "LGA",
+  "enplaned_passengers": "13390895",
+  "year": "2013",
+  "latitude": "40.77722222",
+  "longitude": "-73.8725"
+ },
+ {
+  "rank": "21",
+  "airport": "FLL",
+  "enplaned_passengers": "11444438",
+  "year": "2013",
+  "latitude": "26.07166667",
+  "longitude": "-80.14972222"
+ },
+ {
+  "rank": "22",
+  "airport": "BWI",
+  "enplaned_passengers": "11027318",
+  "year": "2013",
+  "latitude": "39.17583333",
+  "longitude": "-76.66888889"
+ },
+ {
+  "rank": "23",
+  "airport": "IAD",
+  "enplaned_passengers": "10543821",
+  "year": "2013",
+  "latitude": "38.9475",
+  "longitude": "-77.46"
+ },
+ {
+  "rank": "24",
+  "airport": "MDW",
+  "enplaned_passengers": "9893984",
+  "year": "2013",
+  "latitude": "41.78583333",
+  "longitude": "-87.7525"
+ },
+ {
+  "rank": "25",
+  "airport": "DCA",
+  "enplaned_passengers": "9843015",
+  "year": "2013",
+  "latitude": "38.85138889",
+  "longitude": "-77.03777778"
+ },
+ {
+  "rank": "26",
+  "airport": "SLC",
+  "enplaned_passengers": "9655631",
+  "year": "2013",
+  "latitude": "40.78833333",
+  "longitude": "-111.97777778"
+ },
+ {
+  "rank": "27",
+  "airport": "HNL",
+  "enplaned_passengers": "9417543",
+  "year": "2013",
+  "latitude": "21.31777778",
+  "longitude": "-157.92027778"
+ },
+ {
+  "rank": "28",
+  "airport": "SAN",
+  "enplaned_passengers": "8851255",
+  "year": "2013",
+  "latitude": "32.73361111",
+  "longitude": "-117.18972222"
+ },
+ {
+  "rank": "29",
+  "airport": "TPA",
+  "enplaned_passengers": "8236775",
+  "year": "2013",
+  "latitude": "27.97555556",
+  "longitude": "-82.53333333"
+ },
+ {
+  "rank": "30",
+  "airport": "PDX",
+  "enplaned_passengers": "7445932",
+  "year": "2013",
+  "latitude": "45.58861111",
+  "longitude": "-122.59694444"
+ },
+ {
+  "rank": "31",
+  "airport": "STL",
+  "enplaned_passengers": "6136184",
+  "year": "2013",
+  "latitude": "38.74861111",
+  "longitude": "-90.37"
+ },
+ {
+  "rank": "32",
+  "airport": "HOU",
+  "enplaned_passengers": "5361814",
+  "year": "2013",
+  "latitude": "29.64583333",
+  "longitude": "-95.27722222"
+ },
+ {
+  "rank": "33",
+  "airport": "BNA",
+  "enplaned_passengers": "5034624",
+  "year": "2013",
+  "latitude": "36.12444444",
+  "longitude": "-86.67805556"
+ },
+ {
+  "rank": "34",
+  "airport": "AUS",
+  "enplaned_passengers": "4888950",
+  "year": "2013",
+  "latitude": "30.19444444",
+  "longitude": "-97.67"
+ },
+ {
+  "rank": "35",
+  "airport": "MCI",
+  "enplaned_passengers": "4813537",
+  "year": "2013",
+  "latitude": "39.2975",
+  "longitude": "-94.71388889"
+ },
+ {
+  "rank": "36",
+  "airport": "OAK",
+  "enplaned_passengers": "4744360",
+  "year": "2013",
+  "latitude": "37.72138889",
+  "longitude": "-122.22111111"
+ },
+ {
+  "rank": "37",
+  "airport": "MSY",
+  "enplaned_passengers": "4553749",
+  "year": "2013",
+  "latitude": "29.99333333",
+  "longitude": "-90.25916667"
+ },
+ {
+  "rank": "38",
+  "airport": "SNA",
+  "enplaned_passengers": "4536742",
+  "year": "2013",
+  "latitude": "33.67555556",
+  "longitude": "-117.86833333"
+ },
+ {
+  "rank": "39",
+  "airport": "RDU",
+  "enplaned_passengers": "4464529",
+  "year": "2013",
+  "latitude": "35.87777778",
+  "longitude": "-78.7875"
+ },
+ {
+  "rank": "40",
+  "airport": "CLE",
+  "enplaned_passengers": "4339606",
+  "year": "2013",
+  "latitude": "41.40944444",
+  "longitude": "-81.85472222"
+ },
+ {
+  "rank": "41",
+  "airport": "SJC",
+  "enplaned_passengers": "4300469",
+  "year": "2013",
+  "latitude": "37.36305556",
+  "longitude": "-121.92861111"
+ },
+ {
+  "rank": "42",
+  "airport": "SMF",
+  "enplaned_passengers": "4249371",
+  "year": "2013",
+  "latitude": "38.69555556",
+  "longitude": "-121.59083333"
+ },
+ {
+  "rank": "43",
+  "airport": "SJU",
+  "enplaned_passengers": "4086961",
+  "year": "2013",
+  "latitude": "18.43944444",
+  "longitude": "-66.00222222"
+ },
+ {
+  "rank": "44",
+  "airport": "DAL",
+  "enplaned_passengers": "4007214",
+  "year": "2013",
+  "latitude": "32.84583333",
+  "longitude": "-96.85083333"
+ },
+ {
+  "rank": "45",
+  "airport": "SAT",
+  "enplaned_passengers": "3973219",
+  "year": "2013",
+  "latitude": "29.53388889",
+  "longitude": "-98.46916667"
+ },
+ {
+  "rank": "46",
+  "airport": "PIT",
+  "enplaned_passengers": "3788511",
+  "year": "2013",
+  "latitude": "40.49138889",
+  "longitude": "-80.23277778"
+ },
+ {
+  "rank": "47",
+  "airport": "RSW",
+  "enplaned_passengers": "3783647",
+  "year": "2013",
+  "latitude": "26.53611111",
+  "longitude": "-81.75527778"
+ },
+ {
+  "rank": "48",
+  "airport": "IND",
+  "enplaned_passengers": "3501979",
+  "year": "2013",
+  "latitude": "39.71722222",
+  "longitude": "-86.29472222"
+ },
+ {
+  "rank": "49",
+  "airport": "MKE",
+  "enplaned_passengers": "3202148",
+  "year": "2013",
+  "latitude": "42.94694444",
+  "longitude": "-87.89694444"
+ },
+ {
+  "rank": "50",
+  "airport": "CMH",
+  "enplaned_passengers": "3053012",
+  "year": "2013",
+  "latitude": "39.99694444",
+  "longitude": "-82.89222222"
+ },
+ {
+  "rank": "1",
+  "airport": "ATL",
+  "enplaned_passengers": "45712837",
+  "year": "2012",
+  "latitude": "33.63666667",
+  "longitude": "-84.42777778"
+ },
+ {
+  "rank": "2",
+  "airport": "ORD",
+  "enplaned_passengers": "32059778",
+  "year": "2012",
+  "latitude": "41.97694444",
+  "longitude": "-87.90805556"
+ },
+ {
+  "rank": "3",
+  "airport": "LAX",
+  "enplaned_passengers": "31280414",
+  "year": "2012",
+  "latitude": "33.9425",
+  "longitude": "-118.40805556"
+ },
+ {
+  "rank": "4",
+  "airport": "DFW",
+  "enplaned_passengers": "27996215",
+  "year": "2012",
+  "latitude": "32.89722222",
+  "longitude": "-97.03777778"
+ },
+ {
+  "rank": "5",
+  "airport": "DEN",
+  "enplaned_passengers": "25775666",
+  "year": "2012",
+  "latitude": "39.86166667",
+  "longitude": "-104.67305556"
+ },
+ {
+  "rank": "6",
+  "airport": "JFK",
+  "enplaned_passengers": "24406253",
+  "year": "2012",
+  "latitude": "40.64",
+  "longitude": "-73.77861111"
+ },
+ {
+  "rank": "7",
+  "airport": "SFO",
+  "enplaned_passengers": "21291846",
+  "year": "2012",
+  "latitude": "37.61888889",
+  "longitude": "-122.37555556"
+ },
+ {
+  "rank": "8",
+  "airport": "CLT",
+  "enplaned_passengers": "20016419",
+  "year": "2012",
+  "latitude": "35.21361111",
+  "longitude": "-80.94916667"
+ },
+ {
+  "rank": "9",
+  "airport": "LAS",
+  "enplaned_passengers": "19772422",
+  "year": "2012",
+  "latitude": "36.08",
+  "longitude": "-115.15222222"
+ },
+ {
+  "rank": "10",
+  "airport": "PHX",
+  "enplaned_passengers": "19536904",
+  "year": "2012",
+  "latitude": "33.43416667",
+  "longitude": "-112.01166667"
+ },
+ {
+  "rank": "11",
+  "airport": "IAH",
+  "enplaned_passengers": "19001869",
+  "year": "2012",
+  "latitude": "29.98444444",
+  "longitude": "-95.34138889"
+ },
+ {
+  "rank": "12",
+  "airport": "MIA",
+  "enplaned_passengers": "18569117",
+  "year": "2012",
+  "latitude": "25.79527778",
+  "longitude": "-80.29"
+ },
+ {
+  "rank": "13",
+  "airport": "MCO",
+  "enplaned_passengers": "17086506",
+  "year": "2012",
+  "latitude": "28.42944444",
+  "longitude": "-81.30888889"
+ },
+ {
+  "rank": "14",
+  "airport": "EWR",
+  "enplaned_passengers": "17025520",
+  "year": "2012",
+  "latitude": "40.6925",
+  "longitude": "-74.16861111"
+ },
+ {
+  "rank": "15",
+  "airport": "SEA",
+  "enplaned_passengers": "16084545",
+  "year": "2012",
+  "latitude": "47.45",
+  "longitude": "-122.31166667"
+ },
+ {
+  "rank": "16",
+  "airport": "MSP",
+  "enplaned_passengers": "15916740",
+  "year": "2012",
+  "latitude": "44.88194444",
+  "longitude": "-93.22166667"
+ },
+ {
+  "rank": "17",
+  "airport": "DTW",
+  "enplaned_passengers": "15582167",
+  "year": "2012",
+  "latitude": "42.2125",
+  "longitude": "-83.35333333"
+ },
+ {
+  "rank": "18",
+  "airport": "PHL",
+  "enplaned_passengers": "14555421",
+  "year": "2012",
+  "latitude": "39.87194444",
+  "longitude": "-75.24055556"
+ },
+ {
+  "rank": "19",
+  "airport": "BOS",
+  "enplaned_passengers": "14271609",
+  "year": "2012",
+  "latitude": "42.36305556",
+  "longitude": "-71.00638889"
+ },
+ {
+  "rank": "20",
+  "airport": "LGA",
+  "enplaned_passengers": "12797290",
+  "year": "2012",
+  "latitude": "40.77722222",
+  "longitude": "-73.8725"
+ },
+ {
+  "rank": "21",
+  "airport": "FLL",
+  "enplaned_passengers": "11341181",
+  "year": "2012",
+  "latitude": "26.07166667",
+  "longitude": "-80.14972222"
+ },
+ {
+  "rank": "22",
+  "airport": "BWI",
+  "enplaned_passengers": "11099973",
+  "year": "2012",
+  "latitude": "39.17583333",
+  "longitude": "-76.66888889"
+ },
+ {
+  "rank": "23",
+  "airport": "IAD",
+  "enplaned_passengers": "10785523",
+  "year": "2012",
+  "latitude": "38.9475",
+  "longitude": "-77.46"
+ },
+ {
+  "rank": "24",
+  "airport": "SLC",
+  "enplaned_passengers": "9569527",
+  "year": "2012",
+  "latitude": "40.78833333",
+  "longitude": "-111.97777778"
+ },
+ {
+  "rank": "25",
+  "airport": "DCA",
+  "enplaned_passengers": "9451133",
+  "year": "2012",
+  "latitude": "38.85138889",
+  "longitude": "-77.03777778"
+ },
+ {
+  "rank": "26",
+  "airport": "MDW",
+  "enplaned_passengers": "9418500",
+  "year": "2012",
+  "latitude": "41.78583333",
+  "longitude": "-87.7525"
+ },
+ {
+  "rank": "27",
+  "airport": "HNL",
+  "enplaned_passengers": "9120280",
+  "year": "2012",
+  "latitude": "21.31777778",
+  "longitude": "-157.92027778"
+ },
+ {
+  "rank": "28",
+  "airport": "SAN",
+  "enplaned_passengers": "8651514",
+  "year": "2012",
+  "latitude": "32.73361111",
+  "longitude": "-117.18972222"
+ },
+ {
+  "rank": "29",
+  "airport": "TPA",
+  "enplaned_passengers": "8184192",
+  "year": "2012",
+  "latitude": "27.97555556",
+  "longitude": "-82.53333333"
+ },
+ {
+  "rank": "30",
+  "airport": "PDX",
+  "enplaned_passengers": "7134127",
+  "year": "2012",
+  "latitude": "45.58861111",
+  "longitude": "-122.59694444"
+ },
+ {
+  "rank": "31",
+  "airport": "STL",
+  "enplaned_passengers": "6130799",
+  "year": "2012",
+  "latitude": "38.74861111",
+  "longitude": "-90.37"
+ },
+ {
+  "rank": "32",
+  "airport": "HOU",
+  "enplaned_passengers": "5031598",
+  "year": "2012",
+  "latitude": "29.64583333",
+  "longitude": "-95.27722222"
+ },
+ {
+  "rank": "33",
+  "airport": "OAK",
+  "enplaned_passengers": "4891708",
+  "year": "2012",
+  "latitude": "37.72138889",
+  "longitude": "-122.22111111"
+ },
+ {
+  "rank": "34",
+  "airport": "MCI",
+  "enplaned_passengers": "4852007",
+  "year": "2012",
+  "latitude": "39.2975",
+  "longitude": "-94.71388889"
+ },
+ {
+  "rank": "35",
+  "airport": "BNA",
+  "enplaned_passengers": "4784383",
+  "year": "2012",
+  "latitude": "36.12444444",
+  "longitude": "-86.67805556"
+ },
+ {
+  "rank": "36",
+  "airport": "AUS",
+  "enplaned_passengers": "4595898",
+  "year": "2012",
+  "latitude": "30.19444444",
+  "longitude": "-97.67"
+ },
+ {
+  "rank": "37",
+  "airport": "RDU",
+  "enplaned_passengers": "4470795",
+  "year": "2012",
+  "latitude": "35.87777778",
+  "longitude": "-78.7875"
+ },
+ {
+  "rank": "38",
+  "airport": "SNA",
+  "enplaned_passengers": "4378686",
+  "year": "2012",
+  "latitude": "33.67555556",
+  "longitude": "-117.86833333"
+ },
+ {
+  "rank": "39",
+  "airport": "SMF",
+  "enplaned_passengers": "4352090",
+  "year": "2012",
+  "latitude": "38.69555556",
+  "longitude": "-121.59083333"
+ },
+ {
+  "rank": "40",
+  "airport": "CLE",
+  "enplaned_passengers": "4314895",
+  "year": "2012",
+  "latitude": "41.40944444",
+  "longitude": "-81.85472222"
+ },
+ {
+  "rank": "41",
+  "airport": "MSY",
+  "enplaned_passengers": "4275143",
+  "year": "2012",
+  "latitude": "29.99333333",
+  "longitude": "-90.25916667"
+ },
+ {
+  "rank": "42",
+  "airport": "SJU",
+  "enplaned_passengers": "4175018",
+  "year": "2012",
+  "latitude": "18.43944444",
+  "longitude": "-66.00222222"
+ },
+ {
+  "rank": "43",
+  "airport": "SJC",
+  "enplaned_passengers": "4067171",
+  "year": "2012",
+  "latitude": "37.36305556",
+  "longitude": "-121.92861111"
+ },
+ {
+  "rank": "44",
+  "airport": "SAT",
+  "enplaned_passengers": "3998870",
+  "year": "2012",
+  "latitude": "29.53388889",
+  "longitude": "-98.46916667"
+ },
+ {
+  "rank": "45",
+  "airport": "DAL",
+  "enplaned_passengers": "3887865",
+  "year": "2012",
+  "latitude": "32.84583333",
+  "longitude": "-96.85083333"
+ },
+ {
+  "rank": "46",
+  "airport": "PIT",
+  "enplaned_passengers": "3870192",
+  "year": "2012",
+  "latitude": "40.49138889",
+  "longitude": "-80.23277778"
+ },
+ {
+  "rank": "47",
+  "airport": "MKE",
+  "enplaned_passengers": "3694140",
+  "year": "2012",
+  "latitude": "42.94694444",
+  "longitude": "-87.89694444"
+ },
+ {
+  "rank": "48",
+  "airport": "RSW",
+  "enplaned_passengers": "3623623",
+  "year": "2012",
+  "latitude": "26.53611111",
+  "longitude": "-81.75527778"
+ },
+ {
+  "rank": "49",
+  "airport": "IND",
+  "enplaned_passengers": "3543759",
+  "year": "2012",
+  "latitude": "39.71722222",
+  "longitude": "-86.29472222"
+ },
+ {
+  "rank": "50",
+  "airport": "MEM",
+  "enplaned_passengers": "3351009",
+  "year": "2012",
+  "latitude": "35.0425",
+  "longitude": "-89.97666667"
+ },
+ {
+  "rank": "1",
+  "airport": "ATL",
+  "enplaned_passengers": "44249382",
+  "year": "2011",
+  "latitude": "33.63666667",
+  "longitude": "-84.42777778"
+ },
+ {
+  "rank": "2",
+  "airport": "ORD",
+  "enplaned_passengers": "31841246",
+  "year": "2011",
+  "latitude": "41.97694444",
+  "longitude": "-87.90805556"
+ },
+ {
+  "rank": "3",
+  "airport": "LAX",
+  "enplaned_passengers": "30505026",
+  "year": "2011",
+  "latitude": "33.9425",
+  "longitude": "-118.40805556"
+ },
+ {
+  "rank": "4",
+  "airport": "DFW",
+  "enplaned_passengers": "27430125",
+  "year": "2011",
+  "latitude": "32.89722222",
+  "longitude": "-97.03777778"
+ },
+ {
+  "rank": "5",
+  "airport": "DEN",
+  "enplaned_passengers": "25634515",
+  "year": "2011",
+  "latitude": "39.86166667",
+  "longitude": "-104.67305556"
+ },
+ {
+  "rank": "6",
+  "airport": "JFK",
+  "enplaned_passengers": "23585722",
+  "year": "2011",
+  "latitude": "40.64",
+  "longitude": "-73.77861111"
+ },
+ {
+  "rank": "7",
+  "airport": "SFO",
+  "enplaned_passengers": "20048850",
+  "year": "2011",
+  "latitude": "37.61888889",
+  "longitude": "-122.37555556"
+ },
+ {
+  "rank": "8",
+  "airport": "PHX",
+  "enplaned_passengers": "19727443",
+  "year": "2011",
+  "latitude": "33.43416667",
+  "longitude": "-112.01166667"
+ },
+ {
+  "rank": "9",
+  "airport": "LAS",
+  "enplaned_passengers": "19668064",
+  "year": "2011",
+  "latitude": "36.08",
+  "longitude": "-115.15222222"
+ },
+ {
+  "rank": "10",
+  "airport": "IAH",
+  "enplaned_passengers": "19263776",
+  "year": "2011",
+  "latitude": "29.98444444",
+  "longitude": "-95.34138889"
+ },
+ {
+  "rank": "11",
+  "airport": "CLT",
+  "enplaned_passengers": "19007468",
+  "year": "2011",
+  "latitude": "35.21361111",
+  "longitude": "-80.94916667"
+ },
+ {
+  "rank": "12",
+  "airport": "MIA",
+  "enplaned_passengers": "17981377",
+  "year": "2011",
+  "latitude": "25.79527778",
+  "longitude": "-80.29"
+ },
+ {
+  "rank": "13",
+  "airport": "MCO",
+  "enplaned_passengers": "17199361",
+  "year": "2011",
+  "latitude": "28.42944444",
+  "longitude": "-81.30888889"
+ },
+ {
+  "rank": "14",
+  "airport": "EWR",
+  "enplaned_passengers": "16786793",
+  "year": "2011",
+  "latitude": "40.6925",
+  "longitude": "-74.16861111"
+ },
+ {
+  "rank": "15",
+  "airport": "SEA",
+  "enplaned_passengers": "15930918",
+  "year": "2011",
+  "latitude": "47.45",
+  "longitude": "-122.31166667"
+ },
+ {
+  "rank": "16",
+  "airport": "MSP",
+  "enplaned_passengers": "15867145",
+  "year": "2011",
+  "latitude": "44.88194444",
+  "longitude": "-93.22166667"
+ },
+ {
+  "rank": "17",
+  "airport": "DTW",
+  "enplaned_passengers": "15690524",
+  "year": "2011",
+  "latitude": "42.2125",
+  "longitude": "-83.35333333"
+ },
+ {
+  "rank": "18",
+  "airport": "PHL",
+  "enplaned_passengers": "14850755",
+  "year": "2011",
+  "latitude": "39.87194444",
+  "longitude": "-75.24055556"
+ },
+ {
+  "rank": "19",
+  "airport": "BOS",
+  "enplaned_passengers": "14146849",
+  "year": "2011",
+  "latitude": "42.36305556",
+  "longitude": "-71.00638889"
+ },
+ {
+  "rank": "20",
+  "airport": "LGA",
+  "enplaned_passengers": "11983322",
+  "year": "2011",
+  "latitude": "40.77722222",
+  "longitude": "-73.8725"
+ },
+ {
+  "rank": "21",
+  "airport": "FLL",
+  "enplaned_passengers": "11240203",
+  "year": "2011",
+  "latitude": "26.07166667",
+  "longitude": "-80.14972222"
+ },
+ {
+  "rank": "22",
+  "airport": "IAD",
+  "enplaned_passengers": "11020478",
+  "year": "2011",
+  "latitude": "38.9475",
+  "longitude": "-77.46"
+ },
+ {
+  "rank": "23",
+  "airport": "BWI",
+  "enplaned_passengers": "10985558",
+  "year": "2011",
+  "latitude": "39.17583333",
+  "longitude": "-76.66888889"
+ },
+ {
+  "rank": "24",
+  "airport": "SLC",
+  "enplaned_passengers": "9689678",
+  "year": "2011",
+  "latitude": "40.78833333",
+  "longitude": "-111.97777778"
+ },
+ {
+  "rank": "25",
+  "airport": "MDW",
+  "enplaned_passengers": "9119181",
+  "year": "2011",
+  "latitude": "41.78583333",
+  "longitude": "-87.7525"
+ },
+ {
+  "rank": "26",
+  "airport": "DCA",
+  "enplaned_passengers": "9039072",
+  "year": "2011",
+  "latitude": "38.85138889",
+  "longitude": "-77.03777778"
+ },
+ {
+  "rank": "27",
+  "airport": "HNL",
+  "enplaned_passengers": "8540387",
+  "year": "2011",
+  "latitude": "21.31777778",
+  "longitude": "-157.92027778"
+ },
+ {
+  "rank": "28",
+  "airport": "SAN",
+  "enplaned_passengers": "8438222",
+  "year": "2011",
+  "latitude": "32.73361111",
+  "longitude": "-117.18972222"
+ },
+ {
+  "rank": "29",
+  "airport": "TPA",
+  "enplaned_passengers": "8157992",
+  "year": "2011",
+  "latitude": "27.97555556",
+  "longitude": "-82.53333333"
+ },
+ {
+  "rank": "30",
+  "airport": "PDX",
+  "enplaned_passengers": "6800586",
+  "year": "2011",
+  "latitude": "45.58861111",
+  "longitude": "-122.59694444"
+ },
+ {
+  "rank": "31",
+  "airport": "STL",
+  "enplaned_passengers": "6132240",
+  "year": "2011",
+  "latitude": "38.74861111",
+  "longitude": "-90.37"
+ },
+ {
+  "rank": "32",
+  "airport": "MCI",
+  "enplaned_passengers": "4998439",
+  "year": "2011",
+  "latitude": "39.2975",
+  "longitude": "-94.71388889"
+ },
+ {
+  "rank": "33",
+  "airport": "HOU",
+  "enplaned_passengers": "4741924",
+  "year": "2011",
+  "latitude": "29.64583333",
+  "longitude": "-95.27722222"
+ },
+ {
+  "rank": "34",
+  "airport": "BNA",
+  "enplaned_passengers": "4660439",
+  "year": "2011",
+  "latitude": "36.12444444",
+  "longitude": "-86.67805556"
+ },
+ {
+  "rank": "35",
+  "airport": "MKE",
+  "enplaned_passengers": "4633527",
+  "year": "2011",
+  "latitude": "42.94694444",
+  "longitude": "-87.89694444"
+ },
+ {
+  "rank": "36",
+  "airport": "OAK",
+  "enplaned_passengers": "4517848",
+  "year": "2011",
+  "latitude": "37.72138889",
+  "longitude": "-122.22111111"
+ },
+ {
+  "rank": "37",
+  "airport": "RDU",
+  "enplaned_passengers": "4439688",
+  "year": "2011",
+  "latitude": "35.87777778",
+  "longitude": "-78.7875"
+ },
+ {
+  "rank": "38",
+  "airport": "AUS",
+  "enplaned_passengers": "4427579",
+  "year": "2011",
+  "latitude": "30.19444444",
+  "longitude": "-97.67"
+ },
+ {
+  "rank": "39",
+  "airport": "CLE",
+  "enplaned_passengers": "4387161",
+  "year": "2011",
+  "latitude": "41.40944444",
+  "longitude": "-81.85472222"
+ },
+ {
+  "rank": "40",
+  "airport": "SMF",
+  "enplaned_passengers": "4365523",
+  "year": "2011",
+  "latitude": "38.69555556",
+  "longitude": "-121.59083333"
+ },
+ {
+  "rank": "41",
+  "airport": "MEM",
+  "enplaned_passengers": "4336584",
+  "year": "2011",
+  "latitude": "35.0425",
+  "longitude": "-89.97666667"
+ },
+ {
+  "rank": "42",
+  "airport": "SNA",
+  "enplaned_passengers": "4246249",
+  "year": "2011",
+  "latitude": "33.67555556",
+  "longitude": "-117.86833333"
+ },
+ {
+  "rank": "43",
+  "airport": "MSY",
+  "enplaned_passengers": "4241107",
+  "year": "2011",
+  "latitude": "29.99333333",
+  "longitude": "-90.25916667"
+ },
+ {
+  "rank": "44",
+  "airport": "SJC",
+  "enplaned_passengers": "4095270",
+  "year": "2011",
+  "latitude": "37.36305556",
+  "longitude": "-121.92861111"
+ },
+ {
+  "rank": "45",
+  "airport": "PIT",
+  "enplaned_passengers": "4019780",
+  "year": "2011",
+  "latitude": "40.49138889",
+  "longitude": "-80.23277778"
+ },
+ {
+  "rank": "46",
+  "airport": "SJU",
+  "enplaned_passengers": "3958375",
+  "year": "2011",
+  "latitude": "18.43944444",
+  "longitude": "-66.00222222"
+ },
+ {
+  "rank": "47",
+  "airport": "SAT",
+  "enplaned_passengers": "3957303",
+  "year": "2011",
+  "latitude": "29.53388889",
+  "longitude": "-98.46916667"
+ },
+ {
+  "rank": "48",
+  "airport": "DAL",
+  "enplaned_passengers": "3838246",
+  "year": "2011",
+  "latitude": "32.84583333",
+  "longitude": "-96.85083333"
+ },
+ {
+  "rank": "49",
+  "airport": "RSW",
+  "enplaned_passengers": "3743793",
+  "year": "2011",
+  "latitude": "26.53611111",
+  "longitude": "-81.75527778"
+ },
+ {
+  "rank": "50",
+  "airport": "IND",
+  "enplaned_passengers": "3637144",
+  "year": "2011",
+  "latitude": "39.71722222",
+  "longitude": "-86.29472222"
+ },
+ {
+  "rank": "1",
+  "airport": "ATL",
+  "enplaned_passengers": "42984548",
+  "year": "2010",
+  "latitude": "33.63666667",
+  "longitude": "-84.42777778"
+ },
+ {
+  "rank": "2",
+  "airport": "ORD",
+  "enplaned_passengers": "32146275",
+  "year": "2010",
+  "latitude": "41.97694444",
+  "longitude": "-87.90805556"
+ },
+ {
+  "rank": "3",
+  "airport": "LAX",
+  "enplaned_passengers": "28827694",
+  "year": "2010",
+  "latitude": "33.9425",
+  "longitude": "-118.40805556"
+ },
+ {
+  "rank": "4",
+  "airport": "DFW",
+  "enplaned_passengers": "27023237",
+  "year": "2010",
+  "latitude": "32.89722222",
+  "longitude": "-97.03777778"
+ },
+ {
+  "rank": "5",
+  "airport": "DEN",
+  "enplaned_passengers": "25223933",
+  "year": "2010",
+  "latitude": "39.86166667",
+  "longitude": "-104.67305556"
+ },
+ {
+  "rank": "6",
+  "airport": "JFK",
+  "enplaned_passengers": "22892372",
+  "year": "2010",
+  "latitude": "40.64",
+  "longitude": "-73.77861111"
+ },
+ {
+  "rank": "7",
+  "airport": "IAH",
+  "enplaned_passengers": "19488328",
+  "year": "2010",
+  "latitude": "29.98444444",
+  "longitude": "-95.34138889"
+ },
+ {
+  "rank": "8",
+  "airport": "SFO",
+  "enplaned_passengers": "19338673",
+  "year": "2010",
+  "latitude": "37.61888889",
+  "longitude": "-122.37555556"
+ },
+ {
+  "rank": "9",
+  "airport": "PHX",
+  "enplaned_passengers": "18877340",
+  "year": "2010",
+  "latitude": "33.43416667",
+  "longitude": "-112.01166667"
+ },
+ {
+  "rank": "10",
+  "airport": "LAS",
+  "enplaned_passengers": "18849767",
+  "year": "2010",
+  "latitude": "36.08",
+  "longitude": "-115.15222222"
+ },
+ {
+  "rank": "11",
+  "airport": "CLT",
+  "enplaned_passengers": "18614701",
+  "year": "2010",
+  "latitude": "35.21361111",
+  "longitude": "-80.94916667"
+ },
+ {
+  "rank": "12",
+  "airport": "MCO",
+  "enplaned_passengers": "16955040",
+  "year": "2010",
+  "latitude": "28.42944444",
+  "longitude": "-81.30888889"
+ },
+ {
+  "rank": "13",
+  "airport": "MIA",
+  "enplaned_passengers": "16748218",
+  "year": "2010",
+  "latitude": "25.79527778",
+  "longitude": "-80.29"
+ },
+ {
+  "rank": "14",
+  "airport": "EWR",
+  "enplaned_passengers": "16543513",
+  "year": "2010",
+  "latitude": "40.6925",
+  "longitude": "-74.16861111"
+ },
+ {
+  "rank": "15",
+  "airport": "DTW",
+  "enplaned_passengers": "15606771",
+  "year": "2010",
+  "latitude": "42.2125",
+  "longitude": "-83.35333333"
+ },
+ {
+  "rank": "16",
+  "airport": "MSP",
+  "enplaned_passengers": "15488730",
+  "year": "2010",
+  "latitude": "44.88194444",
+  "longitude": "-93.22166667"
+ },
+ {
+  "rank": "17",
+  "airport": "SEA",
+  "enplaned_passengers": "15368088",
+  "year": "2010",
+  "latitude": "47.45",
+  "longitude": "-122.31166667"
+ },
+ {
+  "rank": "18",
+  "airport": "PHL",
+  "enplaned_passengers": "14926045",
+  "year": "2010",
+  "latitude": "39.87194444",
+  "longitude": "-75.24055556"
+ },
+ {
+  "rank": "19",
+  "airport": "BOS",
+  "enplaned_passengers": "13541787",
+  "year": "2010",
+  "latitude": "42.36305556",
+  "longitude": "-71.00638889"
+ },
+ {
+  "rank": "20",
+  "airport": "LGA",
+  "enplaned_passengers": "11988578",
+  "year": "2010",
+  "latitude": "40.77722222",
+  "longitude": "-73.8725"
+ },
+ {
+  "rank": "21",
+  "airport": "IAD",
+  "enplaned_passengers": "11251041",
+  "year": "2010",
+  "latitude": "38.9475",
+  "longitude": "-77.46"
+ },
+ {
+  "rank": "22",
+  "airport": "BWI",
+  "enplaned_passengers": "10770973",
+  "year": "2010",
+  "latitude": "39.17583333",
+  "longitude": "-76.66888889"
+ },
+ {
+  "rank": "23",
+  "airport": "FLL",
+  "enplaned_passengers": "10769308",
+  "year": "2010",
+  "latitude": "26.07166667",
+  "longitude": "-80.14972222"
+ },
+ {
+  "rank": "24",
+  "airport": "SLC",
+  "enplaned_passengers": "9901931",
+  "year": "2010",
+  "latitude": "40.78833333",
+  "longitude": "-111.97777778"
+ },
+ {
+  "rank": "25",
+  "airport": "DCA",
+  "enplaned_passengers": "8726183",
+  "year": "2010",
+  "latitude": "38.85138889",
+  "longitude": "-77.03777778"
+ },
+ {
+  "rank": "26",
+  "airport": "HNL",
+  "enplaned_passengers": "8652258",
+  "year": "2010",
+  "latitude": "21.31777778",
+  "longitude": "-157.92027778"
+ },
+ {
+  "rank": "27",
+  "airport": "MDW",
+  "enplaned_passengers": "8505290",
+  "year": "2010",
+  "latitude": "41.78583333",
+  "longitude": "-87.7525"
+ },
+ {
+  "rank": "28",
+  "airport": "SAN",
+  "enplaned_passengers": "8416837",
+  "year": "2010",
+  "latitude": "32.73361111",
+  "longitude": "-117.18972222"
+ },
+ {
+  "rank": "29",
+  "airport": "TPA",
+  "enplaned_passengers": "8127230",
+  "year": "2010",
+  "latitude": "27.97555556",
+  "longitude": "-82.53333333"
+ },
+ {
+  "rank": "30",
+  "airport": "PDX",
+  "enplaned_passengers": "6576227",
+  "year": "2010",
+  "latitude": "45.58861111",
+  "longitude": "-122.59694444"
+ },
+ {
+  "rank": "31",
+  "airport": "STL",
+  "enplaned_passengers": "6027785",
+  "year": "2010",
+  "latitude": "38.74861111",
+  "longitude": "-90.37"
+ },
+ {
+  "rank": "32",
+  "airport": "MCI",
+  "enplaned_passengers": "4935371",
+  "year": "2010",
+  "latitude": "39.2975",
+  "longitude": "-94.71388889"
+ },
+ {
+  "rank": "33",
+  "airport": "MEM",
+  "enplaned_passengers": "4922662",
+  "year": "2010",
+  "latitude": "35.0425",
+  "longitude": "-89.97666667"
+ },
+ {
+  "rank": "34",
+  "airport": "MKE",
+  "enplaned_passengers": "4720610",
+  "year": "2010",
+  "latitude": "42.94694444",
+  "longitude": "-87.89694444"
+ },
+ {
+  "rank": "35",
+  "airport": "OAK",
+  "enplaned_passengers": "4649223",
+  "year": "2010",
+  "latitude": "37.72138889",
+  "longitude": "-122.22111111"
+ },
+ {
+  "rank": "36",
+  "airport": "CLE",
+  "enplaned_passengers": "4576215",
+  "year": "2010",
+  "latitude": "41.40944444",
+  "longitude": "-81.85472222"
+ },
+ {
+  "rank": "37",
+  "airport": "RDU",
+  "enplaned_passengers": "4446892",
+  "year": "2010",
+  "latitude": "35.87777778",
+  "longitude": "-78.7875"
+ },
+ {
+  "rank": "38",
+  "airport": "BNA",
+  "enplaned_passengers": "4419327",
+  "year": "2010",
+  "latitude": "36.12444444",
+  "longitude": "-86.67805556"
+ },
+ {
+  "rank": "39",
+  "airport": "SMF",
+  "enplaned_passengers": "4418241",
+  "year": "2010",
+  "latitude": "38.69555556",
+  "longitude": "-121.59083333"
+ },
+ {
+  "rank": "40",
+  "airport": "HOU",
+  "enplaned_passengers": "4342114",
+  "year": "2010",
+  "latitude": "29.64583333",
+  "longitude": "-95.27722222"
+ },
+ {
+  "rank": "41",
+  "airport": "SNA",
+  "enplaned_passengers": "4276629",
+  "year": "2010",
+  "latitude": "33.67555556",
+  "longitude": "-117.86833333"
+ },
+ {
+  "rank": "42",
+  "airport": "SJU",
+  "enplaned_passengers": "4213918",
+  "year": "2010",
+  "latitude": "18.43944444",
+  "longitude": "-66.00222222"
+ },
+ {
+  "rank": "43",
+  "airport": "AUS",
+  "enplaned_passengers": "4188143",
+  "year": "2010",
+  "latitude": "30.19444444",
+  "longitude": "-97.67"
+ },
+ {
+  "rank": "44",
+  "airport": "MSY",
+  "enplaned_passengers": "4071582",
+  "year": "2010",
+  "latitude": "29.99333333",
+  "longitude": "-90.25916667"
+ },
+ {
+  "rank": "45",
+  "airport": "SJC",
+  "enplaned_passengers": "4044703",
+  "year": "2010",
+  "latitude": "37.36305556",
+  "longitude": "-121.92861111"
+ },
+ {
+  "rank": "46",
+  "airport": "PIT",
+  "enplaned_passengers": "3951014",
+  "year": "2010",
+  "latitude": "40.49138889",
+  "longitude": "-80.23277778"
+ },
+ {
+  "rank": "47",
+  "airport": "CVG",
+  "enplaned_passengers": "3897770",
+  "year": "2010",
+  "latitude": "39.04888889",
+  "longitude": "-84.66777778"
+ },
+ {
+  "rank": "48",
+  "airport": "SAT",
+  "enplaned_passengers": "3897126",
+  "year": "2010",
+  "latitude": "29.53388889",
+  "longitude": "-98.46916667"
+ },
+ {
+  "rank": "49",
+  "airport": "DAL",
+  "enplaned_passengers": "3769403",
+  "year": "2010",
+  "latitude": "32.84583333",
+  "longitude": "-96.85083333"
+ },
+ {
+  "rank": "50",
+  "airport": "RSW",
+  "enplaned_passengers": "3710582",
+  "year": "2010",
+  "latitude": "26.53611111",
+  "longitude": "-81.75527778"
+ },
+ {
+  "rank": "1",
+  "airport": "ATL",
+  "enplaned_passengers": "42130113",
+  "year": "2009",
+  "latitude": "33.63666667",
+  "longitude": "-84.42777778"
+ },
+ {
+  "rank": "2",
+  "airport": "ORD",
+  "enplaned_passengers": "31103035",
+  "year": "2009",
+  "latitude": "41.97694444",
+  "longitude": "-87.90805556"
+ },
+ {
+  "rank": "3",
+  "airport": "LAX",
+  "enplaned_passengers": "27468144",
+  "year": "2009",
+  "latitude": "33.9425",
+  "longitude": "-118.40805556"
+ },
+ {
+  "rank": "4",
+  "airport": "DFW",
+  "enplaned_passengers": "26587362",
+  "year": "2009",
+  "latitude": "32.89722222",
+  "longitude": "-97.03777778"
+ },
+ {
+  "rank": "5",
+  "airport": "DEN",
+  "enplaned_passengers": "23948576",
+  "year": "2009",
+  "latitude": "39.86166667",
+  "longitude": "-104.67305556"
+ },
+ {
+  "rank": "6",
+  "airport": "JFK",
+  "enplaned_passengers": "22719628",
+  "year": "2009",
+  "latitude": "40.64",
+  "longitude": "-73.77861111"
+ },
+ {
+  "rank": "7",
+  "airport": "IAH",
+  "enplaned_passengers": "19255072",
+  "year": "2009",
+  "latitude": "29.98444444",
+  "longitude": "-95.34138889"
+ },
+ {
+  "rank": "8",
+  "airport": "LAS",
+  "enplaned_passengers": "19234875",
+  "year": "2009",
+  "latitude": "36.08",
+  "longitude": "-115.15222222"
+ },
+ {
+  "rank": "9",
+  "airport": "PHX",
+  "enplaned_passengers": "18537922",
+  "year": "2009",
+  "latitude": "33.43416667",
+  "longitude": "-112.01166667"
+ },
+ {
+  "rank": "10",
+  "airport": "SFO",
+  "enplaned_passengers": "18444930",
+  "year": "2009",
+  "latitude": "37.61888889",
+  "longitude": "-122.37555556"
+ },
+ {
+  "rank": "11",
+  "airport": "CLT",
+  "enplaned_passengers": "17147068",
+  "year": "2009",
+  "latitude": "35.21361111",
+  "longitude": "-80.94916667"
+ },
+ {
+  "rank": "12",
+  "airport": "EWR",
+  "enplaned_passengers": "16678383",
+  "year": "2009",
+  "latitude": "40.6925",
+  "longitude": "-74.16861111"
+ },
+ {
+  "rank": "13",
+  "airport": "MCO",
+  "enplaned_passengers": "16305916",
+  "year": "2009",
+  "latitude": "28.42944444",
+  "longitude": "-81.30888889"
+ },
+ {
+  "rank": "14",
+  "airport": "MIA",
+  "enplaned_passengers": "16029821",
+  "year": "2009",
+  "latitude": "25.79527778",
+  "longitude": "-80.29"
+ },
+ {
+  "rank": "15",
+  "airport": "MSP",
+  "enplaned_passengers": "15514186",
+  "year": "2009",
+  "latitude": "44.88194444",
+  "longitude": "-93.22166667"
+ },
+ {
+  "rank": "16",
+  "airport": "SEA",
+  "enplaned_passengers": "15243242",
+  "year": "2009",
+  "latitude": "47.45",
+  "longitude": "-122.31166667"
+ },
+ {
+  "rank": "17",
+  "airport": "DTW",
+  "enplaned_passengers": "15181789",
+  "year": "2009",
+  "latitude": "42.2125",
+  "longitude": "-83.35333333"
+ },
+ {
+  "rank": "18",
+  "airport": "PHL",
+  "enplaned_passengers": "14982700",
+  "year": "2009",
+  "latitude": "39.87194444",
+  "longitude": "-75.24055556"
+ },
+ {
+  "rank": "19",
+  "airport": "BOS",
+  "enplaned_passengers": "12534018",
+  "year": "2009",
+  "latitude": "42.36305556",
+  "longitude": "-71.00638889"
+ },
+ {
+  "rank": "20",
+  "airport": "IAD",
+  "enplaned_passengers": "11099830",
+  "year": "2009",
+  "latitude": "38.9475",
+  "longitude": "-77.46"
+ },
+ {
+  "rank": "21",
+  "airport": "LGA",
+  "enplaned_passengers": "11078610",
+  "year": "2009",
+  "latitude": "40.77722222",
+  "longitude": "-73.8725"
+ },
+ {
+  "rank": "22",
+  "airport": "BWI",
+  "enplaned_passengers": "10273228",
+  "year": "2009",
+  "latitude": "39.17583333",
+  "longitude": "-76.66888889"
+ },
+ {
+  "rank": "23",
+  "airport": "FLL",
+  "enplaned_passengers": "10205010",
+  "year": "2009",
+  "latitude": "26.07166667",
+  "longitude": "-80.14972222"
+ },
+ {
+  "rank": "24",
+  "airport": "SLC",
+  "enplaned_passengers": "9894625",
+  "year": "2009",
+  "latitude": "40.78833333",
+  "longitude": "-111.97777778"
+ },
+ {
+  "rank": "25",
+  "airport": "HNL",
+  "enplaned_passengers": "8664078",
+  "year": "2009",
+  "latitude": "21.31777778",
+  "longitude": "-157.92027778"
+ },
+ {
+  "rank": "26",
+  "airport": "DCA",
+  "enplaned_passengers": "8481205",
+  "year": "2009",
+  "latitude": "38.85138889",
+  "longitude": "-77.03777778"
+ },
+ {
+  "rank": "27",
+  "airport": "SAN",
+  "enplaned_passengers": "8440348",
+  "year": "2009",
+  "latitude": "32.73361111",
+  "longitude": "-117.18972222"
+ },
+ {
+  "rank": "28",
+  "airport": "TPA",
+  "enplaned_passengers": "8247759",
+  "year": "2009",
+  "latitude": "27.97555556",
+  "longitude": "-82.53333333"
+ },
+ {
+  "rank": "29",
+  "airport": "MDW",
+  "enplaned_passengers": "8241927",
+  "year": "2009",
+  "latitude": "41.78583333",
+  "longitude": "-87.7525"
+ },
+ {
+  "rank": "30",
+  "airport": "PDX",
+  "enplaned_passengers": "6420139",
+  "year": "2009",
+  "latitude": "45.58861111",
+  "longitude": "-122.59694444"
+ },
+ {
+  "rank": "31",
+  "airport": "STL",
+  "enplaned_passengers": "6072550",
+  "year": "2009",
+  "latitude": "38.74861111",
+  "longitude": "-90.37"
+ },
+ {
+  "rank": "32",
+  "airport": "CVG",
+  "enplaned_passengers": "5183145",
+  "year": "2009",
+  "latitude": "39.04888889",
+  "longitude": "-84.66777778"
+ },
+ {
+  "rank": "33",
+  "airport": "MEM",
+  "enplaned_passengers": "5039905",
+  "year": "2009",
+  "latitude": "35.0425",
+  "longitude": "-89.97666667"
+ },
+ {
+  "rank": "34",
+  "airport": "MCI",
+  "enplaned_passengers": "4882946",
+  "year": "2009",
+  "latitude": "39.2975",
+  "longitude": "-94.71388889"
+ },
+ {
+  "rank": "35",
+  "airport": "CLE",
+  "enplaned_passengers": "4690609",
+  "year": "2009",
+  "latitude": "41.40944444",
+  "longitude": "-81.85472222"
+ },
+ {
+  "rank": "36",
+  "airport": "OAK",
+  "enplaned_passengers": "4626600",
+  "year": "2009",
+  "latitude": "37.72138889",
+  "longitude": "-122.22111111"
+ },
+ {
+  "rank": "37",
+  "airport": "SMF",
+  "enplaned_passengers": "4455817",
+  "year": "2009",
+  "latitude": "38.69555556",
+  "longitude": "-121.59083333"
+ },
+ {
+  "rank": "38",
+  "airport": "RDU",
+  "enplaned_passengers": "4416116",
+  "year": "2009",
+  "latitude": "35.87777778",
+  "longitude": "-78.7875"
+ },
+ {
+  "rank": "39",
+  "airport": "BNA",
+  "enplaned_passengers": "4372113",
+  "year": "2009",
+  "latitude": "36.12444444",
+  "longitude": "-86.67805556"
+ },
+ {
+  "rank": "40",
+  "airport": "SNA",
+  "enplaned_passengers": "4308895",
+  "year": "2009",
+  "latitude": "33.67555556",
+  "longitude": "-117.86833333"
+ },
+ {
+  "rank": "41",
+  "airport": "SJC",
+  "enplaned_passengers": "4090290",
+  "year": "2009",
+  "latitude": "37.36305556",
+  "longitude": "-121.92861111"
+ },
+ {
+  "rank": "42",
+  "airport": "HOU",
+  "enplaned_passengers": "4076450",
+  "year": "2009",
+  "latitude": "29.64583333",
+  "longitude": "-95.27722222"
+ },
+ {
+  "rank": "43",
+  "airport": "SJU",
+  "enplaned_passengers": "4069110",
+  "year": "2009",
+  "latitude": "18.43944444",
+  "longitude": "-66.00222222"
+ },
+ {
+  "rank": "44",
+  "airport": "AUS",
+  "enplaned_passengers": "4018205",
+  "year": "2009",
+  "latitude": "30.19444444",
+  "longitude": "-97.67"
+ },
+ {
+  "rank": "45",
+  "airport": "PIT",
+  "enplaned_passengers": "3919861",
+  "year": "2009",
+  "latitude": "40.49138889",
+  "longitude": "-80.23277778"
+ },
+ {
+  "rank": "46",
+  "airport": "MSY",
+  "enplaned_passengers": "3904334",
+  "year": "2009",
+  "latitude": "29.99333333",
+  "longitude": "-90.25916667"
+ },
+ {
+  "rank": "47",
+  "airport": "MKE",
+  "enplaned_passengers": "3803566",
+  "year": "2009",
+  "latitude": "42.94694444",
+  "longitude": "-87.89694444"
+ },
+ {
+  "rank": "48",
+  "airport": "SAT",
+  "enplaned_passengers": "3774188",
+  "year": "2009",
+  "latitude": "29.53388889",
+  "longitude": "-98.46916667"
+ },
+ {
+  "rank": "49",
+  "airport": "IND",
+  "enplaned_passengers": "3706196",
+  "year": "2009",
+  "latitude": "39.71722222",
+  "longitude": "-86.29472222"
+ },
+ {
+  "rank": "50",
+  "airport": "RSW",
+  "enplaned_passengers": "3668327",
+  "year": "2009",
+  "latitude": "26.53611111",
+  "longitude": "-81.75527778"
+ },
+ {
+  "rank": "1",
+  "airport": "ATL",
+  "enplaned_passengers": "43605513",
+  "year": "2008",
+  "latitude": "33.63666667",
+  "longitude": "-84.42777778"
+ },
+ {
+  "rank": "2",
+  "airport": "ORD",
+  "enplaned_passengers": "33625480",
+  "year": "2008",
+  "latitude": "41.97694444",
+  "longitude": "-87.90805556"
+ },
+ {
+  "rank": "3",
+  "airport": "LAX",
+  "enplaned_passengers": "28823563",
+  "year": "2008",
+  "latitude": "33.9425",
+  "longitude": "-118.40805556"
+ },
+ {
+  "rank": "4",
+  "airport": "DFW",
+  "enplaned_passengers": "27092417",
+  "year": "2008",
+  "latitude": "32.89722222",
+  "longitude": "-97.03777778"
+ },
+ {
+  "rank": "5",
+  "airport": "DEN",
+  "enplaned_passengers": "24249516",
+  "year": "2008",
+  "latitude": "39.86166667",
+  "longitude": "-104.67305556"
+ },
+ {
+  "rank": "6",
+  "airport": "JFK",
+  "enplaned_passengers": "23619354",
+  "year": "2008",
+  "latitude": "40.64",
+  "longitude": "-73.77861111"
+ },
+ {
+  "rank": "7",
+  "airport": "LAS",
+  "enplaned_passengers": "20749819",
+  "year": "2008",
+  "latitude": "36.08",
+  "longitude": "-115.15222222"
+ },
+ {
+  "rank": "8",
+  "airport": "IAH",
+  "enplaned_passengers": "20013283",
+  "year": "2008",
+  "latitude": "29.98444444",
+  "longitude": "-95.34138889"
+ },
+ {
+  "rank": "9",
+  "airport": "PHX",
+  "enplaned_passengers": "19425654",
+  "year": "2008",
+  "latitude": "33.43416667",
+  "longitude": "-112.01166667"
+ },
+ {
+  "rank": "10",
+  "airport": "SFO",
+  "enplaned_passengers": "18147451",
+  "year": "2008",
+  "latitude": "37.61888889",
+  "longitude": "-122.37555556"
+ },
+ {
+  "rank": "11",
+  "airport": "EWR",
+  "enplaned_passengers": "17685411",
+  "year": "2008",
+  "latitude": "40.6925",
+  "longitude": "-74.16861111"
+ },
+ {
+  "rank": "12",
+  "airport": "CLT",
+  "enplaned_passengers": "17261473",
+  "year": "2008",
+  "latitude": "35.21361111",
+  "longitude": "-80.94916667"
+ },
+ {
+  "rank": "13",
+  "airport": "MCO",
+  "enplaned_passengers": "17255145",
+  "year": "2008",
+  "latitude": "28.42944444",
+  "longitude": "-81.30888889"
+ },
+ {
+  "rank": "14",
+  "airport": "DTW",
+  "enplaned_passengers": "16966466",
+  "year": "2008",
+  "latitude": "42.2125",
+  "longitude": "-83.35333333"
+ },
+ {
+  "rank": "15",
+  "airport": "MSP",
+  "enplaned_passengers": "16315840",
+  "year": "2008",
+  "latitude": "44.88194444",
+  "longitude": "-93.22166667"
+ },
+ {
+  "rank": "16",
+  "airport": "MIA",
+  "enplaned_passengers": "16210592",
+  "year": "2008",
+  "latitude": "25.79527778",
+  "longitude": "-80.29"
+ },
+ {
+  "rank": "17",
+  "airport": "SEA",
+  "enplaned_passengers": "15819303",
+  "year": "2008",
+  "latitude": "47.45",
+  "longitude": "-122.31166667"
+ },
+ {
+  "rank": "18",
+  "airport": "PHL",
+  "enplaned_passengers": "15568488",
+  "year": "2008",
+  "latitude": "39.87194444",
+  "longitude": "-75.24055556"
+ },
+ {
+  "rank": "19",
+  "airport": "BOS",
+  "enplaned_passengers": "12756383",
+  "year": "2008",
+  "latitude": "42.36305556",
+  "longitude": "-71.00638889"
+ },
+ {
+  "rank": "20",
+  "airport": "LGA",
+  "enplaned_passengers": "11561513",
+  "year": "2008",
+  "latitude": "40.77722222",
+  "longitude": "-73.8725"
+ },
+ {
+  "rank": "21",
+  "airport": "IAD",
+  "enplaned_passengers": "11408442",
+  "year": "2008",
+  "latitude": "38.9475",
+  "longitude": "-77.46"
+ },
+ {
+  "rank": "22",
+  "airport": "FLL",
+  "enplaned_passengers": "10984603",
+  "year": "2008",
+  "latitude": "26.07166667",
+  "longitude": "-80.14972222"
+ },
+ {
+  "rank": "23",
+  "airport": "BWI",
+  "enplaned_passengers": "10147282",
+  "year": "2008",
+  "latitude": "39.17583333",
+  "longitude": "-76.66888889"
+ },
+ {
+  "rank": "24",
+  "airport": "SLC",
+  "enplaned_passengers": "9981195",
+  "year": "2008",
+  "latitude": "40.78833333",
+  "longitude": "-111.97777778"
+ },
+ {
+  "rank": "25",
+  "airport": "SAN",
+  "enplaned_passengers": "8995486",
+  "year": "2008",
+  "latitude": "32.73361111",
+  "longitude": "-117.18972222"
+ },
+ {
+  "rank": "26",
+  "airport": "HNL",
+  "enplaned_passengers": "8935799",
+  "year": "2008",
+  "latitude": "21.31777778",
+  "longitude": "-157.92027778"
+ },
+ {
+  "rank": "27",
+  "airport": "TPA",
+  "enplaned_passengers": "8856832",
+  "year": "2008",
+  "latitude": "27.97555556",
+  "longitude": "-82.53333333"
+ },
+ {
+  "rank": "28",
+  "airport": "DCA",
+  "enplaned_passengers": "8696260",
+  "year": "2008",
+  "latitude": "38.85138889",
+  "longitude": "-77.03777778"
+ },
+ {
+  "rank": "29",
+  "airport": "MDW",
+  "enplaned_passengers": "8002665",
+  "year": "2008",
+  "latitude": "41.78583333",
+  "longitude": "-87.7525"
+ },
+ {
+  "rank": "30",
+  "airport": "PDX",
+  "enplaned_passengers": "7084366",
+  "year": "2008",
+  "latitude": "45.58861111",
+  "longitude": "-122.59694444"
+ },
+ {
+  "rank": "31",
+  "airport": "STL",
+  "enplaned_passengers": "6695898",
+  "year": "2008",
+  "latitude": "38.74861111",
+  "longitude": "-90.37"
+ },
+ {
+  "rank": "32",
+  "airport": "CVG",
+  "enplaned_passengers": "6631017",
+  "year": "2008",
+  "latitude": "39.04888889",
+  "longitude": "-84.66777778"
+ },
+ {
+  "rank": "33",
+  "airport": "OAK",
+  "enplaned_passengers": "5560924",
+  "year": "2008",
+  "latitude": "37.72138889",
+  "longitude": "-122.22111111"
+ },
+ {
+  "rank": "34",
+  "airport": "MCI",
+  "enplaned_passengers": "5373845",
+  "year": "2008",
+  "latitude": "39.2975",
+  "longitude": "-94.71388889"
+ },
+ {
+  "rank": "35",
+  "airport": "CLE",
+  "enplaned_passengers": "5370091",
+  "year": "2008",
+  "latitude": "41.40944444",
+  "longitude": "-81.85472222"
+ },
+ {
+  "rank": "36",
+  "airport": "MEM",
+  "enplaned_passengers": "5366536",
+  "year": "2008",
+  "latitude": "35.0425",
+  "longitude": "-89.97666667"
+ },
+ {
+  "rank": "37",
+  "airport": "SMF",
+  "enplaned_passengers": "4980696",
+  "year": "2008",
+  "latitude": "38.69555556",
+  "longitude": "-121.59083333"
+ },
+ {
+  "rank": "38",
+  "airport": "RDU",
+  "enplaned_passengers": "4770964",
+  "year": "2008",
+  "latitude": "35.87777778",
+  "longitude": "-78.7875"
+ },
+ {
+  "rank": "39",
+  "airport": "SJC",
+  "enplaned_passengers": "4770769",
+  "year": "2008",
+  "latitude": "37.36305556",
+  "longitude": "-121.92861111"
+ },
+ {
+  "rank": "40",
+  "airport": "BNA",
+  "enplaned_passengers": "4629670",
+  "year": "2008",
+  "latitude": "36.12444444",
+  "longitude": "-86.67805556"
+ },
+ {
+  "rank": "41",
+  "airport": "SJU",
+  "enplaned_passengers": "4597244",
+  "year": "2008",
+  "latitude": "18.43944444",
+  "longitude": "-66.00222222"
+ },
+ {
+  "rank": "42",
+  "airport": "SNA",
+  "enplaned_passengers": "4460563",
+  "year": "2008",
+  "latitude": "33.67555556",
+  "longitude": "-117.86833333"
+ },
+ {
+  "rank": "43",
+  "airport": "AUS",
+  "enplaned_passengers": "4289567",
+  "year": "2008",
+  "latitude": "30.19444444",
+  "longitude": "-97.67"
+ },
+ {
+  "rank": "44",
+  "airport": "PIT",
+  "enplaned_passengers": "4259227",
+  "year": "2008",
+  "latitude": "40.49138889",
+  "longitude": "-80.23277778"
+ },
+ {
+  "rank": "45",
+  "airport": "HOU",
+  "enplaned_passengers": "4214582",
+  "year": "2008",
+  "latitude": "29.64583333",
+  "longitude": "-95.27722222"
+ },
+ {
+  "rank": "46",
+  "airport": "IND",
+  "enplaned_passengers": "4037216",
+  "year": "2008",
+  "latitude": "39.71722222",
+  "longitude": "-86.29472222"
+ },
+ {
+  "rank": "47",
+  "airport": "DAL",
+  "enplaned_passengers": "4016958",
+  "year": "2008",
+  "latitude": "32.84583333",
+  "longitude": "-96.85083333"
+ },
+ {
+  "rank": "48",
+  "airport": "SAT",
+  "enplaned_passengers": "3986223",
+  "year": "2008",
+  "latitude": "29.53388889",
+  "longitude": "-98.46916667"
+ },
+ {
+  "rank": "49",
+  "airport": "MSY",
+  "enplaned_passengers": "3960785",
+  "year": "2008",
+  "latitude": "29.99333333",
+  "longitude": "-90.25916667"
+ },
+ {
+  "rank": "50",
+  "airport": "MKE",
+  "enplaned_passengers": "3788173",
+  "year": "2008",
+  "latitude": "42.94694444",
+  "longitude": "-87.89694444"
+ },
+ {
+  "rank": "1",
+  "airport": "ATL",
+  "enplaned_passengers": "43090558",
+  "year": "2007",
+  "latitude": "33.63666667",
+  "longitude": "-84.42777778"
+ },
+ {
+  "rank": "2",
+  "airport": "ORD",
+  "enplaned_passengers": "36428210",
+  "year": "2007",
+  "latitude": "41.97694444",
+  "longitude": "-87.90805556"
+ },
+ {
+  "rank": "3",
+  "airport": "LAX",
+  "enplaned_passengers": "30082599",
+  "year": "2007",
+  "latitude": "33.9425",
+  "longitude": "-118.40805556"
+ },
+ {
+  "rank": "4",
+  "airport": "DFW",
+  "enplaned_passengers": "28281869",
+  "year": "2007",
+  "latitude": "32.89722222",
+  "longitude": "-97.03777778"
+ },
+ {
+  "rank": "5",
+  "airport": "DEN",
+  "enplaned_passengers": "24064857",
+  "year": "2007",
+  "latitude": "39.86166667",
+  "longitude": "-104.67305556"
+ },
+ {
+  "rank": "6",
+  "airport": "JFK",
+  "enplaned_passengers": "23270115",
+  "year": "2007",
+  "latitude": "40.64",
+  "longitude": "-73.77861111"
+ },
+ {
+  "rank": "7",
+  "airport": "LAS",
+  "enplaned_passengers": "22153742",
+  "year": "2007",
+  "latitude": "36.08",
+  "longitude": "-115.15222222"
+ },
+ {
+  "rank": "8",
+  "airport": "PHX",
+  "enplaned_passengers": "20762764",
+  "year": "2007",
+  "latitude": "33.43416667",
+  "longitude": "-112.01166667"
+ },
+ {
+  "rank": "9",
+  "airport": "IAH",
+  "enplaned_passengers": "20721210",
+  "year": "2007",
+  "latitude": "29.98444444",
+  "longitude": "-95.34138889"
+ },
+ {
+  "rank": "10",
+  "airport": "EWR",
+  "enplaned_passengers": "18162314",
+  "year": "2007",
+  "latitude": "40.6925",
+  "longitude": "-74.16861111"
+ },
+ {
+  "rank": "11",
+  "airport": "MCO",
+  "enplaned_passengers": "17549748",
+  "year": "2007",
+  "latitude": "28.42944444",
+  "longitude": "-81.30888889"
+ },
+ {
+  "rank": "12",
+  "airport": "DTW",
+  "enplaned_passengers": "17437071",
+  "year": "2007",
+  "latitude": "42.2125",
+  "longitude": "-83.35333333"
+ },
+ {
+  "rank": "13",
+  "airport": "SFO",
+  "enplaned_passengers": "17270505",
+  "year": "2007",
+  "latitude": "37.61888889",
+  "longitude": "-122.37555556"
+ },
+ {
+  "rank": "14",
+  "airport": "MSP",
+  "enplaned_passengers": "16854964",
+  "year": "2007",
+  "latitude": "44.88194444",
+  "longitude": "-93.22166667"
+ },
+ {
+  "rank": "15",
+  "airport": "CLT",
+  "enplaned_passengers": "16562601",
+  "year": "2007",
+  "latitude": "35.21361111",
+  "longitude": "-80.94916667"
+ },
+ {
+  "rank": "16",
+  "airport": "MIA",
+  "enplaned_passengers": "16035711",
+  "year": "2007",
+  "latitude": "25.79527778",
+  "longitude": "-80.29"
+ },
+ {
+  "rank": "17",
+  "airport": "PHL",
+  "enplaned_passengers": "15639885",
+  "year": "2007",
+  "latitude": "39.87194444",
+  "longitude": "-75.24055556"
+ },
+ {
+  "rank": "18",
+  "airport": "SEA",
+  "enplaned_passengers": "15395757",
+  "year": "2007",
+  "latitude": "47.45",
+  "longitude": "-122.31166667"
+ },
+ {
+  "rank": "19",
+  "airport": "BOS",
+  "enplaned_passengers": "13701640",
+  "year": "2007",
+  "latitude": "42.36305556",
+  "longitude": "-71.00638889"
+ },
+ {
+  "rank": "20",
+  "airport": "LGA",
+  "enplaned_passengers": "12523788",
+  "year": "2007",
+  "latitude": "40.77722222",
+  "longitude": "-73.8725"
+ },
+ {
+  "rank": "21",
+  "airport": "IAD",
+  "enplaned_passengers": "11793649",
+  "year": "2007",
+  "latitude": "38.9475",
+  "longitude": "-77.46"
+ },
+ {
+  "rank": "22",
+  "airport": "FLL",
+  "enplaned_passengers": "11016570",
+  "year": "2007",
+  "latitude": "26.07166667",
+  "longitude": "-80.14972222"
+ },
+ {
+  "rank": "23",
+  "airport": "SLC",
+  "enplaned_passengers": "10549439",
+  "year": "2007",
+  "latitude": "40.78833333",
+  "longitude": "-111.97777778"
+ },
+ {
+  "rank": "24",
+  "airport": "BWI",
+  "enplaned_passengers": "10424657",
+  "year": "2007",
+  "latitude": "39.17583333",
+  "longitude": "-76.66888889"
+ },
+ {
+  "rank": "25",
+  "airport": "HNL",
+  "enplaned_passengers": "10213591",
+  "year": "2007",
+  "latitude": "21.31777778",
+  "longitude": "-157.92027778"
+ },
+ {
+  "rank": "26",
+  "airport": "TPA",
+  "enplaned_passengers": "9293513",
+  "year": "2007",
+  "latitude": "27.97555556",
+  "longitude": "-82.53333333"
+ },
+ {
+  "rank": "27",
+  "airport": "SAN",
+  "enplaned_passengers": "9127415",
+  "year": "2007",
+  "latitude": "32.73361111",
+  "longitude": "-117.18972222"
+ },
+ {
+  "rank": "28",
+  "airport": "MDW",
+  "enplaned_passengers": "9111168",
+  "year": "2007",
+  "latitude": "41.78583333",
+  "longitude": "-87.7525"
+ },
+ {
+  "rank": "29",
+  "airport": "DCA",
+  "enplaned_passengers": "9034461",
+  "year": "2007",
+  "latitude": "38.85138889",
+  "longitude": "-77.03777778"
+ },
+ {
+  "rank": "30",
+  "airport": "CVG",
+  "enplaned_passengers": "7712441",
+  "year": "2007",
+  "latitude": "39.04888889",
+  "longitude": "-84.66777778"
+ },
+ {
+  "rank": "31",
+  "airport": "PDX",
+  "enplaned_passengers": "7275178",
+  "year": "2007",
+  "latitude": "45.58861111",
+  "longitude": "-122.59694444"
+ },
+ {
+  "rank": "32",
+  "airport": "OAK",
+  "enplaned_passengers": "7121243",
+  "year": "2007",
+  "latitude": "37.72138889",
+  "longitude": "-122.22111111"
+ },
+ {
+  "rank": "33",
+  "airport": "STL",
+  "enplaned_passengers": "7047177",
+  "year": "2007",
+  "latitude": "38.74861111",
+  "longitude": "-90.37"
+ },
+ {
+  "rank": "34",
+  "airport": "MCI",
+  "enplaned_passengers": "5821593",
+  "year": "2007",
+  "latitude": "39.2975",
+  "longitude": "-94.71388889"
+ },
+ {
+  "rank": "35",
+  "airport": "CLE",
+  "enplaned_passengers": "5552283",
+  "year": "2007",
+  "latitude": "41.40944444",
+  "longitude": "-81.85472222"
+ },
+ {
+  "rank": "36",
+  "airport": "MEM",
+  "enplaned_passengers": "5524705",
+  "year": "2007",
+  "latitude": "35.0425",
+  "longitude": "-89.97666667"
+ },
+ {
+  "rank": "37",
+  "airport": "SMF",
+  "enplaned_passengers": "5377131",
+  "year": "2007",
+  "latitude": "38.69555556",
+  "longitude": "-121.59083333"
+ },
+ {
+  "rank": "38",
+  "airport": "SJC",
+  "enplaned_passengers": "5243857",
+  "year": "2007",
+  "latitude": "37.36305556",
+  "longitude": "-121.92861111"
+ },
+ {
+  "rank": "39",
+  "airport": "SJU",
+  "enplaned_passengers": "5104626",
+  "year": "2007",
+  "latitude": "18.43944444",
+  "longitude": "-66.00222222"
+ },
+ {
+  "rank": "40",
+  "airport": "RDU",
+  "enplaned_passengers": "4959435",
+  "year": "2007",
+  "latitude": "35.87777778",
+  "longitude": "-78.7875"
+ },
+ {
+  "rank": "41",
+  "airport": "SNA",
+  "enplaned_passengers": "4943910",
+  "year": "2007",
+  "latitude": "33.67555556",
+  "longitude": "-117.86833333"
+ },
+ {
+  "rank": "42",
+  "airport": "BNA",
+  "enplaned_passengers": "4876156",
+  "year": "2007",
+  "latitude": "36.12444444",
+  "longitude": "-86.67805556"
+ },
+ {
+  "rank": "43",
+  "airport": "PIT",
+  "enplaned_passengers": "4840196",
+  "year": "2007",
+  "latitude": "40.49138889",
+  "longitude": "-80.23277778"
+ },
+ {
+  "rank": "44",
+  "airport": "HOU",
+  "enplaned_passengers": "4228312",
+  "year": "2007",
+  "latitude": "29.64583333",
+  "longitude": "-95.27722222"
+ },
+ {
+  "rank": "45",
+  "airport": "AUS",
+  "enplaned_passengers": "4171491",
+  "year": "2007",
+  "latitude": "30.19444444",
+  "longitude": "-97.67"
+ },
+ {
+  "rank": "46",
+  "airport": "IND",
+  "enplaned_passengers": "4078326",
+  "year": "2007",
+  "latitude": "39.71722222",
+  "longitude": "-86.29472222"
+ },
+ {
+  "rank": "47",
+  "airport": "RSW",
+  "enplaned_passengers": "3982193",
+  "year": "2007",
+  "latitude": "26.53611111",
+  "longitude": "-81.75527778"
+ },
+ {
+  "rank": "48",
+  "airport": "DAL",
+  "enplaned_passengers": "3969965",
+  "year": "2007",
+  "latitude": "32.84583333",
+  "longitude": "-96.85083333"
+ },
+ {
+  "rank": "49",
+  "airport": "SAT",
+  "enplaned_passengers": "3875833",
+  "year": "2007",
+  "latitude": "29.53388889",
+  "longitude": "-98.46916667"
+ },
+ {
+  "rank": "50",
+  "airport": "CMH",
+  "enplaned_passengers": "3815939",
+  "year": "2007",
+  "latitude": "39.99694444",
+  "longitude": "-82.89222222"
+ },
+ {
+  "rank": "1",
+  "airport": "ATL",
+  "enplaned_passengers": "41240026",
+  "year": "2006",
+  "latitude": "33.63666667",
+  "longitude": "-84.42777778"
+ },
+ {
+  "rank": "2",
+  "airport": "ORD",
+  "enplaned_passengers": "36724128",
+  "year": "2006",
+  "latitude": "41.97694444",
+  "longitude": "-87.90805556"
+ },
+ {
+  "rank": "3",
+  "airport": "LAX",
+  "enplaned_passengers": "29358236",
+  "year": "2006",
+  "latitude": "33.9425",
+  "longitude": "-118.40805556"
+ },
+ {
+  "rank": "4",
+  "airport": "DFW",
+  "enplaned_passengers": "28419602",
+  "year": "2006",
+  "latitude": "32.89722222",
+  "longitude": "-97.03777778"
+ },
+ {
+  "rank": "5",
+  "airport": "DEN",
+  "enplaned_passengers": "22778036",
+  "year": "2006",
+  "latitude": "39.86166667",
+  "longitude": "-104.67305556"
+ },
+ {
+  "rank": "6",
+  "airport": "LAS",
+  "enplaned_passengers": "21630589",
+  "year": "2006",
+  "latitude": "36.08",
+  "longitude": "-115.15222222"
+ },
+ {
+  "rank": "7",
+  "airport": "JFK",
+  "enplaned_passengers": "21071246",
+  "year": "2006",
+  "latitude": "40.64",
+  "longitude": "-73.77861111"
+ },
+ {
+  "rank": "8",
+  "airport": "PHX",
+  "enplaned_passengers": "20573929",
+  "year": "2006",
+  "latitude": "33.43416667",
+  "longitude": "-112.01166667"
+ },
+ {
+  "rank": "9",
+  "airport": "IAH",
+  "enplaned_passengers": "20483767",
+  "year": "2006",
+  "latitude": "29.98444444",
+  "longitude": "-95.34138889"
+ },
+ {
+  "rank": "10",
+  "airport": "EWR",
+  "enplaned_passengers": "17784303",
+  "year": "2006",
+  "latitude": "40.6925",
+  "longitude": "-74.16861111"
+ },
+ {
+  "rank": "11",
+  "airport": "DTW",
+  "enplaned_passengers": "17383183",
+  "year": "2006",
+  "latitude": "42.2125",
+  "longitude": "-83.35333333"
+ },
+ {
+  "rank": "12",
+  "airport": "MSP",
+  "enplaned_passengers": "17019236",
+  "year": "2006",
+  "latitude": "44.88194444",
+  "longitude": "-93.22166667"
+ },
+ {
+  "rank": "13",
+  "airport": "MCO",
+  "enplaned_passengers": "16747660",
+  "year": "2006",
+  "latitude": "28.42944444",
+  "longitude": "-81.30888889"
+ },
+ {
+  "rank": "14",
+  "airport": "SFO",
+  "enplaned_passengers": "16253504",
+  "year": "2006",
+  "latitude": "37.61888889",
+  "longitude": "-122.37555556"
+ },
+ {
+  "rank": "15",
+  "airport": "MIA",
+  "enplaned_passengers": "15459024",
+  "year": "2006",
+  "latitude": "25.79527778",
+  "longitude": "-80.29"
+ },
+ {
+  "rank": "16",
+  "airport": "PHL",
+  "enplaned_passengers": "15381534",
+  "year": "2006",
+  "latitude": "39.87194444",
+  "longitude": "-75.24055556"
+ },
+ {
+  "rank": "17",
+  "airport": "CLT",
+  "enplaned_passengers": "14721573",
+  "year": "2006",
+  "latitude": "35.21361111",
+  "longitude": "-80.94916667"
+ },
+ {
+  "rank": "18",
+  "airport": "SEA",
+  "enplaned_passengers": "14680939",
+  "year": "2006",
+  "latitude": "47.45",
+  "longitude": "-122.31166667"
+ },
+ {
+  "rank": "19",
+  "airport": "BOS",
+  "enplaned_passengers": "13467139",
+  "year": "2006",
+  "latitude": "42.36305556",
+  "longitude": "-71.00638889"
+ },
+ {
+  "rank": "20",
+  "airport": "LGA",
+  "enplaned_passengers": "12918193",
+  "year": "2006",
+  "latitude": "40.77722222",
+  "longitude": "-73.8725"
+ },
+ {
+  "rank": "21",
+  "airport": "IAD",
+  "enplaned_passengers": "11042966",
+  "year": "2006",
+  "latitude": "38.9475",
+  "longitude": "-77.46"
+ },
+ {
+  "rank": "22",
+  "airport": "SLC",
+  "enplaned_passengers": "10276635",
+  "year": "2006",
+  "latitude": "40.78833333",
+  "longitude": "-111.97777778"
+ },
+ {
+  "rank": "23",
+  "airport": "BWI",
+  "enplaned_passengers": "10230776",
+  "year": "2006",
+  "latitude": "39.17583333",
+  "longitude": "-76.66888889"
+ },
+ {
+  "rank": "24",
+  "airport": "FLL",
+  "enplaned_passengers": "10175862",
+  "year": "2006",
+  "latitude": "26.07166667",
+  "longitude": "-80.14972222"
+ },
+ {
+  "rank": "25",
+  "airport": "HNL",
+  "enplaned_passengers": "9587982",
+  "year": "2006",
+  "latitude": "21.31777778",
+  "longitude": "-157.92027778"
+ },
+ {
+  "rank": "26",
+  "airport": "TPA",
+  "enplaned_passengers": "9179318",
+  "year": "2006",
+  "latitude": "27.97555556",
+  "longitude": "-82.53333333"
+ },
+ {
+  "rank": "27",
+  "airport": "DCA",
+  "enplaned_passengers": "8971150",
+  "year": "2006",
+  "latitude": "38.85138889",
+  "longitude": "-77.03777778"
+ },
+ {
+  "rank": "28",
+  "airport": "MDW",
+  "enplaned_passengers": "8898296",
+  "year": "2006",
+  "latitude": "41.78583333",
+  "longitude": "-87.7525"
+ },
+ {
+  "rank": "29",
+  "airport": "SAN",
+  "enplaned_passengers": "8685401",
+  "year": "2006",
+  "latitude": "32.73361111",
+  "longitude": "-117.18972222"
+ },
+ {
+  "rank": "30",
+  "airport": "CVG",
+  "enplaned_passengers": "7962054",
+  "year": "2006",
+  "latitude": "39.04888889",
+  "longitude": "-84.66777778"
+ },
+ {
+  "rank": "31",
+  "airport": "OAK",
+  "enplaned_passengers": "7051367",
+  "year": "2006",
+  "latitude": "37.72138889",
+  "longitude": "-122.22111111"
+ },
+ {
+  "rank": "32",
+  "airport": "PDX",
+  "enplaned_passengers": "6945898",
+  "year": "2006",
+  "latitude": "45.58861111",
+  "longitude": "-122.59694444"
+ },
+ {
+  "rank": "33",
+  "airport": "STL",
+  "enplaned_passengers": "6940293",
+  "year": "2006",
+  "latitude": "38.74861111",
+  "longitude": "-90.37"
+ },
+ {
+  "rank": "34",
+  "airport": "MEM",
+  "enplaned_passengers": "5480103",
+  "year": "2006",
+  "latitude": "35.0425",
+  "longitude": "-89.97666667"
+ },
+ {
+  "rank": "35",
+  "airport": "MCI",
+  "enplaned_passengers": "5447848",
+  "year": "2006",
+  "latitude": "39.2975",
+  "longitude": "-94.71388889"
+ },
+ {
+  "rank": "36",
+  "airport": "CLE",
+  "enplaned_passengers": "5430109",
+  "year": "2006",
+  "latitude": "41.40944444",
+  "longitude": "-81.85472222"
+ },
+ {
+  "rank": "37",
+  "airport": "SJC",
+  "enplaned_passengers": "5272838",
+  "year": "2006",
+  "latitude": "37.36305556",
+  "longitude": "-121.92861111"
+ },
+ {
+  "rank": "38",
+  "airport": "SMF",
+  "enplaned_passengers": "5178243",
+  "year": "2006",
+  "latitude": "38.69555556",
+  "longitude": "-121.59083333"
+ },
+ {
+  "rank": "39",
+  "airport": "SJU",
+  "enplaned_passengers": "5165057",
+  "year": "2006",
+  "latitude": "18.43944444",
+  "longitude": "-66.00222222"
+ },
+ {
+  "rank": "40",
+  "airport": "PIT",
+  "enplaned_passengers": "4920318",
+  "year": "2006",
+  "latitude": "40.49138889",
+  "longitude": "-80.23277778"
+ },
+ {
+  "rank": "41",
+  "airport": "SNA",
+  "enplaned_passengers": "4774342",
+  "year": "2006",
+  "latitude": "33.67555556",
+  "longitude": "-117.86833333"
+ },
+ {
+  "rank": "42",
+  "airport": "BNA",
+  "enplaned_passengers": "4765525",
+  "year": "2006",
+  "latitude": "36.12444444",
+  "longitude": "-86.67805556"
+ },
+ {
+  "rank": "43",
+  "airport": "RDU",
+  "enplaned_passengers": "4685892",
+  "year": "2006",
+  "latitude": "35.87777778",
+  "longitude": "-78.7875"
+ },
+ {
+  "rank": "44",
+  "airport": "HOU",
+  "enplaned_passengers": "4103725",
+  "year": "2006",
+  "latitude": "29.64583333",
+  "longitude": "-95.27722222"
+ },
+ {
+  "rank": "45",
+  "airport": "IND",
+  "enplaned_passengers": "3989700",
+  "year": "2006",
+  "latitude": "39.71722222",
+  "longitude": "-86.29472222"
+ },
+ {
+  "rank": "46",
+  "airport": "AUS",
+  "enplaned_passengers": "3934132",
+  "year": "2006",
+  "latitude": "30.19444444",
+  "longitude": "-97.67"
+ },
+ {
+  "rank": "47",
+  "airport": "SAT",
+  "enplaned_passengers": "3888206",
+  "year": "2006",
+  "latitude": "29.53388889",
+  "longitude": "-98.46916667"
+ },
+ {
+  "rank": "48",
+  "airport": "RSW",
+  "enplaned_passengers": "3746267",
+  "year": "2006",
+  "latitude": "26.53611111",
+  "longitude": "-81.75527778"
+ },
+ {
+  "rank": "49",
+  "airport": "MKE",
+  "enplaned_passengers": "3577126",
+  "year": "2006",
+  "latitude": "42.94694444",
+  "longitude": "-87.89694444"
+ },
+ {
+  "rank": "50",
+  "airport": "DAL",
+  "enplaned_passengers": "3427102",
+  "year": "2006",
+  "latitude": "32.84583333",
+  "longitude": "-96.85083333"
+ },
+ {
+  "rank": "1",
+  "airport": "ATL",
+  "enplaned_passengers": "42255480",
+  "year": "2005",
+  "latitude": "33.63666667",
+  "longitude": "-84.42777778"
+ },
+ {
+  "rank": "2",
+  "airport": "ORD",
+  "enplaned_passengers": "36543129",
+  "year": "2005",
+  "latitude": "41.97694444",
+  "longitude": "-87.90805556"
+ },
+ {
+  "rank": "3",
+  "airport": "LAX",
+  "enplaned_passengers": "29322872",
+  "year": "2005",
+  "latitude": "33.9425",
+  "longitude": "-118.40805556"
+ },
+ {
+  "rank": "4",
+  "airport": "DFW",
+  "enplaned_passengers": "27848801",
+  "year": "2005",
+  "latitude": "32.89722222",
+  "longitude": "-97.03777778"
+ },
+ {
+  "rank": "5",
+  "airport": "LAS",
+  "enplaned_passengers": "20818703",
+  "year": "2005",
+  "latitude": "36.08",
+  "longitude": "-115.15222222"
+ },
+ {
+  "rank": "6",
+  "airport": "DEN",
+  "enplaned_passengers": "20688892",
+  "year": "2005",
+  "latitude": "39.86166667",
+  "longitude": "-104.67305556"
+ },
+ {
+  "rank": "7",
+  "airport": "PHX",
+  "enplaned_passengers": "20286949",
+  "year": "2005",
+  "latitude": "33.43416667",
+  "longitude": "-112.01166667"
+ },
+ {
+  "rank": "8",
+  "airport": "JFK",
+  "enplaned_passengers": "20086041",
+  "year": "2005",
+  "latitude": "40.64",
+  "longitude": "-73.77861111"
+ },
+ {
+  "rank": "9",
+  "airport": "IAH",
+  "enplaned_passengers": "18979143",
+  "year": "2005",
+  "latitude": "29.98444444",
+  "longitude": "-95.34138889"
+ },
+ {
+  "rank": "10",
+  "airport": "MSP",
+  "enplaned_passengers": "17746219",
+  "year": "2005",
+  "latitude": "44.88194444",
+  "longitude": "-93.22166667"
+ },
+ {
+  "rank": "11",
+  "airport": "DTW",
+  "enplaned_passengers": "17420331",
+  "year": "2005",
+  "latitude": "42.2125",
+  "longitude": "-83.35333333"
+ },
+ {
+  "rank": "12",
+  "airport": "MCO",
+  "enplaned_passengers": "16480776",
+  "year": "2005",
+  "latitude": "28.42944444",
+  "longitude": "-81.30888889"
+ },
+ {
+  "rank": "13",
+  "airport": "EWR",
+  "enplaned_passengers": "16373854",
+  "year": "2005",
+  "latitude": "40.6925",
+  "longitude": "-74.16861111"
+ },
+ {
+  "rank": "14",
+  "airport": "SFO",
+  "enplaned_passengers": "16063004",
+  "year": "2005",
+  "latitude": "37.61888889",
+  "longitude": "-122.37555556"
+ },
+ {
+  "rank": "15",
+  "airport": "PHL",
+  "enplaned_passengers": "15351886",
+  "year": "2005",
+  "latitude": "39.87194444",
+  "longitude": "-75.24055556"
+ },
+ {
+  "rank": "16",
+  "airport": "MIA",
+  "enplaned_passengers": "14731608",
+  "year": "2005",
+  "latitude": "25.79527778",
+  "longitude": "-80.29"
+ },
+ {
+  "rank": "17",
+  "airport": "SEA",
+  "enplaned_passengers": "14306468",
+  "year": "2005",
+  "latitude": "47.45",
+  "longitude": "-122.31166667"
+ },
+ {
+  "rank": "18",
+  "airport": "CLT",
+  "enplaned_passengers": "13972145",
+  "year": "2005",
+  "latitude": "35.21361111",
+  "longitude": "-80.94916667"
+ },
+ {
+  "rank": "19",
+  "airport": "BOS",
+  "enplaned_passengers": "13103232",
+  "year": "2005",
+  "latitude": "42.36305556",
+  "longitude": "-71.00638889"
+ },
+ {
+  "rank": "20",
+  "airport": "LGA",
+  "enplaned_passengers": "13005650",
+  "year": "2005",
+  "latitude": "40.77722222",
+  "longitude": "-73.8725"
+ },
+ {
+  "rank": "21",
+  "airport": "IAD",
+  "enplaned_passengers": "12992717",
+  "year": "2005",
+  "latitude": "38.9475",
+  "longitude": "-77.46"
+ },
+ {
+  "rank": "22",
+  "airport": "CVG",
+  "enplaned_passengers": "11244332",
+  "year": "2005",
+  "latitude": "39.04888889",
+  "longitude": "-84.66777778"
+ },
+ {
+  "rank": "23",
+  "airport": "FLL",
+  "enplaned_passengers": "10637885",
+  "year": "2005",
+  "latitude": "26.07166667",
+  "longitude": "-80.14972222"
+ },
+ {
+  "rank": "24",
+  "airport": "SLC",
+  "enplaned_passengers": "10584845",
+  "year": "2005",
+  "latitude": "40.78833333",
+  "longitude": "-111.97777778"
+ },
+ {
+  "rank": "25",
+  "airport": "BWI",
+  "enplaned_passengers": "9742195",
+  "year": "2005",
+  "latitude": "39.17583333",
+  "longitude": "-76.66888889"
+ },
+ {
+  "rank": "26",
+  "airport": "HNL",
+  "enplaned_passengers": "9494544",
+  "year": "2005",
+  "latitude": "21.31777778",
+  "longitude": "-157.92027778"
+ },
+ {
+  "rank": "27",
+  "airport": "TPA",
+  "enplaned_passengers": "9284482",
+  "year": "2005",
+  "latitude": "27.97555556",
+  "longitude": "-82.53333333"
+ },
+ {
+  "rank": "28",
+  "airport": "DCA",
+  "enplaned_passengers": "8623766",
+  "year": "2005",
+  "latitude": "38.85138889",
+  "longitude": "-77.03777778"
+ },
+ {
+  "rank": "29",
+  "airport": "SAN",
+  "enplaned_passengers": "8617692",
+  "year": "2005",
+  "latitude": "32.73361111",
+  "longitude": "-117.18972222"
+ },
+ {
+  "rank": "30",
+  "airport": "MDW",
+  "enplaned_passengers": "8357684",
+  "year": "2005",
+  "latitude": "41.78583333",
+  "longitude": "-87.7525"
+ },
+ {
+  "rank": "31",
+  "airport": "OAK",
+  "enplaned_passengers": "6959751",
+  "year": "2005",
+  "latitude": "37.72138889",
+  "longitude": "-122.22111111"
+ },
+ {
+  "rank": "32",
+  "airport": "PDX",
+  "enplaned_passengers": "6789993",
+  "year": "2005",
+  "latitude": "45.58861111",
+  "longitude": "-122.59694444"
+ },
+ {
+  "rank": "33",
+  "airport": "STL",
+  "enplaned_passengers": "6723430",
+  "year": "2005",
+  "latitude": "38.74861111",
+  "longitude": "-90.37"
+ },
+ {
+  "rank": "34",
+  "airport": "MEM",
+  "enplaned_passengers": "5593443",
+  "year": "2005",
+  "latitude": "35.0425",
+  "longitude": "-89.97666667"
+ },
+ {
+  "rank": "35",
+  "airport": "CLE",
+  "enplaned_passengers": "5459467",
+  "year": "2005",
+  "latitude": "41.40944444",
+  "longitude": "-81.85472222"
+ },
+ {
+  "rank": "36",
+  "airport": "SJC",
+  "enplaned_passengers": "5303744",
+  "year": "2005",
+  "latitude": "37.36305556",
+  "longitude": "-121.92861111"
+ },
+ {
+  "rank": "37",
+  "airport": "SJU",
+  "enplaned_passengers": "5255412",
+  "year": "2005",
+  "latitude": "18.43944444",
+  "longitude": "-66.00222222"
+ },
+ {
+  "rank": "38",
+  "airport": "PIT",
+  "enplaned_passengers": "5165792",
+  "year": "2005",
+  "latitude": "40.49138889",
+  "longitude": "-80.23277778"
+ },
+ {
+  "rank": "39",
+  "airport": "SMF",
+  "enplaned_passengers": "5103766",
+  "year": "2005",
+  "latitude": "38.69555556",
+  "longitude": "-121.59083333"
+ },
+ {
+  "rank": "40",
+  "airport": "MCI",
+  "enplaned_passengers": "5039680",
+  "year": "2005",
+  "latitude": "39.2975",
+  "longitude": "-94.71388889"
+ },
+ {
+  "rank": "41",
+  "airport": "SNA",
+  "enplaned_passengers": "4790253",
+  "year": "2005",
+  "latitude": "33.67555556",
+  "longitude": "-117.86833333"
+ },
+ {
+  "rank": "42",
+  "airport": "RDU",
+  "enplaned_passengers": "4704763",
+  "year": "2005",
+  "latitude": "35.87777778",
+  "longitude": "-78.7875"
+ },
+ {
+  "rank": "43",
+  "airport": "BNA",
+  "enplaned_passengers": "4552764",
+  "year": "2005",
+  "latitude": "36.12444444",
+  "longitude": "-86.67805556"
+ },
+ {
+  "rank": "44",
+  "airport": "IND",
+  "enplaned_passengers": "4185976",
+  "year": "2005",
+  "latitude": "39.71722222",
+  "longitude": "-86.29472222"
+ },
+ {
+  "rank": "45",
+  "airport": "HOU",
+  "enplaned_passengers": "3953739",
+  "year": "2005",
+  "latitude": "29.64583333",
+  "longitude": "-95.27722222"
+ },
+ {
+  "rank": "46",
+  "airport": "MSY",
+  "enplaned_passengers": "3881393",
+  "year": "2005",
+  "latitude": "29.99333333",
+  "longitude": "-90.25916667"
+ },
+ {
+  "rank": "47",
+  "airport": "RSW",
+  "enplaned_passengers": "3723857",
+  "year": "2005",
+  "latitude": "26.53611111",
+  "longitude": "-81.75527778"
+ },
+ {
+  "rank": "48",
+  "airport": "AUS",
+  "enplaned_passengers": "3629969",
+  "year": "2005",
+  "latitude": "30.19444444",
+  "longitude": "-97.67"
+ },
+ {
+  "rank": "49",
+  "airport": "BDL",
+  "enplaned_passengers": "3611395",
+  "year": "2005",
+  "latitude": "41.93916667",
+  "longitude": "-72.68444444"
+ },
+ {
+  "rank": "50",
+  "airport": "SAT",
+  "enplaned_passengers": "3563901",
+  "year": "2005",
+  "latitude": "29.53388889",
+  "longitude": "-98.46916667"
+ },
+ {
+  "rank": "1",
+  "airport": "ATL",
+  "enplaned_passengers": "40917020",
+  "year": "2004",
+  "latitude": "33.63666667",
+  "longitude": "-84.42777778"
+ },
+ {
+  "rank": "2",
+  "airport": "ORD",
+  "enplaned_passengers": "35877913",
+  "year": "2004",
+  "latitude": "41.97694444",
+  "longitude": "-87.90805556"
+ },
+ {
+  "rank": "3",
+  "airport": "LAX",
+  "enplaned_passengers": "28861983",
+  "year": "2004",
+  "latitude": "33.9425",
+  "longitude": "-118.40805556"
+ },
+ {
+  "rank": "4",
+  "airport": "DFW",
+  "enplaned_passengers": "27823888",
+  "year": "2004",
+  "latitude": "32.89722222",
+  "longitude": "-97.03777778"
+ },
+ {
+  "rank": "5",
+  "airport": "DEN",
+  "enplaned_passengers": "20257858",
+  "year": "2004",
+  "latitude": "39.86166667",
+  "longitude": "-104.67305556"
+ },
+ {
+  "rank": "6",
+  "airport": "PHX",
+  "enplaned_passengers": "19311336",
+  "year": "2004",
+  "latitude": "33.43416667",
+  "longitude": "-112.01166667"
+ },
+ {
+  "rank": "7",
+  "airport": "LAS",
+  "enplaned_passengers": "19203593",
+  "year": "2004",
+  "latitude": "36.08",
+  "longitude": "-115.15222222"
+ },
+ {
+  "rank": "8",
+  "airport": "JFK",
+  "enplaned_passengers": "18432935",
+  "year": "2004",
+  "latitude": "40.64",
+  "longitude": "-73.77861111"
+ },
+ {
+  "rank": "9",
+  "airport": "MSP",
+  "enplaned_passengers": "17255369",
+  "year": "2004",
+  "latitude": "44.88194444",
+  "longitude": "-93.22166667"
+ },
+ {
+  "rank": "10",
+  "airport": "IAH",
+  "enplaned_passengers": "17241651",
+  "year": "2004",
+  "latitude": "29.98444444",
+  "longitude": "-95.34138889"
+ },
+ {
+  "rank": "11",
+  "airport": "DTW",
+  "enplaned_passengers": "16840604",
+  "year": "2004",
+  "latitude": "42.2125",
+  "longitude": "-83.35333333"
+ },
+ {
+  "rank": "12",
+  "airport": "EWR",
+  "enplaned_passengers": "15720110",
+  "year": "2004",
+  "latitude": "40.6925",
+  "longitude": "-74.16861111"
+ },
+ {
+  "rank": "13",
+  "airport": "SFO",
+  "enplaned_passengers": "15596905",
+  "year": "2004",
+  "latitude": "37.61888889",
+  "longitude": "-122.37555556"
+ },
+ {
+  "rank": "14",
+  "airport": "MCO",
+  "enplaned_passengers": "15162983",
+  "year": "2004",
+  "latitude": "28.42944444",
+  "longitude": "-81.30888889"
+ },
+ {
+  "rank": "15",
+  "airport": "MIA",
+  "enplaned_passengers": "14221730",
+  "year": "2004",
+  "latitude": "25.79527778",
+  "longitude": "-80.29"
+ },
+ {
+  "rank": "16",
+  "airport": "SEA",
+  "enplaned_passengers": "14045465",
+  "year": "2004",
+  "latitude": "47.45",
+  "longitude": "-122.31166667"
+ },
+ {
+  "rank": "17",
+  "airport": "PHL",
+  "enplaned_passengers": "13781657",
+  "year": "2004",
+  "latitude": "39.87194444",
+  "longitude": "-75.24055556"
+ },
+ {
+  "rank": "18",
+  "airport": "BOS",
+  "enplaned_passengers": "12628772",
+  "year": "2004",
+  "latitude": "42.36305556",
+  "longitude": "-71.00638889"
+ },
+ {
+  "rank": "19",
+  "airport": "CLT",
+  "enplaned_passengers": "12453072",
+  "year": "2004",
+  "latitude": "35.21361111",
+  "longitude": "-80.94916667"
+ },
+ {
+  "rank": "20",
+  "airport": "LGA",
+  "enplaned_passengers": "12316776",
+  "year": "2004",
+  "latitude": "40.77722222",
+  "longitude": "-73.8725"
+ },
+ {
+  "rank": "21",
+  "airport": "IAD",
+  "enplaned_passengers": "10928739",
+  "year": "2004",
+  "latitude": "38.9475",
+  "longitude": "-77.46"
+ },
+ {
+  "rank": "22",
+  "airport": "CVG",
+  "enplaned_passengers": "10810807",
+  "year": "2004",
+  "latitude": "39.04888889",
+  "longitude": "-84.66777778"
+ },
+ {
+  "rank": "23",
+  "airport": "BWI",
+  "enplaned_passengers": "9947636",
+  "year": "2004",
+  "latitude": "39.17583333",
+  "longitude": "-76.66888889"
+ },
+ {
+  "rank": "24",
+  "airport": "FLL",
+  "enplaned_passengers": "9858552",
+  "year": "2004",
+  "latitude": "26.07166667",
+  "longitude": "-80.14972222"
+ },
+ {
+  "rank": "25",
+  "airport": "MDW",
+  "enplaned_passengers": "9201491",
+  "year": "2004",
+  "latitude": "41.78583333",
+  "longitude": "-87.7525"
+ },
+ {
+  "rank": "26",
+  "airport": "HNL",
+  "enplaned_passengers": "9152034",
+  "year": "2004",
+  "latitude": "21.31777778",
+  "longitude": "-157.92027778"
+ },
+ {
+  "rank": "27",
+  "airport": "SLC",
+  "enplaned_passengers": "8865065",
+  "year": "2004",
+  "latitude": "40.78833333",
+  "longitude": "-111.97777778"
+ },
+ {
+  "rank": "28",
+  "airport": "TPA",
+  "enplaned_passengers": "8418625",
+  "year": "2004",
+  "latitude": "27.97555556",
+  "longitude": "-82.53333333"
+ },
+ {
+  "rank": "29",
+  "airport": "SAN",
+  "enplaned_passengers": "8125230",
+  "year": "2004",
+  "latitude": "32.73361111",
+  "longitude": "-117.18972222"
+ },
+ {
+  "rank": "30",
+  "airport": "DCA",
+  "enplaned_passengers": "7660019",
+  "year": "2004",
+  "latitude": "38.85138889",
+  "longitude": "-77.03777778"
+ },
+ {
+  "rank": "31",
+  "airport": "OAK",
+  "enplaned_passengers": "6794097",
+  "year": "2004",
+  "latitude": "37.72138889",
+  "longitude": "-122.22111111"
+ },
+ {
+  "rank": "32",
+  "airport": "PIT",
+  "enplaned_passengers": "6559272",
+  "year": "2004",
+  "latitude": "40.49138889",
+  "longitude": "-80.23277778"
+ },
+ {
+  "rank": "33",
+  "airport": "PDX",
+  "enplaned_passengers": "6375229",
+  "year": "2004",
+  "latitude": "45.58861111",
+  "longitude": "-122.59694444"
+ },
+ {
+  "rank": "34",
+  "airport": "STL",
+  "enplaned_passengers": "6251017",
+  "year": "2004",
+  "latitude": "38.74861111",
+  "longitude": "-90.37"
+ },
+ {
+  "rank": "35",
+  "airport": "CLE",
+  "enplaned_passengers": "5284218",
+  "year": "2004",
+  "latitude": "41.40944444",
+  "longitude": "-81.85472222"
+ },
+ {
+  "rank": "36",
+  "airport": "SJC",
+  "enplaned_passengers": "5256641",
+  "year": "2004",
+  "latitude": "37.36305556",
+  "longitude": "-121.92861111"
+ },
+ {
+  "rank": "37",
+  "airport": "MEM",
+  "enplaned_passengers": "5242986",
+  "year": "2004",
+  "latitude": "35.0425",
+  "longitude": "-89.97666667"
+ },
+ {
+  "rank": "38",
+  "airport": "SJU",
+  "enplaned_passengers": "5129893",
+  "year": "2004",
+  "latitude": "18.43944444",
+  "longitude": "-66.00222222"
+ },
+ {
+  "rank": "39",
+  "airport": "MCI",
+  "enplaned_passengers": "5013475",
+  "year": "2004",
+  "latitude": "39.2975",
+  "longitude": "-94.71388889"
+ },
+ {
+  "rank": "40",
+  "airport": "MSY",
+  "enplaned_passengers": "4806239",
+  "year": "2004",
+  "latitude": "29.99333333",
+  "longitude": "-90.25916667"
+ },
+ {
+  "rank": "41",
+  "airport": "SMF",
+  "enplaned_passengers": "4790745",
+  "year": "2004",
+  "latitude": "38.69555556",
+  "longitude": "-121.59083333"
+ },
+ {
+  "rank": "42",
+  "airport": "SNA",
+  "enplaned_passengers": "4619512",
+  "year": "2004",
+  "latitude": "33.67555556",
+  "longitude": "-117.86833333"
+ },
+ {
+  "rank": "43",
+  "airport": "RDU",
+  "enplaned_passengers": "4351104",
+  "year": "2004",
+  "latitude": "35.87777778",
+  "longitude": "-78.7875"
+ },
+ {
+  "rank": "44",
+  "airport": "BNA",
+  "enplaned_passengers": "4274846",
+  "year": "2004",
+  "latitude": "36.12444444",
+  "longitude": "-86.67805556"
+ },
+ {
+  "rank": "45",
+  "airport": "HOU",
+  "enplaned_passengers": "3950768",
+  "year": "2004",
+  "latitude": "29.64583333",
+  "longitude": "-95.27722222"
+ },
+ {
+  "rank": "46",
+  "airport": "IND",
+  "enplaned_passengers": "3937503",
+  "year": "2004",
+  "latitude": "39.71722222",
+  "longitude": "-86.29472222"
+ },
+ {
+  "rank": "47",
+  "airport": "AUS",
+  "enplaned_passengers": "3426852",
+  "year": "2004",
+  "latitude": "30.19444444",
+  "longitude": "-97.67"
+ },
+ {
+  "rank": "48",
+  "airport": "SAT",
+  "enplaned_passengers": "3325974",
+  "year": "2004",
+  "latitude": "29.53388889",
+  "longitude": "-98.46916667"
+ },
+ {
+  "rank": "49",
+  "airport": "BDL",
+  "enplaned_passengers": "3302408",
+  "year": "2004",
+  "latitude": "41.93916667",
+  "longitude": "-72.68444444"
+ },
+ {
+  "rank": "50",
+  "airport": "RSW",
+  "enplaned_passengers": "3296918",
+  "year": "2004",
+  "latitude": "26.53611111",
+  "longitude": "-81.75527778"
+ },
+ {
+  "rank": "1",
+  "airport": "ATL",
+  "enplaned_passengers": "38636893",
+  "year": "2003",
+  "latitude": "33.63666667",
+  "longitude": "-84.42777778"
+ },
+ {
+  "rank": "2",
+  "airport": "ORD",
+  "enplaned_passengers": "32778951",
+  "year": "2003",
+  "latitude": "41.97694444",
+  "longitude": "-87.90805556"
+ },
+ {
+  "rank": "3",
+  "airport": "LAX",
+  "enplaned_passengers": "26111704",
+  "year": "2003",
+  "latitude": "33.9425",
+  "longitude": "-118.40805556"
+ },
+ {
+  "rank": "4",
+  "airport": "DFW",
+  "enplaned_passengers": "24796728",
+  "year": "2003",
+  "latitude": "32.89722222",
+  "longitude": "-97.03777778"
+ },
+ {
+  "rank": "5",
+  "airport": "PHX",
+  "enplaned_passengers": "18196158",
+  "year": "2003",
+  "latitude": "33.43416667",
+  "longitude": "-112.01166667"
+ },
+ {
+  "rank": "6",
+  "airport": "DEN",
+  "enplaned_passengers": "17858577",
+  "year": "2003",
+  "latitude": "39.86166667",
+  "longitude": "-104.67305556"
+ },
+ {
+  "rank": "7",
+  "airport": "LAS",
+  "enplaned_passengers": "16546728",
+  "year": "2003",
+  "latitude": "36.08",
+  "longitude": "-115.15222222"
+ },
+ {
+  "rank": "8",
+  "airport": "IAH",
+  "enplaned_passengers": "16065967",
+  "year": "2003",
+  "latitude": "29.98444444",
+  "longitude": "-95.34138889"
+ },
+ {
+  "rank": "9",
+  "airport": "MSP",
+  "enplaned_passengers": "15861758",
+  "year": "2003",
+  "latitude": "44.88194444",
+  "longitude": "-93.22166667"
+ },
+ {
+  "rank": "10",
+  "airport": "DTW",
+  "enplaned_passengers": "15603380",
+  "year": "2003",
+  "latitude": "42.2125",
+  "longitude": "-83.35333333"
+ },
+ {
+  "rank": "11",
+  "airport": "JFK",
+  "enplaned_passengers": "15398105",
+  "year": "2003",
+  "latitude": "40.64",
+  "longitude": "-73.77861111"
+ },
+ {
+  "rank": "12",
+  "airport": "EWR",
+  "enplaned_passengers": "14519934",
+  "year": "2003",
+  "latitude": "40.6925",
+  "longitude": "-74.16861111"
+ },
+ {
+  "rank": "13",
+  "airport": "SFO",
+  "enplaned_passengers": "14072789",
+  "year": "2003",
+  "latitude": "37.61888889",
+  "longitude": "-122.37555556"
+ },
+ {
+  "rank": "14",
+  "airport": "MIA",
+  "enplaned_passengers": "13747895",
+  "year": "2003",
+  "latitude": "25.79527778",
+  "longitude": "-80.29"
+ },
+ {
+  "rank": "15",
+  "airport": "MCO",
+  "enplaned_passengers": "13234426",
+  "year": "2003",
+  "latitude": "28.42944444",
+  "longitude": "-81.30888889"
+ },
+ {
+  "rank": "16",
+  "airport": "SEA",
+  "enplaned_passengers": "13063638",
+  "year": "2003",
+  "latitude": "47.45",
+  "longitude": "-122.31166667"
+ },
+ {
+  "rank": "17",
+  "airport": "PHL",
+  "enplaned_passengers": "11812501",
+  "year": "2003",
+  "latitude": "39.87194444",
+  "longitude": "-75.24055556"
+ },
+ {
+  "rank": "18",
+  "airport": "CLT",
+  "enplaned_passengers": "11400220",
+  "year": "2003",
+  "latitude": "35.21361111",
+  "longitude": "-80.94916667"
+ },
+ {
+  "rank": "19",
+  "airport": "LGA",
+  "enplaned_passengers": "11360071",
+  "year": "2003",
+  "latitude": "40.77722222",
+  "longitude": "-73.8725"
+ },
+ {
+  "rank": "20",
+  "airport": "BOS",
+  "enplaned_passengers": "10982961",
+  "year": "2003",
+  "latitude": "42.36305556",
+  "longitude": "-71.00638889"
+ },
+ {
+  "rank": "21",
+  "airport": "CVG",
+  "enplaned_passengers": "10393534",
+  "year": "2003",
+  "latitude": "39.04888889",
+  "longitude": "-84.66777778"
+ },
+ {
+  "rank": "22",
+  "airport": "STL",
+  "enplaned_passengers": "9811362",
+  "year": "2003",
+  "latitude": "38.74861111",
+  "longitude": "-90.37"
+ },
+ {
+  "rank": "23",
+  "airport": "BWI",
+  "enplaned_passengers": "9608800",
+  "year": "2003",
+  "latitude": "39.17583333",
+  "longitude": "-76.66888889"
+ },
+ {
+  "rank": "24",
+  "airport": "SLC",
+  "enplaned_passengers": "8927627",
+  "year": "2003",
+  "latitude": "40.78833333",
+  "longitude": "-111.97777778"
+ },
+ {
+  "rank": "25",
+  "airport": "HNL",
+  "enplaned_passengers": "8675728",
+  "year": "2003",
+  "latitude": "21.31777778",
+  "longitude": "-157.92027778"
+ },
+ {
+  "rank": "26",
+  "airport": "MDW",
+  "enplaned_passengers": "8674342",
+  "year": "2003",
+  "latitude": "41.78583333",
+  "longitude": "-87.7525"
+ },
+ {
+  "rank": "27",
+  "airport": "FLL",
+  "enplaned_passengers": "8545175",
+  "year": "2003",
+  "latitude": "26.07166667",
+  "longitude": "-80.14972222"
+ },
+ {
+  "rank": "28",
+  "airport": "IAD",
+  "enplaned_passengers": "8027658",
+  "year": "2003",
+  "latitude": "38.9475",
+  "longitude": "-77.46"
+ },
+ {
+  "rank": "29",
+  "airport": "TPA",
+  "enplaned_passengers": "7607373",
+  "year": "2003",
+  "latitude": "27.97555556",
+  "longitude": "-82.53333333"
+ },
+ {
+  "rank": "30",
+  "airport": "SAN",
+  "enplaned_passengers": "7543454",
+  "year": "2003",
+  "latitude": "32.73361111",
+  "longitude": "-117.18972222"
+ },
+ {
+  "rank": "31",
+  "airport": "PIT",
+  "enplaned_passengers": "7001368",
+  "year": "2003",
+  "latitude": "40.49138889",
+  "longitude": "-80.23277778"
+ },
+ {
+  "rank": "32",
+  "airport": "DCA",
+  "enplaned_passengers": "6810684",
+  "year": "2003",
+  "latitude": "38.85138889",
+  "longitude": "-77.03777778"
+ },
+ {
+  "rank": "33",
+  "airport": "OAK",
+  "enplaned_passengers": "6451835",
+  "year": "2003",
+  "latitude": "37.72138889",
+  "longitude": "-122.22111111"
+ },
+ {
+  "rank": "34",
+  "airport": "PDX",
+  "enplaned_passengers": "6055488",
+  "year": "2003",
+  "latitude": "45.58861111",
+  "longitude": "-122.59694444"
+ },
+ {
+  "rank": "35",
+  "airport": "MEM",
+  "enplaned_passengers": "5372707",
+  "year": "2003",
+  "latitude": "35.0425",
+  "longitude": "-89.97666667"
+ },
+ {
+  "rank": "36",
+  "airport": "SJC",
+  "enplaned_passengers": "5098898",
+  "year": "2003",
+  "latitude": "37.36305556",
+  "longitude": "-121.92861111"
+ },
+ {
+  "rank": "37",
+  "airport": "CLE",
+  "enplaned_passengers": "4930844",
+  "year": "2003",
+  "latitude": "41.40944444",
+  "longitude": "-81.85472222"
+ },
+ {
+  "rank": "38",
+  "airport": "MCI",
+  "enplaned_passengers": "4807072",
+  "year": "2003",
+  "latitude": "39.2975",
+  "longitude": "-94.71388889"
+ },
+ {
+  "rank": "39",
+  "airport": "SJU",
+  "enplaned_passengers": "4596715",
+  "year": "2003",
+  "latitude": "18.43944444",
+  "longitude": "-66.00222222"
+ },
+ {
+  "rank": "40",
+  "airport": "MSY",
+  "enplaned_passengers": "4593684",
+  "year": "2003",
+  "latitude": "29.99333333",
+  "longitude": "-90.25916667"
+ },
+ {
+  "rank": "41",
+  "airport": "SMF",
+  "enplaned_passengers": "4384418",
+  "year": "2003",
+  "latitude": "38.69555556",
+  "longitude": "-121.59083333"
+ },
+ {
+  "rank": "42",
+  "airport": "SNA",
+  "enplaned_passengers": "4264142",
+  "year": "2003",
+  "latitude": "33.67555556",
+  "longitude": "-117.86833333"
+ },
+ {
+  "rank": "43",
+  "airport": "BNA",
+  "enplaned_passengers": "3920315",
+  "year": "2003",
+  "latitude": "36.12444444",
+  "longitude": "-86.67805556"
+ },
+ {
+  "rank": "44",
+  "airport": "RDU",
+  "enplaned_passengers": "3907441",
+  "year": "2003",
+  "latitude": "35.87777778",
+  "longitude": "-78.7875"
+ },
+ {
+  "rank": "45",
+  "airport": "HOU",
+  "enplaned_passengers": "3695357",
+  "year": "2003",
+  "latitude": "29.64583333",
+  "longitude": "-95.27722222"
+ },
+ {
+  "rank": "46",
+  "airport": "IND",
+  "enplaned_passengers": "3625228",
+  "year": "2003",
+  "latitude": "39.71722222",
+  "longitude": "-86.29472222"
+ },
+ {
+  "rank": "47",
+  "airport": "AUS",
+  "enplaned_passengers": "3156798",
+  "year": "2003",
+  "latitude": "30.19444444",
+  "longitude": "-97.67"
+ },
+ {
+  "rank": "48",
+  "airport": "BDL",
+  "enplaned_passengers": "3087004",
+  "year": "2003",
+  "latitude": "41.93916667",
+  "longitude": "-72.68444444"
+ },
+ {
+  "rank": "49",
+  "airport": "SAT",
+  "enplaned_passengers": "3076841",
+  "year": "2003",
+  "latitude": "29.53388889",
+  "longitude": "-98.46916667"
+ },
+ {
+  "rank": "50",
+  "airport": "ONT",
+  "enplaned_passengers": "3075179",
+  "year": "2003",
+  "latitude": "34.05611111",
+  "longitude": "-117.60111111"
+ }
+]
