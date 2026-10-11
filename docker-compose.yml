@@ -1,5 +1,7 @@
 # Run the app with one command:  export GEMINI_API_KEY=...; docker compose up --build
 # Then open http://localhost:8000/health
+# New data:  docker compose run --rm refresh [--as-of YYYY-MM]
+#   writes a snapshot into ./data/snapshots; `serve` switches to it within DATA_CHECK_MINUTES.
 services:
   serve:
     image: airport-agent:local
@@ -16,4 +18,23 @@ services:
     environment:
       - GEMINI_API_KEY
       - GEMINI_MODEL
-    # No data volume yet: the app reads no files. The data snapshot mount arrives with #14.
+      - DATA_CHECK_MINUTES
+    # The snapshots, shared with `refresh`; serve only reads them.
+    volumes:
+      - ./data:/app/data:ro
+
+  # On demand only (a profile keeps it out of `docker compose up`):
+  #   docker compose run --rm refresh                 # latest data
+  #   docker compose run --rm refresh --as-of 2019-12 # data published by the end of that month
+  refresh:
+    image: airport-agent:local
+    profiles: [refresh]
+    entrypoint: ["airport-agent", "refresh"]
+    # Runs as your user so the files it writes into ./data stay yours:
+    #   HOST_UID="$(id -u)" HOST_GID="$(id -g)" docker compose run --rm refresh
+    user: "${HOST_UID:-1000}:${HOST_GID:-1000}"
+    environment:
+      - OPENSKY_CLIENT_ID
+      - OPENSKY_CLIENT_SECRET
+    volumes:
+      - ./data:/app/data

@@ -14,6 +14,9 @@ on:
       - pyproject.toml
       - uv.lock
       - src/**
+      - config/**
+      - data/snapshots/**
+      - data/samples/opensky_departures_panc.json
       - .github/workflows/image.yml
   push:
     tags: ["v*"]
@@ -77,6 +80,14 @@ jobs:
             echo "::error::/health commit is '$commit', expected '$EXPECTED'"
             exit 1
           fi
+          if [ "$(echo "$body" | jq -r .data_version)" = "null" ]; then
+            echo "::error::/health reports no data snapshot"
+            exit 1
+          fi
+
+      # The second command of the image; --help needs no network or credentials.
+      - name: refresh command runs
+        run: docker compose run --rm refresh --help
 
       # Scans the app's own files and the user's home, not third-party packages: libraries ship
       # public files such as certifi's cacert.pem that would otherwise trip the check.
