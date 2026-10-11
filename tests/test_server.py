@@ -1,3 +1,5 @@
+import json
+import shutil
 import subprocess
 from pathlib import Path
 
@@ -5,6 +7,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 from airport_agent import server
+from airport_agent.data.metrics import airport_metrics
 
 client = TestClient(server.app)
 SHA = "0123456789abcdef0123456789abcdef01234567"
@@ -60,15 +63,23 @@ def test_health_reports_unknown_when_git_fails(monkeypatch, error):
 
 
 class FakeStore:
-    """A store whose latest version the test sets; counts how often it is asked."""
+    """A store whose latest version the test sets; counts how often it is asked.
 
-    def __init__(self, tmp_path):
-        self.tmp_path, self.newest, self.asked = tmp_path, None, 0
+    Each snapshot is a copy of the sample summaries (`sample_cache`) with BOS's fare premium set
+    to a number of the test's choosing, so the test can tell which snapshot an answer came from.
+    """
 
-    def add(self, version, as_of):
-        folder = self.tmp_path / version
-        folder.mkdir()
-        (folder / "manifest.json").write_text(f'{{"as_of": "{as_of}"}}', encoding="utf-8")
+    def __init__(self, root, sample_cache):
+        self.root, self.sample_cache, self.newest, self.asked = root, sample_cache, None, 0
+
+    def add(self, version, as_of, bos_fare_premium=0.1):
+        folder = self.root / version
+        shutil.copytree(self.sample_cache, folder)
+        fares = json.loads((folder / "dot_fares.json").read_text(encoding="utf-8"))
+        fares["data"]["BOS"]["fare_premium"] = bos_fare_premium
+        (folder / "dot_fares.json").write_text(json.dumps(fares), encoding="utf-8")
+        manifest = {"version": version, "as_of": as_of}
+        (folder / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
         self.newest = version
 
     def latest(self):
@@ -76,13 +87,23 @@ class FakeStore:
         return self.newest
 
     def get(self, version):
-        return self.tmp_path / version
+        return self.root / version
 
 
-def test_server_switches_to_a_new_snapshot_after_the_check_interval(monkeypatch, tmp_path):
+@pytest.fixture
+def store(tmp_path_factory, sample_cache):
+    return FakeStore(tmp_path_factory.mktemp("store"), sample_cache)
+
+
+def answered(data):
+    """What the server would answer from right now: (data version, BOS fare premium)."""
+    snapshot = data.current()
+    return snapshot.version, airport_metrics("BOS", cache=snapshot.cache).fare_premium.value
+
+
+def test_server_switches_to_a_new_snapshot_after_the_check_interval(monkeypatch, store):
     monkeypatch.setenv("DATA_CHECK_MINUTES", "5")
     now = [1000.0]
-    store = FakeStore(tmp_path)
     store.add("2021-12", "2021-12-31")
     data = server.DataVersion(store, clock=lambda: now[0])
     monkeypatch.setattr(server, "data", data)
@@ -100,13 +121,42 @@ def test_server_switches_to_a_new_snapshot_after_the_check_interval(monkeypatch,
     assert store.asked == 2
 
 
-def test_server_keeps_its_snapshot_when_the_store_is_empty(monkeypatch, tmp_path):
-    store = FakeStore(tmp_path)
+def test_answers_stay_on_the_loaded_snapshot_until_the_check(monkeypatch, store):
+    """The numbers the server answers from and /health's data_version always agree."""
+    monkeypatch.setenv("DATA_CHECK_MINUTES", "5")
+    now = [1000.0]
+    store.add("2021-12", "2021-12-31", bos_fare_premium=0.1)
+    data = server.DataVersion(store, clock=lambda: now[0])
+    monkeypatch.setattr(server, "data", data)
+
+    with TestClient(server.app) as started:
+        assert answered(data) == ("2021-12", 0.1)
+        store.add("latest-2026-10-11", "2026-10-11", bos_fare_premium=0.9)
+        now[0] += 5 * 60 - 1  # a newer snapshot exists, but the check isn't due
+        assert answered(data) == ("2021-12", 0.1)
+        assert started.get("/health").json()["data_version"] == "2021-12"
+        now[0] += 1
+        assert started.get("/health").json()["data_version"] == "latest-2026-10-11"
+        assert answered(data) == ("latest-2026-10-11", 0.9)
+
+
+def test_server_keeps_its_snapshot_when_the_new_one_cannot_load(monkeypatch, store, caplog):
+    store.add("2021-12", "2021-12-31")
+    data = server.DataVersion(store, clock=lambda: 0.0)
+    assert data.current().version == "2021-12"
+    store.add("latest-2026-10-11", "2026-10-11")
+    (store.get("latest-2026-10-11") / "bts_ontime.json").unlink()
+    data.checked_at = -10_000
+    assert data.current().version == "2021-12"
+    assert "latest-2026-10-11" in caplog.text
+
+
+def test_server_keeps_its_snapshot_when_the_store_is_empty(store):
     data = server.DataVersion(store, clock=lambda: 0.0)
     assert data.current() is None
     store.add("2019-12", "2019-12-31")
     data.checked_at = -10_000
-    assert data.current() == "2019-12"
+    assert data.current().version == "2019-12"
     store.newest = None
     data.checked_at = -20_000
-    assert data.current() == "2019-12"
+    assert data.current().version == "2019-12"
