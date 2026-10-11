@@ -5,7 +5,10 @@ description = "Chat agent that ranks US airports for terminal-expansion investme
 readme = "README.md"
 authors = [{ name = "Sergei Levine" }]
 requires-python = "==3.13.*"
-dependencies = []
+dependencies = [
+    "fastapi>=0.143.0",
+    "uvicorn>=0.54.0",
+]
 
 [project.scripts]
 airport-agent = "airport_agent:main"
@@ -26,6 +29,7 @@ testpaths = ["tests"]
 
 [dependency-groups]
 dev = [
+    "httpx2>=2.13.1",
     "pytest>=9.1.1",
     "ruff>=0.17.0",
 ]
