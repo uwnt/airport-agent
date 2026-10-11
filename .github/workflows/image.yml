@@ -28,7 +28,7 @@ permissions:
   contents: read
 
 env:
-  TEST_TAG: airport-agent:test
+  TEST_TAG: airport-agent:local # the image name docker-compose.yml uses
 
 jobs:
   image:
@@ -56,21 +56,21 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max,ignore-error=true
 
-      - name: Run and check /health reports this commit
+      # Start it the way a reviewer does, through docker-compose.yml (using the image just built),
+      # so the compose file, its localhost port and the HEALTHCHECK are tested too.
+      - name: Start with compose and wait until healthy
+        run: |
+          if ! docker compose up -d --no-build --wait --wait-timeout 60; then
+            docker compose logs
+            echo "::error::the container did not become healthy within 60 s"
+            exit 1
+          fi
+
+      - name: /health reports this commit
         env:
           EXPECTED: ${{ github.sha }}
         run: |
-          docker run -d --name app -p 127.0.0.1:8000:8000 "$TEST_TAG"
-          body=""
-          for _ in $(seq 1 30); do
-            if body="$(curl -fsS http://127.0.0.1:8000/health)"; then break; fi
-            sleep 1
-          done
-          if [ -z "$body" ]; then
-            docker logs app
-            echo "::error::/health did not answer within 30 s"
-            exit 1
-          fi
+          body="$(curl -fsS http://127.0.0.1:8000/health)"
           echo "$body"
           commit="$(echo "$body" | jq -r .commit)"
           if [ "$commit" != "$EXPECTED" ]; then
@@ -78,21 +78,13 @@ jobs:
             exit 1
           fi
 
-      - name: Docker HEALTHCHECK passes
-        run: |
-          for _ in $(seq 1 30); do
-            status="$(docker inspect -f '{{.State.Health.Status}}' app)"
-            [ "$status" = healthy ] && { echo "healthy"; exit 0; }
-            sleep 2
-          done
-          docker inspect -f '{{json .State.Health}}' app
-          echo "::error::container never became healthy (last: $status)"
-          exit 1
-
+      # Scans the app's own files and the user's home, not third-party packages: libraries ship
+      # public files such as certifi's cacert.pem that would otherwise trip the check.
       - name: No secret files in the image
         run: |
           found="$(docker run --rm --entrypoint sh "$TEST_TAG" -c \
-            "find /app /home -xdev \( -name '.env*' -o -name '*.pem' -o -name '*.key' -o -name 'id_rsa*' \) -print")"
+            "find /app /home -xdev -path /app/.venv -prune -o \( -name '.env*' -o -name '*.pem' -o -name '*.key' -o -name '*.p12' -o -name 'id_rsa*' -o -name 'credentials*.json' \) -print;
+             find /app/.venv/lib/python*/site-packages/airport_agent \( -name '.env*' -o -name '*.pem' -o -name '*.key' -o -name '*.p12' -o -name 'id_rsa*' -o -name 'credentials*.json' \) -print")"
           if [ -n "$found" ]; then
             echo "$found"
             echo "::error::secret-like files found in the image"
@@ -102,7 +94,7 @@ jobs:
 
       - name: Stop the test container
         if: always()
-        run: docker rm -f app || true
+        run: docker compose down || true
 
       - name: Build (amd64 + arm64)
         uses: docker/build-push-action@v7
@@ -116,7 +108,8 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max,ignore-error=true
 
-  # Publishing gets its own job so only it holds the registry write permission.
+  # Publishing gets its own job so only it holds the registry write permission. Its actions are
+  # pinned to exact commits, since they run with that permission.
   publish:
     name: publish
     needs: image
@@ -127,21 +120,31 @@ jobs:
       contents: read
       packages: write
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
         with:
+          fetch-depth: 0 # the release check below needs the prod branch's history
           persist-credentials: false
 
-      - uses: docker/setup-qemu-action@v4
-      - uses: docker/setup-buildx-action@v4
+      # Publish only a commit already released to prod (reviewed, approved, promoted), so a stray
+      # tag on an unreleased commit can't put that code on the registry.
+      - name: The tagged commit is on prod
+        run: |
+          if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/prod; then
+            echo "::error::tag $GITHUB_REF_NAME is not on prod; tag a released commit"
+            exit 1
+          fi
 
-      - uses: docker/login-action@v4
+      - uses: docker/setup-qemu-action@99012661954931238ded8c8b007157a8430204e1 # v4.4.0
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+
+      - uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - id: meta
-        uses: docker/metadata-action@v6
+        uses: docker/metadata-action@dc802804100637a589fabce1cb79ff13a1411302 # v6.2.0
         with:
           images: ghcr.io/${{ github.repository }}
           tags: |
@@ -149,7 +152,7 @@ jobs:
             type=sha,prefix=sha-,format=short
 
       - name: Build and push (amd64 + arm64)
-        uses: docker/build-push-action@v7
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
         with:
           context: .
           platforms: linux/amd64,linux/arm64

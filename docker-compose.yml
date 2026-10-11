@@ -2,6 +2,7 @@
 # Then open http://localhost:8000/health
 services:
   serve:
+    image: airport-agent:local
     build:
       context: .
       args:
