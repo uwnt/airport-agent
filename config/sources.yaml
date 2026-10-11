@@ -59,3 +59,10 @@ opensky:
     - RVF  # Ravn Alaska
     - CFG  # Condor (seasonal)
     - ICE  # Icelandair (seasonal)
+
+freshness:
+  # The web page's data badge turns amber ("stale") for a source whose newest data ends more than
+  # this many whole months before the reference date: today for the latest snapshot, the
+  # snapshot's own date for a point-in-time one (2019-12, 2021-12), so an old snapshot is judged
+  # by what was available then. Example: boardings "as of 2023" are 34 months old in October 2026.
+  stale_after_months: 18

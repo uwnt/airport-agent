@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Airport expansion agent</title>
+  <link rel="stylesheet" href="/static/app.css">
+  <!-- Vendored copies, versions and licenses in /static/vendor/README.md: no third-party requests. -->
+  <script src="/static/vendor/marked.umd.js" defer></script>
+  <script src="/static/vendor/purify.min.js" defer></script>
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <h1>Airport expansion agent</h1>
+      <p class="scope">Decision support, not investment advice. Every number comes from a tool
+        over public US aviation data.</p>
+    </div>
+    <div class="controls">
+      <label class="field">
+        <span>Data version</span>
+        <select id="version" aria-describedby="fresh-summary"></select>
+      </label>
+      <details class="fresh" id="fresh">
+        <summary id="fresh-summary">Loading data…</summary>
+        <div class="fresh-body">
+          <ul id="fresh-list"></ul>
+          <p id="fresh-rule" class="muted"></p>
+        </div>
+      </details>
+    </div>
+  </header>
+
+  <main id="main">
+    <section id="welcome" class="welcome" aria-labelledby="welcome-title">
+      <h2 id="welcome-title">Where is terminal expansion most promising?</h2>
+      <p class="muted">Ask about US airports, or start with one of these.</p>
+      <div id="suggestions" class="suggestions"></div>
+    </section>
+
+    <div id="log" class="log" aria-live="polite"></div>
+  </main>
+
+  <footer class="dock">
+    <details class="picker" id="picker">
+      <summary>Rank, compare or profile directly (no model)</summary>
+      <form id="picker-form" class="picker-form">
+        <label class="field">
+          <span>Action</span>
+          <select id="pick-action">
+            <option value="rank">Rank a region</option>
+            <option value="compare">Compare airports</option>
+            <option value="profile">Airport profile</option>
+          </select>
+        </label>
+        <label class="field" id="pick-region-field">
+          <span>Region</span>
+          <select id="pick-region"></select>
+        </label>
+        <label class="field" id="pick-codes-field" hidden>
+          <span id="pick-codes-label">Airport codes</span>
+          <input id="pick-codes" autocomplete="off" spellcheck="false" placeholder="LAX, SNA">
+        </label>
+        <label class="field" id="pick-preset-field">
+          <span>Preset</span>
+          <select id="pick-preset"></select>
+        </label>
+        <button type="submit" class="button">Run</button>
+      </form>
+    </details>
+
+    <p id="mode-note" class="mode-note" hidden></p>
+    <form id="ask" class="ask">
+      <label for="question" class="sr-only">Your question</label>
+      <textarea id="question" rows="1" maxlength="2000"
+        placeholder="Ask about an airport or a region…"></textarea>
+      <button type="button" id="mic" class="icon-button" hidden
+        aria-label="Hold to talk" title="Hold to talk (Chrome, Edge)">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-2.08A7 7 0 0 0 19 12h-2Z"/></svg>
+      </button>
+      <button type="submit" id="send" class="button">Ask</button>
+    </form>
+  </footer>
+</body>
+</html>
