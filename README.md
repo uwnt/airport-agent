@@ -20,7 +20,14 @@ Secrets (`GEMINI_API_KEY`, OpenSky credentials) are read from environment variab
 `.env.example` for the names.
 
 ## Run
-_Filled in at Steps 5–6._
+The web server (for now it only answers `/health`; the chat arrives in Step 6):
+
+```bash
+uv run uvicorn airport_agent.server:app --host 127.0.0.1 --port 8100
+curl http://127.0.0.1:8100/health   # {"status":"ok","commit":"<git sha>",...}
+```
+
+`/health` reports which code is running (`RELEASE_SHA` in an image, else the local git commit).
 
 ## Test
 _Filled in at Step 4._
