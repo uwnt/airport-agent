@@ -215,3 +215,32 @@ def test_a_tool_that_breaks_unexpectedly_comes_back_as_an_error(run, monkeypatch
     result = run("airport_profile", code="BOS")
     assert result == {"error": "the tool airport_profile failed: KeyError: 'delay'"}
     assert "tool airport_profile failed" in caplog.text
+
+
+def test_q4_sfo_tool_path_gives_the_model_the_verified_runway_facts_and_friction():
+    # Offline stand-in for the Q4 run ("why is SFO constrained?"): the two tools the system
+    # prompt sends a "why" question to, on the latest committed data snapshot. Whatever the
+    # model writes, these facts and the 20-point penalty with sources are what it receives.
+    profile = run_tool("airport_profile", {"code": "SFO"})
+    facts = {f["note"]: f for f in profile["verified_facts"]}
+    assert set(facts) == {6, 7}
+    for phrase in ("28L/28R", "750 ft", "104–107", "71–78"):
+        assert phrase in facts[6]["fact"], phrase
+    for phrase in ("Bay fill", "Proposition D", "100 acres"):
+        assert phrase in facts[7]["fact"], phrase
+    assert all(
+        f["sources"] and all(s.startswith("https://") for s in f["sources"]) for f in facts.values()
+    )
+
+    pressure = run_tool("demand_pressure", {"code": "SFO"})
+    assert pressure["ranked"] is True
+    friction = pressure["friction"]
+    assert (friction["name"], friction["points"], friction["tier"]) == (
+        "Runway spacing and Bay fill",
+        20,
+        "major",
+    )
+    assert "750 ft" in friction["description"]
+    assert friction["sources"] and all(s.startswith("https://") for s in friction["sources"])
+    for signal in pressure["signals"].values():
+        assert "missing" in signal or has_source_and_date(signal)
