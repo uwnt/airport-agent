@@ -1,0 +1,165 @@
+# Image: build the Docker image, start it and check /health reports this commit, check no secret
+# files are inside, then build it for amd64 and arm64. On a v* tag, publish it to GitHub's
+# container registry. Separate from ci.yml so `ci` stays one job; runs only when files that go
+# into the image change, on the same pull request events as ci.yml.
+name: Image
+
+on:
+  pull_request:
+    types: [opened, ready_for_review]
+    paths:
+      - Dockerfile
+      - .dockerignore
+      - docker-compose.yml
+      - pyproject.toml
+      - uv.lock
+      - src/**
+      - .github/workflows/image.yml
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+concurrency:
+  group: image-${{ github.ref }}
+  # Never cancel a pull_request run: a "cancelled" check on the PR blocks the merge.
+  cancel-in-progress: ${{ github.event_name == 'push' }}
+
+permissions:
+  contents: read
+
+env:
+  TEST_TAG: airport-agent:local # the image name docker-compose.yml uses
+
+jobs:
+  image:
+    name: image
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+
+      - uses: docker/setup-qemu-action@v4 # emulates arm64 for the multi-arch build
+      - uses: docker/setup-buildx-action@v4
+
+      - name: Build (amd64, loaded for testing)
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          platforms: linux/amd64
+          load: true
+          tags: ${{ env.TEST_TAG }}
+          build-args: |
+            RELEASE_SHA=${{ github.sha }}
+            SOURCE_URL=${{ github.server_url }}/${{ github.repository }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max,ignore-error=true
+
+      # Start it the way a reviewer does, through docker-compose.yml (using the image just built),
+      # so the compose file, its localhost port and the HEALTHCHECK are tested too.
+      - name: Start with compose and wait until healthy
+        run: |
+          if ! docker compose up -d --no-build --wait --wait-timeout 60; then
+            docker compose logs
+            echo "::error::the container did not become healthy within 60 s"
+            exit 1
+          fi
+
+      - name: /health reports this commit
+        env:
+          EXPECTED: ${{ github.sha }}
+        run: |
+          body="$(curl -fsS http://127.0.0.1:8000/health)"
+          echo "$body"
+          commit="$(echo "$body" | jq -r .commit)"
+          if [ "$commit" != "$EXPECTED" ]; then
+            echo "::error::/health commit is '$commit', expected '$EXPECTED'"
+            exit 1
+          fi
+
+      # Scans the app's own files and the user's home, not third-party packages: libraries ship
+      # public files such as certifi's cacert.pem that would otherwise trip the check.
+      - name: No secret files in the image
+        run: |
+          found="$(docker run --rm --entrypoint sh "$TEST_TAG" -c \
+            "find /app /home -xdev -path /app/.venv -prune -o \( -name '.env*' -o -name '*.pem' -o -name '*.key' -o -name '*.p12' -o -name 'id_rsa*' -o -name 'credentials*.json' \) -print;
+             find /app/.venv/lib/python*/site-packages/airport_agent \( -name '.env*' -o -name '*.pem' -o -name '*.key' -o -name '*.p12' -o -name 'id_rsa*' -o -name 'credentials*.json' \) -print")"
+          if [ -n "$found" ]; then
+            echo "$found"
+            echo "::error::secret-like files found in the image"
+            exit 1
+          fi
+          echo "none found"
+
+      - name: Stop the test container
+        if: always()
+        run: docker compose down || true
+
+      - name: Build (amd64 + arm64)
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: false
+          build-args: |
+            RELEASE_SHA=${{ github.sha }}
+            SOURCE_URL=${{ github.server_url }}/${{ github.repository }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max,ignore-error=true
+
+  # Publishing gets its own job so only it holds the registry write permission. Its actions are
+  # pinned to exact commits, since they run with that permission.
+  publish:
+    name: publish
+    needs: image
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          fetch-depth: 0 # the release check below needs the prod branch's history
+          persist-credentials: false
+
+      # Publish only a commit already released to prod (reviewed, approved, promoted), so a stray
+      # tag on an unreleased commit can't put that code on the registry.
+      - name: The tagged commit is on prod
+        run: |
+          if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/prod; then
+            echo "::error::tag $GITHUB_REF_NAME is not on prod; tag a released commit"
+            exit 1
+          fi
+
+      - uses: docker/setup-qemu-action@99012661954931238ded8c8b007157a8430204e1 # v4.4.0
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+
+      - uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - id: meta
+        uses: docker/metadata-action@dc802804100637a589fabce1cb79ff13a1411302 # v6.2.0
+        with:
+          images: ghcr.io/${{ github.repository }}
+          tags: |
+            type=ref,event=tag
+            type=sha,prefix=sha-,format=short
+
+      - name: Build and push (amd64 + arm64)
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            RELEASE_SHA=${{ github.sha }}
+            SOURCE_URL=${{ github.server_url }}/${{ github.repository }}
+          cache-from: type=gha
