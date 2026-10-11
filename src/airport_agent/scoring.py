@@ -34,8 +34,11 @@ from airport_agent.data.metrics import Metric, all_airport_metrics
 from airport_agent.data.regions import REGIONS, resolve_place
 
 _REPO = Path(__file__).resolve().parents[2]
-SCORING_PATH = _REPO / "config" / "scoring.yaml"
-CONSTRAINTS_PATH = _REPO / "data" / "constraints.yaml"
+# In the source tree the files sit at the repo root; installed as a package (the Docker image),
+# they are found from the working folder (/app), like config/sources.yaml in data/cache.py.
+_ROOT = _REPO if (_REPO / "config" / "scoring.yaml").exists() else Path()
+SCORING_PATH = _ROOT / "config" / "scoring.yaml"
+CONSTRAINTS_PATH = _ROOT / "data" / "constraints.yaml"
 
 STRAIN_SIGNALS = ("nas_delay_per_landed_flight", "cancellation_rate", "fare_premium")
 GROWTH_SIGNAL = "growth_vs_2019"
