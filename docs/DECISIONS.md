@@ -61,15 +61,15 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
 - Revisit if: the work moves from a demo to real client use.
 
 ## D7: What the score measures (signals)
-- Chose: two scored dimensions. **Strain**: delay minutes per landed flight on flights into the
-  airport from BTS's "National Aviation System" (NAS) cause (airport and airspace, as BTS defines
-  it), the cancellation rate (diverted flights excluded), and the fare premium versus markets of
+- Chose: two scored dimensions. **Strain**: NAS delay per landed flight, meaning BTS's `NASDelay`
+  minutes (delay BTS attributes to the "National Aviation System": airport and airspace) on flights
+  arriving at the airport, divided by flights that landed there; the cancellation rate (diverted flights excluded), and the fare premium versus markets of
   similar distance (DOT Table 1a). **Growth**: passengers per day versus the same quarter of 2019
   (DOT Table 1a). Friction (D10) is subtracted.
 - Time windows: Strain uses the latest 12 months of BTS data (now Aug 2025 to Jul 2026), so one odd
   month can't drive the ranking. Growth compares the latest DOT quarter with the same quarter of 2019.
 - Fare premium (latest DOT quarter): for each of the airport's markets, its fare per mile divided by
-  the national average fare per mile for markets in the same distance band (0–500, 500–1,000,
+  the passenger-weighted national average fare per mile for markets in the same distance band (0–500, 500–1,000,
   1,000–1,500 and over 1,500 miles); then the passenger-weighted average of those ratios across the
   airport's markets. 1.0 means fares are normal for those distances; 1.2 means 20% above.
 - Growth: percent change in the airport's total passengers per day (summed over all its Table 1a
@@ -84,8 +84,9 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
 
 ## D8: Combine signals as a weighted sum of percentile ranks
 - Chose: each signal becomes a 0–100 percentile rank across every airport in scope (D11), including
-  Low-confidence ones: rank ÷ number of airports × 100, so the top airport scores 100; ties share
-  the average rank. For cancellations, delay, fare premium and growth, higher means more promising. The ranks are combined as a weighted sum.
+  Low-confidence ones: rank ÷ number of airports that have that signal × 100, so the top airport
+  scores 100; ties share the average rank. For cancellations, delay, fare premium and growth,
+  higher means more promising. The ranks are combined as a weighted sum.
 - Missing signal: its weight is spread over the airport's other signals in proportion to their
   weights, and the airport is flagged Low confidence with the missing signal named (D12).
 - Over: z-scores (keep real distances, but one outlier such as EWR's 8% cancellations stretches the
@@ -145,8 +146,8 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
 ## D13: Anchorage long-haul share (OpenSky)
 - Chose: share = long-haul departures ÷ departures with a known destination, counting only
   passenger airlines (a fixed list of callsign prefixes, kept in configuration and set when the data
-  layer is built). Same-airport flights and destinations 100 miles or closer are dropped. "Long-haul" = over 1,400 miles great-circle distance (from OurAirports
-  coordinates). Flights with no known destination (~14% in the sample) are reported separately with
+  layer is built). Same-airport flights and destinations 100 miles or closer are
+  dropped. "Long-haul" = over 1,400 miles great-circle distance (from OurAirports coordinates). Flights with no known destination (~14% in the sample) are reported separately with
   their count, never guessed.
 - Over: 1,500 miles (would leave out Seattle, about 1,445 miles away and the main route to the lower
   48); "destination outside Alaska" (that's leaving the state, not distance); counting every flight
