@@ -140,7 +140,8 @@ def _change_table(result):
         if "change_pct_points" in s:
             change = f"{s['change_pct_points']:+g} pts"
         elif "change" in s:
-            change = f"{s['change']:+g}"
+            c = s["change"]  # whole numbers in full: "+g" would print -3665101 as -3.6651e+06
+            change = f"{c:+,.0f}" if float(c).is_integer() else f"{c:+g}"
         else:
             change = s.get("note", "changed" if s.get("changed") else "same")
         lines.append(f"  {name:<30} {cells[0]:>10} {cells[1]:>10} {change:>10}")

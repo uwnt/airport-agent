@@ -81,3 +81,4 @@ def test_no_key_change_over_time_question_prints_a_change_table():
     text = "\n".join(out)
     assert "[compare_over_time]" in text and "SFO" in text and "2019-12 -> latest-" in text
     assert "Change" in text and "Sources:" in text
+    assert "e+" not in text  # large changes in full, not in scientific notation
