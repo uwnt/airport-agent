@@ -57,6 +57,12 @@ def test_rank_top_and_preset(run):
     assert result["note"].startswith("showing the top 2")
 
 
+@pytest.mark.parametrize("top", [0, -1])
+def test_rank_top_must_be_positive(run, top):
+    result = run("rank_airports", region="New England", top=top)
+    assert set(result) == {"error"} and "top must be a positive whole number" in result["error"]
+
+
 def test_compare_lists_airports_outside_the_ranked_scope_with_the_reason(run):
     result = run("compare_airports", codes=["BOS", "BDL", "PANC"])
     assert [r["code"] for r in result["rows"]] == sorted(

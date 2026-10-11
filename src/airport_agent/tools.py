@@ -158,6 +158,8 @@ def rank_airports(region=None, codes=None, preset=None, top=None, cache_dir=None
     """Rank airports for terminal expansion, nationally, in a region, or among some codes."""
     if region and codes:
         raise ToolError("give a region or a list of airport codes, not both")
+    if top is not None and top < 1:
+        raise ToolError(f"top must be a positive whole number (or left out), not {top}")
     metrics_list, settings = _context(cache_dir, settings)
     preset = preset or settings.scoring["default_preset"]
     outside = []
@@ -176,7 +178,7 @@ def rank_airports(region=None, codes=None, preset=None, top=None, cache_dir=None
     if top is None and not region and not codes:
         top = DEFAULT_TOP
     rows = [_row(r) for r in ranking]
-    shown = rows[: int(top)] if top else rows
+    shown = rows[:top] if top else rows
     result = {
         "preset": preset,
         "weights_pct": _weights_pct(settings, preset),
@@ -364,7 +366,7 @@ TOOL_DECLARATIONS = [
                 "region": {"type": "string", "description": "Named region, e.g. New England."},
                 "codes": _CODES,
                 "preset": _PRESET,
-                "top": {"type": "integer", "description": "Show only the first N rows."},
+                "top": {"type": "integer", "description": "Show only the first N rows (N >= 1)."},
             },
         },
     },
