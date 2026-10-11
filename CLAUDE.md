@@ -5,30 +5,23 @@ expansion is most promising. It uses public aviation data, deterministic scoring
 with tools behind a chat UI (built with Claude Code). The full brief, the timeline and the reasoning for every step are in
 `docs/PLAN.md`. Read it at the start of every session and continue from the first unchecked step.
 
-## How to work in this repo: teaching mode
-The owner is building this to learn and will defend it in a follow-up call. For **every** step:
+## How we work
+The owner leads the project and will defend it in a follow-up call. For every step:
 1. **Before acting:** say what we're doing and why, the main alternatives, and why we're not choosing
-   them. Keep it short and plain; define a term the first time it appears.
-2. **The owner is new to Python. The goal is that they understand and can change every part,
-   not that they type it.**
+   them. Keep it short and plain.
+2. **The owner decides; agents build; the owner reviews.**
    - The owner **decides** scope, KPI and weights. Present options with a recommendation; never pick
      silently.
    - **AI agents write the code** for each step, on a branch with a PR; the PR gets an independent
-     AI review before merge (see D6). The owner then goes through it with the main session: a
-     plain-English walkthrough, then the owner explains it back or predicts what a change would do.
-   - **The scoring** (`scoring.py`, `config/scoring.yaml`, their tests) gets the closest walkthrough:
-     after it, the owner makes a small change themselves (a weight, a rule, a new signal), with
-     hints. They must be able to change it live on the call.
+     AI review before merge (see D6). The owner then goes through it with the main session and must
+     be able to explain and change every part.
    - **Weights, presets and friction penalties live in `config/scoring.yaml`**, not in code, so a
      live change needs no Python.
    - The owner **writes `docs/DESIGN.md` and the README's "How I work with AI"** in their own words;
-     Claude reviews. Don't write these for them.
-   - At the start of Step 4, run a **45-minute Python crash course on this project's own code**:
-     variables, functions, lists and dicts, `if` and loops, basic pandas, reading a traceback,
-     running pytest. Nothing beyond what the project uses.
+     the AI reviews. Don't write these for them.
    - End every step with a **code tour**: what was written, file by file, in plain words.
-3. **After each step:** ask one or two quick questions that check understanding ("what happens if
-   OpenSky is down?"), then log any decision in `docs/DECISIONS.md` and tick the step in `docs/PLAN.md`.
+3. **After each step:** log any decision in `docs/DECISIONS.md` and check the item off in the
+   roadmap issue.
 
 ## Rules for this repo
 - **The repo will be public.** Nothing in it may reveal secrets, internal server details or other

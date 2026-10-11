@@ -64,8 +64,8 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
 - Chose: AI agents write each step's code on a branch with a pull request. An independent AI
   reviewer checks every PR; each finding is fixed or declined with a reason. I then go through the
   step with the main AI session (walkthrough, code tour, a small change of my own) and merge.
-- Over: typing the code myself (slower, and I'm new to Python), or writing it together line by
-  line (more of my time, and I learn the same things from the walkthrough).
+- Over: typing the code myself, or writing it together line by line with the AI (more of my time
+  on mechanics, for the same understanding the walkthrough gives).
 - Because: the brief grades reasoning and design. My time goes into the decisions (scope, KPI,
   weights), checking the work, and being able to explain and change every part.
 - Unchanged: I decide scope, KPI and weights; weights live in `config/scoring.yaml` so I can change
