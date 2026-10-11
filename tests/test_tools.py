@@ -2,6 +2,8 @@
 
 import json
 import re
+import shutil
+from pathlib import Path
 
 import pytest
 
@@ -278,3 +280,96 @@ def test_arguments_no_tool_declares_are_refused():
 def test_a_threshold_that_is_not_a_distance_is_refused(miles):
     result = run_tool("long_haul_share", {"code": "ANC", "threshold_miles": miles})
     assert "threshold_miles must be a number" in result["error"]
+
+
+# --- compare_over_time, on the committed data snapshots ---------------------------------------
+
+
+def over_time(**args):
+    result = run_tool("compare_over_time", {"preset": None, **args})
+    json.dumps(result)
+    return result
+
+
+def test_compare_over_time_gives_each_signal_in_both_snapshots_with_its_change():
+    result = over_time(code="SFO", from_version="2019-12", to_version="latest")
+    assert result["from"]["version"] == "2019-12"
+    assert result["to"]["version"].startswith("latest-")
+    for side in (result["from"], result["to"]):
+        assert 0 <= side["score"] <= 100
+        assert 1 <= side["rank"] <= side["ranked_count"]
+    assert result["score_change"] == round(result["to"]["score"] - result["from"]["score"], 1)
+    delay = result["signals"]["nas_delay_per_landed_flight"]
+    assert has_source_and_date(delay["from"]) and has_source_and_date(delay["to"])
+    assert delay["change"] == round(delay["to"]["value"] - delay["from"]["value"], 4)
+    cancel = result["signals"]["cancellation_rate"]
+    assert cancel["change_pct_points"] == round(cancel["change"] * 100, 1)
+    assert "change_pct_points" not in delay
+
+
+def test_compare_over_time_flags_a_signal_missing_on_one_side_and_computes_no_change():
+    # The Anchorage long-haul share is measured only in the latest snapshot
+    result = over_time(code="ANC", from_version="2019-12", to_version="latest")
+    long_haul = result["signals"]["long_haul_share"]
+    assert long_haul["from"] is None and long_haul["to"]["value_pct"] > 0
+    assert "not available for this date" in long_haul["note"]
+    assert "change" not in long_haul and "change_pct_points" not in long_haul
+    assert long_haul["why"] and long_haul["why"][0].startswith("2019-12")
+    assert result["from"]["score"] is None and "not ranked" in result["from"]["not_ranked"]
+    assert "score_change" not in result
+
+
+def test_compare_over_time_accepts_a_full_latest_name_and_orders_as_asked():
+    latest = over_time(code="BOS", from_version="2021-12", to_version="latest")["to"]["version"]
+    back = over_time(code="KBOS", from_version=latest, to_version="2021-12")
+    assert (back["code"], back["from"]["version"], back["to"]["version"]) == (
+        "BOS",
+        latest,
+        "2021-12",
+    )
+
+
+def test_compare_over_time_unknown_version_lists_the_available_ones():
+    result = over_time(code="SFO", from_version="2020-06", to_version="latest")
+    assert "no data version '2020-06'" in result["error"]
+    for version in ("2019-12", "2021-12", "latest-", "latest"):
+        assert version in result["error"]
+    path_like = over_time(code="SFO", from_version="../etc", to_version="latest")
+    assert "available versions" in path_like["error"]
+
+
+def test_compare_over_time_needs_two_different_versions():
+    result = over_time(code="SFO", from_version="2019-12", to_version="2019-12")
+    assert "two different versions" in result["error"]
+
+
+def test_compare_over_time_unknown_airport_names_the_snapshot():
+    result = over_time(code="ZZZ", from_version="2019-12", to_version="latest")
+    assert "'ZZZ' is not in the 2019-12 data" in result["error"]
+
+
+def test_compare_over_time_airport_absent_from_one_snapshot(tmp_path):
+    # A store whose old snapshot lacks the airport: the message names that snapshot.
+    store = tmp_path / "store"
+    for version in ("2019-12", "2021-12"):
+        shutil.copytree(Path("data/snapshots") / version, store / version)
+    summary = store / "2019-12" / "ourairports.json"
+    text = summary.read_text(encoding="utf-8")
+    data = json.loads(text)
+    data["data"]["airports"] = [a for a in data["data"]["airports"] if a.get("iata") != "SFO"]
+    summary.write_text(json.dumps(data), encoding="utf-8")
+    result = run_tool(
+        "compare_over_time",
+        {"code": "SFO", "from_version": "2019-12", "to_version": "2021-12"},
+        cache_dir=store,
+    )
+    assert "is not in the 2019-12 data" in result["error"]
+
+
+def test_compare_over_time_arguments_are_checked():
+    missing = run_tool("compare_over_time", {"code": "SFO", "from_version": "2019-12"})
+    assert "error" in missing
+    wrong = run_tool(
+        "compare_over_time", {"code": "SFO", "from_version": 2019, "to_version": "latest"}
+    )
+    assert "from_version must be a data version as text" in wrong["error"]

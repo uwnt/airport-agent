@@ -22,6 +22,7 @@ from airport_agent.data.metrics import (
     airport_metrics,
     all_airport_metrics,
 )
+from airport_agent.data.store import open_store, read_manifest, snapshot_problem
 from airport_agent.scoring import (
     LABELS,
     NO_FRICTION,
@@ -37,7 +38,14 @@ from airport_agent.scoring import (
 
 log = logging.getLogger(__name__)
 
-DOMAIN_NOTES_PATH = Path(__file__).resolve().parents[2] / "docs" / "DOMAIN_NOTES.md"
+# In the source tree the notes sit at the repo root; installed as a package (the Docker image),
+# they are found from the working folder (/app), like config/scoring.yaml in scoring.py.
+_REPO = Path(__file__).resolve().parents[2]
+DOMAIN_NOTES_PATH = (
+    _REPO / "docs" / "DOMAIN_NOTES.md"
+    if (_REPO / "docs" / "DOMAIN_NOTES.md").exists()
+    else Path("docs/DOMAIN_NOTES.md")
+)
 DEFAULT_TOP = 10  # rows shown when a ranking asks for no region and no codes
 FRACTIONS = {"cancellation_rate", "largest_carrier_share", "long_haul_share"}
 TOP_QUARTILE = 75
@@ -64,13 +72,6 @@ def _metric(metric, name=None):
     if metric.note:
         result["note"] = metric.note
     return result
-
-
-def _plain(text):
-    """Text without internal decision labels: "(AK, D11)" -> "(AK)"; the model would copy them."""
-    if not text:
-        return text
-    return re.sub(r"\s*\(D\d+\)", "", re.sub(r",\s*D\d+\b", "", text))
 
 
 def _context(cache_dir, settings):
@@ -148,7 +149,7 @@ def _split_codes(codes, cache_dir):
             if m.iata not in wanted:
                 wanted.append(m.iata)
         else:
-            not_ranked.append({"code": m.iata, "name": m.name, "reason": _plain(m.scope_reason)})
+            not_ranked.append({"code": m.iata, "name": m.name, "reason": m.scope_reason})
     if not wanted and not not_ranked:
         raise ToolError("no airport code given; give one or more codes such as BOS or KSFO")
     return wanted, not_ranked
@@ -189,9 +190,7 @@ def rank_airports(region=None, codes=None, preset=None, top=None, cache_dir=None
         "region": region,
         "rows": shown,
         "not_ranked": outside
-        + [
-            {"code": n.code, "name": n.name, "reason": _plain(n.reason)} for n in ranking.not_ranked
-        ],
+        + [{"code": n.code, "name": n.name, "reason": n.reason} for n in ranking.not_ranked],
         "method": (
             "score = sum of each signal's percentile (0-100, across all airports ranked "
             "nationally) times its weight, minus the largest friction penalty, never below 0; "
@@ -225,6 +224,111 @@ def compare_airports(codes, preset=None, cache_dir=None, settings=None):
         reason = f" ({'; '.join(same)})" if same else ""
         raise ToolError(f"compare_airports needs two or more different airports{reason}")
     return rank_airports(codes=codes, preset=preset, cache_dir=cache_dir, settings=settings)
+
+
+def _snapshot_folders(cache_dir):
+    """{version: folder} of every complete snapshot, oldest name first, and the latest version.
+
+    `cache_dir`, if given, is a data store folder (a folder of snapshots), not one snapshot.
+    """
+    store = open_store(f"file://{cache_dir}") if cache_dir else open_store()
+    root = store.root
+    folders = sorted(p for p in root.iterdir() if p.is_dir()) if root.is_dir() else []
+    return {p.name: p for p in folders if snapshot_problem(p) is None}, store.latest()
+
+
+def _pick_version(version, folders, latest):
+    """The version name asked for ("latest" = the newest refresh); ToolError lists the choices."""
+    name = latest if version == "latest" else version
+    if name in folders:
+        return name
+    choices = ", ".join([*folders, "latest"]) if folders else "none built"
+    raise ToolError(f"no data version {version!r}; available versions: {choices}")
+
+
+def _standing(m, metrics_list, preset, settings):
+    """Score and rank of one airport among all ranked, or why it has none."""
+    ranking = rank(metrics_list, preset, settings=settings)
+    row = next((r for r in ranking if r.code == m.iata), None)
+    if row is None:
+        reason = m.scope_reason if not m.in_scope else ranking.not_ranked[0].reason
+        return {"score": None, "rank": None, "not_ranked": reason}
+    return {
+        "score": round(row.score, 1),
+        "rank": row.rank,
+        "ranked_count": _ranked_count(metrics_list, settings),
+    }
+
+
+def _signal_change(name, m_before, m_after, versions):
+    """One signal in both snapshots; a side with no value gets a note and no change."""
+    old, new = getattr(m_before, name), getattr(m_after, name)
+    result = {
+        "from": _metric(old, name) if old else None,
+        "to": _metric(new, name) if new else None,
+    }
+    if old is None or new is None:
+        result["note"] = "not available for this date; no change computed"
+        result["why"] = [
+            f"{v}: {m.missing.get(name, 'no value')}"
+            for v, m, x in zip(versions, (m_before, m_after), (old, new), strict=True)
+            if x is None
+        ]
+    elif isinstance(old.value, str) or isinstance(new.value, str):  # the largest carrier's name
+        result["changed"] = old.value != new.value
+    else:
+        result["change"] = round(new.value - old.value, 4)
+        if name in FRACTIONS:
+            result["change_pct_points"] = round((new.value - old.value) * 100, 1)
+    return result
+
+
+def compare_over_time(code, from_version, to_version, preset=None, cache_dir=None, settings=None):
+    """One airport's signals, score and rank in two data snapshots, with each signal's change."""
+    folders, latest = _snapshot_folders(cache_dir)
+    versions = [_pick_version(v, folders, latest) for v in (from_version, to_version)]
+    if versions[0] == versions[1]:
+        raise ToolError(f"give two different versions to compare; both are {versions[0]!r}")
+    settings = settings or load_settings()
+    preset = preset or settings.scoring["default_preset"]
+    found, standing = [], []
+    for version in versions:
+        try:
+            found.append(airport_metrics(code, folders[version]))
+        except UnknownAirportError as error:
+            raise ToolError(f"{code!r} is not in the {version} data: {error}") from None
+        standing.append(
+            _standing(found[-1], all_airport_metrics(folders[version]), preset, settings)
+        )
+    m_before, m_after = found
+    sides = [
+        {
+            "version": v,
+            "as_of": read_manifest(folders[v])["as_of"],
+            **st,
+        }
+        for v, st in zip(versions, standing, strict=True)
+    ]
+    result = {
+        "code": m_after.iata,
+        "name": m_after.name,
+        "preset": preset,
+        "weights_pct": _weights_pct(settings, preset),
+        "from": sides[0],
+        "to": sides[1],
+        "signals": {
+            name: _signal_change(name, m_before, m_after, versions)
+            for name in SIGNALS
+            if getattr(m_before, name) is not None or getattr(m_after, name) is not None
+        },
+        "note": (
+            "score and rank use today's settings in both snapshots; rank is among the airports "
+            "ranked in that snapshot; change = to minus from"
+        ),
+    }
+    if standing[0]["score"] is not None and standing[1]["score"] is not None:
+        result["score_change"] = round(standing[1]["score"] - standing[0]["score"], 1)
+    return result
 
 
 def domain_facts(code, path=DOMAIN_NOTES_PATH):
@@ -263,7 +367,7 @@ def airport_profile(code, cache_dir=None):
         "name": m.name,
         "state": m.state,
         "ranked": m.in_scope,
-        "scope": _plain(m.scope_reason),
+        "scope": m.scope_reason,
         "metrics": {
             name: _metric(getattr(m, name), name)
             for name in SIGNALS
@@ -321,7 +425,7 @@ def demand_pressure(code, cache_dir=None, settings=None):
     ranking = rank(metrics_list, codes=codes, settings=settings)
     if not ranking:
         n = ranking.not_ranked[0]
-        return {"code": n.code, "name": n.name, "ranked": False, "reason": _plain(n.reason)}
+        return {"code": n.code, "name": n.name, "ranked": False, "reason": n.reason}
     row = ranking[0]
     signals, high, low = {}, [], []
     for s in row.signals:
@@ -366,6 +470,10 @@ _PRESET = {
     "description": "Weighting preset; balanced unless the user asks for another.",
 }
 _CODE = {"type": "string", "description": "IATA or ICAO airport code, e.g. SFO or KSFO."}
+_VERSION = {
+    "type": "string",
+    "description": "Data snapshot version, e.g. 2019-12, 2021-12, or latest.",
+}
 _CODES = {"type": "array", "items": {"type": "string"}, "description": "IATA airport codes."}
 
 TOOL_DECLARATIONS = [
@@ -427,6 +535,26 @@ TOOL_DECLARATIONS = [
     },
     {
         "type": "function",
+        "name": "compare_over_time",
+        "description": (
+            "How one airport changed between two data snapshots: each signal's value in both "
+            "(with source and date) and its change, plus score and rank in each. Versions are "
+            "'2019-12', '2021-12' or 'latest'; an unknown version returns the list available. "
+            "A signal not measured in one snapshot is flagged, with no change."
+        ),
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "code": _CODE,
+                "from_version": _VERSION,
+                "to_version": _VERSION,
+                "preset": _PRESET,
+            },
+            "required": ["code", "from_version", "to_version"],
+        },
+    },
+    {
+        "type": "function",
         "name": "demand_pressure",
         "description": (
             "Signs of unmet demand at one airport: strain (delay, cancellations, fare premium) "
@@ -441,6 +569,7 @@ TOOLS = {
     "compare_airports": compare_airports,
     "airport_profile": airport_profile,
     "long_haul_share": long_haul_share,
+    "compare_over_time": compare_over_time,
     "demand_pressure": demand_pressure,
 }
 
@@ -474,6 +603,8 @@ _ARG_TYPES = {
     "code": (_is_text, "an airport code as text"),
     "preset": (_is_text, "a preset name as text"),
     "top": (_is_whole, "a whole number"),
+    "from_version": (_is_text, "a data version as text"),
+    "to_version": (_is_text, "a data version as text"),
     "threshold_miles": (_is_number, "a number"),
 }
 
