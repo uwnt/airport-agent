@@ -103,12 +103,8 @@ def _scope(airport, cache):
     return True, f"ranked: lower 48 and in DOT Table 1a for {manifest['as_of']} (D11)"
 
 
-def _build(airport, cache):
-    signals, missing = {}, {}
-    in_scope, scope_reason = _scope(airport, cache)
-    iata = airport["data_code"]  # the code DOT and BTS use for this airport
-
-    # DOT Table 1a: fares, growth, volume, markets, largest carrier.
+def _add_dot_fares(airport, iata, cache, signals, missing):
+    """DOT Table 1a: fares, growth, volume, markets, largest carrier."""
     fares = cache[dot_fares.SUMMARY_NAME]
     source, as_of = _source(fares["manifest"]), fares["manifest"]["as_of"]
     row = fares["data"].get(iata)
@@ -168,7 +164,9 @@ def _build(airport, cache):
                 "lower bound: counts only markets this carrier leads; shown, not scored",
             )
 
-    # BTS on-time: delay and cancellations over 12 months.
+
+def _add_ontime(airport, iata, cache, signals, missing):
+    """BTS on-time: delay and cancellations over 12 months."""
     ontime = cache[bts_ontime.SUMMARY_NAME]
     source, as_of = _source(ontime["manifest"]), ontime["manifest"]["as_of"]
     row = ontime["data"].get(iata)
@@ -202,7 +200,9 @@ def _build(airport, cache):
                 + (f"; {ontime['manifest']['note']}" if ontime["manifest"].get("note") else ""),
             )
 
-    # BTS boardings (context size only).
+
+def _add_boardings(airport, iata, cache, signals, missing):
+    """BTS boardings (context size only)."""
     boardings = cache[bts_enplanements.SUMMARY_NAME]
     as_of = boardings["manifest"]["as_of"]
     row = boardings["data"].get(iata)
@@ -217,7 +217,9 @@ def _build(airport, cache):
             f"rank {row['rank']} of the top 50",
         )
 
-    # OpenSky long-haul share (Anchorage only).
+
+def _add_long_haul(airport, iata, cache, signals, missing):
+    """OpenSky long-haul share (Anchorage only)."""
     sky = cache[opensky.SUMMARY_NAME]
     row = sky["data"].get(airport["icao"] or "")
     if row is None or row["share"] is None:
@@ -233,6 +235,17 @@ def _build(airport, cache):
             "with no coordinates not counted"
             + (f"; {sky['manifest']['note']}" if sky["manifest"].get("note") else ""),
         )
+
+
+def _build(airport, cache):
+    signals, missing = {}, {}
+    in_scope, scope_reason = _scope(airport, cache)
+    iata = airport["data_code"]  # the code DOT and BTS use for this airport
+
+    _add_dot_fares(airport, iata, cache, signals, missing)
+    _add_ontime(airport, iata, cache, signals, missing)
+    _add_boardings(airport, iata, cache, signals, missing)
+    _add_long_haul(airport, iata, cache, signals, missing)
 
     return Metrics(
         iata=iata,
