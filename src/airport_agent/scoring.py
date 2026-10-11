@@ -1,6 +1,10 @@
 """Scoring: rank airports for terminal expansion from the measured signals (decisions D7 to D12).
 
-How a score is made, for one airport:
+Which airports are ranked: every in-scope airport (D11) that has each signal listed under
+`required_signals` in config/scoring.yaml (now: measured delay). The others are not ranked: they
+get no score, are left out of every percentile below, and are listed apart with the reason.
+
+How a score is made, for one ranked airport:
 1. Each of the four scored signals becomes a percentile from 0 to 100 across every ranked airport
    that has it: rank ÷ count × 100, so the top airport gets 100 and tied airports share the
    average of their ranks. Higher always means more promising (more delay, more cancellations,
@@ -88,6 +92,33 @@ class Friction:
 
 
 NO_FRICTION = Friction(NONE_ON_FILE, "none", 0, NONE_ON_FILE, (), ())
+
+
+@dataclass(frozen=True)
+class NotRanked:
+    """An in-scope airport left out of the ranking because it lacks a required signal.
+
+    `missing` names the required signals it lacks; `reason` says so in words, e.g.
+    "no measured delay data".
+    """
+
+    code: str
+    name: str
+    state: str
+    missing: tuple[str, ...]
+    reason: str
+
+
+class Ranking(list):
+    """What `rank` returns: the ranked airports, best first, as a plain list of AirportScore.
+
+    `not_ranked` lists, as NotRanked, the airports asked for that lack a required signal (A to Z
+    by code); they come after the ranked ones and have no score or rank.
+    """
+
+    def __init__(self, ranked=(), not_ranked=()):
+        super().__init__(ranked)
+        self.not_ranked = list(not_ranked)
 
 
 @dataclass(frozen=True)
@@ -198,6 +229,20 @@ def frictions(code, settings):
     return sorted(found, key=lambda f: -f.points)  # sorted() keeps file order for equal points
 
 
+def missing_required(metrics, settings):
+    """The required signals (config `required_signals`) this airport lacks; empty = ranked."""
+    required = settings.scoring["required_signals"]
+    unknown = sorted(set(required) - set(SCORED_SIGNALS))
+    if unknown:
+        raise ValueError(f"required_signals has unknown signal(s): {', '.join(unknown)}")
+    return tuple(name for name in required if getattr(metrics, name) is None)
+
+
+def _not_ranked(metrics, missing):
+    reason = "no measured " + " or ".join(LABELS[name] for name in missing) + " data"
+    return NotRanked(metrics.iata, metrics.name, metrics.state, missing, reason)
+
+
 def _confidence(metrics, settings):
     """("High" or "Low", reasons). Low if a scored signal is missing or markets are few (D12)."""
     reasons = [
@@ -267,10 +312,12 @@ def _order(result):
 
 
 def rank(metrics_list, preset=None, region=None, codes=None, settings=None):
-    """Score and rank airports; returns AirportScore objects, best first.
+    """Score and rank airports; returns a Ranking: AirportScore objects, best first.
 
-    Percentiles are always computed across every in-scope airport in `metrics_list` (from
-    `all_airport_metrics()`), so `national_rank` is the national rank. `region` (e.g.
+    Airports missing a required signal are not scored: they go to `.not_ranked` with the reason,
+    and are left out of the percentiles. Percentiles are always computed across every ranked
+    airport in `metrics_list` (from `all_airport_metrics()`), so `national_rank` is the national
+    rank. `region` (e.g.
     "New England", "LA area") or `codes` (e.g. ["BOS", "SFO"]) then pick which airports to
     return; `rank` is the position within that list. Give at most one of the two.
     """
@@ -278,22 +325,26 @@ def rank(metrics_list, preset=None, region=None, codes=None, settings=None):
     preset = preset or settings.scoring["default_preset"]
     weights = signal_weights(settings, preset)
     in_scope = {m.iata: m for m in metrics_list if m.in_scope}
+    ranked, not_ranked = {}, []
+    for code, m in sorted(in_scope.items()):
+        missing = missing_required(m, settings)
+        if missing:
+            not_ranked.append(_not_ranked(m, missing))
+        else:
+            ranked[code] = m
 
     signal_percentiles = {
         name: percentiles(
             {
                 code: getattr(m, name).value
-                for code, m in in_scope.items()
+                for code, m in ranked.items()
                 if getattr(m, name) is not None
             }
         )
         for name in SCORED_SIGNALS
     }
     results = sorted(
-        (
-            score_airport(m, signal_percentiles, weights, settings, preset)
-            for m in in_scope.values()
-        ),
+        (score_airport(m, signal_percentiles, weights, settings, preset) for m in ranked.values()),
         key=_order,
     )
     results = [dataclasses.replace(r, national_rank=i) for i, r in enumerate(results, 1)]
@@ -301,7 +352,8 @@ def rank(metrics_list, preset=None, region=None, codes=None, settings=None):
     wanted = _wanted_codes(in_scope, region, codes)
     if wanted is not None:
         results = [r for r in results if r.code in wanted]
-    return [dataclasses.replace(r, rank=i) for i, r in enumerate(results, 1)]
+        not_ranked = [n for n in not_ranked if n.code in wanted]
+    return Ranking([dataclasses.replace(r, rank=i) for i, r in enumerate(results, 1)], not_ranked)
 
 
 def _wanted_codes(in_scope, region, codes):
@@ -329,8 +381,11 @@ def _wanted_codes(in_scope, region, codes):
 # --- Command line ---------------------------------------------------------------------------
 
 
-def format_table(results, settings, preset, total):
-    """A plain-text table: rank, airport, score, each signal's points, friction, confidence."""
+def format_table(results, settings, preset, total, not_ranked=()):
+    """A plain-text table: rank, airport, score, each signal's points, friction, confidence.
+
+    `not_ranked` (NotRanked objects) are listed below the table with their reasons.
+    """
     weights = signal_weights(settings, preset)
     lines = [
         f"Preset: {preset} ("
@@ -363,6 +418,8 @@ def format_table(results, settings, preset, total):
     if notes:
         lines.append("Low confidence:")
         lines.extend(notes)
+    if not_ranked:
+        lines.append("Not ranked: " + ", ".join(f"{n.code} ({n.reason})" for n in not_ranked) + ".")
     return "\n".join(lines)
 
 
@@ -391,8 +448,9 @@ def main(argv=None):
     except UnknownPlaceError as error:
         print(error, file=sys.stderr)
         return 2
-    total = sum(1 for m in metrics_list if m.in_scope)
-    print(format_table(results[: args.top] if args.top else results, settings, preset, total))
+    total = sum(1 for m in metrics_list if m.in_scope and not missing_required(m, settings))
+    shown = results[: args.top] if args.top else results
+    print(format_table(shown, settings, preset, total, results.not_ranked))
     return 0
 
 

@@ -26,6 +26,7 @@ SCORING = {
         "congestion-focused": {"strain": 70, "growth": 30},
     },
     "strain_mix": {"nas_delay_per_landed_flight": 50, "cancellation_rate": 25, "fare_premium": 25},
+    "required_signals": ["nas_delay_per_landed_flight"],
     "low_confidence_min_markets": 10,
     "friction_points": {"minor": 10, "major": 20, "hard_cap": 30},
 }
@@ -131,10 +132,73 @@ def test_missing_signal_spreads_its_weight_and_lowers_confidence():
 
 
 def test_all_signals_missing_scores_zero_without_crashing():
+    # With nothing required, an airport with no signals at all is still ranked, at 0.
     empty = airport("ZZZ")
-    zzz = by_code(rank([*FOUR, empty], settings=settings()))["ZZZ"]
+    zzz = by_code(rank([*FOUR, empty], settings=settings(required_signals=[])))["ZZZ"]
     assert (zzz.score, zzz.confidence) == (0, "Low")
     assert len(zzz.confidence_reasons) == 4
+
+
+# FFF has only a fare premium, the highest of all: no measured delay, so it is not ranked.
+FARE_ONLY = airport("FFF", fare=9.0)
+
+
+def test_airport_without_a_required_signal_is_not_ranked():
+    results = rank([*FOUR, FARE_ONLY], settings=settings())
+    assert [r.code for r in results] == ["DDD", "CCC", "BBB", "AAA"]
+    [fff] = results.not_ranked
+    assert (fff.code, fff.missing) == ("FFF", ("nas_delay_per_landed_flight",))
+    assert fff.reason == "no measured delay data"
+    # The real config requires measured delay.
+    assert load_settings().scoring["required_signals"] == ["nas_delay_per_landed_flight"]
+    with pytest.raises(ValueError, match="unknown signal"):
+        rank(FOUR, settings=settings(required_signals=["delay"]))
+
+
+def test_unranked_airport_does_not_move_anyone_elses_percentiles():
+    # FFF's fare premium tops everyone's; if it were counted, every ranked fare percentile
+    # would fall from 62.5 to 50. The ranked results must be identical with and without it.
+    with_fff = rank([*FOUR, FARE_ONLY], settings=settings())
+    assert with_fff == rank(FOUR, settings=settings())
+    assert all(r.percentiles["fare_premium"] == 62.5 for r in with_fff)
+
+
+def test_region_and_codes_list_not_ranked_airports_with_the_reason(monkeypatch, capsys):
+    places = [*FOUR, FARE_ONLY, airport("GGG", fare=2.0, state="CA")]
+    new_england = rank(places, region="New England", settings=settings())
+    assert [r.code for r in new_england] == ["DDD", "CCC", "BBB", "AAA"]
+    assert [(n.code, n.reason) for n in new_england.not_ranked] == [
+        ("FFF", "no measured delay data")
+    ]
+    picked = rank(places, codes=["FFF", "AAA"], settings=settings())
+    assert [r.code for r in picked] == ["AAA"]
+    assert [n.code for n in picked.not_ranked] == ["FFF"]
+    # The command line prints them under the table; the national count leaves them out.
+    monkeypatch.setattr(scoring, "all_airport_metrics", lambda: places)
+    assert scoring.main(["--region", "New England"]) == 0
+    out = capsys.readouterr().out
+    assert "out of 4 ranked airports" in out
+    assert "Not ranked: FFF (no measured delay data)." in out
+    assert "GGG" not in out
+
+
+def test_required_signals_come_from_the_yaml(tmp_path):
+    # EEE has no growth: ranked (Low confidence) under the real file ...
+    eee = airport("EEE", delay=5, cancel=0.05, fare=1.0)
+    assert "EEE" in by_code(rank([*FOUR, eee], settings=load_settings()))
+    # ... but not ranked once a temporary copy also requires growth.
+    text = SCORING_PATH.read_text(encoding="utf-8").replace(
+        "  - nas_delay_per_landed_flight\n", "  - nas_delay_per_landed_flight\n  - growth_vs_2019\n"
+    )
+    path = tmp_path / "scoring.yaml"
+    path.write_text(text, encoding="utf-8")
+    stricter = load_settings(path, CONSTRAINTS_PATH)
+    results = rank([*FOUR, eee, airport("HHH", fare=1.0)], settings=stricter)
+    assert "EEE" not in by_code(results)
+    assert [(n.code, n.reason) for n in results.not_ranked] == [
+        ("EEE", "no measured growth data"),
+        ("HHH", "no measured delay or growth data"),
+    ]
 
 
 def test_few_markets_lowers_confidence():

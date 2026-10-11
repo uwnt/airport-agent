@@ -28,6 +28,13 @@ strain_mix:
   cancellation_rate: 25            # share of flights cancelled (BTS, 12 months)
   fare_premium: 25                 # fares versus markets of similar distance (DOT Table 1a)
 
+# Signals an airport must have to be ranked at all. Fare premium alone is an indirect sign (D7/D9);
+# an airport with no measured delay data can't be judged on strain. An airport missing one of these
+# is listed as "not ranked" with the reason, and is left out of every percentile, so it doesn't
+# move anyone else's. A list: add growth_vs_2019 to also require growth.
+required_signals:
+  - nas_delay_per_landed_flight
+
 # Low confidence (D12): an airport with fewer markets than this in DOT Table 1a is flagged, as is
 # any airport with a scoring signal missing. A missing signal's weight moves to the airport's
 # other signals, in proportion to their weights.
