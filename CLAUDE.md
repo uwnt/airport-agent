@@ -27,8 +27,8 @@ The owner leads the project and will defend it in a follow-up call. For every st
      AI review before merge (see D6). The owner then goes through it with the AI assistant and must
      be able to explain and change every part.
    - **Weights, presets and friction penalties live in `config/scoring.yaml`**, not in code, so a
-     live change needs no Python. The owner must be able to change a weight, a rule or a
-     signal live on the follow-up call.
+     live change needs no Python. After the scoring is written, the owner makes a small change
+     themselves (a weight, a rule, a new signal) so they can change it live on the follow-up call.
    - The owner **writes `docs/DESIGN.md` and the README's "How I work with AI"** in their own words;
      the AI reviews. Don't write these for them.
    - End every step with a **code tour**: what was written, file by file, in plain words.
@@ -36,16 +36,18 @@ The owner leads the project and will defend it in a follow-up call. For every st
    pinned roadmap issue (`docs/PLAN.md` keeps the reasoning, not the progress).
 
 ## Rules for this repo
-- **The repo will be public.** Nothing in it may reveal secrets, details of the development machine, or other
-  projects. No local file paths, issue numbers from other repositories, or names of other projects or
-  organisations (the owner's own GitHub account name excepted) in files, commits, issues or PRs. Before every push, and before posting any issue, PR or comment text, check it:
+- **The repo will be public.** Nothing in it may reveal secrets, details of the development machine
+  or its infrastructure, or other projects. No local file paths, issue numbers from other
+  repositories, or names of other projects or organisations (the owner's own GitHub account name
+  excepted) in files, commits, issues or PRs. Before every push, and before posting any issue, PR
+  or comment text, check it:
   `grep -n -i -E -f .git/info/leak-patterns <files or text>` must print nothing. Reviewer agents
   may use internal shorthand, so rewrite their findings in plain words before posting.
 - **Secrets live only in Doppler** (project `airport-agent`, config `dev`). Run with
   `doppler run -- <cmd>`. Never print a secret, never write `.env`. `.env.example` lists names only.
 - **GitHub uses the owner's token, per command:** `doppler run -- gh …` (sets `GH_TOKEN` for that
-  command only). Never run `gh auth login` or `gh auth switch`: the machine's own login is used for other
-  work and must not change.
+  command only). Never run `gh auth login` or `gh auth switch`: the machine's existing GitHub login must
+  stay unchanged.
 - **Small commits:** imperative subject ≤ 72 chars, body says why. One branch and PR per issue,
   with an issue per step; merged by the owner.
 - **The owner's AI workflow is shown on purpose, in readable form** (it's part of what this repo
@@ -66,8 +68,8 @@ The owner leads the project and will defend it in a follow-up call. For every st
 - **The agent's model is Google Gemini** (`google-genai` SDK). Before writing Gemini code, read Google's
   current Gemini API docs for the exact SDK calls and model names. Don't rely on memory: names change
   often. All model calls live in `llm.py`.
-- **The development machine has no Docker.** The Docker image is built and tested only in GitHub
-  Actions (Step 6b). Don't install Docker locally.
+- **Never install Docker on the development machine.** The Docker image is built and tested only in
+  GitHub Actions (Step 6b).
 - The web chat must never get a public address. Test it via `localhost` (an SSH port forward) or
   the private network only.
 - Verify before calling a step done: run it and show the output.

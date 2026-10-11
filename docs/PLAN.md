@@ -96,8 +96,8 @@ These habits come from running real projects, and each one shows up in the grade
 - [ ] A grounding test: every number in an answer appears in a tool result.
 - [ ] A scope line in answers and the UI: decision support, not investment advice; what the score
       leaves out.
-- [ ] One Python version, pinned in `pyproject.toml` and used in the Dockerfile. The dev machine has 3.14,
-      while slim images are usually 3.12 or 3.13, so pick one deliberately.
+- [ ] One Python version, pinned in `pyproject.toml` and used in the Dockerfile. A local Python may be newer
+      than the slim images (usually 3.12 or 3.13), so pick one deliberately.
 - [ ] A `Makefile`: `run`, `test`, `lint`, `refresh`, `docker`.
 - [ ] **The image builds for both amd64 and arm64** (Docker buildx in CI). Many reviewers use
       Apple Silicon Macs.
@@ -126,7 +126,7 @@ AI agents write the code; you decide, review every step, and must be able to **e
 | Part | Who writes | What you must be able to do |
 |---|---|---|
 | Scope, KPI, weights, out-of-scope list | **You decide**; AI agents lay out the options | Defend every choice |
-| Scoring (`scoring.py`, `config/scoring.yaml`, tests) | AI agents write; you get a file-by-file walkthrough and review it (weights and rules live in `config/scoring.yaml`) | Explain every line; change a weight or rule live (weights are in YAML, no Python needed) |
+| Scoring (`scoring.py`, `config/scoring.yaml`, tests) | AI agents write; you get a file-by-file walkthrough, then make a small change yourself (a weight, a rule or a new signal; weights and rules live in `config/scoring.yaml`) | Explain every line; change a weight or rule live (weights are in YAML, no Python needed) |
 | Agent instructions and tool descriptions (mostly plain English) | AI agents write; you edit | Explain where AI is used and how it's kept honest |
 | Data refresh, agent loop, server, chat page, Docker, CI | AI agents write; you get a code tour after each step | Say what each file does and how a question flows through it |
 | `docs/DESIGN.md`, README "How I work with AI" | **You write**; an independent AI reviewer reviews | It's your reasoning in your words |
@@ -378,7 +378,7 @@ numbers the code computed, so it doesn't invent them. Pure functions plus tests 
 - *Put the scoring inside the prompt.* Not deterministic, and not testable.
 - *A rules engine or config DSL.* Over-engineered for five signals.
 
-**Who writes:** AI agents write the code; you get a file-by-file walkthrough and review it. You must be able to change a weight, a rule or a signal live. Weights live in `config/scoring.yaml`. This is the code they'll ask you to change on the call.
+**Who writes:** AI agents write the code; you get a file-by-file walkthrough and review it. Then you make a small change yourself (a weight, a rule or a new signal) to show it can be changed live. Weights live in `config/scoring.yaml`. This is the code they'll ask you to change on the call.
 
 ## Step 5 — The agent (2:00)
 **What:** Google Gemini through the `google-genai` Python SDK with **function calling** (tool use). The model decides which tool to
@@ -601,7 +601,7 @@ system you've built for AI-assisted engineering:
 - what was AI-drafted in this repo vs what you decided and wrote.
 
 End with an offer to demo the full setup live on the call. Describe the system; don't link or paste
-its internals (it holds other clients' details).
+its internals (it holds private material).
 
 **Why:** It's half the deliverable, and the doc they'll read first.
 
