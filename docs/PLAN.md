@@ -126,7 +126,7 @@ AI agents write the code; you decide, review every step, and must be able to **e
 | Part | Who writes | What you must be able to do |
 |---|---|---|
 | Scope, KPI, weights, out-of-scope list | **You decide**; AI agents lay out the options | Defend every choice |
-| Scoring (`scoring.py`, `config/scoring.yaml`, tests) | AI agents write; you get a file-by-file walkthrough, then make a small change yourself (a weight or a rule in `config/scoring.yaml`) | Explain every line; change a weight or rule live (weights are in YAML, no Python needed) |
+| Scoring (`scoring.py`, `config/scoring.yaml`, tests) | AI agents write; you get a file-by-file walkthrough, then make a small change yourself (a weight, a rule or a new signal; weights and rules live in `config/scoring.yaml`) | Explain every line; change a weight or rule live (weights are in YAML, no Python needed) |
 | Agent instructions and tool descriptions (mostly plain English) | AI agents write; you edit | Explain where AI is used and how it's kept honest |
 | Data refresh, agent loop, server, chat page, Docker, CI | AI agents write; you get a code tour after each step | Say what each file does and how a question flows through it |
 | `docs/DESIGN.md`, README "How I work with AI" | **You write**; an independent AI reviewer reviews | It's your reasoning in your words |
@@ -134,8 +134,8 @@ AI agents write the code; you decide, review every step, and must be able to **e
 About 1,700–1,800 lines in total; the part you need to know deeply is about 250 (scoring plus the
 agent instructions). After each step you get a file-by-file walkthrough and review it.
 
-**On the call:** "I designed it and directed AI to write it. I reviewed every part, had AI agents write
-the scoring rules, reviewed every part, changed one myself, and can change anything." That's true and credible.
+**On the call:** "I designed it and directed AI agents to write it. I reviewed every part, changed a
+scoring rule myself, and can change anything." That's true and credible.
 
 ## What the public data can actually answer (checked 2026-10-11)
 Before planning features, we checked which free sources respond today. The 1-hour data spike in
@@ -376,7 +376,7 @@ numbers the code computed, so it doesn't invent them. Pure functions plus tests 
 - *Put the scoring inside the prompt.* Not deterministic, and not testable.
 - *A rules engine or config DSL.* Over-engineered for five signals.
 
-**Who writes:** AI agents write the code; you get a file-by-file walkthrough and review it. Then you make a small change yourself (a weight or a rule in `config/scoring.yaml`) to show it can be changed live. Weights live in `config/scoring.yaml`. This is the code they'll ask you to change on the call.
+**Who writes:** AI agents write the code; you get a file-by-file walkthrough and review it. Then you make a small change yourself (a weight, a rule or a new signal; weights and rules live in `config/scoring.yaml`) to show it can be changed live. Weights live in `config/scoring.yaml`. This is the code they'll ask you to change on the call.
 
 ## Step 5 — The agent (2:00)
 **What:** Google Gemini through the `google-genai` Python SDK with **function calling** (tool use). The model decides which tool to
