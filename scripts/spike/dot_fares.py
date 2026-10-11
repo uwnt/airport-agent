@@ -11,7 +11,7 @@ from pathlib import Path
 
 URL = "https://datahub.transportation.gov/resource/tfrh-tu9e.json"
 AIRPORTS = ["BOS", "BDL", "PVD", "MHT", "PWM", "BTV"]  # New England, question 1
-QUARTERS = [(2019, 4), (2026, 1)]  # before the pandemic, and the latest quarter
+QUARTERS = [(2019, 1), (2026, 1)]  # same season: pre-pandemic Q1 vs the latest Q1
 OUT = Path("data/samples/dot_fares_new_england.json")
 
 
