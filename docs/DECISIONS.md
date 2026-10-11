@@ -19,13 +19,14 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
   reproduce.
 - Revisit if: the UI grows beyond one page.
 
-## D2: Model tool use, no agent framework (proposed; confirm at Step 5)
+## D2: Model tool use, no agent framework
 - Chose: the model SDK's own tool use (function calling). The model routes and explains; code computes.
 - Over: LangChain/LangGraph (heavy abstraction over ~50 lines), text-to-SQL (unchecked numbers), no
   model (fails conversational follow-up).
 - Because: it gives the clearest line between AI and deterministic logic, which the brief asks us to
   explain.
 - Revisit if: we need multi-step planning across many tools.
+- Confirmed by the owner at Step 5: the loop is about 50 lines in `llm.py` on Google's SDK.
 
 ## D3: Gemini as the agent's model, behind one module
 - Chose: Google Gemini (`google-genai`) for tool use, explanation and voice; every model call in
@@ -253,7 +254,7 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
 - Revisit if: airports missing growth keep ranking near the top (MDT is #2 with no growth signal and
   2 markets); adding `growth_vs_2019` to the list is a one-line change.
 
-## D21: Snapshots use only data published by their date (proposed; owner to confirm)
+## D21: Snapshots use only data published by their date
 - Chose: `refresh --as-of YYYY-MM` keeps only data that was public by the end of that month.
   BTS on-time: a month counts once it ended at least 91 days earlier (BTS posts each month 6 to 13
   weeks after it ends; January 2026 appeared 90 days after month end). DOT Table 1a: a quarter
@@ -268,3 +269,16 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
   include January 2026, which appeared on 1 May).
 - Because: comparing snapshots must show what an analyst could actually have known at the time.
 - Revisit if: DOT's release dates are found published, so the 6-month assumption can be checked.
+
+## D22: The agent's defaults
+- Chose: a Flash-tier Gemini model (`GEMINI_MODEL`) with thinking level low (about 11 s per answer
+  instead of about 44 s at the default level); a 120 s request timeout; at most a set number of tool
+  calls per question; a national ranking with no region shows the top 10; the Anchorage long-haul
+  share only at the configured 1,400 miles (the stored summary keeps counts, not distances). A
+  spent quota fails at once with Google's message instead of waiting hours. All are environment
+  variables.
+- Over: the model's default thinking level (four times slower for the same tool choices on the
+  questions tried); a Pro-tier model by default (Step 7 compares it on the four questions, D3).
+- Because: answers must come back fast enough for a live demo, and every limit is visible and
+  changeable without code.
+- Revisit if: Step 7 shows the Pro tier answers the four questions clearly better.
