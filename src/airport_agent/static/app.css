@@ -115,6 +115,9 @@ main { flex: 1; width: 100%; max-width: 56rem; margin: 0 auto; padding: 1.25rem;
 .body > :last-child { margin-bottom: 0; }
 .body table { border-collapse: collapse; display: block; overflow-x: auto; font-size: 0.9rem; }
 .body th, .body td { border: 1px solid var(--line); padding: 0.3rem 0.55rem; text-align: left; }
+/* Columns keep a readable width; a wide table scrolls sideways inside the answer instead. */
+.body th, .body td { min-width: 7rem; }
+.body th { white-space: nowrap; }
 .body pre { white-space: pre-wrap; overflow-wrap: anywhere; background: var(--bg); padding: 0.6rem; border-radius: 8px; }
 .body a { color: var(--accent); }
 .error {
@@ -189,3 +192,6 @@ main { flex: 1; width: 100%; max-width: 56rem; margin: 0 auto; padding: 1.25rem;
   .picker-form .field { flex: 1 1 8rem; }
 }
 @media (prefers-reduced-motion: reduce) { .typing::after { animation: none; } }
+
+/* On a phone the hint text ends in "..." instead of wrapping onto a hidden second line. */
+#question::placeholder { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
