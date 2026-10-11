@@ -2,6 +2,7 @@
 
 import dataclasses
 import random
+from pathlib import Path
 
 import pytest
 import yaml
@@ -493,4 +494,18 @@ def test_cli_prints_a_settings_mistake_plainly_and_exits_2(tmp_path, monkeypatch
     assert captured.err == (
         "config/scoring.yaml: presets: balanced has unknown key(s) strian; "
         "allowed: strain, growth\n"
+    )
+
+
+def test_settings_root_is_the_repo_when_it_holds_the_config(tmp_path):
+    (tmp_path / "config").mkdir()
+    (tmp_path / "config" / "scoring.yaml").write_text("{}", encoding="utf-8")
+    assert scoring._settings_root(tmp_path) == tmp_path
+
+
+def test_settings_root_is_the_working_folder_when_installed_as_a_package(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    assert scoring._settings_root(tmp_path / "site-packages") == Path()
+    assert (scoring._settings_root(tmp_path / "site-packages") / "config").resolve() == (
+        tmp_path / "config"
     )
