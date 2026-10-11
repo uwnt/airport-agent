@@ -266,3 +266,15 @@ def test_top_sent_as_a_whole_float_works():
     result = run_tool("rank_airports", {"top": 5.0})
     assert "error" not in result and len(result["rows"]) == 5
     assert "error" in run_tool("rank_airports", {"top": 5.5})
+
+
+def test_arguments_no_tool_declares_are_refused():
+    # Review round 3: the model could pass internal arguments such as settings.
+    result = run_tool("compare_airports", {"codes": ["LAX", "SNA"], "settings": {"x": 1}})
+    assert "unknown settings" in result["error"]
+
+
+@pytest.mark.parametrize("miles", [float("nan"), float("inf")])
+def test_a_threshold_that_is_not_a_distance_is_refused(miles):
+    result = run_tool("long_haul_share", {"code": "ANC", "threshold_miles": miles})
+    assert "threshold_miles must be a number" in result["error"]

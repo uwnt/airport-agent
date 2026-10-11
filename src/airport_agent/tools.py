@@ -11,6 +11,7 @@ is given) and the two settings files.
 """
 
 import logging
+import math
 import re
 from pathlib import Path
 
@@ -462,7 +463,8 @@ def _is_whole(value):
 
 
 def _is_number(value):
-    return isinstance(value, (int, float)) and not isinstance(value, bool)
+    ok = isinstance(value, (int, float)) and not isinstance(value, bool)
+    return ok and math.isfinite(value)  # NaN or infinity is not a distance
 
 
 # What each argument the model may send must be; None (left out) is always allowed.
@@ -476,10 +478,18 @@ _ARG_TYPES = {
 }
 
 
+_DECLARED = {d["name"]: set(d["parameters"]["properties"]) for d in TOOL_DECLARATIONS}
+
+
 def _bad_argument(name, args):
     """A plain message for the first argument of the wrong type, or None if all are fine."""
     if not isinstance(args, dict):
         return f"bad arguments for {name}: expected named arguments, got {type(args).__name__}"
+    declared = _DECLARED.get(name, set())  # what the model was told it may send
+    unknown = sorted(set(args) - declared)
+    if unknown:
+        allowed = ", ".join(sorted(declared))
+        return f"bad arguments for {name}: unknown {', '.join(unknown)}; allowed: {allowed}"
     for arg, value in args.items():
         check = _ARG_TYPES.get(arg)
         if value is None or check is None:
