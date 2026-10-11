@@ -1,21 +1,83 @@
+# CI: lint, test and a secrets scan, in ONE job named `ci` (one billed minute, one required check).
+# Runs on a PR's opening head and again when it is marked ready after review, and on pushes to
+# stg and prod. Not on every push to a PR (a fix pushed after "ready" needs a re-run:
+# `gh pr ready --undo <N> && gh pr ready <N>`), and not on dev, since PRs already test the merge.
+# The same steps run locally with `scripts/ci-local`.
 name: CI
 
 on:
   pull_request:
+    types: [opened, ready_for_review]
+  workflow_dispatch:
   push:
-    branches: [main]
+    branches: [stg, prod]
 
-permissions:
-  contents: read
+concurrency:
+  group: ci-${{ github.ref }}
+  # Cancel a superseded push run, never a pull_request run: cancelling one leaves a permanent
+  # "cancelled" check on the PR that blocks the merge.
+  cancel-in-progress: ${{ github.event_name == 'push' }}
 
 jobs:
-  lint-and-test:
+  ci:
+    name: ci
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pull-requests: read
     steps:
       - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0 # the secrets scan reads history
+          persist-credentials: false # later steps don't need the token
+
       - uses: astral-sh/setup-uv@v6
-      # Python version comes from .python-version; --locked fails if uv.lock is stale
-      - run: uv sync --locked
-      - run: uv run ruff check .
-      - run: uv run ruff format --check .
-      - run: uv run pytest
+
+      # uv reads the Python version from .python-version; --locked fails if uv.lock is stale
+      - name: Install
+        run: uv sync --locked
+
+      - name: Lint
+        run: |
+          uv run ruff check .
+          uv run ruff format --check .
+
+      - name: Test
+        run: uv run pytest
+
+      - name: TODOs carry an issue number
+        run: |
+          bad="$(git grep -nP '\bTODO\b(?!\(#[0-9]+\))' -- ':!*.md' ':!.github/**' ':!uv.lock' ':!data/**' ':!scripts/ci-local' || true)"
+          if [ -n "$bad" ]; then
+            echo "$bad"
+            echo "::error::TODO without an issue number, write TODO(#123)"
+            exit 1
+          fi
+
+      # On a manual run gitleaks-action would scan the whole history; scope it like a PR instead.
+      - name: secrets (gitleaks)
+        uses: gitleaks/gitleaks-action@v2
+        if: github.event_name != 'workflow_dispatch'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_ENABLE_COMMENTS: "false"
+      - name: secrets (gitleaks, manual run scoped like a pull request)
+        if: github.event_name == 'workflow_dispatch'
+        env:
+          GITLEAKS_VERSION: "8.30.1"
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          base_url="https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}"
+          tarball="gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz"
+          curl -fsSLO "${base_url}/${tarball}"
+          curl -fsSL "${base_url}/gitleaks_${GITLEAKS_VERSION}_checksums.txt" | grep " ${tarball}\$" | sha256sum -c -
+          tar -xzf "${tarball}" gitleaks
+          base="$(git merge-base "origin/${DEFAULT_BRANCH}" HEAD)"
+          if [ "$base" = "$(git rev-parse HEAD)" ]; then
+            range="-1"
+          else
+            range="--no-merges --first-parent ${base}..HEAD"
+          fi
+          echo "scanning: ${range}"
+          ./gitleaks detect --redact --no-banner --exit-code=2 --log-opts="${range}"
