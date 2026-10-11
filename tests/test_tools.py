@@ -173,3 +173,32 @@ def test_tools_read_the_latest_snapshot_by_default(sample_cache, tmp_path, monke
         ("demand_pressure", {"code": "BOS"}),
     ]:
         assert "error" not in run_tool(name, args), name
+
+
+@pytest.mark.parametrize(
+    ("name", "args", "expected"),
+    [
+        ("rank_airports", {"codes": [123]}, "codes must be a list of airport codes"),
+        ("rank_airports", {"codes": {"BOS": 1}}, "codes must be a list of airport codes"),
+        ("rank_airports", {"region": 5}, "region must be a region name"),
+        ("rank_airports", {"preset": ["balanced"]}, "preset must be a preset name"),
+        ("rank_airports", {"top": "3"}, "top must be a whole number"),
+        ("rank_airports", {"top": True}, "top must be a whole number"),
+        ("compare_airports", {"codes": ["BOS", None]}, "codes must be a list of airport codes"),
+        ("airport_profile", {"code": 7}, "code must be an airport code"),
+        ("long_haul_share", {"code": "ANC", "threshold_miles": "far"}, "must be a number"),
+    ],
+)
+def test_arguments_of_the_wrong_type_come_back_as_errors(run, name, args, expected):
+    result = run(name, **args)
+    assert set(result) == {"error"} and expected in result["error"]
+
+
+def test_a_tool_that_breaks_unexpectedly_comes_back_as_an_error(run, monkeypatch, caplog):
+    def broken(**_):
+        raise KeyError("delay")
+
+    monkeypatch.setitem(tools.TOOLS, "airport_profile", broken)
+    result = run("airport_profile", code="BOS")
+    assert result == {"error": "the tool airport_profile failed: KeyError: 'delay'"}
+    assert "tool airport_profile failed" in caplog.text

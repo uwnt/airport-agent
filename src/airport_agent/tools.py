@@ -2,14 +2,15 @@
 
 Each tool returns a small dict that can be turned into JSON. Every number in it carries its
 source and as-of date, so the model can quote numbers but never has to compute them. A mistake
-(an unknown airport, region or preset, a missing cache) comes back as {"error": "..."}: the model
-relays it, and no exception leaves `run_tool`.
+(an unknown airport, region or preset, an argument of the wrong type, missing data, or a tool that
+breaks) comes back as {"error": "..."}: the model relays it, and no exception leaves `run_tool`.
 
 `TOOL_DECLARATIONS` describes the tools to the model (JSON Schema); `run_tool` runs one by name.
 No model and no network here: the tools read only a data snapshot (the latest unless `cache_dir`
 is given) and the two settings files.
 """
 
+import logging
 import re
 from pathlib import Path
 
@@ -32,6 +33,8 @@ from airport_agent.scoring import (
     rank,
     signal_weights,
 )
+
+log = logging.getLogger(__name__)
 
 DOMAIN_NOTES_PATH = Path(__file__).resolve().parents[2] / "docs" / "DOMAIN_NOTES.md"
 DEFAULT_TOP = 10  # rows shown when a ranking asks for no region and no codes
@@ -422,16 +425,66 @@ TOOLS = {
 }
 
 
+def _is_text(value):
+    return isinstance(value, str)
+
+
+def _is_codes(value):
+    return isinstance(value, str) or (
+        isinstance(value, list) and all(isinstance(c, str) for c in value)
+    )
+
+
+def _is_whole(value):
+    return isinstance(value, int) and not isinstance(value, bool)
+
+
+def _is_number(value):
+    return isinstance(value, (int, float)) and not isinstance(value, bool)
+
+
+# What each argument the model may send must be; None (left out) is always allowed.
+_ARG_TYPES = {
+    "region": (_is_text, "a region name as text"),
+    "codes": (_is_codes, "a list of airport codes as text"),
+    "code": (_is_text, "an airport code as text"),
+    "preset": (_is_text, "a preset name as text"),
+    "top": (_is_whole, "a whole number"),
+    "threshold_miles": (_is_number, "a number"),
+}
+
+
+def _bad_argument(name, args):
+    """A plain message for the first argument of the wrong type, or None if all are fine."""
+    if not isinstance(args, dict):
+        return f"bad arguments for {name}: expected named arguments, got {type(args).__name__}"
+    for arg, value in args.items():
+        check = _ARG_TYPES.get(arg)
+        if value is None or check is None:
+            continue
+        is_ok, wanted = check
+        if not is_ok(value):
+            return f"bad arguments for {name}: {arg} must be {wanted}, got {value!r}"
+    return None
+
+
 def run_tool(name, args, cache_dir=None):
     """Run a tool by name; any mistake comes back as {"error": "..."}, never as an exception."""
     tool = TOOLS.get(name)
     if tool is None:
         return {"error": f"unknown tool {name!r}; tools: {', '.join(TOOLS)}"}
+    args = {} if args is None else args
+    problem = _bad_argument(name, args)
+    if problem:
+        return {"error": problem}
     try:
-        return tool(**(args or {}), cache_dir=cache_dir)
+        return tool(**args, cache_dir=cache_dir)
     except CacheMissingError as error:
         return {"error": f"no data built yet ({error}); build it with: {BUILD_COMMAND}"}
     except (ToolError, UnknownPlaceError, SettingsError, UnknownAirportError) as error:
         return {"error": str(error)}
     except (TypeError, ValueError) as error:
         return {"error": f"bad arguments for {name}: {error}"}
+    except Exception as error:  # last line of defence: the model should say the tool failed
+        log.exception("tool %s failed", name)
+        return {"error": f"the tool {name} failed: {type(error).__name__}: {error}"}
