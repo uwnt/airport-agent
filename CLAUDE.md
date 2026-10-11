@@ -3,7 +3,18 @@
 A one-day take-home: an AI agent that helps investment analysts find US airports where terminal
 expansion is most promising. It uses public aviation data, deterministic scoring, and Google Gemini
 with tools behind a chat UI (built with Claude Code). The full brief, the timeline and the reasoning for every step are in
-`docs/PLAN.md`. Read it at the start of every session and continue from the first unchecked step.
+`docs/PLAN.md`. What to do next comes from the pinned "Product roadmap" issue; `docs/PLAN.md` holds
+the reasoning behind each step.
+
+## How this project runs
+- **Branches:** work branches off `dev` and merges back by PR; `stg` and `prod` are release branches.
+  There is no staging environment: `stg` is a pass-through. A release is cut to `stg`, promoted to
+  `prod`, and then deployed to Fly by a manually started workflow on `prod`. Production deploys are
+  the owner's. `main` holds only the first setup commits and takes no new work.
+- **Phases:** `phase:1` = everything needed for the hand-in (plan Steps 0–9); `phase:2` = before the
+  follow-up call (the stretch steps); `phase:3` = debt and housekeeping.
+- **Plan:** the pinned "Product roadmap" issue is the ordered index; each plan step has its own issue.
+- The owner's GitHub account name may appear in public text (repo URL, commit emails, comments).
 
 ## How to work in this repo: teaching mode
 The owner is building this to learn and will defend it in a follow-up call. For **every** step:
@@ -31,7 +42,8 @@ The owner is building this to learn and will defend it in a follow-up call. For 
 
 ## Rules for this repo
 - **The repo will be public.** Nothing in it may reveal secrets, internal server details or other
-  projects. No internal server paths, internal issue numbers, or names of other projects or organisations in files, commits,
+  projects. No internal server paths, internal issue numbers, or names of other projects or organisations
+  (the owner's own GitHub account name excepted) in files, commits,
   issues or PRs. Before every push, and before posting any issue, PR or comment text, check it:
   `grep -n -i -E -f .git/info/leak-patterns <files or text>` must print nothing. Reviewer agents
   carry server-wide rules, so rewrite their findings in plain words before posting.
@@ -40,7 +52,7 @@ The owner is building this to learn and will defend it in a follow-up call. For 
 - **GitHub uses the owner's token, per command:** `doppler run -- gh …` (sets `GH_TOKEN` for that
   command only). Never run `gh auth login` or `gh auth switch`: the machine's login belongs to other
   work.
-- **Small commits:** imperative subject ≤ 72 chars, body says why. One branch and PR per plan step,
+- **Small commits:** imperative subject ≤ 72 chars, body says why. One branch and PR per issue,
   with an issue per step; merged by the owner.
 - **The owner's AI workflow is shown on purpose, in readable form** (it's part of what this repo
   demonstrates):
