@@ -183,3 +183,19 @@ def test_unreachable_store_at_startup_gives_no_snapshot(store):
 
     store.latest = unreachable
     assert server.DataVersion(store, clock=lambda: 0.0).current() is None
+
+
+@pytest.mark.parametrize("value", ["five", "-1"])
+def test_bad_check_interval_falls_back_to_five_minutes(monkeypatch, store, caplog, value):
+    monkeypatch.setenv("DATA_CHECK_MINUTES", value)
+    now = [0.0]
+    store.add("2021-12", "2021-12-31")
+    data = server.DataVersion(store, clock=lambda: now[0])
+    assert "DATA_CHECK_MINUTES" in caplog.text
+    data.current()
+    now[0] += 5 * 60 - 1
+    data.current()
+    assert store.asked == 1
+    now[0] += 1
+    data.current()
+    assert store.asked == 2

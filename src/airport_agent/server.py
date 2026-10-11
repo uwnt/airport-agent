@@ -47,6 +47,15 @@ class DataVersion:
     def __init__(self, store=None, clock=time.monotonic):
         self.store, self.clock = store, clock
         self.snapshot, self.checked_at = None, None
+        self.minutes = 5.0
+        text = os.environ.get("DATA_CHECK_MINUTES", "5")
+        try:
+            minutes = float(text)
+            if not minutes >= 0:
+                raise ValueError("must not be negative")
+            self.minutes = minutes
+        except ValueError:
+            log.warning("DATA_CHECK_MINUTES=%r is not a number of minutes, using 5", text)
 
     def current(self):
         """The Snapshot in use (None while the store has none); checks the store first if due.
@@ -55,9 +64,8 @@ class DataVersion:
         assignment: a caller gets the old snapshot or the new one, never a mix. If it can't be
         loaded, the old one stays in use and the next check tries again.
         """
-        minutes = float(os.environ.get("DATA_CHECK_MINUTES", "5"))
         now = self.clock()
-        if self.checked_at is None or now - self.checked_at >= minutes * 60:
+        if self.checked_at is None or now - self.checked_at >= self.minutes * 60:
             self.checked_at = now
             store = self.store or open_store()
             try:
