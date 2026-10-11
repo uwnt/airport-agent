@@ -10,8 +10,27 @@ dot_fares:
   distance_band_edges_miles: [500, 1000, 1500]
 
 bts_ontime:
-  # Strain uses the latest 12 months of BTS on-time data (D7).
+  # Strain uses the latest 12 months of BTS on-time data (D7), ending at the newest usable month.
   months: 12
+
+point_in_time:
+  # `airport-agent refresh --as-of YYYY-MM` builds a snapshot from data PUBLISHED by the end of that
+  # month, so an old snapshot shows what an analyst could have known then. Each source has its own
+  # publication lag; a plain `refresh` (latest) uses whatever each source serves today.
+  #
+  # BTS on-time: a month is usable once this many days have passed since it ended. Observed gaps
+  # between a month's end and its file are about 6 to 13 weeks (docs/DOMAIN_NOTES.md item 10;
+  # Jan 2026 arrived on 1 May 2026, 90 days later), so 91 days (13 weeks) covers the slowest seen.
+  bts_ontime_lag_days: 91
+  # DOT Table 1a: a quarter is usable this many whole months after it ends. ASSUMPTION, not a
+  # published schedule: the dataset's rows were last updated on 3 Sep 2026, adding 2026 Q1 about
+  # five months after that quarter ended, and 2026 Q2 was still absent on 11 Oct 2026. Six months
+  # keeps a month of margin over that one observation.
+  dot_fares_lag_months: 6
+  # BTS boardings: a calendar year is usable from the following year on (as-of year minus 1).
+  bts_enplanements_lag_years: 1
+  # OurAirports keeps no history: every snapshot uses the current file, and its manifest says so.
+  # OpenSky's free account has only recent days: only the latest snapshot has a long-haul share.
 
 scope:
   # Ranked airports: in DOT Table 1a and in the lower 48 (D11). These states are not ranked.

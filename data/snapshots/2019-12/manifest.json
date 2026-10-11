@@ -1,0 +1,83 @@
+{
+ "as_of": "2019-12-31",
+ "built_at": "2026-10-11T17:47:27+00:00",
+ "commit": "e36a505bb8b2ef7a6638d543347646b1f45c73ea",
+ "files": [
+  "bts_enplanements.json",
+  "bts_ontime.json",
+  "dot_fares.json",
+  "opensky.json",
+  "ourairports.json"
+ ],
+ "point_in_time_rule": "only data published by 2019-12-31: BTS on-time months that ended at least 91 days before; DOT Table 1a quarters that ended at least 6 months before (an assumed lag); BTS boardings for years up to 2018; OurAirports keeps no history, so its current file is used; OpenSky only in the latest snapshot",
+ "sources": {
+  "bts_enplanements": {
+   "as_of": "2018",
+   "fetched_at": "2026-10-11T17:47:25+00:00",
+   "source": "BTS passenger boardings (top 50 airports)",
+   "source_url": "https://data.bts.gov/resource/2ydv-qfge.json"
+  },
+  "bts_ontime": {
+   "as_of": "Oct 2018 to Sep 2019",
+   "fetched_at": "2026-10-11T17:47:24+00:00",
+   "months": [
+    "2018-10",
+    "2018-11",
+    "2018-12",
+    "2019-01",
+    "2019-02",
+    "2019-03",
+    "2019-04",
+    "2019-05",
+    "2019-06",
+    "2019-07",
+    "2019-08",
+    "2019-09"
+   ],
+   "source": "BTS On-Time Performance (Reporting Carrier)",
+   "source_url": "https://transtats.bts.gov/PREZIP/"
+  },
+  "dot_fares": {
+   "as_of": "2019 Q2",
+   "baseline": "2019 Q2",
+   "distance_band_edges_miles": [
+    500,
+    1000,
+    1500
+   ],
+   "fetched_at": "2026-10-11T17:39:30+00:00",
+   "no_growth_reason": "this snapshot is the 2019 baseline",
+   "source": "DOT Consumer Airfare Report, Table 1a",
+   "source_url": "https://datahub.transportation.gov/resource/tfrh-tu9e.json"
+  },
+  "opensky": {
+   "as_of": "2019-12-31",
+   "fetched_at": "2026-10-11T17:47:27+00:00",
+   "note": "not available for this date (OpenSky free history is short)",
+   "source": "OpenSky Network (estimated destinations)",
+   "source_url": "https://opensky-network.org/api/flights/departure"
+  },
+  "ourairports": {
+   "as_of": "2026-10-11",
+   "fetched_at": "2026-10-11T17:47:27+00:00",
+   "matched_by_keyword": {
+    "PBI": "DJT"
+   },
+   "note": "current file: OurAirports keeps no history",
+   "source": "OurAirports",
+   "source_url": "https://davidmegginson.github.io/ourairports-data/airports.csv",
+   "unresolved_codes": {
+    "BQN": "in BTS On-Time Performance (Reporting Carrier); OurAirports lists it in PR, not the US",
+    "GUM": "in BTS On-Time Performance (Reporting Carrier); OurAirports lists it in GU, not the US",
+    "ISN": "in BTS On-Time Performance (Reporting Carrier); no US airport in OurAirports has it as IATA, ICAO or keyword code",
+    "PPG": "in BTS On-Time Performance (Reporting Carrier); OurAirports lists it in AS, not the US",
+    "PSE": "in BTS On-Time Performance (Reporting Carrier); OurAirports lists it in PR, not the US",
+    "SJU": "in BTS On-Time Performance (Reporting Carrier), BTS passenger boardings (top 50 airports); OurAirports lists it in PR, not the US",
+    "SPN": "in BTS On-Time Performance (Reporting Carrier); OurAirports lists it in MP, not the US",
+    "STT": "in BTS On-Time Performance (Reporting Carrier); OurAirports lists it in VI, not the US",
+    "STX": "in BTS On-Time Performance (Reporting Carrier); OurAirports lists it in VI, not the US"
+   }
+  }
+ },
+ "version": "2019-12"
+}

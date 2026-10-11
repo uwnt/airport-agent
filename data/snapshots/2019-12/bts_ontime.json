@@ -1,0 +1,3614 @@
+{
+ "data": {
+  "ABE": {
+   "cancellation_rate": 0.0166,
+   "cancelled": 82,
+   "diverted": 6,
+   "landed": 4849,
+   "months": 12,
+   "nas_delay_minutes": 7974.0,
+   "nas_delay_per_landed_flight": 1.64,
+   "scheduled": 4937
+  },
+  "ABI": {
+   "cancellation_rate": 0.0187,
+   "cancelled": 41,
+   "diverted": 5,
+   "landed": 2156,
+   "months": 12,
+   "nas_delay_minutes": 4680.0,
+   "nas_delay_per_landed_flight": 2.17,
+   "scheduled": 2202
+  },
+  "ABQ": {
+   "cancellation_rate": 0.0138,
+   "cancelled": 323,
+   "diverted": 36,
+   "landed": 23093,
+   "months": 12,
+   "nas_delay_minutes": 33202.0,
+   "nas_delay_per_landed_flight": 1.44,
+   "scheduled": 23452
+  },
+  "ABR": {
+   "cancellation_rate": 0.0215,
+   "cancelled": 16,
+   "diverted": 4,
+   "landed": 728,
+   "months": 12,
+   "nas_delay_minutes": 852.0,
+   "nas_delay_per_landed_flight": 1.17,
+   "scheduled": 748
+  },
+  "ABY": {
+   "cancellation_rate": 0.006,
+   "cancelled": 6,
+   "diverted": 6,
+   "landed": 996,
+   "months": 12,
+   "nas_delay_minutes": 2335.0,
+   "nas_delay_per_landed_flight": 2.34,
+   "scheduled": 1008
+  },
+  "ACK": {
+   "cancellation_rate": 0.0254,
+   "cancelled": 30,
+   "diverted": 8,
+   "landed": 1153,
+   "months": 6,
+   "nas_delay_minutes": 2139.0,
+   "nas_delay_per_landed_flight": 1.86,
+   "scheduled": 1191
+  },
+  "ACT": {
+   "cancellation_rate": 0.0346,
+   "cancelled": 61,
+   "diverted": 4,
+   "landed": 1700,
+   "months": 12,
+   "nas_delay_minutes": 2314.0,
+   "nas_delay_per_landed_flight": 1.36,
+   "scheduled": 1765
+  },
+  "ACV": {
+   "cancellation_rate": 0.0458,
+   "cancelled": 83,
+   "diverted": 24,
+   "landed": 1729,
+   "months": 12,
+   "nas_delay_minutes": 3056.0,
+   "nas_delay_per_landed_flight": 1.77,
+   "scheduled": 1836
+  },
+  "ACY": {
+   "cancellation_rate": 0.0165,
+   "cancelled": 52,
+   "diverted": 6,
+   "landed": 3091,
+   "months": 12,
+   "nas_delay_minutes": 16215.0,
+   "nas_delay_per_landed_flight": 5.25,
+   "scheduled": 3149
+  },
+  "ADK": {
+   "cancellation_rate": 0.0577,
+   "cancelled": 6,
+   "diverted": 0,
+   "landed": 98,
+   "months": 12,
+   "nas_delay_minutes": 47.0,
+   "nas_delay_per_landed_flight": 0.48,
+   "scheduled": 104
+  },
+  "ADQ": {
+   "cancellation_rate": 0.0204,
+   "cancelled": 13,
+   "diverted": 3,
+   "landed": 624,
+   "months": 12,
+   "nas_delay_minutes": 515.0,
+   "nas_delay_per_landed_flight": 0.83,
+   "scheduled": 640
+  },
+  "AEX": {
+   "cancellation_rate": 0.0173,
+   "cancelled": 56,
+   "diverted": 11,
+   "landed": 3190,
+   "months": 12,
+   "nas_delay_minutes": 6595.0,
+   "nas_delay_per_landed_flight": 2.07,
+   "scheduled": 3257
+  },
+  "AGS": {
+   "cancellation_rate": 0.0121,
+   "cancelled": 56,
+   "diverted": 9,
+   "landed": 4586,
+   "months": 12,
+   "nas_delay_minutes": 6849.0,
+   "nas_delay_per_landed_flight": 1.49,
+   "scheduled": 4651
+  },
+  "AKN": {
+   "cancellation_rate": 0.0,
+   "cancelled": 0,
+   "diverted": 0,
+   "landed": 61,
+   "months": 3,
+   "nas_delay_minutes": 3.0,
+   "nas_delay_per_landed_flight": 0.05,
+   "scheduled": 61
+  },
+  "ALB": {
+   "cancellation_rate": 0.0185,
+   "cancelled": 233,
+   "diverted": 24,
+   "landed": 12390,
+   "months": 12,
+   "nas_delay_minutes": 22999.0,
+   "nas_delay_per_landed_flight": 1.86,
+   "scheduled": 12647
+  },
+  "ALO": {
+   "cancellation_rate": 0.043,
+   "cancelled": 30,
+   "diverted": 2,
+   "landed": 667,
+   "months": 12,
+   "nas_delay_minutes": 2434.0,
+   "nas_delay_per_landed_flight": 3.65,
+   "scheduled": 699
+  },
+  "AMA": {
+   "cancellation_rate": 0.0321,
+   "cancelled": 169,
+   "diverted": 21,
+   "landed": 5088,
+   "months": 12,
+   "nas_delay_minutes": 8734.0,
+   "nas_delay_per_landed_flight": 1.72,
+   "scheduled": 5278
+  },
+  "ANC": {
+   "cancellation_rate": 0.0112,
+   "cancelled": 212,
+   "diverted": 23,
+   "landed": 18738,
+   "months": 12,
+   "nas_delay_minutes": 27922.0,
+   "nas_delay_per_landed_flight": 1.49,
+   "scheduled": 18973
+  },
+  "APN": {
+   "cancellation_rate": 0.0358,
+   "cancelled": 22,
+   "diverted": 11,
+   "landed": 593,
+   "months": 12,
+   "nas_delay_minutes": 277.0,
+   "nas_delay_per_landed_flight": 0.47,
+   "scheduled": 626
+  },
+  "ART": {
+   "cancellation_rate": 0.1226,
+   "cancelled": 32,
+   "diverted": 9,
+   "landed": 229,
+   "months": 6,
+   "nas_delay_minutes": 713.0,
+   "nas_delay_per_landed_flight": 3.11,
+   "scheduled": 270
+  },
+  "ASE": {
+   "cancellation_rate": 0.0503,
+   "cancelled": 322,
+   "diverted": 274,
+   "landed": 6084,
+   "months": 12,
+   "nas_delay_minutes": 26925.0,
+   "nas_delay_per_landed_flight": 4.43,
+   "scheduled": 6680
+  },
+  "ATL": {
+   "cancellation_rate": 0.0068,
+   "cancelled": 2656,
+   "diverted": 778,
+   "landed": 390300,
+   "months": 12,
+   "nas_delay_minutes": 862363.0,
+   "nas_delay_per_landed_flight": 2.21,
+   "scheduled": 393734
+  },
+  "ATW": {
+   "cancellation_rate": 0.0217,
+   "cancelled": 92,
+   "diverted": 19,
+   "landed": 4154,
+   "months": 12,
+   "nas_delay_minutes": 7964.0,
+   "nas_delay_per_landed_flight": 1.92,
+   "scheduled": 4265
+  },
+  "ATY": {
+   "cancellation_rate": 0.0385,
+   "cancelled": 13,
+   "diverted": 1,
+   "landed": 325,
+   "months": 6,
+   "nas_delay_minutes": 562.0,
+   "nas_delay_per_landed_flight": 1.73,
+   "scheduled": 339
+  },
+  "AUS": {
+   "cancellation_rate": 0.0127,
+   "cancelled": 832,
+   "diverted": 178,
+   "landed": 64626,
+   "months": 12,
+   "nas_delay_minutes": 133379.0,
+   "nas_delay_per_landed_flight": 2.06,
+   "scheduled": 65636
+  },
+  "AVL": {
+   "cancellation_rate": 0.0214,
+   "cancelled": 195,
+   "diverted": 66,
+   "landed": 8905,
+   "months": 12,
+   "nas_delay_minutes": 20348.0,
+   "nas_delay_per_landed_flight": 2.29,
+   "scheduled": 9166
+  },
+  "AVP": {
+   "cancellation_rate": 0.0223,
+   "cancelled": 76,
+   "diverted": 13,
+   "landed": 3338,
+   "months": 12,
+   "nas_delay_minutes": 5394.0,
+   "nas_delay_per_landed_flight": 1.62,
+   "scheduled": 3427
+  },
+  "AZA": {
+   "cancellation_rate": 0.0066,
+   "cancelled": 37,
+   "diverted": 2,
+   "landed": 5552,
+   "months": 12,
+   "nas_delay_minutes": 12636.0,
+   "nas_delay_per_landed_flight": 2.28,
+   "scheduled": 5591
+  },
+  "AZO": {
+   "cancellation_rate": 0.0371,
+   "cancelled": 81,
+   "diverted": 4,
+   "landed": 2105,
+   "months": 12,
+   "nas_delay_minutes": 4725.0,
+   "nas_delay_per_landed_flight": 2.24,
+   "scheduled": 2190
+  },
+  "BDL": {
+   "cancellation_rate": 0.0165,
+   "cancelled": 477,
+   "diverted": 33,
+   "landed": 28470,
+   "months": 12,
+   "nas_delay_minutes": 47053.0,
+   "nas_delay_per_landed_flight": 1.65,
+   "scheduled": 28980
+  },
+  "BET": {
+   "cancellation_rate": 0.029,
+   "cancelled": 24,
+   "diverted": 2,
+   "landed": 803,
+   "months": 12,
+   "nas_delay_minutes": 310.0,
+   "nas_delay_per_landed_flight": 0.39,
+   "scheduled": 829
+  },
+  "BFF": {
+   "cancellation_rate": 0.0304,
+   "cancelled": 19,
+   "diverted": 0,
+   "landed": 605,
+   "months": 12,
+   "nas_delay_minutes": 1055.0,
+   "nas_delay_per_landed_flight": 1.74,
+   "scheduled": 624
+  },
+  "BFL": {
+   "cancellation_rate": 0.0187,
+   "cancelled": 45,
+   "diverted": 1,
+   "landed": 2363,
+   "months": 12,
+   "nas_delay_minutes": 2909.0,
+   "nas_delay_per_landed_flight": 1.23,
+   "scheduled": 2409
+  },
+  "BFM": {
+   "cancellation_rate": 0.0278,
+   "cancelled": 3,
+   "diverted": 0,
+   "landed": 105,
+   "months": 5,
+   "nas_delay_minutes": 887.0,
+   "nas_delay_per_landed_flight": 8.45,
+   "scheduled": 108
+  },
+  "BGM": {
+   "cancellation_rate": 0.0097,
+   "cancelled": 9,
+   "diverted": 8,
+   "landed": 918,
+   "months": 12,
+   "nas_delay_minutes": 1049.0,
+   "nas_delay_per_landed_flight": 1.14,
+   "scheduled": 935
+  },
+  "BGR": {
+   "cancellation_rate": 0.0329,
+   "cancelled": 123,
+   "diverted": 9,
+   "landed": 3616,
+   "months": 12,
+   "nas_delay_minutes": 9015.0,
+   "nas_delay_per_landed_flight": 2.49,
+   "scheduled": 3748
+  },
+  "BHM": {
+   "cancellation_rate": 0.0202,
+   "cancelled": 391,
+   "diverted": 38,
+   "landed": 18963,
+   "months": 12,
+   "nas_delay_minutes": 37812.0,
+   "nas_delay_per_landed_flight": 1.99,
+   "scheduled": 19392
+  },
+  "BIL": {
+   "cancellation_rate": 0.005,
+   "cancelled": 20,
+   "diverted": 8,
+   "landed": 3983,
+   "months": 12,
+   "nas_delay_minutes": 5639.0,
+   "nas_delay_per_landed_flight": 1.42,
+   "scheduled": 4011
+  },
+  "BIS": {
+   "cancellation_rate": 0.0142,
+   "cancelled": 57,
+   "diverted": 21,
+   "landed": 3966,
+   "months": 12,
+   "nas_delay_minutes": 5893.0,
+   "nas_delay_per_landed_flight": 1.49,
+   "scheduled": 4044
+  },
+  "BJI": {
+   "cancellation_rate": 0.0081,
+   "cancelled": 6,
+   "diverted": 2,
+   "landed": 736,
+   "months": 12,
+   "nas_delay_minutes": 910.0,
+   "nas_delay_per_landed_flight": 1.24,
+   "scheduled": 744
+  },
+  "BKG": {
+   "cancellation_rate": 0.035,
+   "cancelled": 7,
+   "diverted": 0,
+   "landed": 193,
+   "months": 8,
+   "nas_delay_minutes": 1018.0,
+   "nas_delay_per_landed_flight": 5.27,
+   "scheduled": 200
+  },
+  "BLI": {
+   "cancellation_rate": 0.0082,
+   "cancelled": 16,
+   "diverted": 12,
+   "landed": 1932,
+   "months": 12,
+   "nas_delay_minutes": 3452.0,
+   "nas_delay_per_landed_flight": 1.79,
+   "scheduled": 1960
+  },
+  "BLV": {
+   "cancellation_rate": 0.003,
+   "cancelled": 3,
+   "diverted": 4,
+   "landed": 1000,
+   "months": 12,
+   "nas_delay_minutes": 1674.0,
+   "nas_delay_per_landed_flight": 1.67,
+   "scheduled": 1007
+  },
+  "BMI": {
+   "cancellation_rate": 0.0311,
+   "cancelled": 96,
+   "diverted": 13,
+   "landed": 2995,
+   "months": 12,
+   "nas_delay_minutes": 5324.0,
+   "nas_delay_per_landed_flight": 1.78,
+   "scheduled": 3104
+  },
+  "BNA": {
+   "cancellation_rate": 0.0166,
+   "cancelled": 1334,
+   "diverted": 131,
+   "landed": 79268,
+   "months": 12,
+   "nas_delay_minutes": 139793.0,
+   "nas_delay_per_landed_flight": 1.76,
+   "scheduled": 80733
+  },
+  "BOI": {
+   "cancellation_rate": 0.0067,
+   "cancelled": 126,
+   "diverted": 14,
+   "landed": 18774,
+   "months": 12,
+   "nas_delay_minutes": 19380.0,
+   "nas_delay_per_landed_flight": 1.03,
+   "scheduled": 18914
+  },
+  "BOS": {
+   "cancellation_rate": 0.0191,
+   "cancelled": 2841,
+   "diverted": 232,
+   "landed": 145531,
+   "months": 12,
+   "nas_delay_minutes": 854468.0,
+   "nas_delay_per_landed_flight": 5.87,
+   "scheduled": 148604
+  },
+  "BPT": {
+   "cancellation_rate": 0.0388,
+   "cancelled": 38,
+   "diverted": 3,
+   "landed": 941,
+   "months": 12,
+   "nas_delay_minutes": 1871.0,
+   "nas_delay_per_landed_flight": 1.99,
+   "scheduled": 982
+  },
+  "BQK": {
+   "cancellation_rate": 0.0068,
+   "cancelled": 7,
+   "diverted": 6,
+   "landed": 1024,
+   "months": 12,
+   "nas_delay_minutes": 1444.0,
+   "nas_delay_per_landed_flight": 1.41,
+   "scheduled": 1037
+  },
+  "BQN": {
+   "cancellation_rate": 0.0093,
+   "cancelled": 21,
+   "diverted": 2,
+   "landed": 2237,
+   "months": 12,
+   "nas_delay_minutes": 7897.0,
+   "nas_delay_per_landed_flight": 3.53,
+   "scheduled": 2260
+  },
+  "BRD": {
+   "cancellation_rate": 0.0205,
+   "cancelled": 13,
+   "diverted": 1,
+   "landed": 622,
+   "months": 12,
+   "nas_delay_minutes": 507.0,
+   "nas_delay_per_landed_flight": 0.82,
+   "scheduled": 636
+  },
+  "BRO": {
+   "cancellation_rate": 0.0329,
+   "cancelled": 88,
+   "diverted": 20,
+   "landed": 2585,
+   "months": 12,
+   "nas_delay_minutes": 5480.0,
+   "nas_delay_per_landed_flight": 2.12,
+   "scheduled": 2693
+  },
+  "BRW": {
+   "cancellation_rate": 0.0182,
+   "cancelled": 13,
+   "diverted": 13,
+   "landed": 701,
+   "months": 12,
+   "nas_delay_minutes": 218.0,
+   "nas_delay_per_landed_flight": 0.31,
+   "scheduled": 727
+  },
+  "BTM": {
+   "cancellation_rate": 0.0,
+   "cancelled": 0,
+   "diverted": 6,
+   "landed": 673,
+   "months": 12,
+   "nas_delay_minutes": 238.0,
+   "nas_delay_per_landed_flight": 0.35,
+   "scheduled": 679
+  },
+  "BTR": {
+   "cancellation_rate": 0.0264,
+   "cancelled": 199,
+   "diverted": 26,
+   "landed": 7344,
+   "months": 12,
+   "nas_delay_minutes": 14498.0,
+   "nas_delay_per_landed_flight": 1.97,
+   "scheduled": 7569
+  },
+  "BTV": {
+   "cancellation_rate": 0.0222,
+   "cancelled": 215,
+   "diverted": 21,
+   "landed": 9465,
+   "months": 12,
+   "nas_delay_minutes": 25347.0,
+   "nas_delay_per_landed_flight": 2.68,
+   "scheduled": 9701
+  },
+  "BUF": {
+   "cancellation_rate": 0.0241,
+   "cancelled": 611,
+   "diverted": 34,
+   "landed": 24763,
+   "months": 12,
+   "nas_delay_minutes": 46775.0,
+   "nas_delay_per_landed_flight": 1.89,
+   "scheduled": 25408
+  },
+  "BUR": {
+   "cancellation_rate": 0.0312,
+   "cancelled": 943,
+   "diverted": 75,
+   "landed": 29314,
+   "months": 12,
+   "nas_delay_minutes": 32860.0,
+   "nas_delay_per_landed_flight": 1.12,
+   "scheduled": 30332
+  },
+  "BWI": {
+   "cancellation_rate": 0.0251,
+   "cancelled": 2603,
+   "diverted": 267,
+   "landed": 101057,
+   "months": 12,
+   "nas_delay_minutes": 205218.0,
+   "nas_delay_per_landed_flight": 2.03,
+   "scheduled": 103927
+  },
+  "BZN": {
+   "cancellation_rate": 0.006,
+   "cancelled": 40,
+   "diverted": 26,
+   "landed": 6617,
+   "months": 12,
+   "nas_delay_minutes": 11254.0,
+   "nas_delay_per_landed_flight": 1.7,
+   "scheduled": 6683
+  },
+  "CAE": {
+   "cancellation_rate": 0.0146,
+   "cancelled": 109,
+   "diverted": 7,
+   "landed": 7374,
+   "months": 12,
+   "nas_delay_minutes": 11457.0,
+   "nas_delay_per_landed_flight": 1.55,
+   "scheduled": 7490
+  },
+  "CAK": {
+   "cancellation_rate": 0.0314,
+   "cancelled": 212,
+   "diverted": 13,
+   "landed": 6543,
+   "months": 12,
+   "nas_delay_minutes": 17606.0,
+   "nas_delay_per_landed_flight": 2.69,
+   "scheduled": 6768
+  },
+  "CDC": {
+   "cancellation_rate": 0.0,
+   "cancelled": 0,
+   "diverted": 4,
+   "landed": 759,
+   "months": 12,
+   "nas_delay_minutes": 1211.0,
+   "nas_delay_per_landed_flight": 1.6,
+   "scheduled": 763
+  },
+  "CDV": {
+   "cancellation_rate": 0.0154,
+   "cancelled": 11,
+   "diverted": 7,
+   "landed": 704,
+   "months": 12,
+   "nas_delay_minutes": 1131.0,
+   "nas_delay_per_landed_flight": 1.61,
+   "scheduled": 722
+  },
+  "CGI": {
+   "cancellation_rate": 0.0584,
+   "cancelled": 52,
+   "diverted": 4,
+   "landed": 838,
+   "months": 12,
+   "nas_delay_minutes": 1357.0,
+   "nas_delay_per_landed_flight": 1.62,
+   "scheduled": 894
+  },
+  "CHA": {
+   "cancellation_rate": 0.0175,
+   "cancelled": 154,
+   "diverted": 14,
+   "landed": 8660,
+   "months": 12,
+   "nas_delay_minutes": 17487.0,
+   "nas_delay_per_landed_flight": 2.02,
+   "scheduled": 8828
+  },
+  "CHO": {
+   "cancellation_rate": 0.0324,
+   "cancelled": 184,
+   "diverted": 45,
+   "landed": 5489,
+   "months": 12,
+   "nas_delay_minutes": 14306.0,
+   "nas_delay_per_landed_flight": 2.61,
+   "scheduled": 5718
+  },
+  "CHS": {
+   "cancellation_rate": 0.0219,
+   "cancelled": 551,
+   "diverted": 40,
+   "landed": 24573,
+   "months": 12,
+   "nas_delay_minutes": 49810.0,
+   "nas_delay_per_landed_flight": 2.03,
+   "scheduled": 25164
+  },
+  "CID": {
+   "cancellation_rate": 0.0284,
+   "cancelled": 265,
+   "diverted": 22,
+   "landed": 9064,
+   "months": 12,
+   "nas_delay_minutes": 19535.0,
+   "nas_delay_per_landed_flight": 2.16,
+   "scheduled": 9351
+  },
+  "CIU": {
+   "cancellation_rate": 0.0166,
+   "cancelled": 11,
+   "diverted": 12,
+   "landed": 652,
+   "months": 12,
+   "nas_delay_minutes": 838.0,
+   "nas_delay_per_landed_flight": 1.29,
+   "scheduled": 675
+  },
+  "CKB": {
+   "cancellation_rate": 0.0237,
+   "cancelled": 20,
+   "diverted": 1,
+   "landed": 823,
+   "months": 12,
+   "nas_delay_minutes": 1930.0,
+   "nas_delay_per_landed_flight": 2.35,
+   "scheduled": 844
+  },
+  "CLE": {
+   "cancellation_rate": 0.0212,
+   "cancelled": 1051,
+   "diverted": 69,
+   "landed": 48557,
+   "months": 12,
+   "nas_delay_minutes": 115300.0,
+   "nas_delay_per_landed_flight": 2.37,
+   "scheduled": 49677
+  },
+  "CLL": {
+   "cancellation_rate": 0.0319,
+   "cancelled": 73,
+   "diverted": 9,
+   "landed": 2212,
+   "months": 12,
+   "nas_delay_minutes": 4568.0,
+   "nas_delay_per_landed_flight": 2.07,
+   "scheduled": 2294
+  },
+  "CLT": {
+   "cancellation_rate": 0.0218,
+   "cancelled": 5082,
+   "diverted": 608,
+   "landed": 227772,
+   "months": 12,
+   "nas_delay_minutes": 447467.0,
+   "nas_delay_per_landed_flight": 1.96,
+   "scheduled": 233462
+  },
+  "CMH": {
+   "cancellation_rate": 0.0188,
+   "cancelled": 885,
+   "diverted": 42,
+   "landed": 46297,
+   "months": 12,
+   "nas_delay_minutes": 89315.0,
+   "nas_delay_per_landed_flight": 1.93,
+   "scheduled": 47224
+  },
+  "CMI": {
+   "cancellation_rate": 0.0378,
+   "cancelled": 103,
+   "diverted": 12,
+   "landed": 2625,
+   "months": 12,
+   "nas_delay_minutes": 7474.0,
+   "nas_delay_per_landed_flight": 2.85,
+   "scheduled": 2740
+  },
+  "CMX": {
+   "cancellation_rate": 0.0778,
+   "cancelled": 56,
+   "diverted": 8,
+   "landed": 664,
+   "months": 12,
+   "nas_delay_minutes": 2010.0,
+   "nas_delay_per_landed_flight": 3.03,
+   "scheduled": 728
+  },
+  "CNY": {
+   "cancellation_rate": 0.0435,
+   "cancelled": 28,
+   "diverted": 7,
+   "landed": 616,
+   "months": 12,
+   "nas_delay_minutes": 816.0,
+   "nas_delay_per_landed_flight": 1.32,
+   "scheduled": 651
+  },
+  "COD": {
+   "cancellation_rate": 0.0152,
+   "cancelled": 9,
+   "diverted": 14,
+   "landed": 583,
+   "months": 12,
+   "nas_delay_minutes": 1152.0,
+   "nas_delay_per_landed_flight": 1.98,
+   "scheduled": 606
+  },
+  "COS": {
+   "cancellation_rate": 0.0193,
+   "cancelled": 191,
+   "diverted": 31,
+   "landed": 9684,
+   "months": 12,
+   "nas_delay_minutes": 23746.0,
+   "nas_delay_per_landed_flight": 2.45,
+   "scheduled": 9906
+  },
+  "COU": {
+   "cancellation_rate": 0.0702,
+   "cancelled": 161,
+   "diverted": 10,
+   "landed": 2132,
+   "months": 12,
+   "nas_delay_minutes": 5966.0,
+   "nas_delay_per_landed_flight": 2.8,
+   "scheduled": 2303
+  },
+  "CPR": {
+   "cancellation_rate": 0.0046,
+   "cancelled": 5,
+   "diverted": 3,
+   "landed": 1087,
+   "months": 12,
+   "nas_delay_minutes": 1108.0,
+   "nas_delay_per_landed_flight": 1.02,
+   "scheduled": 1095
+  },
+  "CRP": {
+   "cancellation_rate": 0.0309,
+   "cancelled": 178,
+   "diverted": 6,
+   "landed": 5589,
+   "months": 12,
+   "nas_delay_minutes": 10614.0,
+   "nas_delay_per_landed_flight": 1.9,
+   "scheduled": 5773
+  },
+  "CRW": {
+   "cancellation_rate": 0.0224,
+   "cancelled": 99,
+   "diverted": 45,
+   "landed": 4312,
+   "months": 12,
+   "nas_delay_minutes": 7234.0,
+   "nas_delay_per_landed_flight": 1.68,
+   "scheduled": 4456
+  },
+  "CSG": {
+   "cancellation_rate": 0.0079,
+   "cancelled": 10,
+   "diverted": 5,
+   "landed": 1256,
+   "months": 12,
+   "nas_delay_minutes": 2258.0,
+   "nas_delay_per_landed_flight": 1.8,
+   "scheduled": 1271
+  },
+  "CVG": {
+   "cancellation_rate": 0.016,
+   "cancelled": 778,
+   "diverted": 52,
+   "landed": 47879,
+   "months": 12,
+   "nas_delay_minutes": 107128.0,
+   "nas_delay_per_landed_flight": 2.24,
+   "scheduled": 48709
+  },
+  "CWA": {
+   "cancellation_rate": 0.0302,
+   "cancelled": 78,
+   "diverted": 8,
+   "landed": 2509,
+   "months": 12,
+   "nas_delay_minutes": 5090.0,
+   "nas_delay_per_landed_flight": 2.03,
+   "scheduled": 2595
+  },
+  "CYS": {
+   "cancellation_rate": 0.0484,
+   "cancelled": 23,
+   "diverted": 4,
+   "landed": 452,
+   "months": 11,
+   "nas_delay_minutes": 388.0,
+   "nas_delay_per_landed_flight": 0.86,
+   "scheduled": 479
+  },
+  "DAB": {
+   "cancellation_rate": 0.0161,
+   "cancelled": 54,
+   "diverted": 5,
+   "landed": 3290,
+   "months": 12,
+   "nas_delay_minutes": 4513.0,
+   "nas_delay_per_landed_flight": 1.37,
+   "scheduled": 3349
+  },
+  "DAL": {
+   "cancellation_rate": 0.0319,
+   "cancelled": 2310,
+   "diverted": 402,
+   "landed": 70152,
+   "months": 12,
+   "nas_delay_minutes": 149044.0,
+   "nas_delay_per_landed_flight": 2.12,
+   "scheduled": 72864
+  },
+  "DAY": {
+   "cancellation_rate": 0.0269,
+   "cancelled": 372,
+   "diverted": 20,
+   "landed": 13442,
+   "months": 12,
+   "nas_delay_minutes": 28233.0,
+   "nas_delay_per_landed_flight": 2.1,
+   "scheduled": 13834
+  },
+  "DBQ": {
+   "cancellation_rate": 0.0558,
+   "cancelled": 58,
+   "diverted": 5,
+   "landed": 981,
+   "months": 12,
+   "nas_delay_minutes": 2905.0,
+   "nas_delay_per_landed_flight": 2.96,
+   "scheduled": 1044
+  },
+  "DCA": {
+   "cancellation_rate": 0.0258,
+   "cancelled": 3581,
+   "diverted": 470,
+   "landed": 135371,
+   "months": 12,
+   "nas_delay_minutes": 399295.0,
+   "nas_delay_per_landed_flight": 2.95,
+   "scheduled": 139422
+  },
+  "DEN": {
+   "cancellation_rate": 0.0178,
+   "cancelled": 4360,
+   "diverted": 751,
+   "landed": 240897,
+   "months": 12,
+   "nas_delay_minutes": 843192.0,
+   "nas_delay_per_landed_flight": 3.5,
+   "scheduled": 246008
+  },
+  "DFW": {
+   "cancellation_rate": 0.0297,
+   "cancelled": 8759,
+   "diverted": 1262,
+   "landed": 286396,
+   "months": 12,
+   "nas_delay_minutes": 1119708.0,
+   "nas_delay_per_landed_flight": 3.91,
+   "scheduled": 296417
+  },
+  "DHN": {
+   "cancellation_rate": 0.0051,
+   "cancelled": 7,
+   "diverted": 1,
+   "landed": 1366,
+   "months": 12,
+   "nas_delay_minutes": 1887.0,
+   "nas_delay_per_landed_flight": 1.38,
+   "scheduled": 1374
+  },
+  "DLG": {
+   "cancellation_rate": 0.0,
+   "cancelled": 0,
+   "diverted": 0,
+   "landed": 82,
+   "months": 3,
+   "nas_delay_minutes": 10.0,
+   "nas_delay_per_landed_flight": 0.12,
+   "scheduled": 82
+  },
+  "DLH": {
+   "cancellation_rate": 0.0305,
+   "cancelled": 94,
+   "diverted": 31,
+   "landed": 2990,
+   "months": 12,
+   "nas_delay_minutes": 5143.0,
+   "nas_delay_per_landed_flight": 1.72,
+   "scheduled": 3115
+  },
+  "DRO": {
+   "cancellation_rate": 0.0259,
+   "cancelled": 86,
+   "diverted": 6,
+   "landed": 3239,
+   "months": 12,
+   "nas_delay_minutes": 5629.0,
+   "nas_delay_per_landed_flight": 1.74,
+   "scheduled": 3331
+  },
+  "DRT": {
+   "cancellation_rate": 0.0153,
+   "cancelled": 10,
+   "diverted": 4,
+   "landed": 642,
+   "months": 11,
+   "nas_delay_minutes": 1151.0,
+   "nas_delay_per_landed_flight": 1.79,
+   "scheduled": 656
+  },
+  "DSM": {
+   "cancellation_rate": 0.0174,
+   "cancelled": 293,
+   "diverted": 45,
+   "landed": 16556,
+   "months": 12,
+   "nas_delay_minutes": 32556.0,
+   "nas_delay_per_landed_flight": 1.97,
+   "scheduled": 16894
+  },
+  "DTW": {
+   "cancellation_rate": 0.0102,
+   "cancelled": 1613,
+   "diverted": 241,
+   "landed": 157278,
+   "months": 12,
+   "nas_delay_minutes": 298784.0,
+   "nas_delay_per_landed_flight": 1.9,
+   "scheduled": 159132
+  },
+  "DVL": {
+   "cancellation_rate": 0.061,
+   "cancelled": 38,
+   "diverted": 5,
+   "landed": 585,
+   "months": 12,
+   "nas_delay_minutes": 939.0,
+   "nas_delay_per_landed_flight": 1.61,
+   "scheduled": 628
+  },
+  "EAR": {
+   "cancellation_rate": 0.0331,
+   "cancelled": 21,
+   "diverted": 7,
+   "landed": 613,
+   "months": 12,
+   "nas_delay_minutes": 1016.0,
+   "nas_delay_per_landed_flight": 1.66,
+   "scheduled": 641
+  },
+  "EAU": {
+   "cancellation_rate": 0.0512,
+   "cancelled": 37,
+   "diverted": 5,
+   "landed": 686,
+   "months": 12,
+   "nas_delay_minutes": 1405.0,
+   "nas_delay_per_landed_flight": 2.05,
+   "scheduled": 728
+  },
+  "ECP": {
+   "cancellation_rate": 0.0288,
+   "cancelled": 187,
+   "diverted": 11,
+   "landed": 6301,
+   "months": 12,
+   "nas_delay_minutes": 19194.0,
+   "nas_delay_per_landed_flight": 3.05,
+   "scheduled": 6499
+  },
+  "EGE": {
+   "cancellation_rate": 0.0371,
+   "cancelled": 87,
+   "diverted": 38,
+   "landed": 2259,
+   "months": 12,
+   "nas_delay_minutes": 11719.0,
+   "nas_delay_per_landed_flight": 5.19,
+   "scheduled": 2384
+  },
+  "EKO": {
+   "cancellation_rate": 0.0089,
+   "cancelled": 6,
+   "diverted": 4,
+   "landed": 665,
+   "months": 12,
+   "nas_delay_minutes": 355.0,
+   "nas_delay_per_landed_flight": 0.53,
+   "scheduled": 675
+  },
+  "ELM": {
+   "cancellation_rate": 0.0088,
+   "cancelled": 3,
+   "diverted": 1,
+   "landed": 339,
+   "months": 12,
+   "nas_delay_minutes": 101.0,
+   "nas_delay_per_landed_flight": 0.3,
+   "scheduled": 343
+  },
+  "ELP": {
+   "cancellation_rate": 0.014,
+   "cancelled": 240,
+   "diverted": 27,
+   "landed": 16842,
+   "months": 12,
+   "nas_delay_minutes": 24910.0,
+   "nas_delay_per_landed_flight": 1.48,
+   "scheduled": 17109
+  },
+  "ERI": {
+   "cancellation_rate": 0.0087,
+   "cancelled": 10,
+   "diverted": 4,
+   "landed": 1134,
+   "months": 12,
+   "nas_delay_minutes": 1696.0,
+   "nas_delay_per_landed_flight": 1.5,
+   "scheduled": 1148
+  },
+  "ESC": {
+   "cancellation_rate": 0.0258,
+   "cancelled": 16,
+   "diverted": 7,
+   "landed": 603,
+   "months": 12,
+   "nas_delay_minutes": 688.0,
+   "nas_delay_per_landed_flight": 1.14,
+   "scheduled": 626
+  },
+  "EUG": {
+   "cancellation_rate": 0.0157,
+   "cancelled": 72,
+   "diverted": 14,
+   "landed": 4501,
+   "months": 12,
+   "nas_delay_minutes": 7675.0,
+   "nas_delay_per_landed_flight": 1.71,
+   "scheduled": 4587
+  },
+  "EVV": {
+   "cancellation_rate": 0.0206,
+   "cancelled": 87,
+   "diverted": 9,
+   "landed": 4134,
+   "months": 12,
+   "nas_delay_minutes": 6416.0,
+   "nas_delay_per_landed_flight": 1.55,
+   "scheduled": 4230
+  },
+  "EWN": {
+   "cancellation_rate": 0.025,
+   "cancelled": 57,
+   "diverted": 10,
+   "landed": 2224,
+   "months": 12,
+   "nas_delay_minutes": 3187.0,
+   "nas_delay_per_landed_flight": 1.43,
+   "scheduled": 2291
+  },
+  "EWR": {
+   "cancellation_rate": 0.0282,
+   "cancelled": 3844,
+   "diverted": 712,
+   "landed": 132266,
+   "months": 12,
+   "nas_delay_minutes": 1801611.0,
+   "nas_delay_per_landed_flight": 13.62,
+   "scheduled": 136822
+  },
+  "EYW": {
+   "cancellation_rate": 0.0048,
+   "cancelled": 26,
+   "diverted": 31,
+   "landed": 5364,
+   "months": 12,
+   "nas_delay_minutes": 10915.0,
+   "nas_delay_per_landed_flight": 2.03,
+   "scheduled": 5421
+  },
+  "FAI": {
+   "cancellation_rate": 0.0099,
+   "cancelled": 47,
+   "diverted": 1,
+   "landed": 4712,
+   "months": 12,
+   "nas_delay_minutes": 5574.0,
+   "nas_delay_per_landed_flight": 1.18,
+   "scheduled": 4760
+  },
+  "FAR": {
+   "cancellation_rate": 0.029,
+   "cancelled": 169,
+   "diverted": 16,
+   "landed": 5657,
+   "months": 12,
+   "nas_delay_minutes": 13393.0,
+   "nas_delay_per_landed_flight": 2.37,
+   "scheduled": 5842
+  },
+  "FAT": {
+   "cancellation_rate": 0.0085,
+   "cancelled": 103,
+   "diverted": 12,
+   "landed": 12063,
+   "months": 12,
+   "nas_delay_minutes": 14480.0,
+   "nas_delay_per_landed_flight": 1.2,
+   "scheduled": 12178
+  },
+  "FAY": {
+   "cancellation_rate": 0.0189,
+   "cancelled": 69,
+   "diverted": 18,
+   "landed": 3589,
+   "months": 12,
+   "nas_delay_minutes": 4362.0,
+   "nas_delay_per_landed_flight": 1.22,
+   "scheduled": 3676
+  },
+  "FCA": {
+   "cancellation_rate": 0.0036,
+   "cancelled": 10,
+   "diverted": 9,
+   "landed": 2749,
+   "months": 12,
+   "nas_delay_minutes": 3485.0,
+   "nas_delay_per_landed_flight": 1.27,
+   "scheduled": 2768
+  },
+  "FLG": {
+   "cancellation_rate": 0.024,
+   "cancelled": 41,
+   "diverted": 3,
+   "landed": 1664,
+   "months": 12,
+   "nas_delay_minutes": 1716.0,
+   "nas_delay_per_landed_flight": 1.03,
+   "scheduled": 1708
+  },
+  "FLL": {
+   "cancellation_rate": 0.0139,
+   "cancelled": 1353,
+   "diverted": 224,
+   "landed": 95696,
+   "months": 12,
+   "nas_delay_minutes": 328112.0,
+   "nas_delay_per_landed_flight": 3.43,
+   "scheduled": 97273
+  },
+  "FNT": {
+   "cancellation_rate": 0.0275,
+   "cancelled": 95,
+   "diverted": 21,
+   "landed": 3363,
+   "months": 12,
+   "nas_delay_minutes": 6110.0,
+   "nas_delay_per_landed_flight": 1.82,
+   "scheduled": 3479
+  },
+  "FSD": {
+   "cancellation_rate": 0.0321,
+   "cancelled": 229,
+   "diverted": 38,
+   "landed": 6899,
+   "months": 12,
+   "nas_delay_minutes": 17292.0,
+   "nas_delay_per_landed_flight": 2.51,
+   "scheduled": 7166
+  },
+  "FSM": {
+   "cancellation_rate": 0.0212,
+   "cancelled": 44,
+   "diverted": 5,
+   "landed": 2031,
+   "months": 12,
+   "nas_delay_minutes": 2716.0,
+   "nas_delay_per_landed_flight": 1.34,
+   "scheduled": 2080
+  },
+  "FWA": {
+   "cancellation_rate": 0.0175,
+   "cancelled": 122,
+   "diverted": 22,
+   "landed": 6868,
+   "months": 12,
+   "nas_delay_minutes": 12229.0,
+   "nas_delay_per_landed_flight": 1.78,
+   "scheduled": 7012
+  },
+  "GCC": {
+   "cancellation_rate": 0.0209,
+   "cancelled": 15,
+   "diverted": 3,
+   "landed": 701,
+   "months": 12,
+   "nas_delay_minutes": 1240.0,
+   "nas_delay_per_landed_flight": 1.77,
+   "scheduled": 719
+  },
+  "GCK": {
+   "cancellation_rate": 0.0565,
+   "cancelled": 41,
+   "diverted": 5,
+   "landed": 685,
+   "months": 12,
+   "nas_delay_minutes": 1244.0,
+   "nas_delay_per_landed_flight": 1.82,
+   "scheduled": 731
+  },
+  "GEG": {
+   "cancellation_rate": 0.0076,
+   "cancelled": 91,
+   "diverted": 21,
+   "landed": 11948,
+   "months": 12,
+   "nas_delay_minutes": 15285.0,
+   "nas_delay_per_landed_flight": 1.28,
+   "scheduled": 12060
+  },
+  "GFK": {
+   "cancellation_rate": 0.0134,
+   "cancelled": 28,
+   "diverted": 14,
+   "landed": 2059,
+   "months": 12,
+   "nas_delay_minutes": 3166.0,
+   "nas_delay_per_landed_flight": 1.54,
+   "scheduled": 2101
+  },
+  "GGG": {
+   "cancellation_rate": 0.031,
+   "cancelled": 29,
+   "diverted": 2,
+   "landed": 906,
+   "months": 12,
+   "nas_delay_minutes": 938.0,
+   "nas_delay_per_landed_flight": 1.04,
+   "scheduled": 937
+  },
+  "GJT": {
+   "cancellation_rate": 0.0077,
+   "cancelled": 30,
+   "diverted": 5,
+   "landed": 3850,
+   "months": 12,
+   "nas_delay_minutes": 4923.0,
+   "nas_delay_per_landed_flight": 1.28,
+   "scheduled": 3885
+  },
+  "GNV": {
+   "cancellation_rate": 0.0096,
+   "cancelled": 48,
+   "diverted": 7,
+   "landed": 4959,
+   "months": 12,
+   "nas_delay_minutes": 8222.0,
+   "nas_delay_per_landed_flight": 1.66,
+   "scheduled": 5014
+  },
+  "GPT": {
+   "cancellation_rate": 0.0255,
+   "cancelled": 111,
+   "diverted": 24,
+   "landed": 4246,
+   "months": 12,
+   "nas_delay_minutes": 7806.0,
+   "nas_delay_per_landed_flight": 1.84,
+   "scheduled": 4381
+  },
+  "GRB": {
+   "cancellation_rate": 0.0269,
+   "cancelled": 141,
+   "diverted": 7,
+   "landed": 5104,
+   "months": 12,
+   "nas_delay_minutes": 10803.0,
+   "nas_delay_per_landed_flight": 2.12,
+   "scheduled": 5252
+  },
+  "GRI": {
+   "cancellation_rate": 0.0276,
+   "cancelled": 31,
+   "diverted": 4,
+   "landed": 1091,
+   "months": 12,
+   "nas_delay_minutes": 1751.0,
+   "nas_delay_per_landed_flight": 1.6,
+   "scheduled": 1126
+  },
+  "GRK": {
+   "cancellation_rate": 0.0265,
+   "cancelled": 88,
+   "diverted": 9,
+   "landed": 3227,
+   "months": 12,
+   "nas_delay_minutes": 7473.0,
+   "nas_delay_per_landed_flight": 2.32,
+   "scheduled": 3324
+  },
+  "GRR": {
+   "cancellation_rate": 0.0263,
+   "cancelled": 497,
+   "diverted": 33,
+   "landed": 18422,
+   "months": 12,
+   "nas_delay_minutes": 42744.0,
+   "nas_delay_per_landed_flight": 2.32,
+   "scheduled": 18952
+  },
+  "GSO": {
+   "cancellation_rate": 0.0268,
+   "cancelled": 387,
+   "diverted": 17,
+   "landed": 14067,
+   "months": 12,
+   "nas_delay_minutes": 39331.0,
+   "nas_delay_per_landed_flight": 2.8,
+   "scheduled": 14471
+  },
+  "GSP": {
+   "cancellation_rate": 0.0206,
+   "cancelled": 322,
+   "diverted": 23,
+   "landed": 15304,
+   "months": 12,
+   "nas_delay_minutes": 32091.0,
+   "nas_delay_per_landed_flight": 2.1,
+   "scheduled": 15649
+  },
+  "GST": {
+   "cancellation_rate": 0.0,
+   "cancelled": 0,
+   "diverted": 0,
+   "landed": 82,
+   "months": 3,
+   "nas_delay_minutes": 12.0,
+   "nas_delay_per_landed_flight": 0.15,
+   "scheduled": 82
+  },
+  "GTF": {
+   "cancellation_rate": 0.0039,
+   "cancelled": 7,
+   "diverted": 13,
+   "landed": 1776,
+   "months": 12,
+   "nas_delay_minutes": 1375.0,
+   "nas_delay_per_landed_flight": 0.77,
+   "scheduled": 1796
+  },
+  "GTR": {
+   "cancellation_rate": 0.0036,
+   "cancelled": 4,
+   "diverted": 5,
+   "landed": 1101,
+   "months": 12,
+   "nas_delay_minutes": 993.0,
+   "nas_delay_per_landed_flight": 0.9,
+   "scheduled": 1110
+  },
+  "GUC": {
+   "cancellation_rate": 0.0043,
+   "cancelled": 1,
+   "diverted": 3,
+   "landed": 234,
+   "months": 8,
+   "nas_delay_minutes": 622.0,
+   "nas_delay_per_landed_flight": 2.66,
+   "scheduled": 238
+  },
+  "GUM": {
+   "cancellation_rate": 0.0108,
+   "cancelled": 9,
+   "diverted": 0,
+   "landed": 826,
+   "months": 12,
+   "nas_delay_minutes": 789.0,
+   "nas_delay_per_landed_flight": 0.96,
+   "scheduled": 835
+  },
+  "HDN": {
+   "cancellation_rate": 0.0207,
+   "cancelled": 22,
+   "diverted": 11,
+   "landed": 1040,
+   "months": 10,
+   "nas_delay_minutes": 3773.0,
+   "nas_delay_per_landed_flight": 3.63,
+   "scheduled": 1073
+  },
+  "HGR": {
+   "cancellation_rate": 0.0056,
+   "cancelled": 1,
+   "diverted": 1,
+   "landed": 176,
+   "months": 12,
+   "nas_delay_minutes": 289.0,
+   "nas_delay_per_landed_flight": 1.64,
+   "scheduled": 178
+  },
+  "HHH": {
+   "cancellation_rate": 0.0274,
+   "cancelled": 53,
+   "diverted": 20,
+   "landed": 1884,
+   "months": 12,
+   "nas_delay_minutes": 3975.0,
+   "nas_delay_per_landed_flight": 2.11,
+   "scheduled": 1957
+  },
+  "HIB": {
+   "cancellation_rate": 0.0064,
+   "cancelled": 4,
+   "diverted": 2,
+   "landed": 620,
+   "months": 12,
+   "nas_delay_minutes": 442.0,
+   "nas_delay_per_landed_flight": 0.71,
+   "scheduled": 626
+  },
+  "HLN": {
+   "cancellation_rate": 0.0013,
+   "cancelled": 2,
+   "diverted": 2,
+   "landed": 1504,
+   "months": 12,
+   "nas_delay_minutes": 1298.0,
+   "nas_delay_per_landed_flight": 0.86,
+   "scheduled": 1508
+  },
+  "HNL": {
+   "cancellation_rate": 0.0023,
+   "cancelled": 115,
+   "diverted": 56,
+   "landed": 50739,
+   "months": 12,
+   "nas_delay_minutes": 43720.0,
+   "nas_delay_per_landed_flight": 0.86,
+   "scheduled": 50910
+  },
+  "HOB": {
+   "cancellation_rate": 0.0163,
+   "cancelled": 11,
+   "diverted": 1,
+   "landed": 665,
+   "months": 12,
+   "nas_delay_minutes": 2058.0,
+   "nas_delay_per_landed_flight": 3.09,
+   "scheduled": 677
+  },
+  "HOU": {
+   "cancellation_rate": 0.0322,
+   "cancelled": 1938,
+   "diverted": 154,
+   "landed": 58259,
+   "months": 12,
+   "nas_delay_minutes": 124293.0,
+   "nas_delay_per_landed_flight": 2.13,
+   "scheduled": 60351
+  },
+  "HPN": {
+   "cancellation_rate": 0.0275,
+   "cancelled": 305,
+   "diverted": 161,
+   "landed": 10788,
+   "months": 12,
+   "nas_delay_minutes": 27629.0,
+   "nas_delay_per_landed_flight": 2.56,
+   "scheduled": 11254
+  },
+  "HRL": {
+   "cancellation_rate": 0.0219,
+   "cancelled": 94,
+   "diverted": 8,
+   "landed": 4189,
+   "months": 12,
+   "nas_delay_minutes": 7221.0,
+   "nas_delay_per_landed_flight": 1.72,
+   "scheduled": 4291
+  },
+  "HSV": {
+   "cancellation_rate": 0.0207,
+   "cancelled": 196,
+   "diverted": 10,
+   "landed": 9254,
+   "months": 12,
+   "nas_delay_minutes": 16513.0,
+   "nas_delay_per_landed_flight": 1.78,
+   "scheduled": 9460
+  },
+  "HTS": {
+   "cancellation_rate": 0.0155,
+   "cancelled": 12,
+   "diverted": 1,
+   "landed": 762,
+   "months": 12,
+   "nas_delay_minutes": 890.0,
+   "nas_delay_per_landed_flight": 1.17,
+   "scheduled": 775
+  },
+  "HVN": {
+   "cancellation_rate": 0.0533,
+   "cancelled": 56,
+   "diverted": 12,
+   "landed": 994,
+   "months": 12,
+   "nas_delay_minutes": 1904.0,
+   "nas_delay_per_landed_flight": 1.92,
+   "scheduled": 1062
+  },
+  "HYA": {
+   "cancellation_rate": 0.0,
+   "cancelled": 0,
+   "diverted": 1,
+   "landed": 82,
+   "months": 4,
+   "nas_delay_minutes": 13.0,
+   "nas_delay_per_landed_flight": 0.16,
+   "scheduled": 83
+  },
+  "HYS": {
+   "cancellation_rate": 0.0316,
+   "cancelled": 39,
+   "diverted": 17,
+   "landed": 1194,
+   "months": 12,
+   "nas_delay_minutes": 2190.0,
+   "nas_delay_per_landed_flight": 1.83,
+   "scheduled": 1250
+  },
+  "IAD": {
+   "cancellation_rate": 0.0151,
+   "cancelled": 1047,
+   "diverted": 126,
+   "landed": 68274,
+   "months": 12,
+   "nas_delay_minutes": 183488.0,
+   "nas_delay_per_landed_flight": 2.69,
+   "scheduled": 69447
+  },
+  "IAG": {
+   "cancellation_rate": 0.0119,
+   "cancelled": 10,
+   "diverted": 1,
+   "landed": 827,
+   "months": 12,
+   "nas_delay_minutes": 1315.0,
+   "nas_delay_per_landed_flight": 1.59,
+   "scheduled": 838
+  },
+  "IAH": {
+   "cancellation_rate": 0.0168,
+   "cancelled": 2994,
+   "diverted": 626,
+   "landed": 174873,
+   "months": 12,
+   "nas_delay_minutes": 801701.0,
+   "nas_delay_per_landed_flight": 4.58,
+   "scheduled": 178493
+  },
+  "ICT": {
+   "cancellation_rate": 0.024,
+   "cancelled": 257,
+   "diverted": 25,
+   "landed": 10453,
+   "months": 12,
+   "nas_delay_minutes": 21827.0,
+   "nas_delay_per_landed_flight": 2.09,
+   "scheduled": 10735
+  },
+  "IDA": {
+   "cancellation_rate": 0.0048,
+   "cancelled": 10,
+   "diverted": 1,
+   "landed": 2063,
+   "months": 12,
+   "nas_delay_minutes": 1297.0,
+   "nas_delay_per_landed_flight": 0.63,
+   "scheduled": 2074
+  },
+  "ILM": {
+   "cancellation_rate": 0.0235,
+   "cancelled": 158,
+   "diverted": 15,
+   "landed": 6571,
+   "months": 12,
+   "nas_delay_minutes": 11913.0,
+   "nas_delay_per_landed_flight": 1.81,
+   "scheduled": 6744
+  },
+  "IMT": {
+   "cancellation_rate": 0.0193,
+   "cancelled": 13,
+   "diverted": 5,
+   "landed": 661,
+   "months": 12,
+   "nas_delay_minutes": 513.0,
+   "nas_delay_per_landed_flight": 0.78,
+   "scheduled": 679
+  },
+  "IND": {
+   "cancellation_rate": 0.0196,
+   "cancelled": 962,
+   "diverted": 65,
+   "landed": 48044,
+   "months": 12,
+   "nas_delay_minutes": 95575.0,
+   "nas_delay_per_landed_flight": 1.99,
+   "scheduled": 49071
+  },
+  "INL": {
+   "cancellation_rate": 0.0077,
+   "cancelled": 5,
+   "diverted": 5,
+   "landed": 641,
+   "months": 12,
+   "nas_delay_minutes": 818.0,
+   "nas_delay_per_landed_flight": 1.28,
+   "scheduled": 651
+  },
+  "ISN": {
+   "cancellation_rate": 0.0045,
+   "cancelled": 4,
+   "diverted": 9,
+   "landed": 886,
+   "months": 12,
+   "nas_delay_minutes": 1359.0,
+   "nas_delay_per_landed_flight": 1.53,
+   "scheduled": 899
+  },
+  "ISP": {
+   "cancellation_rate": 0.0202,
+   "cancelled": 108,
+   "diverted": 9,
+   "landed": 5250,
+   "months": 12,
+   "nas_delay_minutes": 9794.0,
+   "nas_delay_per_landed_flight": 1.87,
+   "scheduled": 5367
+  },
+  "ITH": {
+   "cancellation_rate": 0.0041,
+   "cancelled": 4,
+   "diverted": 11,
+   "landed": 961,
+   "months": 12,
+   "nas_delay_minutes": 1070.0,
+   "nas_delay_per_landed_flight": 1.11,
+   "scheduled": 976
+  },
+  "ITO": {
+   "cancellation_rate": 0.001,
+   "cancelled": 6,
+   "diverted": 2,
+   "landed": 6168,
+   "months": 12,
+   "nas_delay_minutes": 853.0,
+   "nas_delay_per_landed_flight": 0.14,
+   "scheduled": 6176
+  },
+  "JAC": {
+   "cancellation_rate": 0.0128,
+   "cancelled": 58,
+   "diverted": 48,
+   "landed": 4457,
+   "months": 12,
+   "nas_delay_minutes": 11503.0,
+   "nas_delay_per_landed_flight": 2.58,
+   "scheduled": 4563
+  },
+  "JAN": {
+   "cancellation_rate": 0.0253,
+   "cancelled": 205,
+   "diverted": 39,
+   "landed": 7906,
+   "months": 12,
+   "nas_delay_minutes": 17153.0,
+   "nas_delay_per_landed_flight": 2.17,
+   "scheduled": 8150
+  },
+  "JAX": {
+   "cancellation_rate": 0.0157,
+   "cancelled": 535,
+   "diverted": 33,
+   "landed": 33448,
+   "months": 12,
+   "nas_delay_minutes": 77948.0,
+   "nas_delay_per_landed_flight": 2.33,
+   "scheduled": 34016
+  },
+  "JFK": {
+   "cancellation_rate": 0.0168,
+   "cancelled": 2153,
+   "diverted": 390,
+   "landed": 125764,
+   "months": 12,
+   "nas_delay_minutes": 734862.0,
+   "nas_delay_per_landed_flight": 5.84,
+   "scheduled": 128307
+  },
+  "JLN": {
+   "cancellation_rate": 0.0338,
+   "cancelled": 39,
+   "diverted": 10,
+   "landed": 1114,
+   "months": 12,
+   "nas_delay_minutes": 2674.0,
+   "nas_delay_per_landed_flight": 2.4,
+   "scheduled": 1163
+  },
+  "JMS": {
+   "cancellation_rate": 0.0495,
+   "cancelled": 48,
+   "diverted": 28,
+   "landed": 921,
+   "months": 12,
+   "nas_delay_minutes": 1803.0,
+   "nas_delay_per_landed_flight": 1.96,
+   "scheduled": 997
+  },
+  "JNU": {
+   "cancellation_rate": 0.0101,
+   "cancelled": 44,
+   "diverted": 46,
+   "landed": 4315,
+   "months": 12,
+   "nas_delay_minutes": 4810.0,
+   "nas_delay_per_landed_flight": 1.11,
+   "scheduled": 4405
+  },
+  "KOA": {
+   "cancellation_rate": 0.0016,
+   "cancelled": 25,
+   "diverted": 25,
+   "landed": 15171,
+   "months": 12,
+   "nas_delay_minutes": 15214.0,
+   "nas_delay_per_landed_flight": 1.0,
+   "scheduled": 15221
+  },
+  "KTN": {
+   "cancellation_rate": 0.0055,
+   "cancelled": 13,
+   "diverted": 13,
+   "landed": 2357,
+   "months": 12,
+   "nas_delay_minutes": 2910.0,
+   "nas_delay_per_landed_flight": 1.23,
+   "scheduled": 2383
+  },
+  "LAN": {
+   "cancellation_rate": 0.026,
+   "cancelled": 89,
+   "diverted": 6,
+   "landed": 3339,
+   "months": 12,
+   "nas_delay_minutes": 6329.0,
+   "nas_delay_per_landed_flight": 1.9,
+   "scheduled": 3434
+  },
+  "LAR": {
+   "cancellation_rate": 0.0353,
+   "cancelled": 22,
+   "diverted": 2,
+   "landed": 601,
+   "months": 12,
+   "nas_delay_minutes": 1121.0,
+   "nas_delay_per_landed_flight": 1.87,
+   "scheduled": 625
+  },
+  "LAS": {
+   "cancellation_rate": 0.0125,
+   "cancelled": 2032,
+   "diverted": 190,
+   "landed": 160439,
+   "months": 12,
+   "nas_delay_minutes": 378472.0,
+   "nas_delay_per_landed_flight": 2.36,
+   "scheduled": 162661
+  },
+  "LAW": {
+   "cancellation_rate": 0.0386,
+   "cancelled": 51,
+   "diverted": 6,
+   "landed": 1269,
+   "months": 12,
+   "nas_delay_minutes": 2191.0,
+   "nas_delay_per_landed_flight": 1.73,
+   "scheduled": 1326
+  },
+  "LAX": {
+   "cancellation_rate": 0.0133,
+   "cancelled": 2924,
+   "diverted": 315,
+   "landed": 216863,
+   "months": 12,
+   "nas_delay_minutes": 532098.0,
+   "nas_delay_per_landed_flight": 2.45,
+   "scheduled": 220102
+  },
+  "LBB": {
+   "cancellation_rate": 0.0332,
+   "cancelled": 228,
+   "diverted": 15,
+   "landed": 6648,
+   "months": 12,
+   "nas_delay_minutes": 10503.0,
+   "nas_delay_per_landed_flight": 1.58,
+   "scheduled": 6891
+  },
+  "LBE": {
+   "cancellation_rate": 0.0234,
+   "cancelled": 26,
+   "diverted": 6,
+   "landed": 1086,
+   "months": 12,
+   "nas_delay_minutes": 5170.0,
+   "nas_delay_per_landed_flight": 4.76,
+   "scheduled": 1118
+  },
+  "LBF": {
+   "cancellation_rate": 0.0338,
+   "cancelled": 21,
+   "diverted": 3,
+   "landed": 601,
+   "months": 12,
+   "nas_delay_minutes": 1201.0,
+   "nas_delay_per_landed_flight": 2.0,
+   "scheduled": 625
+  },
+  "LBL": {
+   "cancellation_rate": 0.0242,
+   "cancelled": 15,
+   "diverted": 4,
+   "landed": 604,
+   "months": 12,
+   "nas_delay_minutes": 845.0,
+   "nas_delay_per_landed_flight": 1.4,
+   "scheduled": 623
+  },
+  "LCH": {
+   "cancellation_rate": 0.0299,
+   "cancelled": 58,
+   "diverted": 5,
+   "landed": 1881,
+   "months": 12,
+   "nas_delay_minutes": 4318.0,
+   "nas_delay_per_landed_flight": 2.3,
+   "scheduled": 1944
+  },
+  "LCK": {
+   "cancellation_rate": 0.003,
+   "cancelled": 3,
+   "diverted": 5,
+   "landed": 1008,
+   "months": 12,
+   "nas_delay_minutes": 1646.0,
+   "nas_delay_per_landed_flight": 1.63,
+   "scheduled": 1016
+  },
+  "LEX": {
+   "cancellation_rate": 0.0203,
+   "cancelled": 190,
+   "diverted": 29,
+   "landed": 9188,
+   "months": 12,
+   "nas_delay_minutes": 18945.0,
+   "nas_delay_per_landed_flight": 2.06,
+   "scheduled": 9407
+  },
+  "LFT": {
+   "cancellation_rate": 0.0293,
+   "cancelled": 149,
+   "diverted": 20,
+   "landed": 4943,
+   "months": 12,
+   "nas_delay_minutes": 13051.0,
+   "nas_delay_per_landed_flight": 2.64,
+   "scheduled": 5112
+  },
+  "LGA": {
+   "cancellation_rate": 0.0299,
+   "cancelled": 5106,
+   "diverted": 1049,
+   "landed": 165726,
+   "months": 12,
+   "nas_delay_minutes": 1576360.0,
+   "nas_delay_per_landed_flight": 9.51,
+   "scheduled": 171881
+  },
+  "LGB": {
+   "cancellation_rate": 0.005,
+   "cancelled": 76,
+   "diverted": 39,
+   "landed": 15245,
+   "months": 12,
+   "nas_delay_minutes": 14324.0,
+   "nas_delay_per_landed_flight": 0.94,
+   "scheduled": 15360
+  },
+  "LIH": {
+   "cancellation_rate": 0.0011,
+   "cancelled": 15,
+   "diverted": 36,
+   "landed": 13898,
+   "months": 12,
+   "nas_delay_minutes": 9564.0,
+   "nas_delay_per_landed_flight": 0.69,
+   "scheduled": 13949
+  },
+  "LIT": {
+   "cancellation_rate": 0.0178,
+   "cancelled": 249,
+   "diverted": 20,
+   "landed": 13711,
+   "months": 12,
+   "nas_delay_minutes": 27383.0,
+   "nas_delay_per_landed_flight": 2.0,
+   "scheduled": 13980
+  },
+  "LNK": {
+   "cancellation_rate": 0.017,
+   "cancelled": 36,
+   "diverted": 5,
+   "landed": 2082,
+   "months": 12,
+   "nas_delay_minutes": 4146.0,
+   "nas_delay_per_landed_flight": 1.99,
+   "scheduled": 2123
+  },
+  "LRD": {
+   "cancellation_rate": 0.0213,
+   "cancelled": 55,
+   "diverted": 4,
+   "landed": 2522,
+   "months": 12,
+   "nas_delay_minutes": 5802.0,
+   "nas_delay_per_landed_flight": 2.3,
+   "scheduled": 2581
+  },
+  "LSE": {
+   "cancellation_rate": 0.0327,
+   "cancelled": 71,
+   "diverted": 9,
+   "landed": 2099,
+   "months": 12,
+   "nas_delay_minutes": 4867.0,
+   "nas_delay_per_landed_flight": 2.32,
+   "scheduled": 2179
+  },
+  "LWB": {
+   "cancellation_rate": 0.045,
+   "cancelled": 30,
+   "diverted": 1,
+   "landed": 636,
+   "months": 12,
+   "nas_delay_minutes": 1876.0,
+   "nas_delay_per_landed_flight": 2.95,
+   "scheduled": 667
+  },
+  "LWS": {
+   "cancellation_rate": 0.0011,
+   "cancelled": 1,
+   "diverted": 5,
+   "landed": 935,
+   "months": 12,
+   "nas_delay_minutes": 488.0,
+   "nas_delay_per_landed_flight": 0.52,
+   "scheduled": 941
+  },
+  "LYH": {
+   "cancellation_rate": 0.0252,
+   "cancelled": 19,
+   "diverted": 1,
+   "landed": 735,
+   "months": 12,
+   "nas_delay_minutes": 506.0,
+   "nas_delay_per_landed_flight": 0.69,
+   "scheduled": 755
+  },
+  "MAF": {
+   "cancellation_rate": 0.0263,
+   "cancelled": 241,
+   "diverted": 33,
+   "landed": 8939,
+   "months": 12,
+   "nas_delay_minutes": 17849.0,
+   "nas_delay_per_landed_flight": 2.0,
+   "scheduled": 9213
+  },
+  "MBS": {
+   "cancellation_rate": 0.0221,
+   "cancelled": 58,
+   "diverted": 8,
+   "landed": 2566,
+   "months": 12,
+   "nas_delay_minutes": 4507.0,
+   "nas_delay_per_landed_flight": 1.76,
+   "scheduled": 2632
+  },
+  "MCI": {
+   "cancellation_rate": 0.0209,
+   "cancelled": 1161,
+   "diverted": 147,
+   "landed": 54276,
+   "months": 12,
+   "nas_delay_minutes": 89520.0,
+   "nas_delay_per_landed_flight": 1.65,
+   "scheduled": 55584
+  },
+  "MCO": {
+   "cancellation_rate": 0.0176,
+   "cancelled": 2475,
+   "diverted": 366,
+   "landed": 138441,
+   "months": 12,
+   "nas_delay_minutes": 471063.0,
+   "nas_delay_per_landed_flight": 3.4,
+   "scheduled": 141282
+  },
+  "MDT": {
+   "cancellation_rate": 0.0195,
+   "cancelled": 122,
+   "diverted": 8,
+   "landed": 6124,
+   "months": 12,
+   "nas_delay_minutes": 13151.0,
+   "nas_delay_per_landed_flight": 2.15,
+   "scheduled": 6254
+  },
+  "MDW": {
+   "cancellation_rate": 0.0373,
+   "cancelled": 3139,
+   "diverted": 343,
+   "landed": 80909,
+   "months": 12,
+   "nas_delay_minutes": 126857.0,
+   "nas_delay_per_landed_flight": 1.57,
+   "scheduled": 84391
+  },
+  "MEI": {
+   "cancellation_rate": 0.0281,
+   "cancelled": 30,
+   "diverted": 1,
+   "landed": 1037,
+   "months": 12,
+   "nas_delay_minutes": 3087.0,
+   "nas_delay_per_landed_flight": 2.98,
+   "scheduled": 1068
+  },
+  "MEM": {
+   "cancellation_rate": 0.0181,
+   "cancelled": 454,
+   "diverted": 44,
+   "landed": 24670,
+   "months": 12,
+   "nas_delay_minutes": 51483.0,
+   "nas_delay_per_landed_flight": 2.09,
+   "scheduled": 25168
+  },
+  "MFE": {
+   "cancellation_rate": 0.0294,
+   "cancelled": 158,
+   "diverted": 7,
+   "landed": 5209,
+   "months": 12,
+   "nas_delay_minutes": 10831.0,
+   "nas_delay_per_landed_flight": 2.08,
+   "scheduled": 5374
+  },
+  "MFR": {
+   "cancellation_rate": 0.0184,
+   "cancelled": 73,
+   "diverted": 20,
+   "landed": 3884,
+   "months": 12,
+   "nas_delay_minutes": 6625.0,
+   "nas_delay_per_landed_flight": 1.71,
+   "scheduled": 3977
+  },
+  "MGM": {
+   "cancellation_rate": 0.0099,
+   "cancelled": 37,
+   "diverted": 6,
+   "landed": 3688,
+   "months": 12,
+   "nas_delay_minutes": 5101.0,
+   "nas_delay_per_landed_flight": 1.38,
+   "scheduled": 3731
+  },
+  "MHK": {
+   "cancellation_rate": 0.0414,
+   "cancelled": 80,
+   "diverted": 15,
+   "landed": 1851,
+   "months": 12,
+   "nas_delay_minutes": 5789.0,
+   "nas_delay_per_landed_flight": 3.13,
+   "scheduled": 1946
+  },
+  "MHT": {
+   "cancellation_rate": 0.0201,
+   "cancelled": 163,
+   "diverted": 7,
+   "landed": 7932,
+   "months": 12,
+   "nas_delay_minutes": 10758.0,
+   "nas_delay_per_landed_flight": 1.36,
+   "scheduled": 8102
+  },
+  "MIA": {
+   "cancellation_rate": 0.0128,
+   "cancelled": 1124,
+   "diverted": 276,
+   "landed": 86597,
+   "months": 12,
+   "nas_delay_minutes": 213079.0,
+   "nas_delay_per_landed_flight": 2.46,
+   "scheduled": 87997
+  },
+  "MKE": {
+   "cancellation_rate": 0.0215,
+   "cancelled": 661,
+   "diverted": 63,
+   "landed": 30142,
+   "months": 12,
+   "nas_delay_minutes": 48391.0,
+   "nas_delay_per_landed_flight": 1.61,
+   "scheduled": 30866
+  },
+  "MKG": {
+   "cancellation_rate": 0.0581,
+   "cancelled": 42,
+   "diverted": 5,
+   "landed": 681,
+   "months": 12,
+   "nas_delay_minutes": 1408.0,
+   "nas_delay_per_landed_flight": 2.07,
+   "scheduled": 728
+  },
+  "MLB": {
+   "cancellation_rate": 0.014,
+   "cancelled": 36,
+   "diverted": 6,
+   "landed": 2532,
+   "months": 12,
+   "nas_delay_minutes": 3377.0,
+   "nas_delay_per_landed_flight": 1.33,
+   "scheduled": 2574
+  },
+  "MLI": {
+   "cancellation_rate": 0.0295,
+   "cancelled": 143,
+   "diverted": 12,
+   "landed": 4706,
+   "months": 12,
+   "nas_delay_minutes": 9952.0,
+   "nas_delay_per_landed_flight": 2.11,
+   "scheduled": 4861
+  },
+  "MLU": {
+   "cancellation_rate": 0.0175,
+   "cancelled": 52,
+   "diverted": 5,
+   "landed": 2914,
+   "months": 12,
+   "nas_delay_minutes": 5651.0,
+   "nas_delay_per_landed_flight": 1.94,
+   "scheduled": 2971
+  },
+  "MMH": {
+   "cancellation_rate": 0.1905,
+   "cancelled": 96,
+   "diverted": 4,
+   "landed": 408,
+   "months": 10,
+   "nas_delay_minutes": 1121.0,
+   "nas_delay_per_landed_flight": 2.75,
+   "scheduled": 508
+  },
+  "MOB": {
+   "cancellation_rate": 0.0245,
+   "cancelled": 135,
+   "diverted": 26,
+   "landed": 5368,
+   "months": 12,
+   "nas_delay_minutes": 11418.0,
+   "nas_delay_per_landed_flight": 2.13,
+   "scheduled": 5529
+  },
+  "MOT": {
+   "cancellation_rate": 0.0146,
+   "cancelled": 33,
+   "diverted": 17,
+   "landed": 2231,
+   "months": 12,
+   "nas_delay_minutes": 4249.0,
+   "nas_delay_per_landed_flight": 1.9,
+   "scheduled": 2281
+  },
+  "MQT": {
+   "cancellation_rate": 0.0271,
+   "cancelled": 37,
+   "diverted": 9,
+   "landed": 1329,
+   "months": 12,
+   "nas_delay_minutes": 2452.0,
+   "nas_delay_per_landed_flight": 1.84,
+   "scheduled": 1375
+  },
+  "MRY": {
+   "cancellation_rate": 0.0156,
+   "cancelled": 67,
+   "diverted": 30,
+   "landed": 4241,
+   "months": 12,
+   "nas_delay_minutes": 5687.0,
+   "nas_delay_per_landed_flight": 1.34,
+   "scheduled": 4338
+  },
+  "MSN": {
+   "cancellation_rate": 0.0241,
+   "cancelled": 335,
+   "diverted": 26,
+   "landed": 13579,
+   "months": 12,
+   "nas_delay_minutes": 32296.0,
+   "nas_delay_per_landed_flight": 2.38,
+   "scheduled": 13940
+  },
+  "MSO": {
+   "cancellation_rate": 0.0046,
+   "cancelled": 16,
+   "diverted": 12,
+   "landed": 3489,
+   "months": 12,
+   "nas_delay_minutes": 5217.0,
+   "nas_delay_per_landed_flight": 1.5,
+   "scheduled": 3517
+  },
+  "MSP": {
+   "cancellation_rate": 0.0101,
+   "cancelled": 1612,
+   "diverted": 335,
+   "landed": 158444,
+   "months": 12,
+   "nas_delay_minutes": 364631.0,
+   "nas_delay_per_landed_flight": 2.3,
+   "scheduled": 160391
+  },
+  "MSY": {
+   "cancellation_rate": 0.0167,
+   "cancelled": 954,
+   "diverted": 105,
+   "landed": 56241,
+   "months": 12,
+   "nas_delay_minutes": 127221.0,
+   "nas_delay_per_landed_flight": 2.26,
+   "scheduled": 57300
+  },
+  "MTJ": {
+   "cancellation_rate": 0.0231,
+   "cancelled": 40,
+   "diverted": 10,
+   "landed": 1688,
+   "months": 12,
+   "nas_delay_minutes": 4393.0,
+   "nas_delay_per_landed_flight": 2.6,
+   "scheduled": 1738
+  },
+  "MVY": {
+   "cancellation_rate": 0.0055,
+   "cancelled": 3,
+   "diverted": 0,
+   "landed": 539,
+   "months": 6,
+   "nas_delay_minutes": 966.0,
+   "nas_delay_per_landed_flight": 1.79,
+   "scheduled": 542
+  },
+  "MYR": {
+   "cancellation_rate": 0.0199,
+   "cancelled": 235,
+   "diverted": 11,
+   "landed": 11596,
+   "months": 12,
+   "nas_delay_minutes": 36489.0,
+   "nas_delay_per_landed_flight": 3.15,
+   "scheduled": 11842
+  },
+  "OAJ": {
+   "cancellation_rate": 0.0148,
+   "cancelled": 42,
+   "diverted": 5,
+   "landed": 2794,
+   "months": 12,
+   "nas_delay_minutes": 4158.0,
+   "nas_delay_per_landed_flight": 1.49,
+   "scheduled": 2841
+  },
+  "OAK": {
+   "cancellation_rate": 0.0193,
+   "cancelled": 1020,
+   "diverted": 35,
+   "landed": 51959,
+   "months": 12,
+   "nas_delay_minutes": 53860.0,
+   "nas_delay_per_landed_flight": 1.04,
+   "scheduled": 53014
+  },
+  "OGD": {
+   "cancellation_rate": 0.0094,
+   "cancelled": 1,
+   "diverted": 0,
+   "landed": 105,
+   "months": 12,
+   "nas_delay_minutes": 209.0,
+   "nas_delay_per_landed_flight": 1.99,
+   "scheduled": 106
+  },
+  "OGG": {
+   "cancellation_rate": 0.0019,
+   "cancelled": 50,
+   "diverted": 45,
+   "landed": 26423,
+   "months": 12,
+   "nas_delay_minutes": 22907.0,
+   "nas_delay_per_landed_flight": 0.87,
+   "scheduled": 26518
+  },
+  "OGS": {
+   "cancellation_rate": 0.0297,
+   "cancelled": 11,
+   "diverted": 5,
+   "landed": 359,
+   "months": 12,
+   "nas_delay_minutes": 1928.0,
+   "nas_delay_per_landed_flight": 5.37,
+   "scheduled": 375
+  },
+  "OKC": {
+   "cancellation_rate": 0.0196,
+   "cancelled": 472,
+   "diverted": 72,
+   "landed": 23567,
+   "months": 12,
+   "nas_delay_minutes": 53227.0,
+   "nas_delay_per_landed_flight": 2.26,
+   "scheduled": 24111
+  },
+  "OMA": {
+   "cancellation_rate": 0.0192,
+   "cancelled": 498,
+   "diverted": 42,
+   "landed": 25427,
+   "months": 12,
+   "nas_delay_minutes": 43757.0,
+   "nas_delay_per_landed_flight": 1.72,
+   "scheduled": 25967
+  },
+  "OME": {
+   "cancellation_rate": 0.0496,
+   "cancelled": 35,
+   "diverted": 17,
+   "landed": 670,
+   "months": 12,
+   "nas_delay_minutes": 498.0,
+   "nas_delay_per_landed_flight": 0.74,
+   "scheduled": 722
+  },
+  "ONT": {
+   "cancellation_rate": 0.0138,
+   "cancelled": 301,
+   "diverted": 18,
+   "landed": 21580,
+   "months": 12,
+   "nas_delay_minutes": 23011.0,
+   "nas_delay_per_landed_flight": 1.07,
+   "scheduled": 21899
+  },
+  "ORD": {
+   "cancellation_rate": 0.0336,
+   "cancelled": 11372,
+   "diverted": 985,
+   "landed": 326892,
+   "months": 12,
+   "nas_delay_minutes": 2303760.0,
+   "nas_delay_per_landed_flight": 7.05,
+   "scheduled": 339249
+  },
+  "ORF": {
+   "cancellation_rate": 0.0278,
+   "cancelled": 677,
+   "diverted": 35,
+   "landed": 23704,
+   "months": 12,
+   "nas_delay_minutes": 55676.0,
+   "nas_delay_per_landed_flight": 2.35,
+   "scheduled": 24416
+  },
+  "ORH": {
+   "cancellation_rate": 0.0192,
+   "cancelled": 22,
+   "diverted": 5,
+   "landed": 1126,
+   "months": 12,
+   "nas_delay_minutes": 2296.0,
+   "nas_delay_per_landed_flight": 2.04,
+   "scheduled": 1153
+  },
+  "OTH": {
+   "cancellation_rate": 0.0488,
+   "cancelled": 19,
+   "diverted": 10,
+   "landed": 370,
+   "months": 12,
+   "nas_delay_minutes": 1063.0,
+   "nas_delay_per_landed_flight": 2.87,
+   "scheduled": 399
+  },
+  "OTZ": {
+   "cancellation_rate": 0.0212,
+   "cancelled": 15,
+   "diverted": 12,
+   "landed": 694,
+   "months": 12,
+   "nas_delay_minutes": 604.0,
+   "nas_delay_per_landed_flight": 0.87,
+   "scheduled": 721
+  },
+  "OWB": {
+   "cancellation_rate": 0.0096,
+   "cancelled": 1,
+   "diverted": 0,
+   "landed": 103,
+   "months": 11,
+   "nas_delay_minutes": 224.0,
+   "nas_delay_per_landed_flight": 2.17,
+   "scheduled": 104
+  },
+  "PAE": {
+   "cancellation_rate": 0.0174,
+   "cancelled": 19,
+   "diverted": 2,
+   "landed": 1071,
+   "months": 7,
+   "nas_delay_minutes": 1326.0,
+   "nas_delay_per_landed_flight": 1.24,
+   "scheduled": 1092
+  },
+  "PAH": {
+   "cancellation_rate": 0.0436,
+   "cancelled": 51,
+   "diverted": 16,
+   "landed": 1119,
+   "months": 12,
+   "nas_delay_minutes": 2292.0,
+   "nas_delay_per_landed_flight": 2.05,
+   "scheduled": 1186
+  },
+  "PBG": {
+   "cancellation_rate": 0.014,
+   "cancelled": 19,
+   "diverted": 6,
+   "landed": 1341,
+   "months": 12,
+   "nas_delay_minutes": 3663.0,
+   "nas_delay_per_landed_flight": 2.73,
+   "scheduled": 1366
+  },
+  "PBI": {
+   "cancellation_rate": 0.015,
+   "cancelled": 378,
+   "diverted": 47,
+   "landed": 24814,
+   "months": 12,
+   "nas_delay_minutes": 78299.0,
+   "nas_delay_per_landed_flight": 3.16,
+   "scheduled": 25239
+  },
+  "PDX": {
+   "cancellation_rate": 0.0072,
+   "cancelled": 446,
+   "diverted": 56,
+   "landed": 61101,
+   "months": 12,
+   "nas_delay_minutes": 83261.0,
+   "nas_delay_per_landed_flight": 1.36,
+   "scheduled": 61603
+  },
+  "PGD": {
+   "cancellation_rate": 0.0034,
+   "cancelled": 18,
+   "diverted": 13,
+   "landed": 5227,
+   "months": 12,
+   "nas_delay_minutes": 15443.0,
+   "nas_delay_per_landed_flight": 2.95,
+   "scheduled": 5258
+  },
+  "PGV": {
+   "cancellation_rate": 0.0266,
+   "cancelled": 5,
+   "diverted": 0,
+   "landed": 183,
+   "months": 3,
+   "nas_delay_minutes": 195.0,
+   "nas_delay_per_landed_flight": 1.07,
+   "scheduled": 188
+  },
+  "PHF": {
+   "cancellation_rate": 0.0183,
+   "cancelled": 40,
+   "diverted": 5,
+   "landed": 2142,
+   "months": 12,
+   "nas_delay_minutes": 3570.0,
+   "nas_delay_per_landed_flight": 1.67,
+   "scheduled": 2187
+  },
+  "PHL": {
+   "cancellation_rate": 0.0223,
+   "cancelled": 2635,
+   "diverted": 207,
+   "landed": 115619,
+   "months": 12,
+   "nas_delay_minutes": 413695.0,
+   "nas_delay_per_landed_flight": 3.58,
+   "scheduled": 118461
+  },
+  "PHX": {
+   "cancellation_rate": 0.015,
+   "cancelled": 2617,
+   "diverted": 254,
+   "landed": 171508,
+   "months": 12,
+   "nas_delay_minutes": 267592.0,
+   "nas_delay_per_landed_flight": 1.56,
+   "scheduled": 174379
+  },
+  "PIA": {
+   "cancellation_rate": 0.0288,
+   "cancelled": 139,
+   "diverted": 11,
+   "landed": 4695,
+   "months": 12,
+   "nas_delay_minutes": 9164.0,
+   "nas_delay_per_landed_flight": 1.95,
+   "scheduled": 4845
+  },
+  "PIB": {
+   "cancellation_rate": 0.0292,
+   "cancelled": 21,
+   "diverted": 3,
+   "landed": 699,
+   "months": 12,
+   "nas_delay_minutes": 1013.0,
+   "nas_delay_per_landed_flight": 1.45,
+   "scheduled": 723
+  },
+  "PIE": {
+   "cancellation_rate": 0.0042,
+   "cancelled": 32,
+   "diverted": 26,
+   "landed": 7610,
+   "months": 12,
+   "nas_delay_minutes": 17167.0,
+   "nas_delay_per_landed_flight": 2.26,
+   "scheduled": 7668
+  },
+  "PIH": {
+   "cancellation_rate": 0.0,
+   "cancelled": 0,
+   "diverted": 3,
+   "landed": 1119,
+   "months": 12,
+   "nas_delay_minutes": 422.0,
+   "nas_delay_per_landed_flight": 0.38,
+   "scheduled": 1122
+  },
+  "PIR": {
+   "cancellation_rate": 0.033,
+   "cancelled": 16,
+   "diverted": 2,
+   "landed": 469,
+   "months": 6,
+   "nas_delay_minutes": 955.0,
+   "nas_delay_per_landed_flight": 2.04,
+   "scheduled": 487
+  },
+  "PIT": {
+   "cancellation_rate": 0.0181,
+   "cancelled": 908,
+   "diverted": 37,
+   "landed": 49251,
+   "months": 12,
+   "nas_delay_minutes": 88605.0,
+   "nas_delay_per_landed_flight": 1.8,
+   "scheduled": 50196
+  },
+  "PLN": {
+   "cancellation_rate": 0.0189,
+   "cancelled": 20,
+   "diverted": 23,
+   "landed": 1038,
+   "months": 12,
+   "nas_delay_minutes": 517.0,
+   "nas_delay_per_landed_flight": 0.5,
+   "scheduled": 1081
+  },
+  "PNS": {
+   "cancellation_rate": 0.0181,
+   "cancelled": 222,
+   "diverted": 51,
+   "landed": 12054,
+   "months": 12,
+   "nas_delay_minutes": 27161.0,
+   "nas_delay_per_landed_flight": 2.25,
+   "scheduled": 12327
+  },
+  "PPG": {
+   "cancellation_rate": 0.0,
+   "cancelled": 0,
+   "diverted": 0,
+   "landed": 123,
+   "months": 12,
+   "nas_delay_minutes": 0.0,
+   "nas_delay_per_landed_flight": 0.0,
+   "scheduled": 123
+  },
+  "PRC": {
+   "cancellation_rate": 0.0125,
+   "cancelled": 9,
+   "diverted": 3,
+   "landed": 710,
+   "months": 12,
+   "nas_delay_minutes": 1355.0,
+   "nas_delay_per_landed_flight": 1.91,
+   "scheduled": 722
+  },
+  "PSC": {
+   "cancellation_rate": 0.0099,
+   "cancelled": 25,
+   "diverted": 6,
+   "landed": 2496,
+   "months": 12,
+   "nas_delay_minutes": 3057.0,
+   "nas_delay_per_landed_flight": 1.22,
+   "scheduled": 2527
+  },
+  "PSE": {
+   "cancellation_rate": 0.01,
+   "cancelled": 8,
+   "diverted": 1,
+   "landed": 790,
+   "months": 12,
+   "nas_delay_minutes": 1477.0,
+   "nas_delay_per_landed_flight": 1.87,
+   "scheduled": 799
+  },
+  "PSG": {
+   "cancellation_rate": 0.0126,
+   "cancelled": 9,
+   "diverted": 8,
+   "landed": 708,
+   "months": 12,
+   "nas_delay_minutes": 1004.0,
+   "nas_delay_per_landed_flight": 1.42,
+   "scheduled": 725
+  },
+  "PSM": {
+   "cancellation_rate": 0.0023,
+   "cancelled": 1,
+   "diverted": 2,
+   "landed": 433,
+   "months": 12,
+   "nas_delay_minutes": 576.0,
+   "nas_delay_per_landed_flight": 1.33,
+   "scheduled": 436
+  },
+  "PSP": {
+   "cancellation_rate": 0.0184,
+   "cancelled": 225,
+   "diverted": 45,
+   "landed": 11987,
+   "months": 12,
+   "nas_delay_minutes": 23403.0,
+   "nas_delay_per_landed_flight": 1.95,
+   "scheduled": 12257
+  },
+  "PUB": {
+   "cancellation_rate": 0.0334,
+   "cancelled": 31,
+   "diverted": 5,
+   "landed": 898,
+   "months": 12,
+   "nas_delay_minutes": 2006.0,
+   "nas_delay_per_landed_flight": 2.23,
+   "scheduled": 934
+  },
+  "PVD": {
+   "cancellation_rate": 0.0188,
+   "cancelled": 343,
+   "diverted": 26,
+   "landed": 17894,
+   "months": 12,
+   "nas_delay_minutes": 31352.0,
+   "nas_delay_per_landed_flight": 1.75,
+   "scheduled": 18263
+  },
+  "PVU": {
+   "cancellation_rate": 0.0015,
+   "cancelled": 1,
+   "diverted": 2,
+   "landed": 681,
+   "months": 12,
+   "nas_delay_minutes": 1230.0,
+   "nas_delay_per_landed_flight": 1.81,
+   "scheduled": 684
+  },
+  "PWM": {
+   "cancellation_rate": 0.0228,
+   "cancelled": 267,
+   "diverted": 11,
+   "landed": 11418,
+   "months": 12,
+   "nas_delay_minutes": 28576.0,
+   "nas_delay_per_landed_flight": 2.5,
+   "scheduled": 11696
+  },
+  "RAP": {
+   "cancellation_rate": 0.0257,
+   "cancelled": 122,
+   "diverted": 38,
+   "landed": 4617,
+   "months": 12,
+   "nas_delay_minutes": 9909.0,
+   "nas_delay_per_landed_flight": 2.15,
+   "scheduled": 4777
+  },
+  "RDD": {
+   "cancellation_rate": 0.0372,
+   "cancelled": 51,
+   "diverted": 3,
+   "landed": 1321,
+   "months": 12,
+   "nas_delay_minutes": 2523.0,
+   "nas_delay_per_landed_flight": 1.91,
+   "scheduled": 1375
+  },
+  "RDM": {
+   "cancellation_rate": 0.0229,
+   "cancelled": 90,
+   "diverted": 21,
+   "landed": 3833,
+   "months": 12,
+   "nas_delay_minutes": 5300.0,
+   "nas_delay_per_landed_flight": 1.38,
+   "scheduled": 3944
+  },
+  "RDU": {
+   "cancellation_rate": 0.0183,
+   "cancelled": 1158,
+   "diverted": 98,
+   "landed": 62129,
+   "months": 12,
+   "nas_delay_minutes": 152613.0,
+   "nas_delay_per_landed_flight": 2.46,
+   "scheduled": 63385
+  },
+  "RFD": {
+   "cancellation_rate": 0.0083,
+   "cancelled": 6,
+   "diverted": 0,
+   "landed": 713,
+   "months": 12,
+   "nas_delay_minutes": 1106.0,
+   "nas_delay_per_landed_flight": 1.55,
+   "scheduled": 719
+  },
+  "RHI": {
+   "cancellation_rate": 0.0162,
+   "cancelled": 13,
+   "diverted": 5,
+   "landed": 788,
+   "months": 12,
+   "nas_delay_minutes": 760.0,
+   "nas_delay_per_landed_flight": 0.96,
+   "scheduled": 806
+  },
+  "RIC": {
+   "cancellation_rate": 0.0205,
+   "cancelled": 505,
+   "diverted": 34,
+   "landed": 24127,
+   "months": 12,
+   "nas_delay_minutes": 52758.0,
+   "nas_delay_per_landed_flight": 2.19,
+   "scheduled": 24666
+  },
+  "RKS": {
+   "cancellation_rate": 0.0206,
+   "cancelled": 15,
+   "diverted": 1,
+   "landed": 714,
+   "months": 12,
+   "nas_delay_minutes": 1187.0,
+   "nas_delay_per_landed_flight": 1.66,
+   "scheduled": 730
+  },
+  "RNO": {
+   "cancellation_rate": 0.0125,
+   "cancelled": 247,
+   "diverted": 38,
+   "landed": 19500,
+   "months": 12,
+   "nas_delay_minutes": 20396.0,
+   "nas_delay_per_landed_flight": 1.05,
+   "scheduled": 19785
+  },
+  "ROA": {
+   "cancellation_rate": 0.0121,
+   "cancelled": 32,
+   "diverted": 10,
+   "landed": 2603,
+   "months": 12,
+   "nas_delay_minutes": 4725.0,
+   "nas_delay_per_landed_flight": 1.82,
+   "scheduled": 2645
+  },
+  "ROC": {
+   "cancellation_rate": 0.0288,
+   "cancelled": 428,
+   "diverted": 13,
+   "landed": 14443,
+   "months": 12,
+   "nas_delay_minutes": 32104.0,
+   "nas_delay_per_landed_flight": 2.22,
+   "scheduled": 14884
+  },
+  "ROW": {
+   "cancellation_rate": 0.0212,
+   "cancelled": 29,
+   "diverted": 5,
+   "landed": 1338,
+   "months": 12,
+   "nas_delay_minutes": 1522.0,
+   "nas_delay_per_landed_flight": 1.14,
+   "scheduled": 1372
+  },
+  "RST": {
+   "cancellation_rate": 0.0459,
+   "cancelled": 159,
+   "diverted": 15,
+   "landed": 3302,
+   "months": 12,
+   "nas_delay_minutes": 8978.0,
+   "nas_delay_per_landed_flight": 2.72,
+   "scheduled": 3476
+  },
+  "RSW": {
+   "cancellation_rate": 0.0112,
+   "cancelled": 373,
+   "diverted": 85,
+   "landed": 32975,
+   "months": 12,
+   "nas_delay_minutes": 90430.0,
+   "nas_delay_per_landed_flight": 2.74,
+   "scheduled": 33433
+  },
+  "SAF": {
+   "cancellation_rate": 0.0318,
+   "cancelled": 52,
+   "diverted": 5,
+   "landed": 1585,
+   "months": 12,
+   "nas_delay_minutes": 2674.0,
+   "nas_delay_per_landed_flight": 1.69,
+   "scheduled": 1642
+  },
+  "SAN": {
+   "cancellation_rate": 0.0151,
+   "cancelled": 1405,
+   "diverted": 208,
+   "landed": 91609,
+   "months": 12,
+   "nas_delay_minutes": 170328.0,
+   "nas_delay_per_landed_flight": 1.86,
+   "scheduled": 93222
+  },
+  "SAT": {
+   "cancellation_rate": 0.0135,
+   "cancelled": 549,
+   "diverted": 96,
+   "landed": 40080,
+   "months": 12,
+   "nas_delay_minutes": 70393.0,
+   "nas_delay_per_landed_flight": 1.76,
+   "scheduled": 40725
+  },
+  "SAV": {
+   "cancellation_rate": 0.0209,
+   "cancelled": 366,
+   "diverted": 39,
+   "landed": 17112,
+   "months": 12,
+   "nas_delay_minutes": 38136.0,
+   "nas_delay_per_landed_flight": 2.23,
+   "scheduled": 17517
+  },
+  "SBA": {
+   "cancellation_rate": 0.0221,
+   "cancelled": 155,
+   "diverted": 13,
+   "landed": 6863,
+   "months": 12,
+   "nas_delay_minutes": 12561.0,
+   "nas_delay_per_landed_flight": 1.83,
+   "scheduled": 7031
+  },
+  "SBN": {
+   "cancellation_rate": 0.0177,
+   "cancelled": 126,
+   "diverted": 29,
+   "landed": 6992,
+   "months": 12,
+   "nas_delay_minutes": 12454.0,
+   "nas_delay_per_landed_flight": 1.78,
+   "scheduled": 7147
+  },
+  "SBP": {
+   "cancellation_rate": 0.018,
+   "cancelled": 90,
+   "diverted": 18,
+   "landed": 4923,
+   "months": 12,
+   "nas_delay_minutes": 8543.0,
+   "nas_delay_per_landed_flight": 1.74,
+   "scheduled": 5031
+  },
+  "SCC": {
+   "cancellation_rate": 0.001,
+   "cancelled": 1,
+   "diverted": 17,
+   "landed": 967,
+   "months": 12,
+   "nas_delay_minutes": 550.0,
+   "nas_delay_per_landed_flight": 0.57,
+   "scheduled": 985
+  },
+  "SCE": {
+   "cancellation_rate": 0.0206,
+   "cancelled": 35,
+   "diverted": 12,
+   "landed": 1665,
+   "months": 12,
+   "nas_delay_minutes": 3313.0,
+   "nas_delay_per_landed_flight": 1.99,
+   "scheduled": 1712
+  },
+  "SCK": {
+   "cancellation_rate": 0.0035,
+   "cancelled": 3,
+   "diverted": 1,
+   "landed": 847,
+   "months": 12,
+   "nas_delay_minutes": 1570.0,
+   "nas_delay_per_landed_flight": 1.85,
+   "scheduled": 851
+  },
+  "SDF": {
+   "cancellation_rate": 0.0169,
+   "cancelled": 407,
+   "diverted": 28,
+   "landed": 23699,
+   "months": 12,
+   "nas_delay_minutes": 46251.0,
+   "nas_delay_per_landed_flight": 1.95,
+   "scheduled": 24134
+  },
+  "SEA": {
+   "cancellation_rate": 0.0091,
+   "cancelled": 1268,
+   "diverted": 321,
+   "landed": 138494,
+   "months": 12,
+   "nas_delay_minutes": 473698.0,
+   "nas_delay_per_landed_flight": 3.42,
+   "scheduled": 140083
+  },
+  "SFB": {
+   "cancellation_rate": 0.0104,
+   "cancelled": 109,
+   "diverted": 22,
+   "landed": 10399,
+   "months": 12,
+   "nas_delay_minutes": 23868.0,
+   "nas_delay_per_landed_flight": 2.3,
+   "scheduled": 10530
+  },
+  "SFO": {
+   "cancellation_rate": 0.0209,
+   "cancelled": 3593,
+   "diverted": 483,
+   "landed": 168153,
+   "months": 12,
+   "nas_delay_minutes": 1563351.0,
+   "nas_delay_per_landed_flight": 9.3,
+   "scheduled": 172229
+  },
+  "SGF": {
+   "cancellation_rate": 0.022,
+   "cancelled": 187,
+   "diverted": 30,
+   "landed": 8332,
+   "months": 12,
+   "nas_delay_minutes": 18968.0,
+   "nas_delay_per_landed_flight": 2.28,
+   "scheduled": 8549
+  },
+  "SGU": {
+   "cancellation_rate": 0.0055,
+   "cancelled": 14,
+   "diverted": 9,
+   "landed": 2518,
+   "months": 9,
+   "nas_delay_minutes": 3502.0,
+   "nas_delay_per_landed_flight": 1.39,
+   "scheduled": 2541
+  },
+  "SHD": {
+   "cancellation_rate": 0.0295,
+   "cancelled": 20,
+   "diverted": 4,
+   "landed": 658,
+   "months": 12,
+   "nas_delay_minutes": 1250.0,
+   "nas_delay_per_landed_flight": 1.9,
+   "scheduled": 682
+  },
+  "SHV": {
+   "cancellation_rate": 0.0234,
+   "cancelled": 162,
+   "diverted": 32,
+   "landed": 6756,
+   "months": 12,
+   "nas_delay_minutes": 12396.0,
+   "nas_delay_per_landed_flight": 1.83,
+   "scheduled": 6950
+  },
+  "SIT": {
+   "cancellation_rate": 0.0113,
+   "cancelled": 15,
+   "diverted": 12,
+   "landed": 1314,
+   "months": 12,
+   "nas_delay_minutes": 1505.0,
+   "nas_delay_per_landed_flight": 1.15,
+   "scheduled": 1341
+  },
+  "SJC": {
+   "cancellation_rate": 0.018,
+   "cancelled": 1099,
+   "diverted": 57,
+   "landed": 59958,
+   "months": 12,
+   "nas_delay_minutes": 67840.0,
+   "nas_delay_per_landed_flight": 1.13,
+   "scheduled": 61114
+  },
+  "SJT": {
+   "cancellation_rate": 0.0215,
+   "cancelled": 37,
+   "diverted": 3,
+   "landed": 1687,
+   "months": 12,
+   "nas_delay_minutes": 2944.0,
+   "nas_delay_per_landed_flight": 1.75,
+   "scheduled": 1727
+  },
+  "SJU": {
+   "cancellation_rate": 0.008,
+   "cancelled": 208,
+   "diverted": 42,
+   "landed": 25692,
+   "months": 12,
+   "nas_delay_minutes": 66590.0,
+   "nas_delay_per_landed_flight": 2.59,
+   "scheduled": 25942
+  },
+  "SLC": {
+   "cancellation_rate": 0.005,
+   "cancelled": 570,
+   "diverted": 111,
+   "landed": 113346,
+   "months": 12,
+   "nas_delay_minutes": 153146.0,
+   "nas_delay_per_landed_flight": 1.35,
+   "scheduled": 114027
+  },
+  "SLN": {
+   "cancellation_rate": 0.0342,
+   "cancelled": 32,
+   "diverted": 2,
+   "landed": 905,
+   "months": 12,
+   "nas_delay_minutes": 2118.0,
+   "nas_delay_per_landed_flight": 2.34,
+   "scheduled": 939
+  },
+  "SMF": {
+   "cancellation_rate": 0.0133,
+   "cancelled": 669,
+   "diverted": 38,
+   "landed": 49569,
+   "months": 12,
+   "nas_delay_minutes": 47233.0,
+   "nas_delay_per_landed_flight": 0.95,
+   "scheduled": 50276
+  },
+  "SMX": {
+   "cancellation_rate": 0.0,
+   "cancelled": 0,
+   "diverted": 1,
+   "landed": 193,
+   "months": 12,
+   "nas_delay_minutes": 302.0,
+   "nas_delay_per_landed_flight": 1.56,
+   "scheduled": 194
+  },
+  "SNA": {
+   "cancellation_rate": 0.0118,
+   "cancelled": 486,
+   "diverted": 114,
+   "landed": 40578,
+   "months": 12,
+   "nas_delay_minutes": 56822.0,
+   "nas_delay_per_landed_flight": 1.4,
+   "scheduled": 41178
+  },
+  "SPI": {
+   "cancellation_rate": 0.0338,
+   "cancelled": 59,
+   "diverted": 4,
+   "landed": 1687,
+   "months": 12,
+   "nas_delay_minutes": 4172.0,
+   "nas_delay_per_landed_flight": 2.47,
+   "scheduled": 1750
+  },
+  "SPN": {
+   "cancellation_rate": 0.0107,
+   "cancelled": 5,
+   "diverted": 2,
+   "landed": 461,
+   "months": 12,
+   "nas_delay_minutes": 304.0,
+   "nas_delay_per_landed_flight": 0.66,
+   "scheduled": 468
+  },
+  "SPS": {
+   "cancellation_rate": 0.0409,
+   "cancelled": 49,
+   "diverted": 2,
+   "landed": 1150,
+   "months": 12,
+   "nas_delay_minutes": 1379.0,
+   "nas_delay_per_landed_flight": 1.2,
+   "scheduled": 1201
+  },
+  "SRQ": {
+   "cancellation_rate": 0.0086,
+   "cancelled": 66,
+   "diverted": 18,
+   "landed": 7574,
+   "months": 12,
+   "nas_delay_minutes": 17777.0,
+   "nas_delay_per_landed_flight": 2.35,
+   "scheduled": 7658
+  },
+  "STC": {
+   "cancellation_rate": 0.0336,
+   "cancelled": 5,
+   "diverted": 1,
+   "landed": 144,
+   "months": 11,
+   "nas_delay_minutes": 455.0,
+   "nas_delay_per_landed_flight": 3.16,
+   "scheduled": 150
+  },
+  "STL": {
+   "cancellation_rate": 0.0216,
+   "cancelled": 1459,
+   "diverted": 107,
+   "landed": 66213,
+   "months": 12,
+   "nas_delay_minutes": 113530.0,
+   "nas_delay_per_landed_flight": 1.71,
+   "scheduled": 67779
+  },
+  "STS": {
+   "cancellation_rate": 0.0133,
+   "cancelled": 30,
+   "diverted": 8,
+   "landed": 2225,
+   "months": 12,
+   "nas_delay_minutes": 3467.0,
+   "nas_delay_per_landed_flight": 1.56,
+   "scheduled": 2263
+  },
+  "STT": {
+   "cancellation_rate": 0.0049,
+   "cancelled": 18,
+   "diverted": 9,
+   "landed": 3669,
+   "months": 12,
+   "nas_delay_minutes": 7790.0,
+   "nas_delay_per_landed_flight": 2.12,
+   "scheduled": 3696
+  },
+  "STX": {
+   "cancellation_rate": 0.0032,
+   "cancelled": 3,
+   "diverted": 1,
+   "landed": 939,
+   "months": 12,
+   "nas_delay_minutes": 1493.0,
+   "nas_delay_per_landed_flight": 1.59,
+   "scheduled": 943
+  },
+  "SUN": {
+   "cancellation_rate": 0.0097,
+   "cancelled": 13,
+   "diverted": 221,
+   "landed": 1333,
+   "months": 12,
+   "nas_delay_minutes": 1197.0,
+   "nas_delay_per_landed_flight": 0.9,
+   "scheduled": 1567
+  },
+  "SUX": {
+   "cancellation_rate": 0.0397,
+   "cancelled": 53,
+   "diverted": 4,
+   "landed": 1283,
+   "months": 12,
+   "nas_delay_minutes": 3653.0,
+   "nas_delay_per_landed_flight": 2.85,
+   "scheduled": 1340
+  },
+  "SWF": {
+   "cancellation_rate": 0.0091,
+   "cancelled": 16,
+   "diverted": 2,
+   "landed": 1743,
+   "months": 12,
+   "nas_delay_minutes": 2852.0,
+   "nas_delay_per_landed_flight": 1.64,
+   "scheduled": 1761
+  },
+  "SWO": {
+   "cancellation_rate": 0.032,
+   "cancelled": 28,
+   "diverted": 4,
+   "landed": 847,
+   "months": 12,
+   "nas_delay_minutes": 1454.0,
+   "nas_delay_per_landed_flight": 1.72,
+   "scheduled": 879
+  },
+  "SYR": {
+   "cancellation_rate": 0.0265,
+   "cancelled": 373,
+   "diverted": 29,
+   "landed": 13708,
+   "months": 12,
+   "nas_delay_minutes": 30045.0,
+   "nas_delay_per_landed_flight": 2.19,
+   "scheduled": 14110
+  },
+  "TLH": {
+   "cancellation_rate": 0.0205,
+   "cancelled": 131,
+   "diverted": 12,
+   "landed": 6259,
+   "months": 12,
+   "nas_delay_minutes": 9128.0,
+   "nas_delay_per_landed_flight": 1.46,
+   "scheduled": 6402
+  },
+  "TOL": {
+   "cancellation_rate": 0.0343,
+   "cancelled": 72,
+   "diverted": 5,
+   "landed": 2030,
+   "months": 12,
+   "nas_delay_minutes": 3438.0,
+   "nas_delay_per_landed_flight": 1.69,
+   "scheduled": 2107
+  },
+  "TPA": {
+   "cancellation_rate": 0.0138,
+   "cancelled": 1039,
+   "diverted": 179,
+   "landed": 74414,
+   "months": 12,
+   "nas_delay_minutes": 193810.0,
+   "nas_delay_per_landed_flight": 2.6,
+   "scheduled": 75632
+  },
+  "TRI": {
+   "cancellation_rate": 0.0087,
+   "cancelled": 24,
+   "diverted": 6,
+   "landed": 2721,
+   "months": 12,
+   "nas_delay_minutes": 3169.0,
+   "nas_delay_per_landed_flight": 1.16,
+   "scheduled": 2751
+  },
+  "TTN": {
+   "cancellation_rate": 0.03,
+   "cancelled": 85,
+   "diverted": 10,
+   "landed": 2753,
+   "months": 12,
+   "nas_delay_minutes": 8601.0,
+   "nas_delay_per_landed_flight": 3.12,
+   "scheduled": 2848
+  },
+  "TUL": {
+   "cancellation_rate": 0.0182,
+   "cancelled": 310,
+   "diverted": 34,
+   "landed": 16757,
+   "months": 12,
+   "nas_delay_minutes": 30970.0,
+   "nas_delay_per_landed_flight": 1.85,
+   "scheduled": 17101
+  },
+  "TUS": {
+   "cancellation_rate": 0.0121,
+   "cancelled": 230,
+   "diverted": 28,
+   "landed": 18765,
+   "months": 12,
+   "nas_delay_minutes": 28053.0,
+   "nas_delay_per_landed_flight": 1.49,
+   "scheduled": 19023
+  },
+  "TVC": {
+   "cancellation_rate": 0.0284,
+   "cancelled": 118,
+   "diverted": 11,
+   "landed": 4030,
+   "months": 12,
+   "nas_delay_minutes": 8446.0,
+   "nas_delay_per_landed_flight": 2.1,
+   "scheduled": 4159
+  },
+  "TWF": {
+   "cancellation_rate": 0.0,
+   "cancelled": 0,
+   "diverted": 4,
+   "landed": 1039,
+   "months": 12,
+   "nas_delay_minutes": 415.0,
+   "nas_delay_per_landed_flight": 0.4,
+   "scheduled": 1043
+  },
+  "TXK": {
+   "cancellation_rate": 0.035,
+   "cancelled": 44,
+   "diverted": 5,
+   "landed": 1214,
+   "months": 12,
+   "nas_delay_minutes": 1626.0,
+   "nas_delay_per_landed_flight": 1.34,
+   "scheduled": 1263
+  },
+  "TYR": {
+   "cancellation_rate": 0.0359,
+   "cancelled": 54,
+   "diverted": 7,
+   "landed": 1449,
+   "months": 12,
+   "nas_delay_minutes": 1645.0,
+   "nas_delay_per_landed_flight": 1.14,
+   "scheduled": 1510
+  },
+  "TYS": {
+   "cancellation_rate": 0.0177,
+   "cancelled": 314,
+   "diverted": 34,
+   "landed": 17379,
+   "months": 12,
+   "nas_delay_minutes": 43220.0,
+   "nas_delay_per_landed_flight": 2.49,
+   "scheduled": 17727
+  },
+  "UIN": {
+   "cancellation_rate": 0.0741,
+   "cancelled": 52,
+   "diverted": 9,
+   "landed": 650,
+   "months": 12,
+   "nas_delay_minutes": 1407.0,
+   "nas_delay_per_landed_flight": 2.16,
+   "scheduled": 711
+  },
+  "USA": {
+   "cancellation_rate": 0.0151,
+   "cancelled": 19,
+   "diverted": 4,
+   "landed": 1240,
+   "months": 12,
+   "nas_delay_minutes": 2324.0,
+   "nas_delay_per_landed_flight": 1.87,
+   "scheduled": 1263
+  },
+  "VEL": {
+   "cancellation_rate": 0.0507,
+   "cancelled": 31,
+   "diverted": 11,
+   "landed": 581,
+   "months": 12,
+   "nas_delay_minutes": 645.0,
+   "nas_delay_per_landed_flight": 1.11,
+   "scheduled": 623
+  },
+  "VLD": {
+   "cancellation_rate": 0.0048,
+   "cancelled": 5,
+   "diverted": 4,
+   "landed": 1027,
+   "months": 12,
+   "nas_delay_minutes": 852.0,
+   "nas_delay_per_landed_flight": 0.83,
+   "scheduled": 1036
+  },
+  "VPS": {
+   "cancellation_rate": 0.0195,
+   "cancelled": 169,
+   "diverted": 43,
+   "landed": 8484,
+   "months": 12,
+   "nas_delay_minutes": 16718.0,
+   "nas_delay_per_landed_flight": 1.97,
+   "scheduled": 8696
+  },
+  "WRG": {
+   "cancellation_rate": 0.018,
+   "cancelled": 13,
+   "diverted": 2,
+   "landed": 709,
+   "months": 12,
+   "nas_delay_minutes": 1322.0,
+   "nas_delay_per_landed_flight": 1.86,
+   "scheduled": 724
+  },
+  "WYS": {
+   "cancellation_rate": 0.0,
+   "cancelled": 0,
+   "diverted": 5,
+   "landed": 246,
+   "months": 5,
+   "nas_delay_minutes": 64.0,
+   "nas_delay_per_landed_flight": 0.26,
+   "scheduled": 251
+  },
+  "XNA": {
+   "cancellation_rate": 0.0194,
+   "cancelled": 263,
+   "diverted": 29,
+   "landed": 13316,
+   "months": 12,
+   "nas_delay_minutes": 34396.0,
+   "nas_delay_per_landed_flight": 2.58,
+   "scheduled": 13608
+  },
+  "YAK": {
+   "cancellation_rate": 0.0113,
+   "cancelled": 8,
+   "diverted": 14,
+   "landed": 700,
+   "months": 12,
+   "nas_delay_minutes": 812.0,
+   "nas_delay_per_landed_flight": 1.16,
+   "scheduled": 722
+  },
+  "YUM": {
+   "cancellation_rate": 0.0071,
+   "cancelled": 12,
+   "diverted": 1,
+   "landed": 1688,
+   "months": 12,
+   "nas_delay_minutes": 1584.0,
+   "nas_delay_per_landed_flight": 0.94,
+   "scheduled": 1701
+  }
+ },
+ "manifest": {
+  "as_of": "Oct 2018 to Sep 2019",
+  "fetched_at": "2026-10-11T17:47:24+00:00",
+  "months": [
+   "2018-10",
+   "2018-11",
+   "2018-12",
+   "2019-01",
+   "2019-02",
+   "2019-03",
+   "2019-04",
+   "2019-05",
+   "2019-06",
+   "2019-07",
+   "2019-08",
+   "2019-09"
+  ],
+  "source": "BTS On-Time Performance (Reporting Carrier)",
+  "source_url": "https://transtats.bts.gov/PREZIP/"
+ }
+}

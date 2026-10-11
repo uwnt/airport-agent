@@ -1,0 +1,1339 @@
+{
+ "data": {
+  "ABE": {
+   "baseline_passengers_per_day": null,
+   "fare_premium": 0.47,
+   "growth_pct": null,
+   "largest_carrier": "G4",
+   "largest_carrier_share": 0.911,
+   "market_count": 2,
+   "passengers_per_day": 229.3
+  },
+  "ABQ": {
+   "baseline_passengers_per_day": 3907.7,
+   "fare_premium": 1.153,
+   "growth_pct": -0.6,
+   "largest_carrier": "WN",
+   "largest_carrier_share": 0.463,
+   "market_count": 25,
+   "passengers_per_day": 3885.2
+  },
+  "ACY": {
+   "baseline_passengers_per_day": 235.9,
+   "fare_premium": 0.371,
+   "growth_pct": 108.5,
+   "largest_carrier": "NK",
+   "largest_carrier_share": 0.846,
+   "market_count": 4,
+   "passengers_per_day": 491.8
+  },
+  "ALB": {
+   "baseline_passengers_per_day": 1495.2,
+   "fare_premium": 0.987,
+   "growth_pct": -17.2,
+   "largest_carrier": "B6",
+   "largest_carrier_share": 0.283,
+   "market_count": 7,
+   "passengers_per_day": 1237.6
+  },
+  "APA": {
+   "baseline_passengers_per_day": null,
+   "fare_premium": 3.48,
+   "growth_pct": null,
+   "largest_carrier": "XE",
+   "largest_carrier_share": 1.0,
+   "market_count": 2,
+   "passengers_per_day": 0.6
+  },
+  "ASE": {
+   "baseline_passengers_per_day": 510.3,
+   "fare_premium": 1.697,
+   "growth_pct": 12.6,
+   "largest_carrier": "UA",
+   "largest_carrier_share": 0.619,
+   "market_count": 8,
+   "passengers_per_day": 574.6
+  },
+  "ATL": {
+   "baseline_passengers_per_day": 37320.0,
+   "fare_premium": 1.07,
+   "growth_pct": -0.3,
+   "largest_carrier": "DL",
+   "largest_carrier_share": 0.476,
+   "market_count": 37,
+   "passengers_per_day": 37190.1
+  },
+  "ATW": {
+   "baseline_passengers_per_day": null,
+   "fare_premium": 0.546,
+   "growth_pct": null,
+   "largest_carrier": "G4",
+   "largest_carrier_share": 0.885,
+   "market_count": 2,
+   "passengers_per_day": 337.3
+  },
+  "AUS": {
+   "baseline_passengers_per_day": 13549.1,
+   "fare_premium": 1.055,
+   "growth_pct": 24.9,
+   "largest_carrier": "WN",
+   "largest_carrier_share": 0.264,
+   "market_count": 30,
+   "passengers_per_day": 16922.1
+  },
+  "AVL": {
+   "baseline_passengers_per_day": 222.3,
+   "fare_premium": 0.828,
+   "growth_pct": 167.5,
+   "largest_carrier": "G4",
+   "largest_carrier_share": 0.479,
+   "market_count": 6,
+   "passengers_per_day": 594.8
+  },
+  "AZA": {
+   "baseline_passengers_per_day": 2821.3,
+   "fare_premium": 0.5,
+   "growth_pct": 24.8,
+   "largest_carrier": "G4",
+   "largest_carrier_share": 0.944,
+   "market_count": 27,
+   "passengers_per_day": 3522.1
+  },
+  "BDL": {
+   "baseline_passengers_per_day": 4570.3,
+   "fare_premium": 0.996,
+   "growth_pct": -22.8,
+   "largest_carrier": "B6",
+   "largest_carrier_share": 0.21,
+   "market_count": 17,
+   "passengers_per_day": 3530.3
+  },
+  "BFI": {
+   "baseline_passengers_per_day": null,
+   "fare_premium": 4.775,
+   "growth_pct": null,
+   "largest_carrier": "X4",
+   "largest_carrier_share": 1.0,
+   "market_count": 2,
+   "passengers_per_day": 12.5
+  },
+  "BGR": {
+   "baseline_passengers_per_day": null,
+   "fare_premium": 0.437,
+   "growth_pct": null,
+   "largest_carrier": "G4",
+   "largest_carrier_share": 0.665,
+   "market_count": 2,
+   "passengers_per_day": 212.5
+  },
+  "BHM": {
+   "baseline_passengers_per_day": 2367.6,
+   "fare_premium": 1.486,
+   "growth_pct": -4.8,
+   "largest_carrier": "WN",
+   "largest_carrier_share": 0.317,
+   "market_count": 18,
+   "passengers_per_day": 2253.9
+  },
+  "BIS": {
+   "baseline_passengers_per_day": 300.9,
+   "fare_premium": 0.604,
+   "growth_pct": 3.8,
+   "largest_carrier": "G4",
+   "largest_carrier_share": 0.941,
+   "market_count": 2,
+   "passengers_per_day": 312.2
+  },
+  "BNA": {
+   "baseline_passengers_per_day": 12657.8,
+   "fare_premium": 1.074,
+   "growth_pct": 27.6,
+   "largest_carrier": "WN",
+   "largest_carrier_share": 0.353,
+   "market_count": 36,
+   "passengers_per_day": 16147.2
+  },
+  "BOI": {
+   "baseline_passengers_per_day": 1705.9,
+   "fare_premium": 1.008,
+   "growth_pct": 140.0,
+   "largest_carrier": "AS",
+   "largest_carrier_share": 0.329,
+   "market_count": 15,
+   "passengers_per_day": 4094.2
+  },
+  "BOS": {
+   "baseline_passengers_per_day": 57203.7,
+   "fare_premium": 0.959,
+   "growth_pct": -10.2,
+   "largest_carrier": "B6",
+   "largest_carrier_share": 0.198,
+   "market_count": 67,
+   "passengers_per_day": 51380.9
+  },
+  "BTV": {
+   "baseline_passengers_per_day": 578.7,
+   "fare_premium": 0.984,
+   "growth_pct": -56.3,
+   "largest_carrier": "AA",
+   "largest_carrier_share": 0.562,
+   "market_count": 3,
+   "passengers_per_day": 253.0
+  },
+  "BUF": {
+   "baseline_passengers_per_day": 4207.0,
+   "fare_premium": 0.881,
+   "growth_pct": -22.5,
+   "largest_carrier": "WN",
+   "largest_carrier_share": 0.2,
+   "market_count": 20,
+   "passengers_per_day": 3260.2
+  },
+  "BUR": {
+   "baseline_passengers_per_day": 11129.8,
+   "fare_premium": 0.947,
+   "growth_pct": 2.4,
+   "largest_carrier": "WN",
+   "largest_carrier_share": 0.515,
+   "market_count": 85,
+   "passengers_per_day": 11393.2
+  },
+  "BWI": {
+   "baseline_passengers_per_day": 30137.2,
+   "fare_premium": 1.006,
+   "growth_pct": -24.3,
+   "largest_carrier": "WN",
+   "largest_carrier_share": 0.593,
+   "market_count": 81,
+   "passengers_per_day": 22808.0
+  },
+  "BZN": {
+   "baseline_passengers_per_day": 436.9,
+   "fare_premium": 1.119,
+   "growth_pct": 425.1,
+   "largest_carrier": "UA",
+   "largest_carrier_share": 0.39,
+   "market_count": 21,
+   "passengers_per_day": 2294.2
+  },
+  "CAE": {
+   "baseline_passengers_per_day": 258.1,
+   "fare_premium": 1.132,
+   "growth_pct": 117.1,
+   "largest_carrier": "AA",
+   "largest_carrier_share": 0.343,
+   "market_count": 7,
+   "passengers_per_day": 560.4
+  },
+  "CAK": {
+   "baseline_passengers_per_day": 1152.8,
+   "fare_premium": 0.712,
+   "growth_pct": 17.0,
+   "largest_carrier": "MX",
+   "largest_carrier_share": 0.499,
+   "market_count": 35,
+   "passengers_per_day": 1349.1
+  },
+  "CCR": {
+   "baseline_passengers_per_day": null,
+   "fare_premium": 1.363,
+   "growth_pct": null,
+   "largest_carrier": "XE",
+   "largest_carrier_share": 1.0,
+   "market_count": 3,
+   "passengers_per_day": 0.2
+  },
+  "CHS": {
+   "baseline_passengers_per_day": 4032.1,
+   "fare_premium": 0.893,
+   "growth_pct": 40.0,
+   "largest_carrier": "UA",
+   "largest_carrier_share": 0.197,
+   "market_count": 28,
+   "passengers_per_day": 5643.4
+  },
+  "CID": {
+   "baseline_passengers_per_day": 293.4,
+   "fare_premium": 0.832,
+   "growth_pct": 117.2,
+   "largest_carrier": "G4",
+   "largest_carrier_share": 0.363,
+   "market_count": 3,
+   "passengers_per_day": 637.2
+  },
+  "CLE": {
+   "baseline_passengers_per_day": 13422.6,
+   "fare_premium": 0.939,
+   "growth_pct": 3.0,
+   "largest_carrier": "F9",
+   "largest_carrier_share": 0.254,
+   "market_count": 39,
+   "passengers_per_day": 13826.4
+  },
+  "CLT": {
+   "baseline_passengers_per_day": 13094.1,
+   "fare_premium": 1.164,
+   "growth_pct": 8.7,
+   "largest_carrier": "AA",
+   "largest_carrier_share": 0.676,
+   "market_count": 33,
+   "passengers_per_day": 14237.1
+  },
+  "CMH": {
+   "baseline_passengers_per_day": 11249.7,
+   "fare_premium": 1.107,
+   "growth_pct": 5.5,
+   "largest_carrier": "WN",
+   "largest_carrier_share": 0.274,
+   "market_count": 40,
+   "passengers_per_day": 11872.1
+  },
+  "COS": {
+   "baseline_passengers_per_day": 392.6,
+   "fare_premium": 1.264,
+   "growth_pct": 123.0,
+   "largest_carrier": "WN",
+   "largest_carrier_share": 0.566,
+   "market_count": 9,
+   "passengers_per_day": 875.4
+  },
+  "CVG": {
+   "baseline_passengers_per_day": 6979.9,
+   "fare_premium": 1.05,
+   "growth_pct": 6.0,
+   "largest_carrier": "DL",
+   "largest_carrier_share": 0.203,
+   "market_count": 33,
+   "passengers_per_day": 7399.1
+  },
+  "DAB": {
+   "baseline_passengers_per_day": null,
+   "fare_premium": 0.684,
+   "growth_pct": null,
+   "largest_carrier": "B6",
+   "largest_carrier_share": 0.602,
+   "market_count": 8,
+   "passengers_per_day": 494.8
+  },
+  "DAL": {
+   "baseline_passengers_per_day": 22355.3,
+   "fare_premium": 1.053,
+   "growth_pct": -19.6,
+   "largest_carrier": "WN",
+   "largest_carrier_share": 0.971,
+   "market_count": 82,
+   "passengers_per_day": 17969.9
+  },
+  "DAY": {
+   "baseline_passengers_per_day": 247.2,
+   "fare_premium": 1.195,
+   "growth_pct": -15.3,
+   "largest_carrier": "AA",
+   "largest_carrier_share": 0.709,
+   "market_count": 3,
+   "passengers_per_day": 209.5
+  },
+  "DCA": {
+   "baseline_passengers_per_day": 39471.7,
+   "fare_premium": 1.038,
+   "growth_pct": -6.6,
+   "largest_carrier": "AA",
+   "largest_carrier_share": 0.373,
+   "market_count": 81,
+   "passengers_per_day": 36881.9
+  },
+  "DEN": {
+   "baseline_passengers_per_day": 34445.6,
+   "fare_premium": 0.947,
+   "growth_pct": 94.9,
+   "largest_carrier": "UA",
+   "largest_carrier_share": 0.263,
+   "market_count": 81,
+   "passengers_per_day": 67118.0
+  },
+  "DFW": {
+   "baseline_passengers_per_day": 49666.3,
+   "fare_premium": 1.11,
+   "growth_pct": 11.4,
+   "largest_carrier": "AA",
+   "largest_carrier_share": 0.645,
+   "market_count": 84,
+   "passengers_per_day": 55346.7
+  },
+  "DSM": {
+   "baseline_passengers_per_day": 1888.3,
+   "fare_premium": 1.04,
+   "growth_pct": 0.8,
+   "largest_carrier": "AA",
+   "largest_carrier_share": 0.352,
+   "market_count": 14,
+   "passengers_per_day": 1903.6
+  },
+  "DTW": {
+   "baseline_passengers_per_day": 16432.1,
+   "fare_premium": 1.064,
+   "growth_pct": 12.6,
+   "largest_carrier": "DL",
+   "largest_carrier_share": 0.562,
+   "market_count": 33,
+   "passengers_per_day": 18503.6
+  },
+  "ECP": {
+   "baseline_passengers_per_day": null,
+   "fare_premium": 1.205,
+   "growth_pct": null,
+   "largest_carrier": "AA",
+   "largest_carrier_share": 0.425,
+   "market_count": 4,
+   "passengers_per_day": 446.5
+  },
+  "EGE": {
+   "baseline_passengers_per_day": 539.7,
+   "fare_premium": 1.819,
+   "growth_pct": 19.1,
+   "largest_carrier": "AA",
+   "largest_carrier_share": 0.471,
+   "market_count": 6,
+   "passengers_per_day": 642.7
+  },
+  "ELP": {
+   "baseline_passengers_per_day": 2211.7,
+   "fare_premium": 1.273,
+   "growth_pct": 9.5,
+   "largest_carrier": "WN",
+   "largest_carrier_share": 0.546,
+   "market_count": 13,
+   "passengers_per_day": 2422.7
+  },
+  "EUG": {
+   "baseline_passengers_per_day": 659.3,
+   "fare_premium": 0.821,
+   "growth_pct": 47.5,
+   "largest_carrier": "AS",
+   "largest_carrier_share": 0.246,
+   "market_count": 10,
+   "passengers_per_day": 972.3
+  },
+  "EWR": {
+   "baseline_passengers_per_day": 51614.3,
+   "fare_premium": 0.994,
+   "growth_pct": 9.6,
+   "largest_carrier": "UA",
+   "largest_carrier_share": 0.673,
+   "market_count": 90,
+   "passengers_per_day": 56544.2
+  },
+  "EYW": {
+   "baseline_passengers_per_day": 501.8,
+   "fare_premium": 1.254,
+   "growth_pct": 140.8,
+   "largest_carrier": "UA",
+   "largest_carrier_share": 0.341,
+   "market_count": 13,
+   "passengers_per_day": 1208.2
+  },
+  "FAR": {
+   "baseline_passengers_per_day": 400.8,
+   "fare_premium": 0.697,
+   "growth_pct": 36.1,
+   "largest_carrier": "G4",
+   "largest_carrier_share": 0.848,
+   "market_count": 2,
+   "passengers_per_day": 545.6
+  },
+  "FAT": {
+   "baseline_passengers_per_day": 198.2,
+   "fare_premium": 0.882,
+   "growth_pct": 148.5,
+   "largest_carrier": "AA",
+   "largest_carrier_share": 0.435,
+   "market_count": 2,
+   "passengers_per_day": 492.6
+  },
+  "FLL": {
+   "baseline_passengers_per_day": 48892.0,
+   "fare_premium": 0.867,
+   "growth_pct": 7.0,
+   "largest_carrier": "B6",
+   "largest_carrier_share": 0.15,
+   "market_count": 82,
+   "passengers_per_day": 52304.5
+  },
+  "FNT": {
+   "baseline_passengers_per_day": 219.6,
+   "fare_premium": 0.576,
+   "growth_pct": 22.7,
+   "largest_carrier": "G4",
+   "largest_carrier_share": 0.977,
+   "market_count": 2,
+   "passengers_per_day": 269.4
+  },
+  "FSD": {
+   "baseline_passengers_per_day": 428.0,
+   "fare_premium": 0.743,
+   "growth_pct": 38.0,
+   "largest_carrier": "G4",
+   "largest_carrier_share": 0.747,
+   "market_count": 2,
+   "passengers_per_day": 590.8
+  },
+  "GEG": {
+   "baseline_passengers_per_day": 1462.2,
+   "fare_premium": 1.031,
+   "growth_pct": 186.4,
+   "largest_carrier": "AS",
+   "largest_carrier_share": 0.417,
+   "market_count": 16,
+   "passengers_per_day": 4187.3
+  },
+  "GRR": {
+   "baseline_passengers_per_day": 2353.3,
+   "fare_premium": 1.031,
+   "growth_pct": 7.4,
+   "largest_carrier": "G4",
+   "largest_carrier_share": 0.284,
+   "market_count": 20,
+   "passengers_per_day": 2528.1
+  },
+  "GSO": {
+   "baseline_passengers_per_day": 649.2,
+   "fare_premium": 0.877,
+   "growth_pct": 10.6,
+   "largest_carrier": "DL",
+   "largest_carrier_share": 0.281,
+   "market_count": 6,
+   "passengers_per_day": 717.8
+  },
+  "GSP": {
+   "baseline_passengers_per_day": 767.2,
+   "fare_premium": 1.176,
+   "growth_pct": 108.1,
+   "largest_carrier": "AA",
+   "largest_carrier_share": 0.369,
+   "market_count": 14,
+   "passengers_per_day": 1596.9
+  },
+  "HHR": {
+   "baseline_passengers_per_day": null,
+   "fare_premium": 1.371,
+   "growth_pct": null,
+   "largest_carrier": "AN",
+   "largest_carrier_share": 1.0,
+   "market_count": 1,
+   "passengers_per_day": 0.1
+  },
+  "HOU": {
+   "baseline_passengers_per_day": 17705.0,
+   "fare_premium": 1.052,
+   "growth_pct": -20.6,
+   "largest_carrier": "WN",
+   "largest_carrier_share": 0.954,
+   "market_count": 70,
+   "passengers_per_day": 14054.9
+  },
+  "HPN": {
+   "baseline_passengers_per_day": 3496.4,
+   "fare_premium": 1.064,
+   "growth_pct": 26.8,
+   "largest_carrier": "B6",
+   "largest_carrier_share": 0.538,
+   "market_count": 89,
+   "passengers_per_day": 4435.2
+  },
+  "HRL": {
+   "baseline_passengers_per_day": 205.4,
+   "fare_premium": 1.021,
+   "growth_pct": 11.3,
+   "largest_carrier": "WN",
+   "largest_carrier_share": 0.762,
+   "market_count": 2,
+   "passengers_per_day": 228.6
+  },
+  "HSV": {
+   "baseline_passengers_per_day": 347.4,
+   "fare_premium": 1.683,
+   "growth_pct": 12.9,
+   "largest_carrier": "AA",
+   "largest_carrier_share": 0.601,
+   "market_count": 3,
+   "passengers_per_day": 392.3
+  },
+  "HVN": {
+   "baseline_passengers_per_day": null,
+   "fare_premium": 0.501,
+   "growth_pct": null,
+   "largest_carrier": "XP",
+   "largest_carrier_share": 0.98,
+   "market_count": 3,
+   "passengers_per_day": 602.2
+  },
+  "IAD": {
+   "baseline_passengers_per_day": 16184.4,
+   "fare_premium": 1.058,
+   "growth_pct": 14.9,
+   "largest_carrier": "UA",
+   "largest_carrier_share": 0.76,
+   "market_count": 82,
+   "passengers_per_day": 18602.5
+  },
+  "IAH": {
+   "baseline_passengers_per_day": 27773.0,
+   "fare_premium": 1.041,
+   "growth_pct": 30.7,
+   "largest_carrier": "UA",
+   "largest_carrier_share": 0.6,
+   "market_count": 70,
+   "passengers_per_day": 36312.8
+  },
+  "ICT": {
+   "baseline_passengers_per_day": 224.1,
+   "fare_premium": 0.809,
+   "growth_pct": 5.3,
+   "largest_carrier": "AA",
+   "largest_carrier_share": 0.392,
+   "market_count": 2,
+   "passengers_per_day": 235.9
+  },
+  "ILM": {
+   "baseline_passengers_per_day": 197.1,
+   "fare_premium": 1.319,
+   "growth_pct": 89.9,
+   "largest_carrier": "AA",
+   "largest_carrier_share": 0.488,
+   "market_count": 5,
+   "passengers_per_day": 374.4
+  },
+  "IND": {
+   "baseline_passengers_per_day": 7638.2,
+   "fare_premium": 1.12,
+   "growth_pct": 17.5,
+   "largest_carrier": "WN",
+   "largest_carrier_share": 0.253,
+   "market_count": 30,
+   "passengers_per_day": 8972.9
+  },
+  "ISP": {
+   "baseline_passengers_per_day": 2784.0,
+   "fare_premium": 0.83,
+   "growth_pct": 14.2,
+   "largest_carrier": "WN",
+   "largest_carrier_share": 0.33,
+   "market_count": 79,
+   "passengers_per_day": 3178.5
+  },
+  "JAC": {
+   "baseline_passengers_per_day": 257.3,
+   "fare_premium": 1.761,
+   "growth_pct": 15.0,
+   "largest_carrier": "UA",
+   "largest_carrier_share": 0.809,
+   "market_count": 4,
+   "passengers_per_day": 296.0
+  },
+  "JAX": {
+   "baseline_passengers_per_day": 6282.7,
+   "fare_premium": 1.079,
+   "growth_pct": 8.9,
+   "largest_carrier": "UA",
+   "largest_carrier_share": 0.252,
+   "market_count": 28,
+   "passengers_per_day": 6839.0
+  },
+  "JFK": {
+   "baseline_passengers_per_day": 47493.1,
+   "fare_premium": 0.973,
+   "growth_pct": -15.0,
+   "largest_carrier": "DL",
+   "largest_carrier_share": 0.329,
+   "market_count": 89,
+   "passengers_per_day": 40356.1
+  },
+  "LAL": {
+   "baseline_passengers_per_day": null,
+   "fare_premium": 0.453,
+   "growth_pct": null,
+   "largest_carrier": "XP",
+   "largest_carrier_share": 1.0,
+   "market_count": 6,
+   "passengers_per_day": 293.8
+  },
+  "LAS": {
+   "baseline_passengers_per_day": 33899.1,
+   "fare_premium": 0.974,
+   "growth_pct": 17.0,
+   "largest_carrier": "WN",
+   "largest_carrier_share": 0.309,
+   "market_count": 43,
+   "passengers_per_day": 39662.8
+  },
+  "LAX": {
+   "baseline_passengers_per_day": 90607.3,
+   "fare_premium": 0.972,
+   "growth_pct": -21.1,
+   "largest_carrier": "DL",
+   "largest_carrier_share": 0.142,
+   "market_count": 83,
+   "passengers_per_day": 71499.5
+  },
+  "LBB": {
+   "baseline_passengers_per_day": 695.6,
+   "fare_premium": 1.164,
+   "growth_pct": -21.3,
+   "largest_carrier": "WN",
+   "largest_carrier_share": 0.483,
+   "market_count": 4,
+   "passengers_per_day": 547.1
+  },
+  "LCK": {
+   "baseline_passengers_per_day": 201.7,
+   "fare_premium": 0.442,
+   "growth_pct": 17.6,
+   "largest_carrier": "G4",
+   "largest_carrier_share": 1.0,
+   "market_count": 3,
+   "passengers_per_day": 237.1
+  },
+  "LGA": {
+   "baseline_passengers_per_day": 51050.7,
+   "fare_premium": 1.002,
+   "growth_pct": 5.5,
+   "largest_carrier": "DL",
+   "largest_carrier_share": 0.327,
+   "market_count": 89,
+   "passengers_per_day": 53862.3
+  },
+  "LGB": {
+   "baseline_passengers_per_day": 6850.6,
+   "fare_premium": 0.86,
+   "growth_pct": -9.3,
+   "largest_carrier": "WN",
+   "largest_carrier_share": 0.899,
+   "market_count": 77,
+   "passengers_per_day": 6215.7
+  },
+  "LIT": {
+   "baseline_passengers_per_day": 699.1,
+   "fare_premium": 1.34,
+   "growth_pct": -69.5,
+   "largest_carrier": "AA",
+   "largest_carrier_share": 0.647,
+   "market_count": 2,
+   "passengers_per_day": 213.0
+  },
+  "MAF": {
+   "baseline_passengers_per_day": 1168.8,
+   "fare_premium": 1.255,
+   "growth_pct": -22.4,
+   "largest_carrier": "WN",
+   "largest_carrier_share": 0.495,
+   "market_count": 4,
+   "passengers_per_day": 907.4
+  },
+  "MCI": {
+   "baseline_passengers_per_day": 8673.1,
+   "fare_premium": 1.141,
+   "growth_pct": -1.3,
+   "largest_carrier": "WN",
+   "largest_carrier_share": 0.444,
+   "market_count": 32,
+   "passengers_per_day": 8563.0
+  },
+  "MCO": {
+   "baseline_passengers_per_day": 36693.4,
+   "fare_premium": 0.823,
+   "growth_pct": 27.7,
+   "largest_carrier": "UA",
+   "largest_carrier_share": 0.176,
+   "market_count": 36,
+   "passengers_per_day": 46840.9
+  },
+  "MDT": {
+   "baseline_passengers_per_day": null,
+   "fare_premium": 1.448,
+   "growth_pct": null,
+   "largest_carrier": "UA",
+   "largest_carrier_share": 0.594,
+   "market_count": 2,
+   "passengers_per_day": 217.1
+  },
+  "MDW": {
+   "baseline_passengers_per_day": 23440.1,
+   "fare_premium": 0.933,
+   "growth_pct": -27.6,
+   "largest_carrier": "WN",
+   "largest_carrier_share": 0.88,
+   "market_count": 78,
+   "passengers_per_day": 16975.8
+  },
+  "MEM": {
+   "baseline_passengers_per_day": 3435.8,
+   "fare_premium": 1.098,
+   "growth_pct": 6.1,
+   "largest_carrier": "AA",
+   "largest_carrier_share": 0.268,
+   "market_count": 25,
+   "passengers_per_day": 3645.3
+  },
+  "MFR": {
+   "baseline_passengers_per_day": 279.2,
+   "fare_premium": 0.97,
+   "growth_pct": -10.0,
+   "largest_carrier": "AS",
+   "largest_carrier_share": 0.542,
+   "market_count": 6,
+   "passengers_per_day": 251.3
+  },
+  "MHT": {
+   "baseline_passengers_per_day": 3071.1,
+   "fare_premium": 0.942,
+   "growth_pct": -29.2,
+   "largest_carrier": "WN",
+   "largest_carrier_share": 0.407,
+   "market_count": 65,
+   "passengers_per_day": 2175.5
+  },
+  "MIA": {
+   "baseline_passengers_per_day": 34301.0,
+   "fare_premium": 1.075,
+   "growth_pct": 30.8,
+   "largest_carrier": "AA",
+   "largest_carrier_share": 0.432,
+   "market_count": 78,
+   "passengers_per_day": 44864.2
+  },
+  "MKE": {
+   "baseline_passengers_per_day": 5339.0,
+   "fare_premium": 1.077,
+   "growth_pct": -26.7,
+   "largest_carrier": "WN",
+   "largest_carrier_share": 0.473,
+   "market_count": 22,
+   "passengers_per_day": 3915.2
+  },
+  "MSN": {
+   "baseline_passengers_per_day": 699.8,
+   "fare_premium": 1.079,
+   "growth_pct": 66.9,
+   "largest_carrier": "AA",
+   "largest_carrier_share": 0.326,
+   "market_count": 10,
+   "passengers_per_day": 1167.9
+  },
+  "MSP": {
+   "baseline_passengers_per_day": 19245.2,
+   "fare_premium": 1.138,
+   "growth_pct": -2.4,
+   "largest_carrier": "DL",
+   "largest_carrier_share": 0.54,
+   "market_count": 36,
+   "passengers_per_day": 18776.3
+  },
+  "MSY": {
+   "baseline_passengers_per_day": 13510.0,
+   "fare_premium": 0.955,
+   "growth_pct": -6.1,
+   "largest_carrier": "WN",
+   "largest_carrier_share": 0.195,
+   "market_count": 31,
+   "passengers_per_day": 12685.3
+  },
+  "MYR": {
+   "baseline_passengers_per_day": 197.2,
+   "fare_premium": 0.837,
+   "growth_pct": 685.7,
+   "largest_carrier": "NK",
+   "largest_carrier_share": 0.412,
+   "market_count": 14,
+   "passengers_per_day": 1549.7
+  },
+  "OAK": {
+   "baseline_passengers_per_day": 20047.1,
+   "fare_premium": 0.893,
+   "growth_pct": -41.9,
+   "largest_carrier": "WN",
+   "largest_carrier_share": 0.897,
+   "market_count": 61,
+   "passengers_per_day": 11652.1
+  },
+  "OKC": {
+   "baseline_passengers_per_day": 2472.9,
+   "fare_premium": 1.074,
+   "growth_pct": 12.0,
+   "largest_carrier": "WN",
+   "largest_carrier_share": 0.32,
+   "market_count": 20,
+   "passengers_per_day": 2769.5
+  },
+  "OMA": {
+   "baseline_passengers_per_day": 3945.3,
+   "fare_premium": 1.115,
+   "growth_pct": -4.0,
+   "largest_carrier": "WN",
+   "largest_carrier_share": 0.336,
+   "market_count": 26,
+   "passengers_per_day": 3788.1
+  },
+  "ONT": {
+   "baseline_passengers_per_day": 9829.0,
+   "fare_premium": 0.944,
+   "growth_pct": 11.0,
+   "largest_carrier": "WN",
+   "largest_carrier_share": 0.399,
+   "market_count": 82,
+   "passengers_per_day": 10909.7
+  },
+  "ORD": {
+   "baseline_passengers_per_day": 65029.1,
+   "fare_premium": 1.021,
+   "growth_pct": 5.2,
+   "largest_carrier": "UA",
+   "largest_carrier_share": 0.378,
+   "market_count": 80,
+   "passengers_per_day": 68388.1
+  },
+  "ORF": {
+   "baseline_passengers_per_day": 3593.4,
+   "fare_premium": 1.016,
+   "growth_pct": 22.5,
+   "largest_carrier": "AA",
+   "largest_carrier_share": 0.184,
+   "market_count": 27,
+   "passengers_per_day": 4401.0
+  },
+  "PAE": {
+   "baseline_passengers_per_day": null,
+   "fare_premium": 0.917,
+   "growth_pct": null,
+   "largest_carrier": "AS",
+   "largest_carrier_share": 0.994,
+   "market_count": 4,
+   "passengers_per_day": 746.8
+  },
+  "PBI": {
+   "baseline_passengers_per_day": 11137.8,
+   "fare_premium": 1.116,
+   "growth_pct": 21.7,
+   "largest_carrier": "UA",
+   "largest_carrier_share": 0.24,
+   "market_count": 23,
+   "passengers_per_day": 13559.1
+  },
+  "PDX": {
+   "baseline_passengers_per_day": 14336.3,
+   "fare_premium": 0.95,
+   "growth_pct": -4.8,
+   "largest_carrier": "AS",
+   "largest_carrier_share": 0.44,
+   "market_count": 34,
+   "passengers_per_day": 13648.0
+  },
+  "PHF": {
+   "baseline_passengers_per_day": 289.3,
+   "fare_premium": 1.352,
+   "growth_pct": -75.1,
+   "largest_carrier": "AA",
+   "largest_carrier_share": 1.0,
+   "market_count": 23,
+   "passengers_per_day": 72.2
+  },
+  "PHL": {
+   "baseline_passengers_per_day": 15527.9,
+   "fare_premium": 1.017,
+   "growth_pct": 0.5,
+   "largest_carrier": "AA",
+   "largest_carrier_share": 0.562,
+   "market_count": 24,
+   "passengers_per_day": 15599.4
+  },
+  "PHX": {
+   "baseline_passengers_per_day": 62284.2,
+   "fare_premium": 1.03,
+   "growth_pct": 13.6,
+   "largest_carrier": "WN",
+   "largest_carrier_share": 0.269,
+   "market_count": 86,
+   "passengers_per_day": 70734.9
+  },
+  "PIA": {
+   "baseline_passengers_per_day": 195.8,
+   "fare_premium": 0.53,
+   "growth_pct": 10.8,
+   "largest_carrier": "G4",
+   "largest_carrier_share": 0.895,
+   "market_count": 2,
+   "passengers_per_day": 217.0
+  },
+  "PIE": {
+   "baseline_passengers_per_day": 2227.7,
+   "fare_premium": 0.512,
+   "growth_pct": 23.5,
+   "largest_carrier": "G4",
+   "largest_carrier_share": 0.957,
+   "market_count": 27,
+   "passengers_per_day": 2750.9
+  },
+  "PIT": {
+   "baseline_passengers_per_day": 7493.6,
+   "fare_premium": 0.966,
+   "growth_pct": 3.6,
+   "largest_carrier": "UA",
+   "largest_carrier_share": 0.19,
+   "market_count": 32,
+   "passengers_per_day": 7761.9
+  },
+  "PNS": {
+   "baseline_passengers_per_day": 459.6,
+   "fare_premium": 1.157,
+   "growth_pct": 231.4,
+   "largest_carrier": "AA",
+   "largest_carrier_share": 0.312,
+   "market_count": 10,
+   "passengers_per_day": 1523.2
+  },
+  "PSC": {
+   "baseline_passengers_per_day": null,
+   "fare_premium": 0.737,
+   "growth_pct": null,
+   "largest_carrier": "AS",
+   "largest_carrier_share": 0.305,
+   "market_count": 7,
+   "passengers_per_day": 489.5
+  },
+  "PSP": {
+   "baseline_passengers_per_day": 1954.6,
+   "fare_premium": 1.056,
+   "growth_pct": 115.5,
+   "largest_carrier": "AS",
+   "largest_carrier_share": 0.268,
+   "market_count": 17,
+   "passengers_per_day": 4211.2
+  },
+  "PVD": {
+   "baseline_passengers_per_day": 6817.8,
+   "fare_premium": 0.869,
+   "growth_pct": -2.9,
+   "largest_carrier": "WN",
+   "largest_carrier_share": 0.191,
+   "market_count": 65,
+   "passengers_per_day": 6621.0
+  },
+  "PVU": {
+   "baseline_passengers_per_day": 233.1,
+   "fare_premium": 0.486,
+   "growth_pct": 486.1,
+   "largest_carrier": "MX",
+   "largest_carrier_share": 0.522,
+   "market_count": 6,
+   "passengers_per_day": 1366.2
+  },
+  "PWM": {
+   "baseline_passengers_per_day": 883.0,
+   "fare_premium": 1.057,
+   "growth_pct": -27.5,
+   "largest_carrier": "UA",
+   "largest_carrier_share": 0.334,
+   "market_count": 8,
+   "passengers_per_day": 640.1
+  },
+  "RDM": {
+   "baseline_passengers_per_day": 203.7,
+   "fare_premium": 0.86,
+   "growth_pct": 143.2,
+   "largest_carrier": "AS",
+   "largest_carrier_share": 0.39,
+   "market_count": 8,
+   "passengers_per_day": 495.3
+  },
+  "RDU": {
+   "baseline_passengers_per_day": 11039.3,
+   "fare_premium": 0.952,
+   "growth_pct": 16.6,
+   "largest_carrier": "UA",
+   "largest_carrier_share": 0.161,
+   "market_count": 31,
+   "passengers_per_day": 12868.7
+  },
+  "RIC": {
+   "baseline_passengers_per_day": 2832.9,
+   "fare_premium": 1.009,
+   "growth_pct": 27.6,
+   "largest_carrier": "AA",
+   "largest_carrier_share": 0.201,
+   "market_count": 24,
+   "passengers_per_day": 3615.1
+  },
+  "RNO": {
+   "baseline_passengers_per_day": 3049.4,
+   "fare_premium": 1.149,
+   "growth_pct": 10.6,
+   "largest_carrier": "WN",
+   "largest_carrier_share": 0.278,
+   "market_count": 18,
+   "passengers_per_day": 3374.0
+  },
+  "ROC": {
+   "baseline_passengers_per_day": 1642.6,
+   "fare_premium": 1.023,
+   "growth_pct": -16.9,
+   "largest_carrier": "DL",
+   "largest_carrier_share": 0.21,
+   "market_count": 12,
+   "passengers_per_day": 1365.4
+  },
+  "RSW": {
+   "baseline_passengers_per_day": 11972.7,
+   "fare_premium": 1.047,
+   "growth_pct": 19.6,
+   "largest_carrier": "UA",
+   "largest_carrier_share": 0.253,
+   "market_count": 28,
+   "passengers_per_day": 14314.7
+  },
+  "SAN": {
+   "baseline_passengers_per_day": 19214.3,
+   "fare_premium": 0.811,
+   "growth_pct": 20.1,
+   "largest_carrier": "WN",
+   "largest_carrier_share": 0.259,
+   "market_count": 30,
+   "passengers_per_day": 23085.8
+  },
+  "SAT": {
+   "baseline_passengers_per_day": 7424.3,
+   "fare_premium": 1.127,
+   "growth_pct": -0.9,
+   "largest_carrier": "WN",
+   "largest_carrier_share": 0.284,
+   "market_count": 29,
+   "passengers_per_day": 7361.1
+  },
+  "SAV": {
+   "baseline_passengers_per_day": 1752.4,
+   "fare_premium": 1.04,
+   "growth_pct": 55.1,
+   "largest_carrier": "UA",
+   "largest_carrier_share": 0.232,
+   "market_count": 15,
+   "passengers_per_day": 2718.2
+  },
+  "SBA": {
+   "baseline_passengers_per_day": 203.2,
+   "fare_premium": 1.484,
+   "growth_pct": 64.8,
+   "largest_carrier": "UA",
+   "largest_carrier_share": 0.841,
+   "market_count": 3,
+   "passengers_per_day": 335.0
+  },
+  "SCF": {
+   "baseline_passengers_per_day": null,
+   "fare_premium": 2.588,
+   "growth_pct": null,
+   "largest_carrier": "XE",
+   "largest_carrier_share": 1.0,
+   "market_count": 6,
+   "passengers_per_day": 1.8
+  },
+  "SDF": {
+   "baseline_passengers_per_day": 2833.6,
+   "fare_premium": 1.116,
+   "growth_pct": 7.8,
+   "largest_carrier": "WN",
+   "largest_carrier_share": 0.238,
+   "market_count": 24,
+   "passengers_per_day": 3055.5
+  },
+  "SEA": {
+   "baseline_passengers_per_day": 26861.2,
+   "fare_premium": 0.875,
+   "growth_pct": 68.4,
+   "largest_carrier": "AS",
+   "largest_carrier_share": 0.508,
+   "market_count": 64,
+   "passengers_per_day": 45235.1
+  },
+  "SFF": {
+   "baseline_passengers_per_day": null,
+   "fare_premium": 2.771,
+   "growth_pct": null,
+   "largest_carrier": "X4",
+   "largest_carrier_share": 1.0,
+   "market_count": 1,
+   "passengers_per_day": 1.4
+  },
+  "SFO": {
+   "baseline_passengers_per_day": 58683.3,
+   "fare_premium": 1.005,
+   "growth_pct": -8.8,
+   "largest_carrier": "UA",
+   "largest_carrier_share": 0.394,
+   "market_count": 61,
+   "passengers_per_day": 53518.7
+  },
+  "SJC": {
+   "baseline_passengers_per_day": 23522.7,
+   "fare_premium": 1.017,
+   "growth_pct": -36.3,
+   "largest_carrier": "WN",
+   "largest_carrier_share": 0.592,
+   "market_count": 61,
+   "passengers_per_day": 14980.0
+  },
+  "SLC": {
+   "baseline_passengers_per_day": 15789.0,
+   "fare_premium": 1.221,
+   "growth_pct": 19.0,
+   "largest_carrier": "DL",
+   "largest_carrier_share": 0.332,
+   "market_count": 32,
+   "passengers_per_day": 18794.7
+  },
+  "SMF": {
+   "baseline_passengers_per_day": 10382.7,
+   "fare_premium": 0.96,
+   "growth_pct": -5.1,
+   "largest_carrier": "WN",
+   "largest_carrier_share": 0.532,
+   "market_count": 24,
+   "passengers_per_day": 9850.9
+  },
+  "SMO": {
+   "baseline_passengers_per_day": null,
+   "fare_premium": 1.745,
+   "growth_pct": null,
+   "largest_carrier": "XE",
+   "largest_carrier_share": 1.0,
+   "market_count": 1,
+   "passengers_per_day": 0.1
+  },
+  "SNA": {
+   "baseline_passengers_per_day": 21086.2,
+   "fare_premium": 1.052,
+   "growth_pct": -0.7,
+   "largest_carrier": "WN",
+   "largest_carrier_share": 0.237,
+   "market_count": 86,
+   "passengers_per_day": 20946.2
+  },
+  "SRQ": {
+   "baseline_passengers_per_day": 1407.8,
+   "fare_premium": 1.038,
+   "growth_pct": 217.0,
+   "largest_carrier": "UA",
+   "largest_carrier_share": 0.194,
+   "market_count": 18,
+   "passengers_per_day": 4463.0
+  },
+  "STL": {
+   "baseline_passengers_per_day": 9164.4,
+   "fare_premium": 1.204,
+   "growth_pct": 1.3,
+   "largest_carrier": "WN",
+   "largest_carrier_share": 0.556,
+   "market_count": 31,
+   "passengers_per_day": 9280.0
+  },
+  "STS": {
+   "baseline_passengers_per_day": 330.0,
+   "fare_premium": 0.694,
+   "growth_pct": 66.9,
+   "largest_carrier": "AS",
+   "largest_carrier_share": 0.986,
+   "market_count": 4,
+   "passengers_per_day": 550.9
+  },
+  "SWF": {
+   "baseline_passengers_per_day": 584.6,
+   "fare_premium": 0.507,
+   "growth_pct": -46.7,
+   "largest_carrier": "G4",
+   "largest_carrier_share": 0.636,
+   "market_count": 7,
+   "passengers_per_day": 311.6
+  },
+  "SYR": {
+   "baseline_passengers_per_day": 1006.1,
+   "fare_premium": 0.988,
+   "growth_pct": -0.6,
+   "largest_carrier": "G4",
+   "largest_carrier_share": 0.295,
+   "market_count": 9,
+   "passengers_per_day": 999.9
+  },
+  "TLH": {
+   "baseline_passengers_per_day": 205.1,
+   "fare_premium": 1.351,
+   "growth_pct": 21.6,
+   "largest_carrier": "AA",
+   "largest_carrier_share": 0.869,
+   "market_count": 2,
+   "passengers_per_day": 249.4
+  },
+  "TPA": {
+   "baseline_passengers_per_day": 38224.7,
+   "fare_premium": 0.952,
+   "growth_pct": 13.4,
+   "largest_carrier": "WN",
+   "largest_carrier_share": 0.19,
+   "market_count": 75,
+   "passengers_per_day": 43349.5
+  },
+  "TUL": {
+   "baseline_passengers_per_day": 1480.9,
+   "fare_premium": 1.204,
+   "growth_pct": -2.1,
+   "largest_carrier": "WN",
+   "largest_carrier_share": 0.414,
+   "market_count": 11,
+   "passengers_per_day": 1449.9
+  },
+  "TUS": {
+   "baseline_passengers_per_day": 2617.6,
+   "fare_premium": 1.024,
+   "growth_pct": 24.5,
+   "largest_carrier": "AA",
+   "largest_carrier_share": 0.232,
+   "market_count": 22,
+   "passengers_per_day": 3257.6
+  },
+  "TYS": {
+   "baseline_passengers_per_day": 1005.3,
+   "fare_premium": 1.032,
+   "growth_pct": 130.6,
+   "largest_carrier": "G4",
+   "largest_carrier_share": 0.26,
+   "market_count": 20,
+   "passengers_per_day": 2318.5
+  },
+  "VRB": {
+   "baseline_passengers_per_day": null,
+   "fare_premium": 0.675,
+   "growth_pct": null,
+   "largest_carrier": "MX",
+   "largest_carrier_share": 0.632,
+   "market_count": 7,
+   "passengers_per_day": 729.5
+  },
+  "XNA": {
+   "baseline_passengers_per_day": 489.2,
+   "fare_premium": 1.346,
+   "growth_pct": 44.8,
+   "largest_carrier": "AA",
+   "largest_carrier_share": 0.696,
+   "market_count": 12,
+   "passengers_per_day": 708.4
+  }
+ },
+ "manifest": {
+  "as_of": "2026 Q1",
+  "baseline": "2019 Q1",
+  "distance_band_edges_miles": [
+   500,
+   1000,
+   1500
+  ],
+  "fetched_at": "2026-10-11T17:54:13+00:00",
+  "source": "DOT Consumer Airfare Report, Table 1a",
+  "source_url": "https://datahub.transportation.gov/resource/tfrh-tu9e.json"
+ }
+}

@@ -1,12 +1,13 @@
 """Shared helpers for the data layer: settings, downloads and the small per-source summary files.
 
-Every source writes one summary JSON into the cache directory (default `data/cache/`):
+Every source writes one summary JSON into a snapshot folder (see store.py); raw downloads and
+per-month BTS summaries stay in the cache directory (default `data/cache/`, not committed):
 
     {"manifest": {"source": ..., "source_url": ..., "as_of": ..., "fetched_at": ..., ...},
      "data": {...}}
 
 The manifest says where the numbers came from and how current they are; `data` holds the numbers.
-Raw downloads sit next to the summaries and can be deleted once the summaries exist.
+Raw downloads can be deleted once the summaries exist.
 """
 
 import http.client
@@ -21,7 +22,7 @@ import yaml
 DEFAULT_CACHE_DIR = Path("data/cache")
 _REPO_CONFIG = Path(__file__).resolve().parents[3] / "config" / "sources.yaml"
 CONFIG_PATH = _REPO_CONFIG if _REPO_CONFIG.exists() else Path("config/sources.yaml")
-BUILD_COMMAND = "doppler run -- uv run python -m airport_agent.data"
+BUILD_COMMAND = "doppler run -- uv run airport-agent refresh"
 # What a failed download can raise: URLError and timeouts are OSErrors; a dropped connection or a
 # body cut off partway (RemoteDisconnected, ConnectionResetError, IncompleteRead) is not a URLError.
 NETWORK_ERRORS = (OSError, http.client.HTTPException)
@@ -93,7 +94,6 @@ def read_summary(cache_dir, name):
     path = Path(cache_dir) / f"{name}.json"
     if not path.exists():
         raise CacheMissingError(
-            f"The data cache has no '{name}' summary ({path}). Build the cache first: "
-            f"{BUILD_COMMAND}"
+            f"The data snapshot has no '{name}' summary ({path}). Build one first: {BUILD_COMMAND}"
         )
     return json.loads(path.read_text(encoding="utf-8"))

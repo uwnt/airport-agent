@@ -1,0 +1,21 @@
+{
+ "data": {
+  "PANC": {
+   "departures": 2061,
+   "known_destination": 344,
+   "long_haul": 206,
+   "no_coordinates": 0,
+   "passenger": 420,
+   "same_airport": 2,
+   "share": 0.599,
+   "short_hop": 0,
+   "unknown_destination": 74
+  }
+ },
+ "manifest": {
+  "as_of": "2026-10-04 to 2026-10-10",
+  "fetched_at": "2026-10-11T17:54:18+00:00",
+  "source": "OpenSky Network (estimated destinations)",
+  "source_url": "https://opensky-network.org/api/flights/departure"
+ }
+}
