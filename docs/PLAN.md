@@ -3,7 +3,7 @@
 **Hand-in deadline:** 2026-10-12, 09:45 UTC. Plan backwards from it.
 
 This is the working plan for the take-home. Each step says **what** we do, **why**, **what else we could
-have done and why we didn't**, and **what you own** in it. Check off steps as they land. Decisions made
+have done and why we didn't**, and **what you own** in it. Progress is ticked in the pinned roadmap issue. Decisions made
 along the way go in `docs/DECISIONS.md`, which feeds the design document at the end.
 
 ## The assignment in one paragraph
@@ -96,8 +96,8 @@ These habits come from running real projects, and each one shows up in the grade
 - [ ] A grounding test: every number in an answer appears in a tool result.
 - [ ] A scope line in answers and the UI: decision support, not investment advice; what the score
       leaves out.
-- [ ] One Python version, pinned in `pyproject.toml` and used in the Dockerfile. The dev machine has 3.14,
-      while slim images are usually 3.12 or 3.13, so pick one deliberately.
+- [ ] One Python version, pinned in `pyproject.toml` and used in the Dockerfile. A local Python may be newer
+      than the slim images (usually 3.12 or 3.13), so pick one deliberately.
 - [ ] A `Makefile`: `run`, `test`, `lint`, `refresh`, `docker`.
 - [ ] **The image builds for both amd64 and arm64** (Docker buildx in CI). Many reviewers use
       Apple Silicon Macs.
@@ -191,8 +191,9 @@ website is not required. Aim for:
   2. `docker compose up` after cloning;
   3. `uv run` for Python developers.
 
-  Docker is not used on the dev machine, so the image is built and smoke-tested **in GitHub Actions** on every PR,
-  and published to GHCR at the `v1.0` tag.
+  Docker is not used on the development machine, so the image is built and smoke-tested **in GitHub Actions** on every PR,
+  and published to GHCR when the `v1.0` tag is pushed. The tag publishes the image only; it does not deploy.
+  The Fly deploy is separate: cut `dev` to `stg`, promote to `prod`, then start the manual deploy workflow on `prod`.
 
 **A reviewer without a Gemini key:**
 - they use the **no-key mode** (architecture principle 7);
@@ -377,7 +378,7 @@ numbers the code computed, so it doesn't invent them. Pure functions plus tests 
 - *Put the scoring inside the prompt.* Not deterministic, and not testable.
 - *A rules engine or config DSL.* Over-engineered for five signals.
 
-**Who writes:** AI agents write the code; you get a file-by-file walkthrough and review it. Then you make a small change yourself (a weight, a rule or a new signal; weights and rules live in `config/scoring.yaml`) to show it can be changed live. Weights live in `config/scoring.yaml`. This is the code they'll ask you to change on the call.
+**Who writes:** AI agents write the code; you get a file-by-file walkthrough and review it. Then you make a small change yourself (a weight, a rule or a new signal) to show it can be changed live. Weights live in `config/scoring.yaml`. This is the code they'll ask you to change on the call.
 
 ## Step 5 — The agent (2:00)
 **What:** Google Gemini through the `google-genai` Python SDK with **function calling** (tool use). The model decides which tool to
@@ -497,20 +498,21 @@ Python toolchain and the code readable in one sitting.
   - check that `/health` reports the commit;
   - check that no secret-like files are inside the image;
   - build for **amd64 and arm64** (buildx), so it runs natively on Apple Silicon.
-- On the `v1.0` tag, push to GHCR with the tags `v1.0` and `sha-<commit>`.
+- On the `v1.0` tag, push to GHCR with the tags `v1.0` and `sha-<commit>`. This publishes the image only;
+  the Fly deploy is separate (cut `dev` to `stg`, promote to `prod`, then the manual deploy workflow on `prod`).
 - **Verify on your laptop:** `docker compose up`, run the four questions, then
   `docker compose run --rm refresh`.
 
 **Why:** It's the easiest way for a reviewer to run it: no Python setup, one command. Building in CI
-proves it works, since we can't run Docker on the dev machine.
+proves it works, since Docker isn't available on the development machine.
 
 **Alternatives:**
 - *uv only.* Simple for Python developers, but a non-Python reviewer has to install a toolchain.
   We keep it as the second way to run.
 - *A hosted demo.* No setup at all, but it runs on your key and needs a password and a spending
   limit. Optional, last.
-- *Building the image on this server.* Docker is deliberately not installed here, and installing it
-  costs memory every other project relies on. Your laptop and CI cover it.
+- *Building the image on the development machine.* Docker is deliberately not installed there. Your
+  laptop and CI cover it.
 - *One container that refreshes on startup.* Simpler, but every start or scale-out would call the
   government APIs, and a refresh failure would take the chat down. Separate jobs fail independently.
 - *Kubernetes manifests or Terraform.* That's real deployment code with no target to deploy to. A
@@ -599,7 +601,7 @@ system you've built for AI-assisted engineering:
 - what was AI-drafted in this repo vs what you decided and wrote.
 
 End with an offer to demo the full setup live on the call. Describe the system; don't link or paste
-its internals (it holds other clients' details).
+its internals (it holds private material).
 
 **Why:** It's half the deliverable, and the doc they'll read first.
 
@@ -631,7 +633,8 @@ its internals (it holds other clients' details).
   - **The update demo:** start on the 2021-Q4 snapshot, ask the New England question, click "Get
     latest data", show "what changed", then ask again. Say plainly that it replays real history.
 - Make the repo public.
-- Tag `v1.0`.
+- Tag `v1.0` (this publishes the Docker image to GHCR; it is separate from the Fly deploy, which goes
+  through the release branches and the manual deploy workflow on `prod`).
 - Send the link.
 
 **Why:** Once it's public, it's public forever. Scan before the switch, never after.
