@@ -8,6 +8,7 @@ uv sync --locked
 uv run ruff check .
 uv run ruff format --check .
 uv run pytest
+uv run python scripts/check_snapshots.py
 bad="$(git grep --untracked -nP '\bTODO\b(?!\(#[0-9]+\))' -- ':!*.md' ':!.github/**' ':!uv.lock' ':!data/**' ':!scripts/ci-local' || true)"
 if [ -n "$bad" ]; then
   echo "$bad"
