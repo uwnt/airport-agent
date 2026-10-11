@@ -158,3 +158,18 @@ def test_results_carry_no_internal_decision_labels(run):
     ]
     text = json.dumps(results)
     assert not [text[max(m.start() - 60, 0) : m.end() + 5] for m in re.finditer(r"\bD\d+\b", text)]
+
+
+def test_tools_read_the_latest_snapshot_by_default(sample_cache, tmp_path, monkeypatch):
+    # No cache_dir: the tools must leave the choice to the data layer (latest snapshot), not
+    # fall back to an old local build folder.
+    monkeypatch.chdir(tmp_path)  # no data/cache folder here
+    latest = lambda version=None: sample_cache  # noqa: E731
+    monkeypatch.setattr("airport_agent.data.metrics.snapshot_dir", latest)
+    for name, args in [
+        ("rank_airports", {"region": "New England"}),
+        ("airport_profile", {"code": "BOS"}),
+        ("long_haul_share", {"code": "ANC"}),
+        ("demand_pressure", {"code": "BOS"}),
+    ]:
+        assert "error" not in run_tool(name, args), name

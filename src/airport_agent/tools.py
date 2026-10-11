@@ -6,18 +6,14 @@ source and as-of date, so the model can quote numbers but never has to compute t
 relays it, and no exception leaves `run_tool`.
 
 `TOOL_DECLARATIONS` describes the tools to the model (JSON Schema); `run_tool` runs one by name.
-No model and no network here: the tools read only the local cache and the two settings files.
+No model and no network here: the tools read only a data snapshot (the latest unless `cache_dir`
+is given) and the two settings files.
 """
 
 import re
 from pathlib import Path
 
-from airport_agent.data.cache import (
-    BUILD_COMMAND,
-    DEFAULT_CACHE_DIR,
-    CacheMissingError,
-    load_config,
-)
+from airport_agent.data.cache import BUILD_COMMAND, CacheMissingError, load_config
 from airport_agent.data.metrics import (
     SIGNALS,
     UnknownAirportError,
@@ -155,9 +151,7 @@ def _split_codes(codes, cache_dir):
 # --- The tools ------------------------------------------------------------------------------
 
 
-def rank_airports(
-    region=None, codes=None, preset=None, top=None, cache_dir=DEFAULT_CACHE_DIR, settings=None
-):
+def rank_airports(region=None, codes=None, preset=None, top=None, cache_dir=None, settings=None):
     """Rank airports for terminal expansion, nationally, in a region, or among some codes."""
     if region and codes:
         raise ToolError("give a region or a list of airport codes, not both")
@@ -201,7 +195,7 @@ def rank_airports(
     return result
 
 
-def compare_airports(codes, preset=None, cache_dir=DEFAULT_CACHE_DIR, settings=None):
+def compare_airports(codes, preset=None, cache_dir=None, settings=None):
     """The ranking rows for two or more airports, side by side."""
     if isinstance(codes, str):
         codes = re.split(r"[,\s]+", codes)
@@ -234,7 +228,7 @@ def domain_facts(code, path=DOMAIN_NOTES_PATH):
     return facts
 
 
-def airport_profile(code, cache_dir=DEFAULT_CACHE_DIR):
+def airport_profile(code, cache_dir=None):
     """Every measured value for one airport, why any is missing, and its verified facts."""
     try:
         m = airport_metrics(code, cache_dir)
@@ -260,7 +254,7 @@ def airport_profile(code, cache_dir=DEFAULT_CACHE_DIR):
     return result
 
 
-def long_haul_share(code, threshold_miles=None, cache_dir=DEFAULT_CACHE_DIR):
+def long_haul_share(code, threshold_miles=None, cache_dir=None):
     """Share of passenger departures flying over the configured distance (Anchorage only, D13)."""
     try:
         m = airport_metrics(code, cache_dir)
@@ -295,7 +289,7 @@ def long_haul_share(code, threshold_miles=None, cache_dir=DEFAULT_CACHE_DIR):
     return result
 
 
-def demand_pressure(code, cache_dir=DEFAULT_CACHE_DIR, settings=None):
+def demand_pressure(code, cache_dir=None, settings=None):
     """The strain and growth signals with their national percentiles, and a one-line summary."""
     metrics_list, settings = _context(cache_dir, settings)
     codes, outside = _split_codes([code], cache_dir)
@@ -428,7 +422,7 @@ TOOLS = {
 }
 
 
-def run_tool(name, args, cache_dir=DEFAULT_CACHE_DIR):
+def run_tool(name, args, cache_dir=None):
     """Run a tool by name; any mistake comes back as {"error": "..."}, never as an exception."""
     tool = TOOLS.get(name)
     if tool is None:
