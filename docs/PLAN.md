@@ -19,19 +19,19 @@ That last line is the most important sentence in the brief. It tells us to build
 is obviously right about what it covers and openly says what it doesn't**, rather than a wide one that
 bluffs.
 
-## Ground rules we carry over from our project work
-These habits come from running real projects, and each one shows up in the grade:
+## Ground rules
+Each rule below applies to every step:
 
-| Habit | Why it matters here |
+| Rule | Why |
 |---|---|
-| **Write the plan and the decisions down before coding** | The design doc is half the deliverable. If decisions are logged as we go, it writes itself. |
-| **Least code**: standard library first, then what's already installed, then a small dependency | Reviewers read every line. Less code makes your reasoning easier to see. |
-| **The deterministic core is pure and tested** | Scoring takes numbers in and gives numbers out, with no network and no model. That's how you prove it's "not only LLM output". |
-| **Small commits, clear messages, one PR per step** | Your git history is the story of your thinking, and they will read it. |
-| **An independent AI review on every PR**, recorded on the PR round by round, each finding fixed or declined with a reason | Shows you treat AI output as something to check, not to trust. This is your established workflow, shown on purpose. |
-| **Secrets only in Doppler, never in git** | The repo goes public. One leaked key ends the conversation. |
+| **Write the plan and the decisions down before coding** | The design doc is half the deliverable. Decisions logged as we go make it easy to write. |
+| **Least code**: standard library first, then what's already installed, then a small dependency | Less code is easier to read, review and change. |
+| **The deterministic core is pure and tested** | Scoring takes numbers in and gives numbers out, with no network and no model, so the ranking does not depend on model output. |
+| **Small commits, clear messages, one PR per step** | The history shows how each decision was reached. |
+| **An independent AI review on every PR**, recorded on the PR round by round, each finding fixed or declined with a reason | AI-written code is checked, not trusted. |
+| **Secrets only in Doppler, never in git** | The repo is public. |
 | **Verify before saying done** | Run the four example questions for real before claiming they work. |
-| **Say what you don't know** | It's a graded requirement here, not just politeness. |
+| **Say what you don't know** | The brief asks for it. |
 
 ## Architecture principles (decided up front; every step follows them)
 1. **One image, two commands.** `refresh` is a batch job: it calls the public APIs, computes metrics
@@ -112,7 +112,6 @@ These habits come from running real projects, and each one shows up in the grade
       - **Retention:** keep the last 10 data versions in a store, plus the named ones.
 - [ ] **Cost per question** measured in Step 7, one line in the design doc.
 - [ ] A license decision: none ("all rights reserved") or MIT, stated in the README.
-- [ ] (Before starting) Ask the recruiter whether AI coding assistants are OK for the take-home.
 - [ ] A Mermaid architecture diagram in `DESIGN.md` (GitHub renders it).
 - [ ] A "Deploying it for real" paragraph:
       - the same image on Cloud Run, ECS or Fly;

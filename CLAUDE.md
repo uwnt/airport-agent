@@ -71,8 +71,7 @@ The owner leads the project and will defend it in a follow-up call. For every st
   often. All model calls live in `llm.py`.
 - **Never install Docker on the development machine.** The Docker image is built and tested only in
   GitHub Actions (Step 6b).
-- The web chat must never get a public address. Test it via `localhost` (an SSH port forward) or
-  the private network only.
+- The web chat must never get a public address. Test it via `localhost` only.
 - Verify before calling a step done: run it and show the output.
 
 ## Commands (fill in at Step 0)
