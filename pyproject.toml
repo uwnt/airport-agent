@@ -1,0 +1,31 @@
+[project]
+name = "airport-agent"
+version = "0.1.0"
+description = "Chat agent that ranks US airports for terminal-expansion investment using public data and deterministic scoring."
+readme = "README.md"
+authors = [{ name = "Sergei Levine" }]
+requires-python = "==3.13.*"
+dependencies = []
+
+[project.scripts]
+airport-agent = "airport_agent:main"
+
+[build-system]
+requires = ["uv_build>=0.12.10,<0.13.0"]
+build-backend = "uv_build"
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+# E/F: errors and undefined names; I: import order; UP: modern syntax; B: common bugs
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+    "ruff>=0.17.0",
+]
