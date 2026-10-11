@@ -1,5 +1,5 @@
 # Short names for the commands we run most. Targets for run, refresh and docker arrive with their steps.
-.PHONY: test lint format
+.PHONY: test lint format ci
 
 test:
 	uv run pytest
@@ -9,3 +9,6 @@ lint:
 
 format:
 	uv run ruff format . && uv run ruff check --fix .
+
+ci:
+	scripts/ci-local

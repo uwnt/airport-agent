@@ -204,7 +204,8 @@ website is not required. Aim for:
 **Not in the 24 hours: a hosted live demo.** It comes after hand-in, before the call if time allows.
 Design, so the design doc can describe it now:
 - the same image on Fly.io, which serves the chat page and the API from one container;
-- released by pushing a version tag (GitHub Actions deploys with a token limited to that one app);
+- released by promoting to the `prod` branch, then starting the deploy workflow by hand (GitHub Actions
+  deploys with a token limited to that one app);
 - the machine stops when idle;
 - a dedicated Gemini key with a spending cap, plus a passcode;
 - data refresh: a scheduled Fly machine running `refresh` → Tigris (S3-compatible) →

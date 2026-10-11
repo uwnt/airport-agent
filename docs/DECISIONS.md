@@ -40,9 +40,9 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
   API proves unstable (then keep push-to-talk only).
 
 ## D4: Pin Python 3.13 everywhere
-- Chose: Python 3.13, pinned in `pyproject.toml` (`==3.13.*`) and `.python-version`; uv installs it,
-  CI reads `.python-version`, the Dockerfile will use the matching slim image.
-- Over: 3.14 (newest and on the dev server, but some libraries and slim images lag), 3.12 (older,
+- Chose: Python 3.13, pinned in `pyproject.toml` (`==3.13.*`) and `.python-version`; uv reads it and installs
+  that version locally and in CI, the Dockerfile will use the matching slim image.
+- Over: 3.14 (newest, but some libraries and slim images lag), 3.12 (older,
   no benefit).
 - Because: one version in dev, CI and Docker removes "works on my machine" differences, and 3.13 is
   the mainstream release every dependency we need supports.
