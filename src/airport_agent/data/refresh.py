@@ -10,7 +10,7 @@ publishes the folder to the data store chosen by DATA_STORE (store.py).
   plain refresh on the same day is `latest-YYYY-MM-DD-2`, then `-3`, and so on.
 
 Published snapshots never change (store.py): `--as-of` for a version already in the store is
-refused before anything is downloaded.
+refused before anything is downloaded. `--as-of` takes only a month that has fully ended.
 
 Raw BTS ZIPs are deleted once their month is summarised (`--keep-raw` keeps them); the small
 per-month summaries stay in the cache, so a later refresh does not download those months again.
@@ -89,8 +89,12 @@ def refresh(as_of=None, cache_dir=DEFAULT_CACHE_DIR, store=None, keep_raw=False,
 
     today = today or date.today()
     as_of_date = asof.parse_as_of(as_of) if as_of else None
-    if as_of_date and as_of_date.replace(day=1) > today:
-        raise ValueError(f"--as-of {as_of} is in the future")
+    if as_of_date and as_of_date >= today:
+        raise ValueError(
+            f"--as-of {as_of}: that month has not ended yet (today is {today.isoformat()}). "
+            "--as-of takes a month that has fully ended, not the current or a future one; "
+            "a plain refresh (no --as-of) builds a snapshot of today's data."
+        )
     store = store or open_store()
     version = as_of or next_latest_version(store, today)
     if store.exists(version):

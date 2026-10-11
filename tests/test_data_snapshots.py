@@ -275,6 +275,19 @@ def test_refresh_refuses_a_future_month(work, offline_build):
         refresh.refresh("2027-01", work, FileStore(work), today=date(2026, 10, 11))
 
 
+@pytest.mark.parametrize("today", [date(2026, 10, 11), date(2026, 10, 31)])
+def test_refresh_refuses_the_month_not_yet_over(work, offline_build, today):
+    store = FileStore(work / "store")
+    with pytest.raises(ValueError, match="has not ended yet.*plain refresh"):
+        refresh.refresh("2026-10", work / "cache", store, today=today)
+    assert offline_build == [] and store.latest() is None
+
+
+def test_refresh_takes_a_month_that_just_ended(work, offline_build):
+    store = FileStore(work / "store")
+    assert refresh.refresh("2026-09", work / "cache", store, today=date(2026, 10, 1)) == "2026-09"
+
+
 def test_cli_refresh(monkeypatch, capsys):
     seen = []
     monkeypatch.setattr(refresh, "refresh", lambda *args, **kwargs: seen.append(args))
