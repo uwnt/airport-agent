@@ -11,8 +11,8 @@ the reasoning behind each step.
   There is no staging environment: `stg` is a pass-through. A release is cut to `stg`, promoted to
   `prod`, and then deployed to Fly by a manually started workflow on `prod`. Production deploys are
   the owner's. `main` holds only the first setup commits and takes no new work.
-- **Phases:** `phase:1` = everything needed for the hand-in (plan Steps 0–9); `phase:2` = before the
-  follow-up call (the stretch steps); `phase:3` = debt and housekeeping.
+- **Phases:** `phase:1` = everything needed for the hand-in (plan Steps 0–9, except the stretch steps 6c and 6d);
+  `phase:2` = before the follow-up call (the stretch steps 6c and 6d); `phase:3` = debt and housekeeping.
 - **Plan:** the pinned "Product roadmap" issue is the ordered index; each plan step has its own issue.
 - The owner's GitHub account name may appear in public text (repo URL, commit emails, comments).
 
@@ -27,37 +27,36 @@ The owner leads the project and will defend it in a follow-up call. For every st
      AI review before merge (see D6). The owner then goes through it with the AI assistant and must
      be able to explain and change every part.
    - **Weights, presets and friction penalties live in `config/scoring.yaml`**, not in code, so a
-     live change needs no Python. After the scoring is written, the owner makes a small change
-     themselves (a weight, a rule, a new signal) so they can change it live on the follow-up call.
+     live change needs no Python. The owner must be able to change a weight, a rule or a
+     signal live on the follow-up call.
    - The owner **writes `docs/DESIGN.md` and the README's "How I work with AI"** in their own words;
      the AI reviews. Don't write these for them.
    - End every step with a **code tour**: what was written, file by file, in plain words.
-3. **After each step:** log any decision in `docs/DECISIONS.md` and tick the item in the
-   roadmap issue and the checkbox in `docs/PLAN.md`.
+3. **After each step:** log any decision in `docs/DECISIONS.md` and tick the step in the
+   pinned roadmap issue (`docs/PLAN.md` keeps the reasoning, not the progress).
 
 ## Rules for this repo
-- **The repo will be public.** Nothing in it may reveal secrets, internal server details or other
-  projects. No internal server paths, internal issue numbers, or names of other projects or organisations
-  (the owner's own GitHub account name excepted) in files, commits,
-  issues or PRs. Before every push, and before posting any issue, PR or comment text, check it:
+- **The repo will be public.** Nothing in it may reveal secrets, details of the development machine, or other
+  projects. No local file paths, issue numbers from other repositories, or names of other projects or
+  organisations (the owner's own GitHub account name excepted) in files, commits, issues or PRs. Before every push, and before posting any issue, PR or comment text, check it:
   `grep -n -i -E -f .git/info/leak-patterns <files or text>` must print nothing. Reviewer agents
-  carry server-wide rules, so rewrite their findings in plain words before posting.
+  may use internal shorthand, so rewrite their findings in plain words before posting.
 - **Secrets live only in Doppler** (project `airport-agent`, config `dev`). Run with
   `doppler run -- <cmd>`. Never print a secret, never write `.env`. `.env.example` lists names only.
 - **GitHub uses the owner's token, per command:** `doppler run -- gh …` (sets `GH_TOKEN` for that
-  command only). Never run `gh auth login` or `gh auth switch`: the machine's login belongs to other
-  work.
+  command only). Never run `gh auth login` or `gh auth switch`: the machine's own login is used for other
+  work and must not change.
 - **Small commits:** imperative subject ≤ 72 chars, body says why. One branch and PR per issue,
   with an issue per step; merged by the owner.
 - **The owner's AI workflow is shown on purpose, in readable form** (it's part of what this repo
   demonstrates):
   - Each PR body has **What / Why / Tested** (the exact commands run and their result) and
     **Decisions** (links to `docs/DECISIONS.md` entries).
-  - Before merge, each PR gets an **independent AI review**: dispatch the `reviewer-sonnet` agent
+  - Before merge, each PR gets an **independent AI review**: dispatch an independent reviewer agent
     with a short card (the PR's diff, its goal, 2–3 risk areas). Post its findings and what was done
     about each as **one plain-English PR comment** headed "Independent AI review".
   - Fix or explicitly decline each finding before the owner merges.
-  - No internal jargon in anything public: no round counters, no internal labels, no server tool
+  - No internal jargon in anything public: no round counters, no internal labels, no internal tool
     names.
 - **Deterministic core:** scoring is pure (no network, no model) and tested. Every number the agent
   states comes from a tool; general knowledge is labelled as such. Domain facts come only from
@@ -67,8 +66,8 @@ The owner leads the project and will defend it in a follow-up call. For every st
 - **The agent's model is Google Gemini** (`google-genai` SDK). Before writing Gemini code, read Google's
   current Gemini API docs for the exact SDK calls and model names. Don't rely on memory: names change
   often. All model calls live in `llm.py`.
-- **No Docker on the dev machine, by design.** Never install it. The Docker image is built and tested only
-  in GitHub Actions (Step 6b).
+- **The development machine has no Docker.** The Docker image is built and tested only in GitHub
+  Actions (Step 6b). Don't install Docker locally.
 - The web chat must never get a public address. Test it via `localhost` (an SSH port forward) or
   the private network only.
 - Verify before calling a step done: run it and show the output.
