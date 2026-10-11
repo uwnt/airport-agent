@@ -1,0 +1,18 @@
+# Run the app with one command:  export GEMINI_API_KEY=...; docker compose up --build
+# Then open http://localhost:8000/health
+services:
+  serve:
+    build:
+      context: .
+      args:
+        # Optional: RELEASE_SHA="$(git rev-parse HEAD)" docker compose up --build
+        # makes /health report the commit; without it /health says "unknown".
+        RELEASE_SHA: ${RELEASE_SHA:-}
+    # Published on the host's localhost only: the chat must never get a public address.
+    ports:
+      - "127.0.0.1:8000:8000"
+    # Passed through from your shell; the values never go into the image.
+    environment:
+      - GEMINI_API_KEY
+      - GEMINI_MODEL
+    # No data volume yet: the app reads no files. The data snapshot mount arrives with #14.
