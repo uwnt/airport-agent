@@ -385,9 +385,9 @@ def test_cli_prints_the_new_england_table(sample_cache, monkeypatch, capsys):
 
 
 def test_cli_says_how_to_build_missing_data(tmp_path, monkeypatch, capsys):
-    monkeypatch.chdir(tmp_path)  # no data/cache here
+    monkeypatch.chdir(tmp_path)  # no data/snapshots here
     assert scoring.main([]) == 1
-    assert "python -m airport_agent.data" in capsys.readouterr().err
+    assert "airport-agent refresh" in capsys.readouterr().err
 
 
 # --- Settings mistakes fail loudly: one plain sentence naming the file and the key ----------
