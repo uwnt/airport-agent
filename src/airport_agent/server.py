@@ -1,6 +1,17 @@
-"""Web server. For now it only answers /health; the chat endpoints arrive in Step 6.
+"""Web server: the chat page at /, its data at /info, answers at POST /chat, and /health.
 
 Run: doppler run -- uv run uvicorn airport_agent.server:app --host 127.0.0.1 --port 8100
+
+The page (static/: plain HTML, CSS and JavaScript, no build step) sends each question to
+POST /chat with the conversation so far (the server keeps no conversation state) and the data
+version picked. The answer comes back as server-sent events, in this order:
+- `tool_start` {name, args}: a tool is about to run;
+- `tool_result` {name, args, result}: its JSON result; the page draws tables, score bars and the
+  "How I got this" panel from these, never from the model's text;
+- `text` {text}: a piece of the answer as the model writes it (Markdown);
+- `done` {text}: the whole answer; or `error` {message}: what went wrong, in plain words.
+Without GEMINI_API_KEY there is no model: the suggested questions and the picker run their tools
+directly, and the answer is a fixed-wording summary of the results.
 
 Data: the server answers from one snapshot of the data store (DATA_STORE, see data/store.py),
 read fully into memory: the latest at startup. On use, once DATA_CHECK_MINUTES (default 5) have
@@ -9,18 +20,30 @@ it in one step, so a new snapshot from `airport-agent refresh` is picked up with
 /health reports the version of that same loaded snapshot.
 """
 
+import json
 import logging
 import os
+import queue
+import re
 import subprocess
+import threading
 import time
 from contextlib import asynccontextmanager
 from dataclasses import dataclass
+from datetime import date
 from pathlib import Path
+from typing import Literal
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
+from fastapi.responses import FileResponse, StreamingResponse
+from fastapi.staticfiles import StaticFiles
+from pydantic import BaseModel, Field, field_validator
 
+from airport_agent import cli, llm, tools
+from airport_agent.data.cache import CacheMissingError, load_config
 from airport_agent.data.metrics import load_cache
-from airport_agent.data.store import open_store, read_manifest
+from airport_agent.data.store import open_store, read_manifest, snapshot_problem
+from airport_agent.scoring import load_settings
 
 log = logging.getLogger(__name__)
 
@@ -96,6 +119,8 @@ async def lifespan(app):
 
 
 app = FastAPI(title="Airport Investment Intelligence Agent", lifespan=lifespan)
+STATIC = Path(__file__).resolve().parent / "static"
+app.mount("/static", StaticFiles(directory=STATIC), name="static")
 
 
 def current_commit():
@@ -128,3 +153,244 @@ def health():
         "snapshot_date": snapshot.as_of if snapshot else None,
         "model": os.environ.get("GEMINI_MODEL"),
     }
+
+
+# --- The chat page ---------------------------------------------------------------------------
+
+REGION_CHOICES = ["New England", "LA area"]  # how the picker shows data/regions.py's names
+MONTHS = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split()
+
+
+# The page loads only its own files: no third-party script, style or request, no inline script.
+PAGE_POLICY = (
+    "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; "
+    "connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'"
+)
+
+
+@app.get("/", include_in_schema=False)
+def page():
+    return FileResponse(STATIC / "index.html", headers={"Content-Security-Policy": PAGE_POLICY})
+
+
+def _store():
+    return data.store or open_store()
+
+
+def point_in_time_versions():
+    """The point-in-time snapshots in the store (2021-12, 2019-12, ...), newest first."""
+    root = _store().root
+    folders = [p for p in root.iterdir() if p.is_dir()] if root.is_dir() else []
+    names = [
+        p.name for p in folders if not p.name.startswith("latest") and snapshot_problem(p) is None
+    ]
+    return sorted(names, reverse=True)
+
+
+def snapshot_for(version):
+    """(version, folder) of the snapshot the tools read; "latest" is the one the server loaded.
+
+    Raises LookupError, in plain words, for a version the store doesn't have.
+    """
+    if version == "latest":
+        snapshot = data.current()
+        if snapshot is None:
+            raise LookupError("No data snapshot is loaded yet; build one: airport-agent refresh")
+        version = snapshot.version
+    elif version not in point_in_time_versions():
+        raise LookupError(f"No data version {version!r}; pick latest or one of the listed dates.")
+    try:
+        return version, _store().get(version)
+    except (CacheMissingError, ValueError) as error:
+        raise LookupError(str(error)) from error
+
+
+def period_end(as_of):
+    """(year, month) in which a source's as-of text ends, or None if it can't be read.
+
+    Reads the forms the manifests use: "2026-10-11", "Aug 2025 to Jul 2026", "2026 Q1", "2023";
+    for a range, the end ("... to <end>").
+    """
+    text = str(as_of).split(" to ")[-1]
+    if m := re.search(r"(\d{4})-(\d{2})-\d{2}", text):
+        return int(m[1]), int(m[2])
+    if m := re.search(r"(\d{4}) Q([1-4])", text):
+        return int(m[1]), int(m[2]) * 3
+    if m := re.search(r"([A-Z][a-z]{2}) (\d{4})", text):
+        if m[1] in MONTHS:
+            return int(m[2]), MONTHS.index(m[1]) + 1
+    if m := re.search(r"\b(\d{4})\b", text):
+        return int(m[1]), 12
+    return None
+
+
+def is_stale(as_of, reference, months):
+    """True if the source's data ends more than `months` whole months before `reference`."""
+    end = period_end(as_of)
+    if end is None:
+        return False
+    return (reference.year - end[0]) * 12 + (reference.month - end[1]) > months
+
+
+@app.get("/info")
+def info(version: str = "latest"):
+    """What the page needs to draw itself: mode, versions, sources with as-of dates, choices."""
+    try:
+        name, folder = snapshot_for(version)
+    except LookupError as error:
+        raise HTTPException(status_code=404, detail=str(error)) from error
+    manifest = read_manifest(folder)
+    months = load_config()["freshness"]["stale_after_months"]
+    reference = date.today() if version == "latest" else date.fromisoformat(manifest["as_of"])
+    sources = [
+        {
+            "name": key,
+            "source": s.get("source", key),
+            "as_of": s.get("as_of"),
+            "stale": is_stale(s.get("as_of"), reference, months),
+        }
+        for key, s in sorted(manifest.get("sources", {}).items())
+    ]
+    return {
+        "model": llm.has_api_key(),
+        "versions": ["latest", *point_in_time_versions()],
+        "version": name,
+        "as_of": manifest["as_of"],
+        "sources": sources,
+        "stale_after_months": months,
+        "stale_reference": reference.isoformat(),
+        "questions": [question for question, _ in cli.FIXED_QUESTIONS],
+        "presets": list(load_settings().scoring["presets"]),
+        "regions": REGION_CHOICES,
+    }
+
+
+MAX_ARGS_CHARS = 1_000  # one picker call's arguments, as JSON
+
+
+class Turn(BaseModel):
+    role: Literal["user", "model"]
+    text: str = Field(max_length=20_000)
+
+
+class Call(BaseModel):
+    name: str = Field(max_length=40)
+    args: dict = Field(default_factory=dict)
+
+    @field_validator("args")
+    @classmethod
+    def _small(cls, args):
+        # The picker sends a region, a few codes and a preset; the reply repeats the arguments,
+        # so an unbounded value would come back several times larger.
+        if len(json.dumps(args)) > MAX_ARGS_CHARS:
+            raise ValueError(f"tool arguments must be under {MAX_ARGS_CHARS} characters as JSON")
+        return args
+
+
+class ChatRequest(BaseModel):
+    message: str = Field("", max_length=2_000)
+    history: list[Turn] = Field(default_factory=list, max_length=40)
+    version: str = Field("latest", max_length=40)
+    calls: list[Call] = Field(default_factory=list, max_length=4)  # the picker: tools to run
+
+
+NO_KEY_MESSAGE = (
+    "Free-form questions need the model, and no GEMINI_API_KEY is set on the server. "
+    "Pick a suggested question, or use the rank / compare / profile picker."
+)
+
+
+def make_session(run_tool):
+    """A model chat whose tools read the picked snapshot; tests replace this with a fake model."""
+    return llm.ChatSession(run_tool=run_tool)
+
+
+def summary(name, result):
+    """A fixed-wording summary of one tool result (no model), every number copied from it."""
+    if name in ("rank_airports", "compare_airports") and result.get("rows"):
+        top = result["rows"][0]
+        text = (
+            f"**{top['code']} {top['name']}** ranks first here, with a score of {top['score']:g} "
+            f"under the {result['preset']} preset (national rank {top['national_rank']} of "
+            f"{result['ranked_nationally']} ranked airports). The bars show each airport's points."
+        )
+        not_ranked = [f"{n['code']} ({n['reason']})" for n in result.get("not_ranked", [])]
+        return text + (" Not ranked: " + "; ".join(not_ranked) + "." if not_ranked else "")
+    lead = f"{result['summary']}\n\n" if name == "demand_pressure" and "summary" in result else ""
+    return lead + "```text\n" + cli.format_result(name, result) + "\n```"
+
+
+def _event(kind, payload):
+    return f"event: {kind}\ndata: {json.dumps(payload, ensure_ascii=False)}\n\n"
+
+
+def _stream(work):
+    """Run `work(emit)` in a thread and yield each emitted event as soon as it is emitted."""
+    events = queue.Queue()
+
+    def run():
+        try:
+            work(lambda kind, payload: events.put((kind, payload)))
+        except Exception as error:  # a model or network failure ends this answer, not the server
+            log.exception("chat answer failed")
+            message = f"The answer failed ({type(error).__name__}: {error})"[:500]
+            events.put(("error", {"message": message + ". Try again."}))
+        finally:
+            events.put(None)
+
+    threading.Thread(target=run, daemon=True).start()
+    while (item := events.get()) is not None:
+        yield _event(*item)
+
+
+def _run_calls(calls, run_tool, emit):
+    """Run tools directly (no model) and end with a fixed-wording summary of their results."""
+    parts = []
+    for name, args in calls:
+        emit("tool_start", {"name": name, "args": args})
+        result = run_tool(name, args)
+        emit("tool_result", {"name": name, "args": args, "result": result})
+        if "error" in result:
+            emit("error", {"message": result["error"]})
+            return
+        parts.append(summary(name, result))
+    emit("done", {"text": "\n\n".join(parts)})
+
+
+@app.post("/chat")
+def chat(request: ChatRequest):
+    """Answer one question as server-sent events (see the module notes for the events)."""
+    try:
+        _, folder = snapshot_for(request.version)
+    except LookupError as error:
+        raise HTTPException(status_code=404, detail=str(error)) from error
+
+    def run_tool(name, args):
+        # compare_over_time reads two versions of its own choosing from the store.
+        return tools.run_tool(name, args, None if name == "compare_over_time" else folder)
+
+    fixed = dict(cli.FIXED_QUESTIONS)
+    if request.calls:
+        calls = [(c.name, c.args) for c in request.calls]
+    elif not request.message.strip():
+        raise HTTPException(status_code=422, detail="Ask a question or pick one.")
+    elif not llm.has_api_key():
+        calls = fixed.get(request.message.strip())
+        if calls is None:
+            return StreamingResponse(
+                iter([_event("error", {"message": NO_KEY_MESSAGE})]),
+                media_type="text/event-stream",
+            )
+    else:
+        calls = None
+
+    def work(emit):
+        if calls is not None:
+            return _run_calls(calls, run_tool, emit)
+        session = make_session(run_tool)
+        session.history = llm.history_from_turns([t.model_dump() for t in request.history])
+        answer = session.send(request.message.strip(), on_event=emit)
+        emit("done", {"text": answer.text, "stopped_at_limit": answer.stopped_at_limit})
+
+    headers = {"Cache-Control": "no-cache", "X-Accel-Buffering": "no"}
+    return StreamingResponse(_stream(work), media_type="text/event-stream", headers=headers)

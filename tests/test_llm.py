@@ -151,3 +151,139 @@ def test_a_spent_quota_fails_at_once_instead_of_waiting_for_retry_after(monkeypa
     retry = seen["http_options"].retry_options
     assert 429 not in retry.http_status_codes
     assert 503 in retry.http_status_codes and retry.attempts > 1
+
+
+# --- Streaming: steps reported as they happen ------------------------------------------------
+
+
+def test_listener_hears_tool_steps_and_text_in_order():
+    def answer(on_text):
+        on_text("BOS ")
+        on_text("leads.")
+        return [text("BOS leads.")]
+
+    class StreamingModel(FakeModel):
+        def next_steps(self, history, tools, system_prompt, on_text=None):
+            turn = super().next_steps(history, tools, system_prompt)
+            return turn(on_text) if callable(turn) else turn
+
+    heard = []
+    model = StreamingModel([call("rank_airports", {"region": "New England"}, "c1")], answer)
+    reply = session(model).send("New England?", on_event=lambda k, d: heard.append((k, d)))
+    assert reply.text == "BOS leads."
+    assert heard == [
+        ("tool_start", {"name": "rank_airports", "args": {"region": "New England"}}),
+        (
+            "tool_result",
+            {
+                "name": "rank_airports",
+                "args": {"region": "New England"},
+                "result": fake_tool("rank_airports", {"region": "New England"}),
+            },
+        ),
+        ("text", {"text": "BOS "}),
+        ("text", {"text": "leads."}),
+    ]
+
+
+def test_streamed_events_are_joined_into_the_same_steps():
+    from airport_agent.llm import assemble_steps
+
+    events = [
+        {"event_type": "interaction.created", "interaction": {"id": "x"}},
+        {"event_type": "step.start", "index": 0, "step": {"type": "thought"}},
+        {
+            "event_type": "step.delta",
+            "index": 0,
+            "delta": {"type": "thought_signature", "signature": "sig"},
+        },
+        {"event_type": "step.stop", "index": 0},
+        {"event_type": "step.start", "index": 1, "step": {"type": "model_output"}},
+        {"event_type": "step.delta", "index": 1, "delta": {"type": "text", "text": "Let me "}},
+        {"event_type": "step.delta", "index": 1, "delta": {"type": "text", "text": "check."}},
+        {"event_type": "step.stop", "index": 1},
+        {
+            "event_type": "step.start",
+            "index": 2,
+            "step": {"type": "function_call", "id": "c1", "name": "rank_airports", "arguments": {}},
+        },
+        {
+            "event_type": "step.delta",
+            "index": 2,
+            "delta": {"type": "arguments_delta", "arguments": '{"region": "New '},
+        },
+        {
+            "event_type": "step.delta",
+            "index": 2,
+            "delta": {"type": "arguments_delta", "arguments": 'England"}'},
+        },
+        {"event_type": "step.stop", "index": 2},
+        {"event_type": "interaction.completed", "interaction": {"status": "requires_action"}},
+    ]
+    pieces = []
+    assert assemble_steps(events, pieces.append) == [
+        {"type": "thought", "signature": "sig"},
+        text("Let me check."),
+        call("rank_airports", {"region": "New England"}, "c1"),
+    ]
+    assert pieces == ["Let me ", "check."]
+
+
+def test_stream_error_event_raises():
+    from airport_agent.llm import ModelError, assemble_steps
+
+    events = [{"event_type": "error", "error": {"message": "Deadline expired", "code": "x"}}]
+    with pytest.raises(ModelError, match="Deadline expired"):
+        assemble_steps(events, print)
+
+
+def test_client_streams_only_when_someone_listens():
+    from airport_agent.llm import GeminiClient
+
+    class Event:
+        def __init__(self, data):
+            self.data = data
+
+        def model_dump(self, **kwargs):
+            return self.data
+
+    class Interactions:
+        def __init__(self):
+            self.requests = []
+
+        def create(self, **request):
+            self.requests.append(request)
+            return [
+                Event({"event_type": "step.start", "index": 0, "step": {"type": "model_output"}}),
+                Event(
+                    {
+                        "event_type": "step.delta",
+                        "index": 0,
+                        "delta": {"type": "text", "text": "Hi"},
+                    }
+                ),
+            ]
+
+    client = GeminiClient.__new__(GeminiClient)
+    client.settings = Settings("fake-model", 100, 8, 1)
+    client.client = type("Fake", (), {"interactions": Interactions()})()
+    pieces = []
+    assert client.next_steps([], [], "prompt", on_text=pieces.append) == [text("Hi")]
+    assert pieces == ["Hi"]
+    assert client.client.interactions.requests[0]["stream"] is True
+    assert client.client.interactions.requests[0]["store"] is False
+
+
+def test_history_from_turns_keeps_only_text_turns():
+    from airport_agent.llm import history_from_turns
+
+    turns = [
+        {"role": "user", "text": "Rank New England."},
+        {"role": "model", "text": "BOS leads."},
+        {"role": "system", "text": "ignored"},
+        {"role": "user", "text": ""},
+    ]
+    assert history_from_turns(turns) == [
+        {"type": "user_input", "content": [{"type": "text", "text": "Rank New England."}]},
+        text("BOS leads."),
+    ]
