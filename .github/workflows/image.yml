@@ -54,7 +54,7 @@ jobs:
             RELEASE_SHA=${{ github.sha }}
             SOURCE_URL=${{ github.server_url }}/${{ github.repository }}
           cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-to: type=gha,mode=max,ignore-error=true
 
       - name: Run and check /health reports this commit
         env:
@@ -114,7 +114,7 @@ jobs:
             RELEASE_SHA=${{ github.sha }}
             SOURCE_URL=${{ github.server_url }}/${{ github.repository }}
           cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-to: type=gha,mode=max,ignore-error=true
 
   # Publishing gets its own job so only it holds the registry write permission.
   publish:

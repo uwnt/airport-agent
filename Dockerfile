@@ -37,16 +37,13 @@ RUN --mount=type=cache,target=/var/cache/uv \
 # ---- Stage 2: runtime ----
 FROM ${PYTHON_IMAGE} AS runtime
 
-ARG RELEASE_SHA=""
 # The repository URL, passed in by CI (the image workflow), so it is not hard-coded here.
 ARG SOURCE_URL=""
-ENV RELEASE_SHA=${RELEASE_SHA} \
-    PATH=/app/.venv/bin:$PATH \
+ENV PATH=/app/.venv/bin:$PATH \
     PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1
 
 LABEL org.opencontainers.image.source="${SOURCE_URL}" \
-      org.opencontainers.image.revision="${RELEASE_SHA}" \
       org.opencontainers.image.title="airport-agent" \
       org.opencontainers.image.description="Chat agent that ranks US airports for terminal-expansion investment."
 
@@ -57,6 +54,11 @@ WORKDIR /app
 # Only the venv: the app is installed inside it, so no source files are needed.
 COPY --from=build --chown=app:app /app/.venv /app/.venv
 # The data snapshot (/app/data) and the `refresh` command are added with the data pipeline (#14).
+
+# The commit last, so a new commit only rebuilds the layers below.
+ARG RELEASE_SHA=""
+ENV RELEASE_SHA=${RELEASE_SHA}
+LABEL org.opencontainers.image.revision="${RELEASE_SHA}"
 
 USER app
 

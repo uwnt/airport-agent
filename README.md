@@ -30,7 +30,8 @@ curl http://127.0.0.1:8100/health   # {"status":"ok","commit":"<git sha>",...}
 `/health` reports which code is running (`RELEASE_SHA` in an image, else the local git commit).
 
 ## Run with Docker
-Needs only Docker (with Compose) and a Gemini API key; the image runs on amd64 and arm64.
+Needs only Docker (with Compose); the image runs on amd64 and arm64. A Gemini API key is
+needed once the chat agent lands; until then the server only answers `/health`.
 
 ```bash
 export GEMINI_API_KEY=...        # your key; it is passed to the container, never built into the image
