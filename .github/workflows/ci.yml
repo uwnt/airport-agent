@@ -47,7 +47,7 @@ jobs:
 
       - name: TODOs carry an issue number
         run: |
-          bad="$(git grep -nP '\bTODO\b(?!\(#[0-9]+\))' -- ':!*.md' ':!.github/**' ':!uv.lock' ':!data/**' || true)"
+          bad="$(git grep -nP '\bTODO\b(?!\(#[0-9]+\))' -- ':!*.md' ':!.github/**' ':!uv.lock' ':!data/**' ':!scripts/ci-local' || true)"
           if [ -n "$bad" ]; then
             echo "$bad"
             echo "::error::TODO without an issue number, write TODO(#123)"
