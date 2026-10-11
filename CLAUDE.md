@@ -42,7 +42,8 @@ The owner leads the project and will defend it in a follow-up call. For every st
   excepted) in files, commits, issues or PRs. Before every push, and before posting any issue, PR
   or comment text, check it:
   `grep -n -i -E -f .git/info/leak-patterns <files or text>` must print nothing. Reviewer agents
-  may use internal shorthand, so rewrite their findings in plain words before posting.
+  may use internal shorthand: the review step posts only a verdict line and a note the session
+  writes, so that note, and any fix or decline note, is written in plain words and checked first.
 - **Secrets live only in Doppler** (project `airport-agent`, config `dev`). Run with
   `doppler run -- <cmd>`. Never print a secret, never write `.env`. `.env.example` lists names only.
 - **GitHub uses the owner's token, per command:** `doppler run -- gh …` (sets `GH_TOKEN` for that
