@@ -1,0 +1,42 @@
+# Settings the data layer uses (src/airport_agent/data/). Change here, not in Python.
+# Scoring weights live in config/scoring.yaml (Step 4); this file only shapes the raw signals.
+
+dot_fares:
+  # Growth compares the latest DOT quarter with the same quarter of this year (decision D7).
+  baseline_year: 2019
+  # Fare premium compares each market with markets of similar distance (D7).
+  # Upper edges in miles; a market belongs to the first band whose edge is >= its distance,
+  # and anything above the last edge falls in the final "over" band.
+  distance_band_edges_miles: [500, 1000, 1500]
+
+bts_ontime:
+  # Strain uses the latest 12 months of BTS on-time data (D7).
+  months: 12
+
+scope:
+  # Ranked airports: in DOT Table 1a and in the lower 48 (D11). These states are not ranked.
+  excluded_states: [AK, HI]
+
+opensky:
+  # Anchorage long-haul share (D13).
+  airport: PANC
+  # Days of departures to request (one request per day, whole days already ended).
+  days: 7
+  # Flights to destinations this close or closer are dropped as local hops (miles).
+  min_distance_miles: 100
+  # Long-haul means strictly over this great-circle distance (miles).
+  long_haul_miles: 1400
+  # Passenger airlines, by the first three letters of the flight's callsign (ICAO airline code).
+  # Only these count. Left out on purpose: cargo airlines (GTI, FDX, UPS, CKS, NAC, AER, ...) and
+  # private aircraft. Also left out: CPA, CAL, EVA and KAL. Those airlines fly passengers too, but
+  # their Anchorage flights are cargo stops, and the callsign alone can't tell the two apart.
+  passenger_callsign_prefixes:
+    - ASA  # Alaska Airlines
+    - QXE  # Horizon Air (flies for Alaska Airlines)
+    - DAL  # Delta Air Lines
+    - UAL  # United Airlines
+    - AAL  # American Airlines
+    - SCX  # Sun Country Airlines
+    - RVF  # Ravn Alaska
+    - CFG  # Condor (seasonal)
+    - ICE  # Icelandair (seasonal)

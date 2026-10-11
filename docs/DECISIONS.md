@@ -196,3 +196,44 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
   that can miss or blur passages, which works against "every number from a tool".
 - Revisit if: analysts want to ask about large document sets, such as airport master plans or FAA
   reports.
+
+## D16: The data layer computes the measured values; scoring only ranks them
+- Chose: the data layer returns finished per-airport values (NAS delay per landed flight,
+  cancellation rate, fare premium, growth vs the same quarter of 2019, market count), each with its
+  source and as-of date. Scoring (Step 4) turns them into percentile ranks and applies the weights.
+- Over: the data layer returns raw rows and scoring computes everything (one much larger scoring
+  step, harder to explain and to change live).
+- Because: each value is a measurement with its own source and date, so it belongs with the data;
+  scoring stays small and pure.
+- Revisit if: a signal needs data from more than one source at once.
+
+## D17: A small dated snapshot is committed; raw downloads are not
+- Chose: raw downloads stay in `data/cache/` (not in git). Small per-airport summaries are
+  committed as dated snapshots by the `refresh` command, so a fresh checkout and the
+  Docker image give the same answers without downloading anything.
+- Over: cache only (every new machine must download several hundred MB first, and numbers can
+  change between runs).
+- Because: answers must not drift during a demo, and the data date should be visible in git.
+- Revisit if: a snapshot grows past the size budget.
+
+## D18: Passenger airline list for the Anchorage long-haul share (proposed; owner to confirm)
+- Chose: callsign prefixes ASA, QXE, DAL, UAL, AAL, SCX, RVF, CFG, ICE, in `config/sources.yaml`.
+  Left out: CPA, CAL, EVA, KAL, whose Anchorage flights are mostly cargo stops; a callsign alone
+  can't tell their cargo flights from passenger ones.
+- Over: counting every airline (mixes cargo into a passenger question).
+- Because: D13 counts passenger airlines only.
+- Revisit if: one of the left-out airlines starts scheduled passenger service through Anchorage.
+
+## D19: Airport codes the sources disagree on, and missing months
+- Chose: when DOT or BTS uses a code that OurAirports no longer lists as the airport's code (West
+  Palm Beach: PBI in DOT and BTS, DJT in OurAirports), match it through an exact entry in
+  OurAirports' keywords for a US airport with scheduled service, and show a note saying so. A code
+  that still can't be matched (today only US territories such as SJU and GUM) is listed with its
+  reason in the build's manifest, never dropped silently. If a month in the 12-month BTS window
+  can't be downloaded, it is recorded as a gap and named in the delay and cancellation notes
+  ("11 of 12 months; missing: Jan 2026"); it is never filled in.
+- Over: a hand-kept alias list (needs upkeep and hides the source of the match); dropping unmatched
+  airports (PBI vanished from the ranking); stopping the whole build for one missing month.
+- Because: every airport in DOT Table 1a must be ranked or explained (D11), and a gap shown is
+  better than a number quietly based on less data.
+- Revisit if: a keyword match ever picks the wrong airport.
