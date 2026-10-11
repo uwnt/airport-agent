@@ -54,11 +54,13 @@ RUN groupadd --system --gid 10001 app \
 WORKDIR /app
 # Only the venv: the app is installed inside it, so no source files are needed.
 COPY --from=build --chown=app:app /app/.venv /app/.venv
-# Settings, the friction constraints scoring reads, the committed data snapshots and the OpenSky
-# sample `refresh` falls back on. The app reads them relative to /app (DATA_STORE defaults to
+# Settings, the friction constraints scoring reads, the verified domain notes the profile tool
+# quotes (found at docs/DOMAIN_NOTES.md from the working folder), the committed data snapshots
+# and the OpenSky sample `refresh` falls back on. The app reads them relative to /app (DATA_STORE defaults to
 # file://data/snapshots); `airport-agent refresh` (on the venv's PATH) writes new snapshots there
 # and its downloads to /app/data/cache.
 COPY --chown=app:app config ./config
+COPY --chown=app:app docs/DOMAIN_NOTES.md ./docs/
 COPY --chown=app:app data/constraints.yaml ./data/
 COPY --chown=app:app data/snapshots ./data/snapshots
 COPY --chown=app:app data/samples/opensky_departures_panc.json ./data/samples/
