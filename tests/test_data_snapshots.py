@@ -147,6 +147,36 @@ def test_store_missing_version_and_empty_store(tmp_path):
         snapshot_dir(store=store)
 
 
+def test_store_latest_skips_publish_leftovers_and_incomplete_folders(tmp_path):
+    store = FileStore(tmp_path)
+    make_snapshot(tmp_path / "2019-12", "2019-12", "2019-12-31")
+    for hidden in (".2026-09.part", ".2026-09.old"):  # a publish in progress or cut short
+        make_snapshot(tmp_path / hidden, "2026-09", "2026-09-30")
+    incomplete = make_snapshot(tmp_path / "2026-08", "2026-08", "2026-08-31")
+    manifest = json.loads((incomplete / "manifest.json").read_text())
+    (incomplete / "manifest.json").write_text(json.dumps({**manifest, "files": ["dot_fares.json"]}))
+    make_snapshot(tmp_path / "2026-07", "2021-12", "2026-07-31")  # names another version
+    assert store.latest() == "2019-12"
+    assert store.get(store.latest()).name == "2019-12"
+    with pytest.raises(CacheMissingError, match="'2026-08'.*missing dot_fares.json"):
+        store.get("2026-08")
+
+
+@pytest.mark.parametrize(
+    ("manifest", "problem"),
+    [("{", "can't be read"), ('{"version": "2026-10"}', "no as_of date")],
+)
+def test_store_skips_a_broken_manifest(tmp_path, caplog, manifest, problem):
+    store = FileStore(tmp_path)
+    make_snapshot(tmp_path / "2019-12", "2019-12", "2019-12-31")
+    (tmp_path / "2026-10").mkdir()
+    (tmp_path / "2026-10" / "manifest.json").write_text(manifest, encoding="utf-8")
+    assert store.latest() == "2019-12"
+    assert "'2026-10'" in caplog.text and problem in caplog.text
+    with pytest.raises(CacheMissingError, match=f"'2026-10'.*broken: .*{problem}"):
+        store.get("2026-10")
+
+
 def test_data_store_env_picks_the_store(monkeypatch, tmp_path):
     monkeypatch.setenv("DATA_STORE", f"file://{tmp_path}")
     assert open_store().root == tmp_path
