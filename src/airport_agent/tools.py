@@ -229,8 +229,13 @@ def compare_airports(codes, preset=None, cache_dir=None, settings=None):
 def _snapshot_folders(cache_dir):
     """{version: folder} of every complete snapshot, oldest name first, and the latest version.
 
-    `cache_dir`, if given, is a data store folder (a folder of snapshots), not one snapshot.
+    `cache_dir`, if given, is a data store folder (a folder of snapshots), not one snapshot as
+    in the other tools; given one snapshot, it says so instead of finding no versions.
     """
+    if cache_dir and any(Path(cache_dir).glob("*.json")):  # a store holds only folders
+        raise ToolError(
+            "compare_over_time needs a folder of data snapshots, not a single snapshot folder"
+        )
     store = open_store(f"file://{cache_dir}") if cache_dir else open_store()
     root = store.root
     folders = sorted(p for p in root.iterdir() if p.is_dir()) if root.is_dir() else []
@@ -251,7 +256,9 @@ def _standing(m, metrics_list, preset, settings):
     ranking = rank(metrics_list, preset, settings=settings)
     row = next((r for r in ranking if r.code == m.iata), None)
     if row is None:
-        reason = m.scope_reason if not m.in_scope else ranking.not_ranked[0].reason
+        reason = m.scope_reason
+        if m.in_scope:
+            reason = next(n.reason for n in ranking.not_ranked if n.code == m.iata)
         return {"score": None, "rank": None, "not_ranked": reason}
     return {
         "score": round(row.score, 1),

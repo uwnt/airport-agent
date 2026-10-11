@@ -1,5 +1,7 @@
 """The agent's tools on a cache built from data/samples/ (New England fares, Anchorage flights)."""
 
+import copy
+import dataclasses
 import json
 import re
 import shutil
@@ -8,6 +10,8 @@ from pathlib import Path
 import pytest
 
 from airport_agent import tools
+from airport_agent.data.metrics import all_airport_metrics
+from airport_agent.scoring import load_settings
 from airport_agent.tools import run_tool
 
 
@@ -373,3 +377,35 @@ def test_compare_over_time_arguments_are_checked():
         "compare_over_time", {"code": "SFO", "from_version": 2019, "to_version": "latest"}
     )
     assert "from_version must be a data version as text" in wrong["error"]
+
+
+def test_compare_over_time_gives_the_asked_airports_own_reason_when_unranked():
+    # In the latest snapshot other airports are unranked for another reason (APA, first A to Z:
+    # no delay data); the side must carry SFO's own reason, not the first in the not-ranked list.
+    settings = copy.deepcopy(load_settings())
+    settings.scoring["required_signals"] = [
+        *settings.scoring["required_signals"],
+        "cancellation_rate",
+    ]
+    metrics_list = [
+        dataclasses.replace(m, cancellation_rate=None) if m.iata == "SFO" else m
+        for m in all_airport_metrics()
+    ]
+    sfo = next(m for m in metrics_list if m.iata == "SFO")
+    standing = tools._standing(sfo, metrics_list, None, settings)
+    assert standing["score"] is None
+    assert standing["not_ranked"] == "no measured cancellations data"
+
+
+def test_compare_over_time_carries_no_internal_decision_labels():
+    results = [
+        over_time(code="SFO", from_version="2019-12", to_version="latest"),
+        over_time(code="ANC", from_version="2019-12", to_version="latest"),
+    ]
+    text = json.dumps(results)
+    assert not [text[max(m.start() - 60, 0) : m.end() + 5] for m in re.finditer(r"\bD\d+\b", text)]
+
+
+def test_compare_over_time_says_so_when_given_one_snapshot_folder(run):
+    result = run("compare_over_time", code="SFO", from_version="2019-12", to_version="latest")
+    assert "folder of data snapshots, not a single snapshot" in result["error"]

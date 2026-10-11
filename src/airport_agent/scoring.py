@@ -554,7 +554,7 @@ def _wanted_codes(in_scope, region, codes):
         unknown = sorted(wanted - set(in_scope))
         if unknown:
             raise UnknownPlaceError(
-                f"Not ranked: {', '.join(unknown)} (not a lower-48 airport in DOT Table 1a, D11)"
+                f"Not ranked: {', '.join(unknown)} (not a lower-48 airport in DOT Table 1a)"
             )
         return wanted
     return None
