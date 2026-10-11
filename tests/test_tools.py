@@ -2,6 +2,7 @@
 
 import copy
 import dataclasses
+import datetime
 import json
 import re
 import shutil
@@ -444,3 +445,41 @@ def test_domain_notes_are_found_from_the_working_folder_when_installed(tmp_path,
     shutil.copy(tools.DOMAIN_NOTES_PATH, tmp_path / "docs" / "DOMAIN_NOTES.md")
     monkeypatch.chdir(tmp_path)
     assert tools.domain_facts("SFO", path=tools._notes_path(tmp_path / "venv"))
+
+
+def test_verified_facts_carry_dates_and_are_flagged_stale_after_review_by():
+    sna = {f["note"]: f for f in tools.domain_facts("SNA", today=datetime.date(2026, 10, 12))}
+    assert all(f["checked"] == "2026-10-11" for f in sna.values())
+    assert sna[2]["review_by"] == "2030-12-31"
+    assert sna[5]["review_by"] == "2027-10-11"
+    assert not any(f.get("stale") for f in sna.values())
+    later = {f["note"]: f for f in tools.domain_facts("SNA", today=datetime.date(2028, 1, 1))}
+    assert later[5]["stale"] is True  # still returned, but flagged
+    assert later[5]["stale_note"] == "may be out of date: due for re-check on 2027-10-11"
+    assert "stale" not in later[2]
+    assert tools.domain_facts("SNA", today=datetime.date(2031, 1, 1))[0]["stale"] is True
+
+
+def test_airport_profile_for_sfo_returns_checked_dates():
+    profile = tools.airport_profile("SFO", today=datetime.date(2026, 10, 12))
+    facts = profile["verified_facts"]
+    assert [(f["note"], f["checked"], f["review_by"]) for f in facts] == [
+        (6, "2026-10-11", "2027-10-11"),
+        (7, "2026-10-11", "2027-10-11"),
+    ]
+    assert not any("stale" in f for f in facts)
+    stale = tools.airport_profile("SFO", today=datetime.date(2028, 1, 1))["verified_facts"]
+    assert all(f["stale"] for f in stale)
+
+
+def test_a_stale_friction_is_flagged_in_the_tool_row_and_still_costs_points():
+    fresh = tools.rank_airports(codes=["SFO", "BOS"], today=datetime.date(2026, 10, 12))
+    stale = tools.rank_airports(codes=["SFO", "BOS"], today=datetime.date(2028, 1, 1))
+    fresh_sfo = next(r for r in fresh["rows"] if r["code"] == "SFO")
+    stale_sfo = next(r for r in stale["rows"] if r["code"] == "SFO")
+    assert fresh_sfo["friction"]["checked"] == "2026-10-11"
+    assert fresh_sfo["friction"]["review_by"] == "2027-10-11"
+    assert "stale" not in fresh_sfo["friction"]
+    assert stale_sfo["friction"]["stale"] is True
+    assert "may be out of date" in stale_sfo["friction"]["stale_note"]
+    assert stale_sfo["score"] == fresh_sfo["score"]

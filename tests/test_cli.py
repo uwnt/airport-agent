@@ -1,5 +1,7 @@
 """The terminal chat: no-key mode prints tables; chat mode prints steps then the answer."""
 
+import datetime
+
 from airport_agent import cli, tools
 from airport_agent.llm import Answer, ToolCall
 
@@ -82,3 +84,13 @@ def test_no_key_change_over_time_question_prints_a_change_table():
     assert "[compare_over_time]" in text and "SFO" in text and "2019-12 -> latest-" in text
     assert "Change" in text and "Sources:" in text
     assert "e+" not in text  # large changes in full, not in scientific notation
+
+
+def test_no_key_tables_mark_a_stale_friction_and_a_stale_fact():
+    stale_day = datetime.date(2028, 1, 1)
+    ranking = tools.rank_airports(codes=["SFO"], today=stale_day)
+    assert "(stale)" in cli.format_result("rank_airports", ranking)
+    profile = tools.airport_profile("SFO", today=stale_day)
+    text = cli.format_result("airport_profile", profile)
+    assert "checked 2026-10-11" in text
+    assert "may be out of date: due for re-check on 2027-10-11" in text

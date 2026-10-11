@@ -10,6 +10,7 @@ No model and no network here: the tools read only a data snapshot (the latest un
 is given) and the two settings files.
 """
 
+import datetime
 import logging
 import math
 import re
@@ -110,7 +111,12 @@ def _row(result):
             "tier": result.friction.tier,
             "description": result.friction.description,
             "sources": list(result.friction.sources),
+            "checked": result.friction.checked.isoformat(),
+            "review_by": result.friction.review_by.isoformat(),
         }
+        if result.friction.stale:
+            friction["stale"] = True
+            friction["stale_note"] = _stale_note(result.friction.review_by.isoformat())
     row = {
         "code": result.code,
         "name": result.name,
@@ -162,7 +168,9 @@ def _split_codes(codes, cache_dir):
 # --- The tools ------------------------------------------------------------------------------
 
 
-def rank_airports(region=None, codes=None, preset=None, top=None, cache_dir=None, settings=None):
+def rank_airports(
+    region=None, codes=None, preset=None, top=None, cache_dir=None, settings=None, today=None
+):
     """Rank airports for terminal expansion, nationally, in a region, or among some codes."""
     if region and codes:
         raise ToolError("give a region or a list of airport codes, not both")
@@ -181,7 +189,12 @@ def rank_airports(region=None, codes=None, preset=None, top=None, cache_dir=None
                 "note": "none of these airports is in the ranked scope",
             }
     ranking = rank(
-        metrics_list, preset, region=region or None, codes=codes or None, settings=settings
+        metrics_list,
+        preset,
+        region=region or None,
+        codes=codes or None,
+        settings=settings,
+        today=today,
     )
     if top is None and not region and not codes:
         top = DEFAULT_TOP
@@ -347,8 +360,17 @@ def compare_over_time(code, from_version, to_version, preset=None, cache_dir=Non
     return result
 
 
-def domain_facts(code, path=DOMAIN_NOTES_PATH):
-    """Verified (✅) facts from docs/DOMAIN_NOTES.md whose claim names this airport code."""
+def _stale_note(review_by):
+    return f"may be out of date: due for re-check on {review_by}"
+
+
+def domain_facts(code, path=DOMAIN_NOTES_PATH, today=None):
+    """Verified (✅) facts from docs/DOMAIN_NOTES.md whose claim names this airport code.
+
+    Each fact carries `checked` and `review_by` (ISO dates). After `review_by` (`today` defaults
+    to the real date) it is also marked `stale` with a note; it is still returned.
+    """
+    today = today or datetime.date.today()
     try:
         text = path.read_text(encoding="utf-8")
     except OSError:
@@ -356,22 +378,26 @@ def domain_facts(code, path=DOMAIN_NOTES_PATH):
     facts = []
     for line in text.splitlines():
         cells = [c.strip() for c in line.strip().strip("|").split("|")]
-        if len(cells) != 6 or not cells[0].isdigit() or not cells[5].startswith("✅"):
+        if len(cells) != 8 or not cells[0].isdigit() or not cells[5].startswith("✅"):
             continue
         # Drop the "(The ... is dropped)" asides: they name figures that failed the check.
         claim = re.sub(r"\s*\(The [^)]*dropped\)", "", cells[1].replace("**", ""))
         if re.search(rf"\b{re.escape(code)}\b", claim):
-            facts.append(
-                {
-                    "note": int(cells[0]),
-                    "fact": claim,
-                    "sources": re.findall(r"\]\((https?://[^)\s]+)\)", cells[4]),
-                }
-            )
+            fact = {
+                "note": int(cells[0]),
+                "fact": claim,
+                "sources": re.findall(r"\]\((https?://[^)\s]+)\)", cells[4]),
+                "checked": cells[6],
+                "review_by": cells[7],
+            }
+            if datetime.date.fromisoformat(cells[7]) < today:
+                fact["stale"] = True
+                fact["stale_note"] = _stale_note(cells[7])
+            facts.append(fact)
     return facts
 
 
-def airport_profile(code, cache_dir=None):
+def airport_profile(code, cache_dir=None, today=None):
     """Every measured value for one airport, why any is missing, and its verified facts."""
     try:
         m = airport_metrics(code, cache_dir)
@@ -390,7 +416,7 @@ def airport_profile(code, cache_dir=None):
             if getattr(m, name) is not None
         },
         "missing": dict(m.missing),
-        "verified_facts": domain_facts(m.iata),
+        "verified_facts": domain_facts(m.iata, today=today),
     }
     if m.code_note:
         result["code_note"] = m.code_note
