@@ -55,7 +55,7 @@ The owner leads the project and will defend it in a follow-up call. For every st
 - **The agent's model is Google Gemini** (`google-genai` SDK). Before writing Gemini code, read Google's
   current Gemini API docs for the exact SDK calls and model names. Don't rely on memory: names change
   often. All model calls live in `llm.py`.
-- **No Docker on this server, by design.** Never install it. The Docker image is built and tested only
+- **No Docker on the dev machine, by design.** Never install it. The Docker image is built and tested only
   in GitHub Actions (Step 6b).
 - The web chat must never get a public address. Test it via `localhost` (an SSH port forward) or
   the private network only.

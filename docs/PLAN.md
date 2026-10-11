@@ -96,7 +96,7 @@ These habits come from running real projects, and each one shows up in the grade
 - [ ] A grounding test: every number in an answer appears in a tool result.
 - [ ] A scope line in answers and the UI: decision support, not investment advice; what the score
       leaves out.
-- [ ] One Python version, pinned in `pyproject.toml` and used in the Dockerfile. The server has 3.14,
+- [ ] One Python version, pinned in `pyproject.toml` and used in the Dockerfile. The dev machine has 3.14,
       while slim images are usually 3.12 or 3.13, so pick one deliberately.
 - [ ] A `Makefile`: `run`, `test`, `lint`, `refresh`, `docker`.
 - [ ] **The image builds for both amd64 and arm64** (Docker buildx in CI). Many reviewers use
@@ -125,17 +125,17 @@ AI agents write the code; you decide, review every step, and must be able to **e
 
 | Part | Who writes | What you must be able to do |
 |---|---|---|
-| Scope, KPI, weights, out-of-scope list | **You decide**; Claude lays out the options | Defend every choice |
+| Scope, KPI, weights, out-of-scope list | **You decide**; AI agents lay out the options | Defend every choice |
 | Scoring (`scoring.py`, `config/scoring.yaml`, tests) | AI agents write; you get a file-by-file walkthrough, then make a small change yourself (a weight or a rule in `config/scoring.yaml`) | Explain every line; change a weight or rule live (weights are in YAML, no Python needed) |
-| Agent instructions and tool descriptions (mostly plain English) | Claude drafts; you edit | Explain where AI is used and how it's kept honest |
-| Data refresh, agent loop, server, chat page, Docker, CI | Claude writes; you get a code tour after each step | Say what each file does and how a question flows through it |
-| `docs/DESIGN.md`, README "How I work with AI" | **You write**; Claude reviews | It's your reasoning in your words |
+| Agent instructions and tool descriptions (mostly plain English) | AI agents write; you edit | Explain where AI is used and how it's kept honest |
+| Data refresh, agent loop, server, chat page, Docker, CI | AI agents write; you get a code tour after each step | Say what each file does and how a question flows through it |
+| `docs/DESIGN.md`, README "How I work with AI" | **You write**; an independent AI reviewer reviews | It's your reasoning in your words |
 
 About 1,700–1,800 lines in total; the part you need to know deeply is about 250 (scoring plus the
 agent instructions). After each step you get a file-by-file walkthrough and review it.
 
-**On the call:** "I designed it and directed AI to write it. I reviewed every part, built the
-scoring rules with it, and can change anything." That's true and credible.
+**On the call:** "I designed it and directed AI to write it. I reviewed every part, had AI agents write
+the scoring rules, reviewed every part, changed one myself, and can change anything." That's true and credible.
 
 ## What the public data can actually answer (checked 2026-10-11)
 Before planning features, we checked which free sources respond today. The 1-hour data spike in
@@ -191,7 +191,7 @@ website is not required. Aim for:
   2. `docker compose up` after cloning;
   3. `uv run` for Python developers.
 
-  This server has no Docker, so the image is built and smoke-tested **in GitHub Actions** on every PR,
+  Docker is not used on the dev machine, so the image is built and smoke-tested **in GitHub Actions** on every PR,
   and published to GHCR at the `v1.0` tag.
 
 **A reviewer without a Gemini key:**
@@ -244,13 +244,12 @@ than designing the scoring.
 - Run `uv init`, add ruff and pytest, and add one CI workflow.
 
 **Why:** The repo, secrets and checks come first, because fixing them later means rewriting history.
-The token is limited to one repo because this server's `gh` login belongs to a different account, and we must not
-switch the whole machine to yours. Commands run as `doppler run -- gh …` use your token for that one
-command only.
+The token is limited to one repo. GitHub commands use your token per command (`doppler run -- gh …`);
+never change the machine's GitHub login.
 
 **Alternatives:**
-- *Use the server's existing GitHub login.* Wrong account, and the commits would be tied to it.
-- *Run `gh auth switch`.* That changes the login for every session on the box, including ops.
+- *Use the machine's existing GitHub login.* Wrong account, and the commits would be tied to it.
+- *Run `gh auth switch`.* That changes the machine's login for everything else that uses it.
 - *A `.env` file.* It's easy to commit by accident before a public push. Doppler keeps the value off
   disk entirely.
 - *pip + venv instead of uv.* It works, but uv gives a lockfile (`uv.lock`) and one command for
@@ -283,7 +282,7 @@ or dropped. These feed the Expansion Friction inputs in Step 2.
 **You own:** running the calls and writing the notes in your own words.
 
 ## Step 2 — Scope and KPI design (1:00) — your decisions
-**What:** Decide what "promising for terminal expansion" means as numbers. Claude will present
+**What:** Decide what "promising for terminal expansion" means as numbers. AI agents will present
 options; you choose and record each choice in `docs/DECISIONS.md` with the reason.
 
 **A strong starting structure** (from the outside research): three dimensions.
@@ -353,7 +352,7 @@ lets the agent say "based on DOT fare data through 2026 Q1".
 - *pandas vs polars.* polars is faster, but pandas is what reviewers read fluently, and our data is
   small.
 
-**Claude drafts; you read** each module and explain it back before it's committed.
+**AI agents write** each module; you review the PR and get a walkthrough after the step.
 
 ## Step 4 — Scoring engine (2:00)
 **What:** `scoring.py` contains pure functions:
@@ -502,7 +501,7 @@ Python toolchain and the code readable in one sitting.
   `docker compose run --rm refresh`.
 
 **Why:** It's the easiest way for a reviewer to run it: no Python setup, one command. Building in CI
-proves it works, since we can't run Docker on this server.
+proves it works, since we can't run Docker on the dev machine.
 
 **Alternatives:**
 - *uv only.* Simple for Python developers, but a non-Python reviewer has to install a toolchain.
