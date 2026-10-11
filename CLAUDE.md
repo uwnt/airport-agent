@@ -5,6 +5,15 @@ expansion is most promising. It uses public aviation data, deterministic scoring
 with tools behind a chat UI (built with Claude Code). The full brief, the timeline and the reasoning for every step are in
 `docs/PLAN.md`. Read it at the start of every session and continue from the first unchecked step.
 
+## How this project runs
+- **Branches:** work branches off `dev` and merges back by PR; `stg` and `prod` are release branches.
+  There is no staging environment: `stg` is a pass-through, and `prod` deploys to Fly. Production
+  deploys are the owner's.
+- **Phases:** `phase:1` = everything needed for the hand-in; `phase:2` = before the follow-up call
+  (stretch); `phase:3` = debt and housekeeping.
+- **Plan:** the pinned "Product roadmap" issue is the ordered index; each item has its own issue.
+- The owner's GitHub account name may appear in public text (repo URL, commit emails, comments).
+
 ## How to work in this repo: teaching mode
 The owner is building this to learn and will defend it in a follow-up call. For **every** step:
 1. **Before acting:** say what we're doing and why, the main alternatives, and why we're not choosing
@@ -31,7 +40,7 @@ The owner is building this to learn and will defend it in a follow-up call. For 
 
 ## Rules for this repo
 - **The repo will be public.** Nothing in it may reveal secrets, internal server details or other
-  projects. No internal server paths, internal issue numbers, or names of other projects or organisations in files, commits,
+  projects. No internal server paths, internal issue numbers, or names of other projects in files, commits,
   issues or PRs. Before every push, and before posting any issue, PR or comment text, check it:
   `grep -n -i -E -f .git/info/leak-patterns <files or text>` must print nothing. Reviewer agents
   carry server-wide rules, so rewrite their findings in plain words before posting.

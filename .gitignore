@@ -17,3 +17,6 @@ data/cache/
 
 # Personal call notes
 docs/QA_PREP.md
+
+# Private session setup (loads internal standards)
+CLAUDE.local.md
