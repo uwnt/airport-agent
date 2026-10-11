@@ -530,3 +530,29 @@ def test_a_stale_penalty_that_does_not_count_is_still_flagged():
     sna = tools.rank_airports(codes=["SNA"], today=datetime.date(2031, 1, 1))["rows"][0]
     assert sna["friction_not_counted"]
     assert all("may be out of date" in text for text in sna["friction_not_counted"])
+
+
+# --- Determinism: the same question gives the same numbers -----------------------------------
+
+SAME_TWICE = {
+    "rank_airports": {"region": "New England"},
+    "compare_airports": {"codes": ["BOS", "BDL"]},
+    "airport_profile": {"code": "BOS"},
+    "long_haul_share": {"code": "ANC"},
+    "compare_over_time": {"code": "SFO", "from_version": "2019-12", "to_version": "latest"},
+    "demand_pressure": {"code": "BOS"},
+}
+
+
+def test_every_tool_has_a_determinism_case():
+    assert set(SAME_TWICE) == {d["name"] for d in tools.TOOL_DECLARATIONS}
+
+
+@pytest.mark.parametrize("name", sorted(SAME_TWICE))
+def test_each_tool_gives_identical_results_when_run_twice(sample_cache, name):
+    # compare_over_time reads a folder of snapshots, so it runs on the committed ones.
+    cache_dir = None if name == "compare_over_time" else sample_cache
+    first = run_tool(name, copy.deepcopy(SAME_TWICE[name]), cache_dir=cache_dir)
+    second = run_tool(name, copy.deepcopy(SAME_TWICE[name]), cache_dir=cache_dir)
+    assert "error" not in first, first
+    assert json.dumps(first, sort_keys=False) == json.dumps(second, sort_keys=False)
