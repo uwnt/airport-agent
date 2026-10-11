@@ -302,3 +302,10 @@ def test_the_page_keeps_its_history_within_the_server_limits():
     chars = int(re.search(r"const MAX_TURN_CHARS = (\d+);", script)[1])
     history = [{"role": "user", "text": "x" * chars}] * turns
     server.ChatRequest(message="x", history=history)  # accepted, no ValidationError
+
+
+def test_picker_arguments_are_size_limited():
+    big = {"calls": [{"name": "airport_profile", "args": {"code": "A" * 5_000}}]}
+    with pytest.raises(ValueError, match="under 1000 characters"):
+        server.ChatRequest(**big)
+    server.ChatRequest(calls=[{"name": "rank_airports", "args": {"region": "New England"}}])

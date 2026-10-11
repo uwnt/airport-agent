@@ -37,7 +37,7 @@ from typing import Literal
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 from airport_agent import cli, llm, tools
 from airport_agent.data.cache import CacheMissingError, load_config
@@ -265,6 +265,9 @@ def info(version: str = "latest"):
     }
 
 
+MAX_ARGS_CHARS = 1_000  # one picker call's arguments, as JSON
+
+
 class Turn(BaseModel):
     role: Literal["user", "model"]
     text: str = Field(max_length=20_000)
@@ -273,6 +276,15 @@ class Turn(BaseModel):
 class Call(BaseModel):
     name: str = Field(max_length=40)
     args: dict = Field(default_factory=dict)
+
+    @field_validator("args")
+    @classmethod
+    def _small(cls, args):
+        # The picker sends a region, a few codes and a preset; the reply repeats the arguments,
+        # so an unbounded value would come back several times larger.
+        if len(json.dumps(args)) > MAX_ARGS_CHARS:
+            raise ValueError(f"tool arguments must be under {MAX_ARGS_CHARS} characters as JSON")
+        return args
 
 
 class ChatRequest(BaseModel):
