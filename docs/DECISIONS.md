@@ -299,15 +299,17 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
 - Revisit if: a rule changes before its review date, or the source watch is built.
 
 ## D24: How the web chat behaves
-- Chose: a one-page chat with no framework or build step, streaming each tool step and the answer
-  as server-sent events; the server keeps no conversation state. Follow-up questions send earlier
-  turns as text only, so the tools run again rather than reusing old results. A tool that returns
-  an error shows as a failed step and the model still answers; a crash ends the answer with an
-  error message. A data source is marked stale (amber) when its data ends more than 18 months
-  before today, or before the snapshot's own date for older snapshots
-  (`freshness.stale_after_months` in `config/sources.yaml`). The over-time question picks its two
-  versions itself and ignores the version picker. The rank / compare / profile picker also works
-  when a key is set, and its results stay out of the chat history.
+- Chose: a one-page chat with no framework or build step, streaming each tool step and the answer as
+  server-sent events; the server keeps no conversation state. Follow-up questions send earlier turns
+  as text only, so the tools run again rather than reusing old results. For a typed question with a
+  model key, a tool that returns an error shows as a failed step and the model still answers. The
+  rank / compare / profile picker, and the suggested questions when there is no key, run the tools
+  directly: a tool error ends that run with its message. A crash ends the answer with an error
+  message. A data source is marked stale (amber) when its data ends more than 18 months before
+  today, or before the snapshot's own date for older snapshots (`freshness.stale_after_months` in
+  `config/sources.yaml`). The over-time question picks its two versions itself and ignores the
+  version picker. The picker also works when a key is set, and its results stay out of the chat
+  history.
 - Over: reusing earlier tool results in follow-ups (a follow-up could quote numbers from another
   data version); a framework with a build step (more to install and explain for one page);
   keeping conversations on the server (state to store and clean up).
