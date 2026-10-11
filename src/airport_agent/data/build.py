@@ -9,7 +9,6 @@ The BTS step downloads about 12 × 32 MB; months already summarised are not down
 
 import argparse
 import sys
-import urllib.error
 from pathlib import Path
 
 from airport_agent.data import (
@@ -21,6 +20,7 @@ from airport_agent.data import (
 )
 from airport_agent.data.cache import (
     DEFAULT_CACHE_DIR,
+    NETWORK_ERRORS,
     load_config,
     now_utc,
     read_summary,
@@ -186,7 +186,7 @@ def build_ontime(
     """
     try:
         newest = bts_ontime.latest_available_month(exists, today=today)
-    except (urllib.error.URLError, TimeoutError) as error:
+    except NETWORK_ERRORS as error:
         raise BuildError(
             f"BTS on-time: can't reach BTS to find the newest month: {error}"
         ) from error
@@ -198,7 +198,7 @@ def build_ontime(
             _log(f"BTS on-time: {label} (download and summarise)")
             try:
                 zip_path = fetch(year, month, cache_dir)
-            except (urllib.error.URLError, TimeoutError) as error:  # HTTPError is a URLError
+            except NETWORK_ERRORS as error:  # HTTPError included: it is a URLError, an OSError
                 code = getattr(error, "code", None)
                 gaps[(year, month)] = (
                     f"BTS answered HTTP {code}" if code else f"download failed: {error}"

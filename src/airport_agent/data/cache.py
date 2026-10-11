@@ -9,6 +9,7 @@ The manifest says where the numbers came from and how current they are; `data` h
 Raw downloads sit next to the summaries and can be deleted once the summaries exist.
 """
 
+import http.client
 import json
 import urllib.parse
 import urllib.request
@@ -21,6 +22,9 @@ DEFAULT_CACHE_DIR = Path("data/cache")
 _REPO_CONFIG = Path(__file__).resolve().parents[3] / "config" / "sources.yaml"
 CONFIG_PATH = _REPO_CONFIG if _REPO_CONFIG.exists() else Path("config/sources.yaml")
 BUILD_COMMAND = "doppler run -- uv run python -m airport_agent.data"
+# What a failed download can raise: URLError and timeouts are OSErrors; a dropped connection or a
+# body cut off partway (RemoteDisconnected, ConnectionResetError, IncompleteRead) is not a URLError.
+NETWORK_ERRORS = (OSError, http.client.HTTPException)
 
 
 class CacheMissingError(FileNotFoundError):

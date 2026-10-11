@@ -23,7 +23,7 @@ import urllib.request
 from datetime import UTC, datetime
 from pathlib import Path
 
-from airport_agent.data.cache import get_json, write_json
+from airport_agent.data.cache import NETWORK_ERRORS, get_json, write_json
 from airport_agent.data.ourairports import great_circle_miles
 
 SOURCE = "OpenSky Network (estimated destinations)"
@@ -83,8 +83,8 @@ def fetch_departures(airport, days, cache_dir, now=None):
         return paths
     except urllib.error.HTTPError as error:
         raise OpenSkyUnavailable(f"OpenSky request failed (HTTP {error.code}).") from error
-    except urllib.error.URLError as error:
-        raise OpenSkyUnavailable(f"OpenSky could not be reached ({error.reason}).") from error
+    except NETWORK_ERRORS as error:
+        raise OpenSkyUnavailable(f"OpenSky could not be reached ({error}).") from error
 
 
 def load_flights(paths):

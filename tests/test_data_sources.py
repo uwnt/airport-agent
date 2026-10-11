@@ -1,5 +1,6 @@
 """Parsing and summarising each source, offline, on data/samples/."""
 
+import http.client
 import json
 import urllib.error
 from datetime import date
@@ -241,9 +242,38 @@ def test_missing_month_in_the_window_is_a_gap_not_filled(tmp_path):
     assert summary["data"]["BOS"]["months"] == 11 and summary["data"]["BOS"]["scheduled"] == 110
 
 
-def test_unreachable_bts_stops_the_build_with_a_reason(tmp_path):
+def test_dropped_connection_mid_download_is_a_gap(tmp_path):
+    # A server hanging up is not a URLError, so it needs its own test (review round 2).
+    window = bts_ontime.months_back(2026, 7, 12)
+    _cached_months(tmp_path, [m for m in window if m != (2026, 1)])
+
+    def fetch(year, month, cache_dir):
+        raise http.client.RemoteDisconnected("Remote end closed connection without response")
+
+    build.build_ontime(
+        tmp_path,
+        load_config(),
+        exists=lambda y, m: (y, m) <= (2026, 7),
+        fetch=fetch,
+        today=date(2026, 10, 11),
+    )
+    manifest = json.loads((tmp_path / "bts_ontime.json").read_text(encoding="utf-8"))["manifest"]
+    assert manifest["gaps"] == {
+        "2026-01": "download failed: Remote end closed connection without response"
+    }
+
+
+@pytest.mark.parametrize(
+    "error",
+    [
+        urllib.error.URLError("timed out"),
+        ConnectionResetError("reset by peer"),
+        http.client.IncompleteRead(b""),
+    ],
+)
+def test_unreachable_bts_stops_the_build_with_a_reason(tmp_path, error):
     def exists(year, month):
-        raise urllib.error.URLError("timed out")
+        raise error
 
     with pytest.raises(build.BuildError, match="can't reach BTS"):
         build.build_ontime(tmp_path, load_config(), exists=exists, today=date(2026, 10, 11))
