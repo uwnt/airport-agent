@@ -104,10 +104,10 @@ def load_cache(cache_dir=None, version=None):
 def _scope(airport, cache):
     manifest = cache[dot_fares.SUMMARY_NAME]["manifest"]
     if airport["state"] in cache["config"]["scope"]["excluded_states"]:
-        return False, f"not ranked: only lower-48 airports are ranked ({airport['state']}, D11)"
+        return False, f"not ranked: only lower-48 airports are ranked ({airport['state']})"
     if airport["data_code"] not in cache[dot_fares.SUMMARY_NAME]["data"]:
-        return False, f"not ranked: no DOT Table 1a rows for {manifest['as_of']} (D11)"
-    return True, f"ranked: lower 48 and in DOT Table 1a for {manifest['as_of']} (D11)"
+        return False, f"not ranked: no DOT Table 1a rows for {manifest['as_of']}"
+    return True, f"ranked: lower 48 and in DOT Table 1a for {manifest['as_of']}"
 
 
 def _add_dot_fares(airport, iata, cache, signals, missing):
@@ -298,7 +298,7 @@ def airport_metrics(code, cache_dir=None, cache=None, version=None):
 
 
 def all_airport_metrics(cache_dir=None, version=None):
-    """Metrics for every airport in scope (D11), sorted by IATA code; scoring ranks them all.
+    """Metrics for every airport in scope, sorted by IATA code; scoring ranks them all.
 
     A DOT code with no OurAirports airport can't be placed in a state, so it is left out here;
     the build lists every such code with its reason in the airports manifest (`unresolved_codes`).

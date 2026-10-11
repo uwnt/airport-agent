@@ -30,6 +30,10 @@ FIXED_QUESTIONS = [
         "Is there unmet demand at SFO, and why?",
         [("demand_pressure", {"code": "SFO"}), ("airport_profile", {"code": "SFO"})],
     ),
+    (
+        "How has SFO changed since 2019?",
+        [("compare_over_time", {"code": "SFO", "from_version": "2019-12", "to_version": "latest"})],
+    ),
 ]
 NO_KEY_HELP = (
     "No GEMINI_API_KEY is set, so there is no model: pick a fixed question instead.\n"
@@ -113,6 +117,37 @@ def _signal_table(signals):
     return lines
 
 
+def _change_table(result):
+    old, new = result["from"], result["to"]
+    lines = [f"{result['code']} {result['name']}: {old['version']} -> {new['version']}"]
+    for side in (old, new):
+        standing = (
+            f"score {side['score']:g}, rank {side['rank']} of {side['ranked_count']}"
+            if side["score"] is not None
+            else side["not_ranked"]
+        )
+        lines.append(f"  {side['version']:<20} {standing}")
+    lines.append(f"  {'Signal':<30} {'From':>10} {'To':>10} {'Change':>10}")
+    for name, s in result["signals"].items():
+        cells = []
+        for side in (s["from"], s["to"]):
+            if side is None:
+                cells.append("-")
+            else:
+                cells.append(
+                    f"{side['value_pct']:g}%" if "value_pct" in side else _fmt(side["value"])
+                )
+        if "change_pct_points" in s:
+            change = f"{s['change_pct_points']:+g} pts"
+        elif "change" in s:
+            c = s["change"]  # whole numbers in full: "+g" would print -3665101 as -3.6651e+06
+            change = f"{c:+,.0f}" if float(c).is_integer() else f"{c:+g}"
+        else:
+            change = s.get("note", "changed" if s.get("changed") else "same")
+        lines.append(f"  {name:<30} {cells[0]:>10} {cells[1]:>10} {change:>10}")
+    return lines
+
+
 def format_result(name, result):
     """A tool result as plain text lines, ending with its sources and dates."""
     if "error" in result:
@@ -123,6 +158,8 @@ def format_result(name, result):
     elif name == "demand_pressure" and result.get("ranked"):
         lines += [f"{result['code']} {result['name']}", *_signal_table(result["signals"])]
         lines.append(result["summary"])
+    elif name == "compare_over_time":
+        lines += _change_table(result)
     elif name == "airport_profile":
         lines.append(f"{result['code']} {result['name']} ({result['state']}): {result['scope']}")
         for metric, m in result["metrics"].items():

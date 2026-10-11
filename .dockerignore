@@ -19,7 +19,8 @@ dist
 
 # Not needed at runtime
 data/cache
-docs
+docs/*
+!docs/DOMAIN_NOTES.md
 tests
 scripts
 Makefile

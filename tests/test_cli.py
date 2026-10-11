@@ -38,12 +38,12 @@ def test_no_key_anchorage_question(monkeypatch, sample_cache):
 
 
 def test_no_key_picker(monkeypatch, sample_cache):
-    out = run_no_key(monkeypatch, sample_cache, "5", "BOS,BDL", "growth-focused")
+    out = run_no_key(monkeypatch, sample_cache, "6", "BOS,BDL", "growth-focused")
     assert "Preset: growth-focused" in out and "BDL" in out
 
 
 def test_no_key_error_is_printed_plainly(monkeypatch, sample_cache):
-    out = run_no_key(monkeypatch, sample_cache, "5", "Atlantis", "")
+    out = run_no_key(monkeypatch, sample_cache, "6", "Atlantis", "")
     assert "Error: Unknown region" in out
 
 
@@ -73,3 +73,12 @@ def test_chat_mode_prints_steps_then_answer_and_handles_reset():
     assert 'step: rank_airports({"region": "New England"})' in text
     assert text.index("step:") < text.index("agent> answer to Q1")
     assert session.sent == ["Q1"] and session.resets == 1
+
+
+def test_no_key_change_over_time_question_prints_a_change_table():
+    out = []
+    assert cli.no_key_mode(read=scripted("5", "/quit"), out=out.append) == 0
+    text = "\n".join(out)
+    assert "[compare_over_time]" in text and "SFO" in text and "2019-12 -> latest-" in text
+    assert "Change" in text and "Sources:" in text
+    assert "e+" not in text  # large changes in full, not in scientific notation
