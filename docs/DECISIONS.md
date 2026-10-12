@@ -332,3 +332,14 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
 - Because: equal number accuracy (every number in every answer was found in the tool results, for
   both) at a third of the cost.
 - Revisit if: a re-run shows Flash misreading tool results the fixes should have prevented.
+
+## D26: A public Fly site with a daily cap on model questions
+- Chose: a public site on Fly (`airport-agent.fly.dev`) for about two days around the hand-in,
+  open to anyone with no sign-in, with a daily cap on questions sent to the model
+  (`MAX_MODEL_QUESTIONS_PER_DAY`, 300 per UTC day, counted in memory). Over the cap, free-form
+  questions get a message; the suggested questions and the picker still run the tools.
+- Over: localhost only (reviewers can't try it live); an access code (friction for reviewers, for
+  a short exposure); no cap (one runaway client could run up model costs).
+- Because: reviewers can try the agent themselves with nothing to set up, and the cost of a
+  two-day exposure stays bounded (the Gemini key's own spending cap is the last guard).
+- Revisit if: the site stays up longer or the cap is hit.

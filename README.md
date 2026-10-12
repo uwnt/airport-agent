@@ -60,6 +60,23 @@ Then open http://localhost:8000/. The port is published on `localhost` only. Of 
 settings, only `GEMINI_MODEL` and `DATA_CHECK_MINUTES` are passed to the container
 (`docker-compose.yml`).
 
+## Deploy (Fly)
+The live site is https://airport-agent.fly.dev/ (the app name is set in `fly.toml`). It is public
+for about two days around the hand-in, so anyone can chat with it, with no sign-in. It sleeps when
+idle, so the first visit takes a few seconds to wake it.
+
+The one guard on the model's cost is a **daily cap**: `MAX_MODEL_QUESTIONS_PER_DAY` (300 on Fly,
+set in `fly.toml`; unset, as in local and Docker runs, means no cap) limits the questions sent to
+the model per UTC day. Over the cap, a free-form question gets a message saying so, and the
+suggested questions and the picker still work (they run the tools directly). The count is kept in
+memory, so it starts again when the machine restarts.
+
+`GEMINI_API_KEY` is a Fly secret, copied from the secrets manager (Doppler) by the deploy
+workflow; it is never in the repo or the image. Releases go `dev` → `stg` → `prod`; the `Deploy`
+workflow is started by hand on `prod`, builds the image on Fly, and checks that `/health` reports
+the deployed commit. **Rollback:** start the same workflow on the previous release tag
+(`gh workflow run deploy.yml --ref v1.2.3`); this redeploys that release without moving `prod`.
+
 ## Test
 ```bash
 uv run pytest                    # the tests
