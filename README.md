@@ -107,7 +107,7 @@ How that is kept honest:
   version of the pull request and records its verdict and findings on it. Each finding is fixed or
   declined with a reason before I merge. Any merged pull request shows the record.
 - **Guards** block secrets and unsafe commands. Secrets come only from a secrets manager, never
-  from files in the repo, and CI scans the history for secrets.
+  from files in the repo, and CI scans every pull request for secrets.
 - **Decisions are logged as they happen**: 26 entries in [docs/DECISIONS.md](docs/DECISIONS.md),
   each with what was chosen, what wasn't, and why.
 - **Numbers are checked, not trusted**: a tested checker confirms every number in the agent's
