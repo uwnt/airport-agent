@@ -12,7 +12,14 @@ A signal that is missing is None, and `Metrics.missing` says why
 
 from dataclasses import dataclass, field
 
-from airport_agent.data import bts_enplanements, bts_ontime, dot_fares, opensky, ourairports
+from airport_agent.data import (
+    bts_enplanements,
+    bts_ontime,
+    dot_fares,
+    faa_capacity,
+    opensky,
+    ourairports,
+)
 from airport_agent.data.cache import load_config, read_summary
 from airport_agent.data.store import snapshot_dir
 
@@ -27,6 +34,7 @@ SIGNALS = (
     "largest_carrier_share",
     "enplanements",
     "long_haul_share",
+    "bad_weather_capacity_loss",
 )
 
 
@@ -68,6 +76,7 @@ class Metrics:
     largest_carrier_share: Metric | None = None
     enplanements: Metric | None = None
     long_haul_share: Metric | None = None
+    bad_weather_capacity_loss: Metric | None = None
     missing: dict[str, str] = field(default_factory=dict)
     code_note: str | None = None
 
@@ -98,6 +107,7 @@ def load_cache(cache_dir=None, version=None):
     )
     summaries["lookup"] = ourairports.build_lookup(airports, codes)
     summaries["config"] = load_config()
+    summaries["faa_capacity"] = faa_capacity.load()
     return summaries
 
 
@@ -253,6 +263,25 @@ def _add_long_haul(airport, iata, cache, signals, missing):
         )
 
 
+def _add_capacity_loss(airport, iata, cache, signals, missing):
+    """FAA Table 1 (2014): runway capacity lost in bad weather, 30 airports (shown, not scored)."""
+    row = cache["faa_capacity"].get(iata)
+    if row is None:
+        missing["bad_weather_capacity_loss"] = (
+            "not one of the 30 airports in the FAA's 2014 capacity profiles"
+        )
+    else:
+        (v_low, v_high), (i_low, i_high) = row["visual"], row["instrument"]
+        signals["bad_weather_capacity_loss"] = Metric(
+            row["loss"],
+            "share of hourly runway capacity lost in instrument weather vs visual",
+            f"{faa_capacity.SOURCE} ({faa_capacity.URL})",
+            "2014",
+            f"visual {v_low}–{v_high}, instrument {i_low}–{i_high} operations an hour; "
+            "runway capacity only, not terminal space; shown, not scored",
+        )
+
+
 def _build(airport, cache):
     signals, missing = {}, {}
     in_scope, scope_reason = _scope(airport, cache)
@@ -262,6 +291,7 @@ def _build(airport, cache):
     _add_ontime(airport, iata, cache, signals, missing)
     _add_boardings(airport, iata, cache, signals, missing)
     _add_long_haul(airport, iata, cache, signals, missing)
+    _add_capacity_loss(airport, iata, cache, signals, missing)
 
     return Metrics(
         iata=iata,

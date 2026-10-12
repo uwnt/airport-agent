@@ -146,7 +146,13 @@ def test_point_in_time_freshness_is_judged_at_the_snapshot_date(web):
     assert body["version"] == "2019-12" and body["stale_reference"] == "2019-12-31"
     stale = {s["name"]: s["stale"] for s in body["sources"]}
     # 18 months by default: Dec 2018 is 12 months old, Sep 2019 3, 2017 Q2 (June 2017) 30.
-    assert stale == {"bts_enplanements": False, "bts_ontime": False, "dot_fares": True}
+    # The committed FAA table (2014) is listed with every snapshot and is always stale.
+    assert stale == {
+        "bts_enplanements": False,
+        "bts_ontime": False,
+        "dot_fares": True,
+        "faa_capacity": True,
+    }
 
 
 def test_unknown_version_is_refused(web):

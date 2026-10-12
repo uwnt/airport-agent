@@ -52,7 +52,12 @@ def _notes_path(repo=_REPO):
 
 DOMAIN_NOTES_PATH = _notes_path()
 DEFAULT_TOP = 10  # rows shown when a ranking asks for no region and no codes
-FRACTIONS = {"cancellation_rate", "largest_carrier_share", "long_haul_share"}
+FRACTIONS = {
+    "cancellation_rate",
+    "largest_carrier_share",
+    "long_haul_share",
+    "bad_weather_capacity_loss",
+}
 TOP_QUARTILE = 75
 BOTTOM_QUARTILE = 25
 

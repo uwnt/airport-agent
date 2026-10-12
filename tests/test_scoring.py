@@ -375,6 +375,15 @@ def test_region_and_codes_filter_but_keep_the_national_rank():
         rank(places, region="Atlantis", settings=settings())
 
 
+def test_shown_only_signals_are_not_scored():
+    assert SCORED_SIGNALS == (
+        "nas_delay_per_landed_flight",
+        "cancellation_rate",
+        "fare_premium",
+        "growth_vs_2019",
+    )
+
+
 def test_sample_cache_ranks_every_airport_with_real_settings(sample_cache):
     metrics = all_airport_metrics(sample_cache)
     results = rank(metrics, region="New England")

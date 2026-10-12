@@ -3,7 +3,7 @@
 import pytest
 from conftest import FETCHED_AT, SAMPLES
 
-from airport_agent.data import build, ourairports
+from airport_agent.data import build, faa_capacity, ourairports
 from airport_agent.data.cache import CacheMissingError, read_summary
 from airport_agent.data.metrics import (
     SIGNALS,
@@ -46,6 +46,16 @@ def test_sfo(sample_cache):
     assert sfo.nas_delay_per_landed_flight.value == pytest.approx(15.21, abs=0.01)
     # The fare sample holds only New England markets, so SFO has just its markets to them.
     assert sfo.fare_premium is not None and sfo.in_scope
+
+
+def test_bad_weather_capacity_loss_is_shown_for_the_30_airports(sample_cache):
+    sfo = airport_metrics("SFO", sample_cache).bad_weather_capacity_loss
+    assert sfo.value == pytest.approx(0.324, abs=1e-3)
+    assert sfo.as_of == "2014" and faa_capacity.URL in sfo.source
+    assert "visual 100–110, instrument 70–72" in sfo.note
+    oma = airport_metrics("OMA", sample_cache)  # not one of the 30
+    assert oma.bad_weather_capacity_loss is None
+    assert "not one of the 30 airports" in oma.missing["bad_weather_capacity_loss"]
 
 
 def test_airport_missing_from_table_1a(sample_cache):

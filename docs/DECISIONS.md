@@ -348,3 +348,18 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
 - Because: reviewers can try the agent themselves with nothing to set up, and the cost of a
   two-day exposure stays bounded (the Gemini key's own spending cap is the last guard).
 - Revisit if: the site stays up longer or the cap is hit.
+
+
+## D27: Bad-weather runway capacity as a committed reference table, shown only
+- Chose: Table 1 of the FAA's "Airport Capacity Profiles" (2014), typed into
+  `data/faa_capacity_profiles.yaml` and read directly (like `data/constraints.yaml`), giving a
+  shown-only signal `bad_weather_capacity_loss`: 1 minus the instrument-weather midpoint over the
+  visual-weather midpoint, for 30 airports. It carries as-of "2014" and a note that it is runway
+  capacity, not terminal space. It is not in the scoring and not in the snapshots.
+- Over: the newest per-airport profiles (2015 to 2019: mixed dates, and the numbers sit in
+  charts); scoring it (30 of about 138 airports would have it, so most would get no value);
+  putting it in the snapshots (a rebuild would refetch every source and change today's numbers).
+- Because: one dated table with numbers in text is the cheapest source we can check against the
+  report, and showing it adds a bad-weather angle without moving any rank.
+- Revisit if: the FAA publishes a newer summary table, or its coverage grows enough to score.
+- Decided by the owner on 2026-10-12 (source and shown-only).

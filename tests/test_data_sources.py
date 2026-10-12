@@ -14,6 +14,7 @@ from airport_agent.data import (
     bts_ontime,
     build,
     dot_fares,
+    faa_capacity,
     faa_nas_status,
     opensky,
     ourairports,
@@ -23,6 +24,36 @@ from airport_agent.data.metrics import airport_metrics
 
 AIRPORTS_CSV = SAMPLES / "ourairports_us_scheduled.csv"
 BANDS = [500, 1000, 1500]
+
+
+# --- FAA capacity profiles (committed reference table) -----------------------------------------
+
+
+def test_faa_capacity_summarises_the_real_table():
+    table = faa_capacity.load()
+    assert len(table) == 30
+    assert table["SFO"]["loss"] == pytest.approx(1 - 71 / 105)  # 0.324
+    assert table["BOS"]["loss"] == pytest.approx(0.295, abs=1e-3)
+    assert table["DFW"]["instrument"] == (170, 170)  # a single number is a range of one
+    # Arrival- and departure-priority rows are pooled: lowest low to highest high.
+    assert table["IAD"]["visual"] == (150, 164) and table["IAD"]["instrument"] == (108, 132)
+    assert all(0 < row["loss"] < 1 for row in table.values())
+
+
+@pytest.mark.parametrize(
+    "entry",
+    [
+        {"visual": [[10, 20]], "marginal": [[10, 20]]},  # no instrument
+        {"visual": [[10, 20]], "marginal": [[10, 20]], "instrument": []},
+        {"visual": [[20, 10]], "marginal": [[10, 20]], "instrument": [[5, 6]]},  # low > high
+        {"visual": [[10, 20]], "marginal": [[10, 20]], "instrument": [5]},  # not a range
+        {"visual": [[10, 20]], "marginal": [[10, 20]], "instrument": [["a", "b"]]},
+        "garbage",
+    ],
+)
+def test_faa_capacity_rejects_malformed_entries_naming_the_airport(entry):
+    with pytest.raises(ValueError, match="XYZ"):
+        faa_capacity.summarise({"XYZ": entry})
 
 
 # --- OurAirports -------------------------------------------------------------------------------

@@ -97,6 +97,12 @@ def test_profile_has_every_metric_with_source_and_missing_reasons(run):
     assert result["missing"]["long_haul_share"] == "computed only for Anchorage (OpenSky)"
 
 
+def test_profile_gives_the_capacity_loss_as_a_percentage(run):
+    sfo = run("airport_profile", code="SFO")["metrics"]["bad_weather_capacity_loss"]
+    assert sfo["value_pct"] == 32.4 and sfo["as_of"] == "2014"
+    assert "runway capacity only, not terminal space" in sfo["note"]
+
+
 def test_verified_facts_are_only_checked_rows_naming_the_airport():
     sna = tools.domain_facts("SNA")
     assert [f["note"] for f in sna] == [2, 3, 5]

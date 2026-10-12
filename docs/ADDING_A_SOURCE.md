@@ -63,6 +63,14 @@ repo root: code is under `src/airport_agent/data/`, samples are in the repo-root
   (D19).
 - State a domain fact only if it is marked verified in `docs/DOMAIN_NOTES.md` (D14).
 
+## A committed reference table (no fetch, no snapshot)
+A table that is published once and rarely changes can be a file in `data/` that the code reads
+directly, like `data/constraints.yaml`. `src/airport_agent/data/faa_capacity.py` and
+`data/faa_capacity_profiles.yaml` are the example (D27): a module with `SOURCE`, `URL`, `PATH`, a
+pure `summarise` that rejects malformed rows by airport, and a `load`. `metrics.py` reads it in
+`load_cache` and adds its Metric with the table's own as-of year, so it applies to every snapshot.
+There is no `fetch_…`, no `write_<name>` in `build.py` and no refresh; a new edition is a new file.
+
 ## Candidates (all unverified until checked)
 - **BTS T-100** segment data: seats offered, international traffic. Named in `docs/PLAN.md` as
   the ideal capacity data. Not tried; check access, size and publication lag first.
