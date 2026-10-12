@@ -8,6 +8,7 @@ and explaining results.
 - Build plan and reasoning: [docs/PLAN.md](docs/PLAN.md)
 - Decision log: [docs/DECISIONS.md](docs/DECISIONS.md)
 - Adding a data source: [docs/ADDING_A_SOURCE.md](docs/ADDING_A_SOURCE.md)
+- Demo script for the follow-up call: [docs/DEMO.md](docs/DEMO.md)
 - Real-model transcripts of the four example questions and the trap questions: [docs/examples/](docs/examples/)
 
 ## Setup
