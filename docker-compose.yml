@@ -1,5 +1,5 @@
 # Run the app with one command:  export GEMINI_API_KEY=...; docker compose up --build
-# Then open http://localhost:8000/health
+# Then open the chat at http://localhost:8000/  (health check: /health)
 # New data:  docker compose run --rm refresh [--as-of YYYY-MM]
 #   writes a snapshot into ./data/snapshots; `serve` switches to it within DATA_CHECK_MINUTES.
 services:

@@ -305,7 +305,16 @@ async function ask({ message = "", calls = [], label }) {
     });
     if (!response.ok) {
       const problem = await response.json().catch(() => ({}));
-      const detail = typeof problem.detail === "string" ? problem.detail : `The server answered ${response.status}.`;
+      // A refused request (422) sends a list of {msg, ...}; show the messages, minus pydantic's prefix.
+      const messages = Array.isArray(problem.detail)
+        ? problem.detail.map((d) => String((d && d.msg) || "").replace(/^Value error, /, "")).filter(Boolean)
+        : [];
+      const detail =
+        typeof problem.detail === "string"
+          ? problem.detail
+          : messages.length
+            ? messages.join(" ")
+            : `The server answered ${response.status}.`;
       fail(detail);
       return;
     }
