@@ -1,5 +1,7 @@
 """Web server: the chat page at /, its data at /info, answers at POST /chat, and /health.
 
+Talk mode (spoken questions, off unless TALK_MODE=on) is the WebSocket /talk: see talk.py.
+
 Run: doppler run -- uv run uvicorn airport_agent.server:app --host 127.0.0.1 --port 8100
 
 The page (static/: plain HTML, CSS and JavaScript, no build step) sends each question to
@@ -39,12 +41,12 @@ from datetime import UTC, date, datetime
 from pathlib import Path
 from typing import Literal
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, WebSocket
 from fastapi.responses import FileResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field, field_validator
 
-from airport_agent import cli, llm, tools
+from airport_agent import cli, llm, talk, tools
 from airport_agent.data import faa_capacity
 from airport_agent.data.cache import CacheMissingError, load_config
 from airport_agent.data.metrics import load_cache
@@ -316,6 +318,7 @@ def info(version: str = "latest"):
     )
     return {
         "model": llm.has_api_key(),
+        "talk": talk.enabled() and llm.has_api_key(),
         "versions": ["latest", *point_in_time_versions()],
         "version": name,
         "as_of": manifest["as_of"],
@@ -443,6 +446,16 @@ def _run_calls(calls, run_tool, emit):
     emit("done", {"text": "\n\n".join(parts)})
 
 
+def tool_runner(folder):
+    """run_tool(name, args) for answers from the snapshot in `folder`."""
+
+    def run_tool(name, args):
+        # compare_over_time reads two versions of its own choosing from the store.
+        return tools.run_tool(name, args, None if name == "compare_over_time" else folder)
+
+    return run_tool
+
+
 @app.post("/chat")
 def chat(request: ChatRequest):
     """Answer one question as server-sent events (see the module notes for the events)."""
@@ -450,10 +463,7 @@ def chat(request: ChatRequest):
         _, folder = snapshot_for(request.version)
     except LookupError as error:
         raise HTTPException(status_code=404, detail=str(error)) from error
-
-    def run_tool(name, args):
-        # compare_over_time reads two versions of its own choosing from the store.
-        return tools.run_tool(name, args, None if name == "compare_over_time" else folder)
+    run_tool = tool_runner(folder)
 
     fixed = dict(cli.FIXED_QUESTIONS)
     if request.calls:
@@ -487,3 +497,23 @@ def chat(request: ChatRequest):
 
     headers = {"Cache-Control": "no-cache", "X-Accel-Buffering": "no"}
     return StreamingResponse(_stream(work), media_type="text/event-stream", headers=headers)
+
+
+@app.websocket("/talk")
+async def talk_socket(ws: WebSocket, version: str = "latest"):
+    """A spoken conversation (Talk mode, off unless TALK_MODE=on): see talk.py for the frames."""
+    if not talk.same_origin(ws.headers):
+        await ws.close(code=1008)  # before accepting: the browser sees a refused connection
+        return
+    if not talk.enabled():
+        return await talk.refuse(ws, talk.OFF_MESSAGE)
+    if not llm.has_api_key():
+        return await talk.refuse(ws, NO_KEY_MESSAGE)
+    try:
+        _, folder = snapshot_for(version)
+    except LookupError as error:
+        return await talk.refuse(ws, str(error))
+    if not daily_cap.take():  # one Talk session counts as one question
+        return await talk.refuse(ws, CAP_MESSAGE)
+    await ws.accept()
+    await talk.relay(ws, tool_runner(folder))
