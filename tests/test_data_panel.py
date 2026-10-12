@@ -155,7 +155,7 @@ def test_one_local_refresh_at_a_time_then_once_an_hour(local):
     FakeProcess.last.release.set()
     state = wait_for("local")
     assert state["state"] == "done"
-    assert state["progress"] == "Published snapshot latest-x"
+    assert state["progress"] == "Publishing the snapshot"
     later = local.post("/data/refresh", json={"on": "local"}, headers=ORIGIN)
     assert later.status_code == 429
     assert "once per hour" in later.json()["detail"]
@@ -219,3 +219,76 @@ def test_failed_github_run_is_reported(web, monkeypatch):
     state = wait_for("github")
     assert state["state"] == "failed" and "GitHub is down" in state["message"]
     assert TOKEN not in web.get("/data/status").text
+
+
+def test_a_job_that_raises_anything_ends_failed(web, monkeypatch):
+    """A snapshot that can't load (here a TypeError) must not leave the job running forever."""
+    monkeypatch.setenv("DATA_RELEASES", "on")
+    monkeypatch.setattr(
+        releases,
+        "install_latest",
+        lambda store, repo: {"tag": "data-2026-10-19", "version": "x", "installed": True},
+    )
+
+    def broken_switch():
+        raise TypeError("list indices must be integers or slices, not str")
+
+    monkeypatch.setattr(data_panel, "switch", broken_switch)
+    assert web.post("/data/latest", headers=ORIGIN).status_code == 202
+    state = wait_for("latest")
+    assert state["state"] == "failed"
+    assert "TypeError" in state["message"] and "data in use stays" in state["message"]
+    assert not data_panel.jobs.busy()
+
+
+class UndecodableProcess(FakeProcess):
+    """A refresh whose output holds bytes that are not UTF-8, decoded the way Popen would."""
+
+    def __init__(self, args, **kwargs):
+        super().__init__(args, **kwargs)
+        self.release.set()
+        raw = b"OpenSky unavailable (\xff\xfe bad bytes)\nPublished snapshot latest-x\n"
+        errors = kwargs.get("errors") or "strict"
+        self.stdout = io.TextIOWrapper(io.BytesIO(raw), encoding="utf-8", errors=errors)
+
+
+def test_local_refresh_survives_undecodable_output(local, monkeypatch):
+    monkeypatch.setattr(data_panel.subprocess, "Popen", UndecodableProcess)
+    assert local.post("/data/refresh", json={"on": "local"}, headers=ORIGIN).status_code == 202
+    state = wait_for("local")
+    assert state["state"] == "done", state
+    assert state["progress"] == "Publishing the snapshot"
+
+
+def test_refresh_child_gets_no_token_or_key(monkeypatch):
+    secrets = {
+        "GITHUB_TOKEN",
+        "GH_TOKEN",
+        "DOPPLER_TOKEN",
+        "GEMINI_API_KEY",
+        "GITHUB_TOKEN_REFRESH",
+        "SOME_FUTURE_API_KEY",
+    }
+    for name in secrets:
+        monkeypatch.setenv(name, "x-not-a-real-value")
+    monkeypatch.setenv("OPENSKY_CLIENT_ID", "client")
+    monkeypatch.setenv("DATA_STORE", "file:///store")
+    monkeypatch.setenv("LC_ALL", "C.UTF-8")
+    env = data_panel._child_env()
+    assert not secrets & env.keys()  # names only: a failure must not print values
+    assert env["OPENSKY_CLIENT_ID"] == "client" and env["DATA_STORE"] == "file:///store"
+    assert env["LC_ALL"] == "C.UTF-8" and "PATH" in env
+
+
+@pytest.mark.parametrize(
+    ("line", "shown"),
+    [
+        ("OpenSky unavailable (401 for https://user:secret@example.test); using the sample",
+         "Working on OpenSky"),
+        ("DOT Table 1a: 2026 Q1 and 2019 Q1", "Working on DOT Table 1a"),
+        ("Published snapshot latest-x to FileStore('/somewhere')", "Publishing the snapshot"),
+        ("Traceback (most recent call last): token=abc", None),
+    ],
+)  # fmt: skip
+def test_progress_shows_only_the_source_name(line, shown):
+    assert data_panel._progress(line) == shown

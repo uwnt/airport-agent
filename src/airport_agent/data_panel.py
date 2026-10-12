@@ -129,8 +129,26 @@ latest_limit = RateLimit(60)
 startup_versions = set()  # snapshots in the store when the server started (see built_by)
 
 
-def _run(target, *args):
-    threading.Thread(target=target, args=args, daemon=True).start()
+def _finish(name, target, *args):
+    """Run job `name`; whatever it raises, it ends "done" or "failed", never stuck "running"."""
+    try:
+        target(*args)
+    except Exception as error:  # the job boundary: a stuck job would refuse every later one
+        log.warning("Data job %r stopped with an error: %r", name, error)
+        jobs.update(
+            name,
+            "failed",
+            message=f"The job stopped with an unexpected error ({type(error).__name__}); "
+            "the data in use stays.",
+        )
+    if jobs.snapshot()[name]["state"] == "running":
+        jobs.update(
+            name, "failed", message="The job ended without a result; the data in use stays."
+        )
+
+
+def _run(name, target, *args):
+    threading.Thread(target=_finish, args=(name, target, *args), daemon=True).start()
 
 
 def switch():
@@ -167,28 +185,51 @@ def start_release_check():
     if root is not None and root.is_dir():
         startup_versions.update(p.name for p in root.iterdir() if p.is_dir())
     if options()["latest"]["enabled"] and jobs.start("latest", "Checking for a data release"):
-        _run(_get_latest, "latest")
+        _run("latest", _get_latest, "latest")
+
+
+# What `airport-agent refresh` reads from the environment, and nothing else: an allowlist, so a
+# token added to the server later (GitHub, Doppler, the model's key) never reaches the child.
+CHILD_ENV = {
+    "PATH", "HOME", "LANG", "TZ", "PYTHONPATH", "PYTHONHOME", "PYTHONUTF8", "PYTHONIOENCODING",
+    "VIRTUAL_ENV", "SSL_CERT_FILE", "SSL_CERT_DIR",
+    "DATA_STORE", "OPENSKY_CLIENT_ID", "OPENSKY_CLIENT_SECRET",
+}  # fmt: skip
+# The sources refresh names at the start of its progress lines (build.py's _log).
+SOURCES = ("OurAirports", "DOT Table 1a", "BTS on-time", "BTS boardings", "OpenSky")
 
 
 def _child_env():
-    # The refresh process needs no GitHub or model credentials.
-    drop = {"GITHUB_TOKEN_REFRESH", "GEMINI_API_KEY"}
-    return {k: v for k, v in os.environ.items() if k not in drop}
+    return {k: v for k, v in os.environ.items() if k in CHILD_ENV or k.startswith("LC_")}
+
+
+def _progress(line):
+    """The public progress for one refresh output line: a source name only, never the raw text.
+
+    Raw lines can hold a download error or a store address; a fixed set of names can't leak.
+    None when the line names no step (the progress shown stays as it was).
+    """
+    if line.startswith("Published snapshot"):
+        return "Publishing the snapshot"
+    source = next((s for s in SOURCES if line.startswith(s)), None)
+    return f"Working on {source}" if source else None
 
 
 def _local_refresh():
-    """`airport-agent refresh` in a child process; its latest output line is the progress."""
+    """`airport-agent refresh` in a child process; the source it is on is the progress."""
     try:
         process = subprocess.Popen(
             [sys.executable, "-m", "airport_agent.data"],
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             text=True,
+            errors="replace",  # a stray byte in a download error must not stop the reading
             env=_child_env(),
         )
         for line in process.stdout:
-            if line.strip():
-                jobs.update("local", progress=line.strip()[:200])
+            progress = _progress(line.strip())
+            if progress:
+                jobs.update("local", progress=progress)
         code = process.wait()
     except OSError as error:
         log.warning("Local refresh could not start: %s", error)
@@ -309,7 +350,7 @@ def get_latest(request: Request):
     _limited(latest_limit, "Get latest data runs")
     if not jobs.start("latest", "Checking for a data release"):
         raise HTTPException(status_code=409, detail="A data job is already running.")
-    _run(_get_latest, "latest")
+    _run("latest", _get_latest, "latest")
     return status()
 
 
@@ -330,7 +371,7 @@ def refresh(body: RefreshRequest, request: Request):
     if not jobs.start(body.on, f"Refreshing on {where}"):
         raise HTTPException(status_code=409, detail="A data job is already running.")
     if body.on == "local":
-        _run(_local_refresh)
+        _run("local", _local_refresh)
     else:
-        _run(_github_refresh, os.environ["GITHUB_TOKEN_REFRESH"].strip())
+        _run("github", _github_refresh, os.environ["GITHUB_TOKEN_REFRESH"].strip())
     return status()
