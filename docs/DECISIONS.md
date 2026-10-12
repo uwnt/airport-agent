@@ -319,10 +319,11 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
 
 ## D25: Keep the Flash-tier model
 - Chose: `gemini-3.8-flash` at thinking level low, after running the four questions and five trap
-  questions on Flash and Pro (`docs/examples/`, both run 2026-10-11).
+  questions on Flash and Pro (`docs/examples/`; Pro run 2026-10-11, Flash re-run 2026-10-12
+  after this step's tool and prompt fixes).
 - Over: the Pro tier (`gemini-3.1-pro-preview`): about 3x the cost per question ($0.0170 against
-  $0.0058, with the token counts the API reports), slightly slower (108.3 s against 100.7 s for
-  the ten questions), and its errors were reasoning errors: it misread a tool error (said SJU is
+  $0.0057, with the token counts the API reports; Flash is $0.0079 estimated with tool results,
+  which the Pro run did not measure), slower (108.3 s against 63.4 s for the ten questions), and its errors were reasoning errors: it misread a tool error (said SJU is
   missing from the BTS data, which the error said holds it), treated a friction penalty as the
   reason SFO's runways were never moved, and claimed a "national average" the tools don't give.
   Flash's errors came mostly from tool wording (the count of ranked airports read as a rank,
