@@ -28,8 +28,9 @@ export GEMINI_API_KEY=...        # your key
 uv run uvicorn airport_agent.server:app --host 127.0.0.1 --port 8100
 ```
 
-Then open http://127.0.0.1:8100/. Voice input needs `localhost` or HTTPS for the microphone
-(and a browser with speech recognition, such as Chrome or Edge). `/health` reports which code is
+Then open http://127.0.0.1:8100/. Voice input needs a model key, `localhost` or HTTPS for the
+microphone, and a browser with speech recognition, such as Chrome or Edge; otherwise the
+microphone button is hidden. `/health` reports which code is
 running (`RELEASE_SHA` in an image, else the local git commit).
 
 Without a key there is no model, so free-form questions are off. The suggested questions and the
@@ -54,7 +55,9 @@ export GEMINI_API_KEY=...        # your key; it is passed to the container, neve
 docker compose up --build
 ```
 
-Then open http://localhost:8000/. The port is published on `localhost` only.
+Then open http://localhost:8000/. The port is published on `localhost` only. Of the optional
+settings, only `GEMINI_MODEL` and `DATA_CHECK_MINUTES` are passed to the container
+(`docker-compose.yml`).
 
 ## Test
 ```bash
