@@ -326,6 +326,7 @@ def test_tables_scroll_by_keyboard_and_short_hint_is_set_from_script():
     # The "How I got this" tables are marked when the panel opens and on resize while it is open.
     assert 'how.addEventListener("toggle"' in script and "markScrollers(how)" in script
     assert "details.how[open]" in script and 'class: "table-wrap"' in script
+    assert "if (view.how.open) markScrollers(view.how)" in script
     # A failure marks the tables only after the final draw, and stops stale frames.
     fail_body = script[
         script.index("const fail =") : script.index("try {", script.index("const fail ="))

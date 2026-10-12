@@ -314,6 +314,7 @@ async function ask({ message = "", calls = [], label }) {
         }
         view.howList.append(howItem(data.name, data.args, data.result));
         view.how.hidden = false;
+        if (view.how.open) markScrollers(view.how); // an open panel: mark the new table and renumber all
       } else if (event === "text") {
         text += data.text;
         if (!pending) {
