@@ -300,9 +300,47 @@ def test_the_page_keeps_its_history_within_the_server_limits():
     # long conversation starts failing with 422 until the page is reloaded.
     script = (Path(server.__file__).parent / "static" / "app.js").read_text(encoding="utf-8")
     turns = int(re.search(r"const MAX_TURNS = (\d+);", script)[1])
-    chars = int(re.search(r"const MAX_TURN_CHARS = (\d+);", script)[1])
-    history = [{"role": "user", "text": "x" * chars}] * turns
+    total = int(re.search(r"const MAX_HISTORY_CHARS = (\d+);", script)[1])
+    answer = int(re.search(r"const MAX_TURN_CHARS = (\d+);", script)[1])
+    history = [{"role": "user", "text": "x" * (total // turns)}] * turns
     server.ChatRequest(message="x", history=history)  # accepted, no ValidationError
+    # The page keeps whole question-and-answer pairs, and the latest pair always fits.
+    assert turns % 2 == 0
+    assert server.MAX_QUESTION_CHARS + answer <= total
+    longest = [
+        {"role": "user", "text": "x" * server.MAX_QUESTION_CHARS},
+        {"role": "model", "text": "x" * answer},
+    ]
+    server.ChatRequest(message="x", history=longest)
+
+
+def test_a_question_over_the_size_limit_is_refused(web):
+    too_long = "x" * (server.MAX_QUESTION_CHARS + 1)
+    assert web.post("/chat", json={"message": too_long}).status_code == 422
+    assert web.post("/chat", json={"message": too_long[:-1], "calls": [CALL]}).status_code == 200
+
+
+def test_more_than_ten_earlier_turns_are_refused(web):
+    turns = [{"role": "user", "text": "Hi"}, {"role": "model", "text": "Hello."}] * 6
+    assert len(turns) == server.MAX_HISTORY_TURNS + 2
+    reply = web.post("/chat", json={"calls": [CALL], "history": turns})
+    assert reply.status_code == 422
+    ok = web.post("/chat", json={"calls": [CALL], "history": turns[: server.MAX_HISTORY_TURNS]})
+    assert ok.status_code == 200
+
+
+def test_earlier_turns_over_the_total_size_are_refused_with_a_clear_message(web):
+    each = server.MAX_HISTORY_CHARS // 4
+    turns = [{"role": "user", "text": "x" * each}, {"role": "model", "text": "y" * each}] * 2
+    ok = web.post("/chat", json={"calls": [CALL], "history": turns})
+    assert ok.status_code == 200  # exactly at the limit
+    turns[-1] = {"role": "model", "text": "y" * (each + 1)}
+    reply = web.post("/chat", json={"calls": [CALL], "history": turns})
+    assert reply.status_code == 422
+    assert "at most 20000 are accepted" in json.dumps(reply.json())
+
+
+CALL = {"name": "airport_profile", "args": {"code": "BOS"}}
 
 
 def test_picker_arguments_are_size_limited():

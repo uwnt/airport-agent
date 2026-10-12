@@ -319,11 +319,17 @@ def info(version: str = "latest"):
 
 
 MAX_ARGS_CHARS = 1_000  # one picker call's arguments, as JSON
+# Request size (the site is public, and every character is sent to the model): one question, and
+# the earlier turns the page sends back as text so follow-ups work. The page (static/app.js) trims
+# its history to fit these, dropping the oldest question-and-answer pairs first.
+MAX_QUESTION_CHARS = 2_000
+MAX_HISTORY_TURNS = 10  # five questions and their answers
+MAX_HISTORY_CHARS = 20_000  # all earlier turns together
 
 
 class Turn(BaseModel):
     role: Literal["user", "model"]
-    text: str = Field(max_length=20_000)
+    text: str = Field(max_length=MAX_HISTORY_CHARS)
 
 
 class Call(BaseModel):
@@ -341,10 +347,23 @@ class Call(BaseModel):
 
 
 class ChatRequest(BaseModel):
-    message: str = Field("", max_length=2_000)
-    history: list[Turn] = Field(default_factory=list, max_length=40)
+    message: str = Field("", max_length=MAX_QUESTION_CHARS)
+    history: list[Turn] = Field(default_factory=list, max_length=MAX_HISTORY_TURNS)
     version: str = Field("latest", max_length=40)
     calls: list[Call] = Field(default_factory=list, max_length=4)  # the picker: tools to run
+
+    @field_validator("history")
+    @classmethod
+    def _history_small(cls, history):
+        # Each turn is under the limit on its own; together they must be too, or ten long turns
+        # would make one question ten times the size.
+        total = sum(len(turn.text) for turn in history)
+        if total > MAX_HISTORY_CHARS:
+            raise ValueError(
+                f"the earlier conversation is {total} characters; at most {MAX_HISTORY_CHARS} "
+                "are accepted (start a new conversation, or reload the page)"
+            )
+        return history
 
 
 CAP_MESSAGE = (

@@ -4,10 +4,21 @@
 "use strict";
 
 const $ = (selector) => document.querySelector(selector);
-// The server accepts at most 40 earlier turns of 20,000 characters each (ChatRequest in server.py):
-// keep the most recent ones, so a long conversation never starts failing.
-const MAX_TURNS = 40;
-const MAX_TURN_CHARS = 20000;
+// The server accepts at most 10 earlier turns and 20,000 characters of them in total (ChatRequest
+// in server.py): keep the most recent ones, so a long conversation never starts failing. One
+// answer is kept to 8,000 characters, so the latest question and answer (a question is at most
+// 2,000) always fit.
+const MAX_TURNS = 10;
+const MAX_HISTORY_CHARS = 20000;
+const MAX_TURN_CHARS = 8000;
+
+// Drop the oldest question-and-answer pairs until the history fits the server's limits.
+function trimHistory(history) {
+  const size = (turns) => turns.reduce((total, turn) => total + turn.text.length, 0);
+  let kept = history.slice(-MAX_TURNS);
+  while (kept.length && size(kept) > MAX_HISTORY_CHARS) kept = kept.slice(2);
+  return kept;
+}
 
 const state = { info: null, version: "latest", history: [], busy: false };
 
@@ -330,7 +341,7 @@ async function ask({ message = "", calls = [], label }) {
         markScrollers(view.body);
         if (message && !calls.length && state.info?.model) {
           state.history.push({ role: "user", text: message }, { role: "model", text: data.text.slice(0, MAX_TURN_CHARS) });
-          state.history = state.history.slice(-MAX_TURNS);
+          state.history = trimHistory(state.history);
         }
       } else if (event === "error") {
         fail(data.message);
