@@ -3,6 +3,7 @@
 import asyncio
 import json
 import shutil
+import threading
 import time
 from contextlib import asynccontextmanager
 
@@ -55,6 +56,9 @@ class FakeLive:
 
     async def events(self):
         for event in self.script:
+            if event["kind"] == "pause":  # a test step: wait until the test lets the model go on
+                await asyncio.to_thread(event["until"].wait)
+                continue
             yield event
             if event["kind"] == "tool_calls":
                 await self.answered.wait()
@@ -282,14 +286,20 @@ def test_refused_tool_calls_do_not_keep_a_session_from_going_idle(web, monkeypat
     monkeypatch.setattr(talk, "TICK_SECONDS", 0.01)
     monkeypatch.setenv("MAX_TOOL_CALLS", "1")
     calls = [tool_call("airport_profile", {"code": "BDL"}, "a")]
+    go_on = threading.Event()
     live.script = [
-        {"kind": "tool_calls", "calls": calls},
+        {"kind": "tool_calls", "calls": calls},  # runs at 0: the last real activity
         {"kind": "turn_complete"},
-        {"kind": "tool_calls", "calls": calls},
+        {"kind": "pause", "until": go_on},
+        {"kind": "tool_calls", "calls": calls},  # refused, just before the idle limit
     ]
     with connect(web) as ws:
-        wait_until(lambda: len(live.tool_results) == 2)  # the second was refused
-        clock[0] = talk.IDLE_SECONDS
+        wait_until(lambda: len(live.tool_results) == 1)
+        clock[0] = talk.IDLE_SECONDS - 1
+        go_on.set()
+        wait_until(lambda: len(live.tool_results) == 2)
+        clock[0] = talk.IDLE_SECONDS  # idle counted from 0, not from the refused call
+        wait_until(lambda: live.closed)
         message = talk.IDLE_MESSAGE.format(seconds=talk.IDLE_SECONDS)
         events = []
         while not events or events[-1]["event"] != "closed":
