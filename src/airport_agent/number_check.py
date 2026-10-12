@@ -11,9 +11,14 @@ What counts as a number in an answer:
 - Whole numbers and decimals, with thousands commas ("1,234") and an optional "%" or "pp"
   ("percentage points") after them. A leading minus sign is ignored, so "fell 1.2 pp" matches a
   tool's change of -1.2.
-- Not counted: dates (2026-10-11, 2019-12), standalone years from 1990 to 2035 ("since 2019"),
-  list markers at the start of a line ("1." or "2)"), and digits inside a word or code (KSFO,
-  A320) or joined to a word by a hyphen (lower-48, gemini-3). Digits followed by letters ("28L")
+- A leading-decimal number (".75") counts as 0.75.
+- Not counted: dates (2026-10-11, 2019-12); years, meaning a plain four-digit number from 1990
+  to 2035 that reads as a year: right after "in", "since", "of", "from", "to", "by", "until",
+  "through", "between", "and", "or", "vs", "before", "after" or a quarter ("Q1"), right before
+  a quarter ("2019 Q1"), or alone in brackets ("(2019)"). Any other such number counts ("2000
+  departures a day"). Also not counted: list markers at the start of a line ("1." or "2)"),
+  and digits inside a word or code (KSFO, A320) or joined to a word by a hyphen (lower-48,
+  gemini-3). Digits followed by letters ("28L")
   count as the number (28).
 - Cited note numbers ("note 6") are numbers like any other: the tools give each verified fact
   its note number, so a correct citation is found in the results.
@@ -25,6 +30,9 @@ When a stated number matches a tool number:
   (`value` 0.128) beside their percentage (`value_pct` 12.8);
 - tool numbers are every number value in a result, and every run of digits written inside its
   text, read loosely (a definition's "1,400 miles", a fact's "750 ft", a link's "7110.308B").
+  Dates in tool text are dropped first ("2026-10-11" gives no 11), and a run of digits counts
+  only where it starts a word or follows punctuation, not after a letter or digit, so an id
+  such as "tu9e" in a link or "Q1" gives nothing, while "JO_7110.308B" still gives 7110.308.
 Whole numbers match loosely (a stated 3 matches any tool number from 2.5 to 3.5), so the check
 catches invented figures, not small slips.
 """
@@ -33,12 +41,28 @@ import re
 from dataclasses import dataclass
 
 _DATE = re.compile(r"\b\d{4}-\d{2}(?:-\d{2})?\b")
+# In tool text, a date may sit inside a file name ("2017-07-10_JO"), where \b doesn't apply.
+_TOOL_DATE = re.compile(r"(?<!\d)\d{4}-\d{2}(?:-\d{2})?(?!\d)")
 _LIST_MARKER = re.compile(r"^(\s*)\d+[.)](?=\s)", re.M)
 _NUMBER = re.compile(
-    r"(?<![\w.,])(?<![A-Za-z]-)(\d{1,3}(?:,\d{3})+|\d+)(\.\d+)?"
+    r"(?<![\w.,])(?<![A-Za-z]-)(?:(\d{1,3}(?:,\d{3})+|\d+)(\.\d+)?|(\.\d+))"
     r"(?:\s?(%|pp\b|percentage points?\b))?"
 )
-_ANY_DIGITS = re.compile(r"\d{1,3}(?:,\d{3})+(?:\.\d+)?|\d+(?:\.\d+)?")
+_ANY_DIGITS = re.compile(r"(?<![A-Za-z0-9])(?:\d{1,3}(?:,\d{3})+(?:\.\d+)?|\d+(?:\.\d+)?)")
+_YEAR_BEFORE = re.compile(
+    r"(?:\b(?:in|since|of|from|to|by|until|through|between|and|or|vs\.?|before|after)|\bQ[1-4])\s*\(?$",
+    re.I,
+)
+_YEAR_AFTER = re.compile(r"^\s*Q[1-4]\b", re.I)
+
+
+def _reads_as_year(text, match):
+    """True if the four digits at `match` read as a year (see the module notes)."""
+    before, after = text[: match.start()], text[match.end() :]
+    bracketed = before.endswith("(") and after.startswith(")")
+    return bool(bracketed or _YEAR_BEFORE.search(before) or _YEAR_AFTER.match(after))
+
+
 _FIRST_YEAR, _LAST_YEAR = 1990, 2035
 
 
@@ -58,12 +82,14 @@ def numbers_in(text):
     text = _LIST_MARKER.sub(r"\1", text)
     found = []
     for match in _NUMBER.finditer(text):
-        whole, fraction, unit = match.groups()
+        whole, fraction, bare_fraction, unit = match.groups()
+        if bare_fraction:
+            whole, fraction = "0", bare_fraction
         decimals = len(fraction) - 1 if fraction else 0
         value = float(whole.replace(",", "") + (fraction or ""))
         unit = "pp" if unit and unit.startswith(("pp", "percentage")) else (unit or "")
         is_year = not fraction and not unit and "," not in whole and len(whole) == 4
-        if is_year and _FIRST_YEAR <= value <= _LAST_YEAR:
+        if is_year and _FIRST_YEAR <= value <= _LAST_YEAR and _reads_as_year(text, match):
             continue
         found.append(Stated(match.group(0).strip(), value, decimals, unit))
     return found
@@ -79,7 +105,8 @@ def tool_numbers(results):
         if isinstance(node, (int, float)):
             found.add(abs(float(node)))
         elif isinstance(node, str):
-            found.update(float(n.replace(",", "")) for n in _ANY_DIGITS.findall(node))
+            text = _TOOL_DATE.sub(" ", node)
+            found.update(float(n.replace(",", "")) for n in _ANY_DIGITS.findall(text))
         elif isinstance(node, dict):
             for value in node.values():
                 walk(value)

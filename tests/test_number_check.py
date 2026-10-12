@@ -71,3 +71,29 @@ def test_invented_numbers_are_flagged_once_each_in_order():
 
 def test_booleans_and_missing_values_are_not_numbers():
     assert texts(unsupported_numbers("1 airport", {"ranked": True, "x": None})) == ["1"]
+
+
+PROBE = {
+    "score": 48.2,
+    "checked": "2026-10-11",
+    "source": "https://x/tfrh-tu9e.json",
+    "as_of": "2026 Q1 vs 2019 Q1",
+}
+
+
+def test_dates_in_tool_text_do_not_support_a_number():
+    assert texts(unsupported_numbers("demand grew 11%", PROBE)) == ["11%"]
+
+
+def test_digits_inside_a_link_id_do_not_support_a_number():
+    assert texts(unsupported_numbers("ranked 9th", PROBE)) == ["9"]
+
+
+def test_a_four_digit_count_is_a_number_unless_it_reads_as_a_year():
+    assert texts(numbers_in("BOS handles 2000 departures a day")) == ["2000"]
+    assert texts(numbers_in("up since 2019 or 2021, in 2024, 2019 Q1 vs 2026 Q1 (2019)")) == []
+
+
+def test_a_leading_decimal_is_a_number():
+    found = numbers_in("a share of .75")
+    assert [(n.text, n.value, n.decimals) for n in found] == [(".75", 0.75, 2)]
