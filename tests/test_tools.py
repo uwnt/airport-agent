@@ -339,6 +339,12 @@ def test_compare_over_time_gives_each_signal_in_both_snapshots_with_its_change()
     assert "change_pct_points" not in delay
 
 
+def test_compare_over_time_leaves_out_the_single_2014_capacity_reading():
+    # The FAA table is one 2014 reading in every snapshot: a 0 change would read as "no change".
+    result = over_time(code="SFO", from_version="2019-12", to_version="latest")
+    assert "bad_weather_capacity_loss" not in result["signals"]
+
+
 def test_compare_over_time_flags_a_signal_missing_on_one_side_and_computes_no_change():
     # The Anchorage long-haul share is measured only in the latest snapshot
     result = over_time(code="ANC", from_version="2019-12", to_version="latest")
