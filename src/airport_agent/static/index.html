@@ -30,8 +30,39 @@
           <p id="fresh-rule" class="muted"></p>
         </div>
       </details>
+      <button type="button" id="data-open" class="icon-button" aria-haspopup="dialog"
+        aria-label="Data settings" title="Data: who built it, get newer data">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.4 13a7.5 7.5 0 0 0 0-2l2.1-1.6-2-3.5-2.5 1a7.4 7.4 0 0 0-1.7-1L15 3.3h-4l-.4 2.6a7.4 7.4 0 0 0-1.7 1l-2.5-1-2 3.5L6.6 11a7.5 7.5 0 0 0 0 2l-2.1 1.6 2 3.5 2.5-1a7.4 7.4 0 0 0 1.7 1l.4 2.6h4l.4-2.6a7.4 7.4 0 0 0 1.7-1l2.5 1 2-3.5L19.4 13ZM13 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Z" transform="translate(-1 0)"/></svg>
+      </button>
     </div>
   </header>
+
+  <!-- The Data panel: an architecture demo. In production, where data is built is a deployment
+       setting, not a visitor's choice; each disabled option says why. -->
+  <dialog id="data-panel" class="data-panel" aria-labelledby="data-title">
+    <div class="data-head">
+      <h2 id="data-title">Data</h2>
+      <button type="button" id="data-close" class="icon-button" aria-label="Close">✕</button>
+    </div>
+    <dl class="data-facts">
+      <dt>In use</dt><dd id="data-version">…</dd>
+      <dt>Built by</dt><dd id="data-built">…</dd>
+      <dt>As of</dt><dd><ul id="data-asof"></ul></dd>
+    </dl>
+    <div class="data-action">
+      <button type="button" id="data-latest" class="button" aria-describedby="data-latest-why">Get latest data</button>
+      <span id="data-latest-why" class="reason"></span>
+    </div>
+    <fieldset class="data-on">
+      <legend>Refresh on</legend>
+      <label class="option"><input type="radio" name="refresh-on" value="local" aria-describedby="why-local"> This machine</label>
+      <span id="why-local" class="reason"></span>
+      <label class="option"><input type="radio" name="refresh-on" value="github" aria-describedby="why-github"> GitHub Actions</label>
+      <span id="why-github" class="reason"></span>
+    </fieldset>
+    <button type="button" id="data-refresh" class="button">Refresh</button>
+    <p id="data-status" class="data-status" role="status"></p>
+  </dialog>
 
   <main id="main">
     <section id="welcome" class="welcome" aria-labelledby="welcome-title">

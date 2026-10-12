@@ -60,6 +60,17 @@ def snapshot_problem(folder):
     return None
 
 
+def sort_key(manifest):
+    """What `FileStore.latest()` orders snapshots by; ValueError if a field has the wrong type.
+
+    Ties: built last, then the later same-day name (latest-2026-10-11-2 after the plain one).
+    """
+    as_of, built_at, version = manifest["as_of"], manifest.get("built_at", ""), manifest["version"]
+    if not all(isinstance(field, str) for field in (as_of, built_at, version)):
+        raise ValueError("manifest as_of, built_at and version must be text")
+    return as_of, built_at, len(version), version
+
+
 _PLAIN = re.compile(r"^latest-\d{4}-\d{2}-\d{2}(-\d+)?$")
 
 
@@ -81,23 +92,21 @@ class FileStore:
         Other folders (a publish in progress or cut short, a broken manifest) are skipped; a
         broken one is logged in one line.
         """
-        manifests = []
+        keyed = []
         folders = sorted(p for p in self.root.iterdir() if p.is_dir()) if self.root.is_dir() else []
         for folder in folders:
             if not _PLAIN.match(folder.name):
                 continue
             problem = snapshot_problem(folder)
             if problem is None:
-                manifests.append(read_manifest(folder))
+                manifest = read_manifest(folder)
+                try:
+                    keyed.append((sort_key(manifest), manifest["version"]))
+                except ValueError as error:  # one bad folder must not take the server down
+                    log.warning("Skipping data snapshot %r in %r: %s", folder.name, self, error)
             elif _VERSION.match(folder.name):
                 log.warning("Skipping data snapshot %r in %r: %s", folder.name, self, problem)
-        if not manifests:
-            return None
-        # Ties: built last, then the later same-day name (latest-2026-10-11-2 after the plain one).
-        return max(
-            manifests,
-            key=lambda m: (m["as_of"], m.get("built_at", ""), len(m["version"]), m["version"]),
-        )["version"]
+        return max(keyed)[1] if keyed else None
 
     def get(self, version):
         """The local folder holding this version; raises CacheMissingError if it isn't complete."""

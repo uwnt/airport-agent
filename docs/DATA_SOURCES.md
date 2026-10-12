@@ -153,3 +153,20 @@ The four example questions: **Q1** New England expansion candidates · **Q2** LA
     a time; if a duplicate happens, a person closes it.
   - **The baseline is from the day it was recorded** (the `recorded` date in the file), not the
     day each fact was checked; a source that changed in between shows as "unchanged".
+
+## Data releases (the `Refresh data` workflow)
+`airport-agent refresh` can also run on GitHub's machine: the `Refresh data` workflow
+(`.github/workflows/refresh.yml`, weekly on Mondays or started by hand) builds a snapshot, checks
+it like any snapshot (manifest present, names its version, every listed file there), compares it
+with the previous data release (each source's as-of date and the national top 10) and publishes
+it as a GitHub release `data-YYYY-MM-DD` (`-2`, `-3` for a second run that day): the snapshot
+folder as one `.tar.gz`, its `manifest.json`, and the comparison as the release text. Running
+servers download the newest one (`data/releases.py`), refusing an archive that is not one complete
+snapshot (every summary listed and loading with the server's own loader), has a path or link
+outside it, or is over 2,000 files or 200 MB unpacked. OpenSky credentials are optional repository
+secrets (`OPENSKY_CLIENT_ID`, `OPENSKY_CLIENT_SECRET`); without them the release uses the committed
+OpenSky sample and its manifest says so. Rolling back bad data starts with deleting its release.
+Where a restart throws installed files away (Fly: the data store is inside the machine, with no
+volume), servers then load the previous release when they next start. Where installed files are
+kept (a data store on a disk or volume), also delete the installed `latest-…` folder from the
+data store; `DATA_RELEASES=off` stops a server from downloading releases at all.

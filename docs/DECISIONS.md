@@ -419,3 +419,23 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
 - Revisit if: an analyst's use shows capped airports should be hidden, or a backtest shows another
   Strain mix ranks past expansions better.
 - Decided by the owner on 2026-10-12.
+
+## D31: Data releases separate from code releases
+- Chose: a `Refresh data` workflow (weekly or by hand) builds the snapshot on GitHub's machine and
+  publishes it as a GitHub release `data-YYYY-MM-DD`; every running server downloads the newest
+  one at startup, in the background, with no token, and keeps the snapshot baked into its image
+  when GitHub can't be reached or the archive fails the snapshot checks. A Data panel shows who
+  built the data in use; refreshing on the server itself (`ALLOW_LOCAL_REFRESH=true`) and starting
+  the workflow from the page (`GITHUB_TOKEN_REFRESH`) are off unless a maintainer switches them on.
+- Over: new data through a pull request and a new image (fully reviewed, but every data update is
+  a redeploy); refreshing only inside the app's container (needs a few hundred MB of memory, and
+  anyone with the page could start heavy work); a worker and a queue (right at scale, too much
+  here); publishing straight into an object store (one more account and credential).
+- Because: new data reaches every copy without a rebuild, bad data rolls back by deleting its
+  release (on Fly, where a restart throws installed files away, servers load the previous one
+  when they next start; where installed files are kept, also delete the installed `latest-…`
+  folder from the data store, or set `DATA_RELEASES=off` to stop downloads), the app stays small and keeps
+  working when GitHub is down, and the only write permission is the workflow's own, on its
+  publishing job.
+- Revisit if: published data needs a person's review first (the workflow would open a pull request
+  and wait), or the snapshots outgrow release files.

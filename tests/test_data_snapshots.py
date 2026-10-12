@@ -359,3 +359,11 @@ def test_budget_fails_extra_snapshots(tmp_path):
     found = check.problems(tmp_path, files)
     assert any(p.startswith("2020-06: not one of") for p in found)
     assert any(p.startswith("more than one latest") for p in found)
+
+
+def test_latest_skips_a_snapshot_whose_manifest_cannot_be_sorted(tmp_path, make_snapshot, caplog):
+    """A built_at of the wrong type (here 5) is skipped with a log line, not a TypeError."""
+    make_snapshot("latest-2026-10-11", root=tmp_path)
+    make_snapshot("latest-2026-10-19", "2026-10-19", root=tmp_path, built_at=5)
+    assert FileStore(tmp_path).latest() == "latest-2026-10-11"
+    assert "latest-2026-10-19" in caplog.text
