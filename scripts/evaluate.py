@@ -157,7 +157,7 @@ def summarize(name, result):
     if name in ("rank_airports", "compare_airports"):
         lines = [
             f"preset {result.get('preset')}, weights {result.get('weights_pct')}, "
-            f"{result.get('ranked_nationally')} ranked nationally"
+            f"{result.get('ranked_count')} ranked nationally"
         ]
         lines += [_row_line(row) for row in result.get("rows", [])]
         lines += [f"not ranked: {n['code']} ({n['reason']})" for n in result.get("not_ranked", [])]

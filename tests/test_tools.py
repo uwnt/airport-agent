@@ -135,6 +135,18 @@ def test_demand_pressure_has_percentiles_and_a_summary_built_in_code(run):
     assert ", ".join(high) in result["summary"]
 
 
+def test_rank_count_is_named_apart_from_a_rank(run):
+    # The evaluation run: a count named ranked_nationally was read as "ranked 138 nationally".
+    ranking = run("rank_airports", region="New England")
+    pressure = run("demand_pressure", code="SFO")
+    for result in (ranking, pressure):
+        assert "ranked_nationally" not in result
+        assert result["ranked_count"] >= 2
+    assert all(1 <= r["national_rank"] <= ranking["ranked_count"] for r in ranking["rows"])
+    assert "national_rank" not in pressure
+    assert "not this airport's rank" in pressure["percentile_note"]
+
+
 def test_demand_pressure_outside_scope(run):
     result = run("demand_pressure", code="ANC")
     assert result["ranked"] is False and "lower-48" in result["reason"]

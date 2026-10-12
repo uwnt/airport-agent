@@ -123,6 +123,7 @@ def test_system_prompt_states_the_rules():
         "not investment advice",
         "out of scope",
         "Otherwise don't mention scope",
+        "Never state ranked_count as an airport's rank",
     ):
         assert rule in SYSTEM_PROMPT, rule
 

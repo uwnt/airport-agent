@@ -204,7 +204,7 @@ def rank_airports(
     result = {
         "preset": preset,
         "weights_pct": _weights_pct(settings, preset),
-        "ranked_nationally": _ranked_count(metrics_list, settings),
+        "ranked_count": _ranked_count(metrics_list, settings),
         "region": region,
         "rows": shown,
         "not_ranked": outside
@@ -515,14 +515,15 @@ def demand_pressure(code, cache_dir=None, settings=None):
         "code": row.code,
         "name": row.name,
         "ranked": True,
-        "ranked_nationally": _ranked_count(metrics_list, settings),
+        "ranked_count": _ranked_count(metrics_list, settings),
         "signals": signals,
         "friction": _row(row)["friction"],
         "confidence": row.confidence,
         "summary": f"{row.code}: " + "; ".join(parts) + ".",
         "percentile_note": (
-            "percentile 100 = highest of all airports ranked nationally; higher means more "
-            "strain or more growth"
+            "percentile 100 = highest of the ranked_count airports ranked nationally; higher "
+            "means more strain or more growth. ranked_count is how many airports are ranked, "
+            "not this airport's rank: this tool gives no rank (rank_airports gives national_rank)"
         ),
     }
 
@@ -546,7 +547,8 @@ TOOL_DECLARATIONS = [
         "type": "function",
         "name": "rank_airports",
         "description": (
-            "Rank US airports for terminal expansion: score 0-100, national rank, each "
+            "Rank US airports for terminal expansion: score 0-100, national_rank (out of "
+            "ranked_count airports ranked nationally), each "
             "signal's points, percentile and measured value with source and date, friction "
             "penalty, confidence. Give a region (e.g. 'New England', 'LA area') or codes, or "
             "neither for the national top list."

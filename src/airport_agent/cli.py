@@ -74,7 +74,7 @@ def _ranking_table(result):
     weights = ", ".join(f"{k} {v:g}%" for k, v in result.get("weights_pct", {}).items())
     lines = [
         f"Preset: {result['preset']} ({weights}). "
-        f"National rank out of {result.get('ranked_nationally', '?')} ranked airports.",
+        f"National rank out of {result.get('ranked_count', '?')} ranked airports.",
         "",
         f"{'#':>3} {'Natl':>4}  {'Airport':<36} {'Score':>5}  "
         f"{'delay':>6} {'cancel':>6} {'fare':>6} {'growth':>6}  {'Friction':<22} Confidence",

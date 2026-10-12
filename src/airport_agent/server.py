@@ -312,7 +312,7 @@ def summary(name, result):
         text = (
             f"**{top['code']} {top['name']}** ranks first here, with a score of {top['score']:g} "
             f"under the {result['preset']} preset (national rank {top['national_rank']} of "
-            f"{result['ranked_nationally']} ranked airports). The bars show each airport's points."
+            f"{result['ranked_count']} ranked airports). The bars show each airport's points."
         )
         not_ranked = [f"{n['code']} ({n['reason']})" for n in result.get("not_ranked", [])]
         return text + (" Not ranked: " + "; ".join(not_ranked) + "." if not_ranked else "")
