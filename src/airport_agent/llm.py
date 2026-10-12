@@ -468,7 +468,7 @@ def live_events(message):
 
 
 class LiveSession:
-    """An open Live API session: audio and text in, plain event dicts out (see `live_events`)."""
+    """An open Live API session: audio in, plain event dicts out (see `live_events`)."""
 
     def __init__(self, session):
         self._session = session
@@ -477,9 +477,6 @@ class LiveSession:
         await self._session.send_realtime_input(
             audio=types.Blob(data=pcm, mime_type=LIVE_INPUT_MIME)
         )
-
-    async def send_text(self, text):
-        await self._session.send_realtime_input(text=text)
 
     async def send_tool_results(self, results):
         """Answer tool calls: `results` is a list of (call id, tool name, result dict)."""
