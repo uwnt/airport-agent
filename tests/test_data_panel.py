@@ -329,3 +329,37 @@ def test_failure_messages_never_show_error_text(local, monkeypatch):
     fire("/data/refresh", "github", {"on": "github"})
     monkeypatch.setattr(data_panel.subprocess, "Popen", boom)  # the local process cannot start
     fire("/data/refresh", "local", {"on": "local"})
+
+
+@pytest.mark.parametrize(
+    ("error", "state", "message"),
+    [
+        (releases.ReleaseError(LEAKY, kind="none"), "done", "No data releases yet."),
+        (OSError(LEAKY), "failed", "Could not reach GitHub. The data in use stays."),
+        (
+            releases.ReleaseError(LEAKY, kind="no_snapshot"),
+            "failed",
+            "The release has no snapshot file. The data in use stays.",
+        ),
+        (
+            releases.ReleaseError(LEAKY, kind="too_large"),
+            "failed",
+            "The download was too large. The data in use stays.",
+        ),
+        (
+            releases.ReleaseError(LEAKY),
+            "failed",
+            "The release failed the data checks. The data in use stays.",
+        ),
+    ],
+)
+def test_release_check_says_why_in_fixed_words(web, monkeypatch, error, state, message):
+    monkeypatch.setenv("DATA_RELEASES", "on")
+
+    def fail(*args, **kwargs):
+        raise error
+
+    monkeypatch.setattr(releases, "install_latest", fail)
+    assert web.post("/data/latest", headers=ORIGIN).status_code == 202
+    assert wait_for("latest") == {"state": state, "message": message}
+    assert web.get("/data/status").json()["current"]["version"] == "latest-2026-10-11"

@@ -46,6 +46,16 @@ sleep = time.sleep  # tests replace it: no waiting
 OFF_HERE = "Disabled on this deployment"
 NEEDS_TOKEN = "Needs a maintainer token; use Get latest data"
 RELEASES_OFF = "Data releases are off on this deployment"
+# What the panel says when the release check stops, by ReleaseError kind: fixed words only,
+# never the error's own text (it can hold a path or an address).
+CANNOT_REACH = "Could not reach GitHub."
+RELEASE_MESSAGES = {
+    releases.NONE: "No data releases yet.",
+    releases.NO_SNAPSHOT: "The release has no snapshot file.",
+    releases.TOO_LARGE: "The download was too large.",
+    releases.CHECKS: releases.CHECKS_FAILED,
+    releases.REDIRECT: CANNOT_REACH,
+}
 
 
 def _server():
@@ -163,13 +173,12 @@ def _get_latest(job):
     try:
         result = releases.install_latest(_server()._store(), repo())
     except Exception as error:  # network, GitHub, a bad archive: report it, keep serving
+        kind = getattr(error, "kind", None)  # only a ReleaseError has one
+        if kind == releases.NONE:  # a normal state, not a failure
+            jobs.update(job, "done", message=RELEASE_MESSAGES[kind])
+            return False
         log.warning("Data release check failed, keeping the data in use: %s", error)
-        refused = isinstance(error, releases.ReleaseError)
-        why = (
-            "The release was refused: it failed the data checks."
-            if refused
-            else ("Could not reach GitHub.")
-        )
+        why = RELEASE_MESSAGES.get(kind, CANNOT_REACH)
         jobs.update(job, "failed", message=f"{why} The data in use stays.")
         return False
     in_use = switch()
