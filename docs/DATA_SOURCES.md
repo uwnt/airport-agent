@@ -117,12 +117,13 @@ The four example questions: **Q1** New England expansion candidates · **Q2** LA
   (menus, footers, scripts and date-like strings such as "Last updated …" are dropped), and a
   sha256 fingerprint is compared with the one in `data/fact_fingerprints.json`. A changed or
   vanished source is reported; with `--open-issue` (needs `GITHUB_TOKEN`) one GitHub issue names
-  the facts and quotes the old and new text. `--record` stores fresh fingerprints;
+  the facts and quotes the old and new text. `--record` stores only new URLs and prunes URLs no fact cites any more; a changed URL is
+  re-stored only with `--accept URL` (repeatable), after a person re-verified its facts;
   `refresh --check-facts` runs the same report after a refresh. The program never edits a fact:
   a person re-verifies.
-- **Outcomes:** unchanged (silent), changed, gone (404/410 or the host no longer exists),
-  unreachable (blocked, timeout, server error: "can't check", no alarm), new (no stored
-  fingerprint yet).
+- **Outcomes:** unchanged (silent), changed, gone (HTTP 404 or 410 only), unreachable (blocked,
+  timeout, DNS or connection error, server error: "can't check", no alarm), new (no stored
+  fingerprint yet). Only date phrases are stripped before comparing, never the words around them.
 - **Can't, or watch out:**
   - **It sees that text changed, not whether it matters.** A person decides.
   - **It misses changes reported elsewhere** (news before the source page itself changes).
