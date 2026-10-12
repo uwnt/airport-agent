@@ -114,7 +114,7 @@ Source run: [docs/examples/flash/a-new-england.md](examples/flash/a-new-england.
 - **Checked automatically.** A tested checker, run over every evaluation answer, confirms each
   number appears in a tool result; a test confirms each tool returns the same result twice.
 - **Results (Step 7, [docs/examples/](examples/)).** Four questions and five trick questions, on
-  Flash and Pro: every number was found in tool results on both. Flash: about 7 s and under one
+  Flash and Pro: every number was found in tool results on both. Flash: about 6 s and under one
   cent per question. Dollar ROI is declined as out of scope; a nonsense airport code gets the
   tool's error; "LA" is read as LAX.
 
@@ -135,8 +135,8 @@ Source run: [docs/examples/flash/a-new-england.md](examples/flash/a-new-england.
 - **Thin data.** Table 1a lists only the busiest markets, so small airports rest on part of their
   traffic; those are flagged low confidence.
 - **Penalties are judgement.** Each is sourced and dated, with a review date (D23).
-- **The model isn't perfect.** Asked to compare LAX and SNA on congestion, Flash reported the
-  ranks under the balanced preset rather than congestion-focused
+- **The model isn't perfect.** Asked to compare LAX and SNA on congestion, Flash led with the
+  balanced ranks and gave the congestion-focused ones only in a side note
   ([run](examples/flash/b-lax-vs-sna.md)). Every number stays tool-backed.
 
 ## What I'd do next
