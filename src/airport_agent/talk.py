@@ -106,10 +106,17 @@ async def relay(ws, run_tool, open_live=None, max_tool_calls=None):
                     await live.send_text(text[:MAX_TEXT_CHARS])
 
     async def from_model(live):
-        calls_this_turn, speaking = 0, False
+        calls_this_turn, speaking, answer_due = 0, False, False
         async for event in live.events():
             kind = event["kind"]
             active()
+            if kind == "turn_complete" and answer_due:
+                # The Live API ends the model's turn at a tool call and answers in a new turn
+                # once it has the results: the spoken exchange (and the page's card) goes on.
+                answer_due = False
+                continue
+            if kind in ("tool_calls", "audio", "said", "interrupted"):
+                answer_due = kind == "tool_calls"
             if kind == "audio":
                 if not speaking:
                     speaking = True

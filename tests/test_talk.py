@@ -170,6 +170,40 @@ def test_a_spoken_tool_call_runs_the_real_tool_and_draws_like_typed_chat(web, li
     assert live.tool_results == [("c1", "rank_airports", typed_result["result"])]
 
 
+def test_a_turn_ended_by_a_tool_call_does_not_end_the_spoken_exchange(web, live):
+    # The Live API ends the model's turn at a tool call and answers in a new turn after the
+    # tool results: the page must not hear "listening" in between, or it splits the card.
+    live.script = [
+        {"kind": "heard", "text": "Rank New England"},
+        {"kind": "tool_calls", "calls": [tool_call("rank_airports", NEW_ENGLAND)]},
+        {"kind": "turn_complete"},
+        {"kind": "audio", "data": b"\x01\x02"},
+        {"kind": "said", "text": "BDL ranks first."},
+        {"kind": "turn_complete"},
+    ]
+    with connect(web) as ws:
+        got = []
+        while len(got) < 2 or got[-1] != ("state", "listening"):
+            message = ws.receive()
+            if message.get("bytes"):
+                got.append(("audio", len(message["bytes"])))
+                continue
+            event = json.loads(message["text"])
+            got.append((event["event"], event["data"].get("state")))
+        leave(ws, live)
+    assert got == [
+        ("state", "listening"),
+        ("heard", None),
+        ("state", "thinking"),
+        ("tool_start", None),
+        ("tool_result", None),
+        ("state", "speaking"),
+        ("audio", 2),
+        ("said", None),
+        ("state", "listening"),
+    ]
+
+
 def test_speaking_state_comes_before_the_audio(web, live):
     live.script = [{"kind": "audio", "data": b"\x05\x06"}, {"kind": "turn_complete"}]
     with connect(web) as ws:
