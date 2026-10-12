@@ -10,7 +10,8 @@ primary_region = "iad" # US East, near the US data's users
 
 [env]
   # The site is public: cap the questions sent to the model per UTC day, so one runaway client
-  # cannot run up the bill. The count is in memory, so it starts again when the machine restarts.
+  # cannot run up the bill. The count is in memory, so it starts again when the machine stops or
+  # restarts; the Deploy workflow runs one machine (--ha=false), so this is the total, not per machine.
   MAX_MODEL_QUESTIONS_PER_DAY = "300"
 
 [http_service]

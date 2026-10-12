@@ -337,7 +337,12 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
 - Chose: a public site on Fly (`airport-agent.fly.dev`) for about two days around the hand-in,
   open to anyone with no sign-in, with a daily cap on questions sent to the model
   (`MAX_MODEL_QUESTIONS_PER_DAY`, 300 per UTC day, counted in memory). Over the cap, free-form
-  questions get a message; the suggested questions and the picker still run the tools.
+  questions get a message; the suggested questions and the picker still run the tools. The
+  deploy runs one machine (`--ha=false`), so the cap is 300 in total, not per machine; the count
+  starts again whenever the machine stops when idle or restarts, so it bounds a runaway client
+  rather than being an exact daily total. Each request is size-limited too (a 2,000-character
+  question, at most 10 earlier turns and 20,000 characters of history), so one question can't be
+  made huge.
 - Over: localhost only (reviewers can't try it live); an access code (friction for reviewers, for
   a short exposure); no cap (one runaway client could run up model costs).
 - Because: reviewers can try the agent themselves with nothing to set up, and the cost of a
