@@ -1,7 +1,7 @@
 # Fly.io app: the same image as the Dockerfile, built remotely by the Deploy workflow
 # (.github/workflows/deploy.yml), which passes RELEASE_SHA so /health reports the deployed commit.
-# Runtime secrets (GEMINI_API_KEY, ACCESS_CODE) are Fly secrets, set from the secrets manager;
-# they are never in this file. See the README, "Deploy (Fly)".
+# Runtime secrets (GEMINI_API_KEY) are Fly secrets, copied from the secrets manager by the Deploy
+# workflow; they are never in this file. See the README, "Deploy (Fly)".
 app = "airport-agent" # change here if the name is taken on Fly
 primary_region = "iad" # US East, near the US data's users
 
@@ -9,9 +9,9 @@ primary_region = "iad" # US East, near the US data's users
   dockerfile = "Dockerfile"
 
 [env]
-  # Free questions need the access code (ACCESS_CODE, a secret); this caps model questions per
-  # UTC day as a second guard. The count is in memory, so it restarts with the machine.
-  MAX_MODEL_QUESTIONS_PER_DAY = "200"
+  # The site is public: cap the questions sent to the model per UTC day, so one runaway client
+  # cannot run up the bill. The count is in memory, so it starts again when the machine restarts.
+  MAX_MODEL_QUESTIONS_PER_DAY = "300"
 
 [http_service]
   internal_port = 8000 # the port the Dockerfile's uvicorn listens on

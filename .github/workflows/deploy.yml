@@ -3,7 +3,7 @@
 # per release, and a rollback is the same workflow started on an older tag.
 # The only GitHub secret is DOPPLER_TOKEN_PRD, a read-only token for the secrets manager's
 # production config; FLY_API_TOKEN comes from there at run time. The app's runtime secrets
-# (GEMINI_API_KEY, ACCESS_CODE) are Fly secrets, set once from the same config (README).
+# (GEMINI_API_KEY) are copied from the same config to Fly by this workflow, before the deploy.
 name: Deploy
 
 on:
@@ -23,6 +23,7 @@ jobs:
   deploy:
     name: deploy
     runs-on: ubuntu-latest
+    environment: production
     timeout-minutes: 30
     env:
       DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN_PRD }}
@@ -42,6 +43,19 @@ jobs:
 
       - uses: dopplerhq/cli-action@4819d808ab99e5cde19a0637a16536a4038fad73 # v4
       - uses: superfly/flyctl-actions/setup-flyctl@ed8efb33836e8b2096c7fd3ba1c8afe303ebbff1 # 1.6
+
+      - name: Stage runtime secrets on Fly (applied by the deploy below)
+        run: |
+          # Only names listed in .env.example are copied; values never reach the log.
+          names=$(grep -oE '^[A-Z_][A-Z0-9_]*' .env.example | sort -u | paste -sd'|' -)
+          umask 077
+          doppler secrets download --no-file --format env-no-quotes \
+            | grep -E "^($names)=" > fly.env || true
+          if [ -s fly.env ]; then
+            doppler run -- flyctl secrets import --stage < fly.env # FLY_API_TOKEN from Doppler
+          fi
+          echo "staged $(wc -l < fly.env) runtime secret(s)"
+          rm -f fly.env
 
       - name: Deploy (remote build)
         env:
