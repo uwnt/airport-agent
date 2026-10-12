@@ -13,6 +13,11 @@ version picked. The answer comes back as server-sent events, in this order:
 Without GEMINI_API_KEY there is no model: the suggested questions and the picker run their tools
 directly, and the answer is a fixed-wording summary of the results.
 
+Daily cap (for the public site): MAX_MODEL_QUESTIONS_PER_DAY limits the questions sent to the
+model per UTC day; unset means no cap (local runs, Docker). Over the cap a free-form question gets
+an `error` event with CAP_MESSAGE, and a suggested question or the picker runs its tools directly,
+as without a model. The count is kept in memory (see DailyCap).
+
 Data: the server answers from one snapshot of the data store (DATA_STORE, see data/store.py),
 read fully into memory: the latest at startup. On use, once DATA_CHECK_MINUTES (default 5) have
 passed, it asks the store for its latest again and, if that is a new one, loads it and switches to
@@ -30,7 +35,7 @@ import threading
 import time
 from contextlib import asynccontextmanager
 from dataclasses import dataclass
-from datetime import date
+from datetime import UTC, date, datetime
 from pathlib import Path
 from typing import Literal
 
@@ -232,6 +237,54 @@ def is_stale(as_of, reference, months):
     return (reference.year - end[0]) * 12 + (reference.month - end[1]) > months
 
 
+# --- Daily cap on model questions (the public site) -------------------------------------------
+
+
+class DailyCap:
+    """Counts the questions sent to the model per UTC day and refuses those over the cap.
+
+    The count lives in memory only, so it starts again at 0 whenever the server restarts (and Fly
+    stops an idle machine and starts it on the next visit). It is a guard against one runaway
+    client, not an exact limit; the Gemini key's own spending cap is the last guard.
+    """
+
+    def __init__(self, clock=lambda: datetime.now(UTC).date()):
+        self.clock = clock
+        self.lock = threading.Lock()
+        self.day, self.count = None, 0
+
+    def limit(self):
+        """Today's cap from MAX_MODEL_QUESTIONS_PER_DAY, or None for no cap (the variable unset)."""
+        text = os.environ.get("MAX_MODEL_QUESTIONS_PER_DAY", "").strip()
+        if not text:
+            return None
+        try:
+            limit = int(text)
+        except ValueError:
+            limit = -1
+        if limit < 0:
+            # A typo must not switch the guard off on a public site.
+            log.warning("MAX_MODEL_QUESTIONS_PER_DAY=%r is not a whole number >= 0", text)
+            return INVALID_CAP_FALLBACK
+        return limit
+
+    def take(self):
+        """Count one model question; False (and not counted) if today's cap is already reached."""
+        limit = self.limit()
+        with self.lock:
+            today = self.clock()
+            if today != self.day:
+                self.day, self.count = today, 0
+            if limit is not None and self.count >= limit:
+                return False
+            self.count += 1
+            return True
+
+
+INVALID_CAP_FALLBACK = 300
+daily_cap = DailyCap()
+
+
 @app.get("/info")
 def info(version: str = "latest"):
     """What the page needs to draw itself: mode, versions, sources with as-of dates, choices."""
@@ -266,11 +319,17 @@ def info(version: str = "latest"):
 
 
 MAX_ARGS_CHARS = 1_000  # one picker call's arguments, as JSON
+# Request size (the site is public, and every character is sent to the model): one question, and
+# the earlier turns the page sends back as text so follow-ups work. The page (static/app.js) trims
+# its history to fit these, dropping the oldest question-and-answer pairs first.
+MAX_QUESTION_CHARS = 2_000
+MAX_HISTORY_TURNS = 10  # five questions and their answers
+MAX_HISTORY_CHARS = 20_000  # all earlier turns together
 
 
 class Turn(BaseModel):
     role: Literal["user", "model"]
-    text: str = Field(max_length=20_000)
+    text: str = Field(max_length=MAX_HISTORY_CHARS)
 
 
 class Call(BaseModel):
@@ -288,12 +347,29 @@ class Call(BaseModel):
 
 
 class ChatRequest(BaseModel):
-    message: str = Field("", max_length=2_000)
-    history: list[Turn] = Field(default_factory=list, max_length=40)
+    message: str = Field("", max_length=MAX_QUESTION_CHARS)
+    history: list[Turn] = Field(default_factory=list, max_length=MAX_HISTORY_TURNS)
     version: str = Field("latest", max_length=40)
     calls: list[Call] = Field(default_factory=list, max_length=4)  # the picker: tools to run
 
+    @field_validator("history")
+    @classmethod
+    def _history_small(cls, history):
+        # Each turn is under the limit on its own; together they must be too, or ten long turns
+        # would make one question ten times the size.
+        total = sum(len(turn.text) for turn in history)
+        if total > MAX_HISTORY_CHARS:
+            raise ValueError(
+                f"the earlier conversation is {total} characters; at most {MAX_HISTORY_CHARS} "
+                "are accepted (start a new conversation, or reload the page)"
+            )
+        return history
 
+
+CAP_MESSAGE = (
+    "This site has reached today's limit of questions to the model; it resets at midnight UTC. "
+    "The suggested questions and the rank / compare / profile picker still work."
+)
 NO_KEY_MESSAGE = (
     "Free-form questions need the model, and no GEMINI_API_KEY is set on the server. "
     "Pick a suggested question, or use the rank / compare / profile picker."
@@ -379,6 +455,13 @@ def chat(request: ChatRequest):
         if calls is None:
             return StreamingResponse(
                 iter([_event("error", {"message": NO_KEY_MESSAGE})]),
+                media_type="text/event-stream",
+            )
+    elif not daily_cap.take():
+        calls = fixed.get(request.message.strip())  # a suggested question still runs its tools
+        if calls is None:
+            return StreamingResponse(
+                iter([_event("error", {"message": CAP_MESSAGE})]),
                 media_type="text/event-stream",
             )
     else:

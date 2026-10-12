@@ -1,0 +1,90 @@
+# Deploy: build the image remotely on Fly and release it, then check /health reports this commit.
+# Started by hand only (no push trigger), and only on the `prod` branch or a release tag: one run
+# per release, and a rollback is the same workflow started on an older tag.
+# The only GitHub secret is a read-only token for the secrets manager's production config, stored
+# on the `production` environment and given only to the steps that call the secrets manager;
+# FLY_API_TOKEN comes from there at run time. The one runtime secret, GEMINI_API_KEY, is copied
+# from the same config to Fly by this workflow, before the deploy. Everything else the app reads
+# (the model name, the daily cap) is plain config in fly.toml [env].
+name: Deploy
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-fly
+  cancel-in-progress: false # never stop a release halfway
+
+permissions:
+  contents: read
+
+env:
+  APP_URL: https://airport-agent.fly.dev # matches `app` in fly.toml
+
+jobs:
+  deploy:
+    name: deploy
+    runs-on: ubuntu-latest
+    environment: production
+    timeout-minutes: 30
+    steps:
+      - name: Refuse anything but prod or a release tag
+        env:
+          REF: ${{ github.ref }}
+        run: |
+          case "$REF" in
+            refs/heads/prod | refs/tags/v*) echo "Deploying $REF" ;;
+            *) echo "::error::Deploy runs only on prod or a v* tag, not $REF"; exit 1 ;;
+          esac
+
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          persist-credentials: false
+
+      - uses: dopplerhq/cli-action@4819d808ab99e5cde19a0637a16536a4038fad73 # v4
+      - uses: superfly/flyctl-actions/setup-flyctl@ed8efb33836e8b2096c7fd3ba1c8afe303ebbff1 # 1.6
+
+      - name: Stage runtime secrets on Fly (applied by the deploy below)
+        env:
+          DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN_PRD }}
+        run: |
+          # An explicit allowlist: only GEMINI_API_KEY is copied. No file is written: the value
+          # goes from the secrets manager to Fly on stdin, masked in case anything echoes it.
+          # The shell runs with -e and pipefail, so a failed download fails the job.
+          key=$(doppler secrets get GEMINI_API_KEY --plain)
+          if [ -z "$key" ]; then
+            echo "::error::GEMINI_API_KEY is empty in the secrets manager's production config"
+            exit 1
+          fi
+          echo "::add-mask::$key"
+          printf 'GEMINI_API_KEY=%s\n' "$key" \
+            | doppler run -- flyctl secrets import --stage # FLY_API_TOKEN from the secrets manager
+          echo "staged GEMINI_API_KEY"
+
+      - name: Deploy (remote build, one machine)
+        env:
+          DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN_PRD }}
+          SHA: ${{ github.sha }}
+        # --ha=false: one machine, not Fly's default of two. The daily cap is counted in each
+        # machine's memory, so one machine keeps it at 300 questions in total; the count starts
+        # again whenever that machine stops (it sleeps when idle) or restarts.
+        run: >-
+          doppler run -- flyctl deploy --remote-only --ha=false --build-arg "RELEASE_SHA=$SHA"
+
+      - name: Check /health reports this commit
+        env:
+          SHA: ${{ github.sha }}
+        run: |
+          # The machine may still be starting: try for up to two minutes. `|| true` keeps one failed
+          # attempt from ending the loop early; the check after the loop fails the job.
+          for attempt in $(seq 1 24); do
+            commit=$(curl -fsS --max-time 10 "$APP_URL/health" | jq -r .commit || true)
+            if [ "$commit" = "$SHA" ]; then
+              echo "Live: $APP_URL runs $SHA"
+              exit 0
+            fi
+            echo "Attempt $attempt: /health reports '${commit:-nothing}', waiting"
+            sleep 5
+          done
+          echo "::error::$APP_URL/health does not report $SHA"
+          exit 1
