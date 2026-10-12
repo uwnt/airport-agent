@@ -3,10 +3,17 @@
 import json
 import re
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 
-from airport_agent.llm import SYSTEM_PROMPT, ChatSession, Settings, settings_from_env
+from airport_agent.llm import (
+    SYSTEM_PROMPT,
+    ChatSession,
+    GeminiClient,
+    Settings,
+    settings_from_env,
+)
 
 SRC = Path(__file__).resolve().parents[1] / "src"
 
@@ -380,3 +387,17 @@ def test_client_keeps_the_last_calls_usage_streamed_or_not():
     assert client.last_usage == {"total_input_tokens": 11}
     client.next_steps([], [], "prompt", on_text=lambda piece: None)
     assert client.last_usage == {"total_output_tokens": 3}
+
+
+def test_count_tokens_asks_the_api_counter_for_the_model_in_use():
+    asked = []
+
+    def count_tokens(model, contents):
+        asked.append((model, contents))
+        return SimpleNamespace(total_tokens=7)
+
+    client = GeminiClient.__new__(GeminiClient)  # no SDK client, so no key or network
+    client.settings = Settings("gemini-3.8-flash", 100, 8, 1)
+    client.client = SimpleNamespace(models=SimpleNamespace(count_tokens=count_tokens))
+    assert client.count_tokens('{"score": 55}') == 7
+    assert asked == [("gemini-3.8-flash", '{"score": 55}')]

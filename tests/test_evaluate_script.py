@@ -37,9 +37,15 @@ def fake_tool(name, args):
 def test_writes_a_transcript_per_conversation_and_an_index(tmp_path):
     script = load_script()
 
+    counted = []
+
+    def count_tokens(text):  # stands in for the API's token counter
+        counted.append(text)
+        return 500
+
     def make_chat():
         return ChatSession(
-            client=FakeModel(),
+            client=script.ToolResultMeter(FakeModel(), count_tokens),
             settings=Settings("gemini-3.8-flash", 100, 8, 1),
             tools=[],
             run_tool=fake_tool,
@@ -57,12 +63,22 @@ def test_writes_a_transcript_per_conversation_and_an_index(tmp_path):
     assert "Score 55; 77%." in region_switch
     assert "1 not found in tool results (need a look): 77%" in region_switch
     # Two model calls of 1,000 in and 100 out at $0.75 / $3.75 per million.
-    assert "- Cost: $0.0022" in region_switch
+    assert "- Cost (reported): $0.0022" in region_switch
+    # Question 1: the second call resends one tool result (500 tokens). Question 2: its first
+    # call resends that one, its second call both: 1,500. So 2,500 and 3,500 tokens in.
+    assert "- Tool-result input tokens (estimated): 500" in region_switch
+    assert "- Tool-result input tokens (estimated): 1,500" in region_switch
+    assert "- Cost (estimated with tool results): $0.0026" in region_switch
+    assert "- Cost (estimated with tool results): $0.0034" in region_switch
+    # Each distinct result text is counted once per chat, however often it is resent.
+    assert len(counted) == len(script.CONVERSATIONS)
     assert "/home/" not in region_switch and "<local path>" in region_switch
 
     readme = (out / "README.md").read_text(encoding="utf-8")
     assert readme.count("| [") == len(script.CONVERSATIONS)
-    assert "Average cost per question: $0.0022" in readme
+    assert "Average cost per question, reported: $0.0022" in readme
+    # 6,000 tool-result tokens over 10 questions: 600 more input tokens per question on average.
+    assert "Average cost per question, estimated with tool results: $0.0027" in readme
 
 
 def test_a_failed_model_call_is_written_down_and_the_run_goes_on(tmp_path):
@@ -83,7 +99,8 @@ def test_a_failed_model_call_is_written_down_and_the_run_goes_on(tmp_path):
     )
     text = (out / "f-trap-nonsense-code.md").read_text(encoding="utf-8")
     assert "The model call failed: TimeoutError: slow" in text
-    assert "Cost: unknown" in text
+    assert "Cost (reported): unknown" in text
+    assert "Cost (estimated with tool results): unknown" in text
     assert "(1 failed)" in (out / "README.md").read_text(encoding="utf-8")
 
 

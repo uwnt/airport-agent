@@ -14,8 +14,12 @@ the data doesn't cover, a code that isn't an airport, an out-of-scope question, 
 in a follow-up, and an ambiguous place name. Answers are written as the model gave them: this
 run is evidence, so nothing here tries to make them look better.
 
-Cost = input tokens x input price + (output + thinking tokens) x output price, from PRICES, using
-the token counts the API reports. See COST_CAVEAT: those counts look too low for the input.
+Cost = input tokens x input price + (output + thinking tokens) x output price, from PRICES. It is
+given twice: with the token counts the API reports, and estimated with tool results, since the
+reported input count seems to leave them out (COST_CAVEAT). For the estimate, ToolResultMeter
+counts, before each model call, the tokens of every tool result already in the conversation (the
+API's token counter, `GeminiClient.count_tokens`) and adds them to the input: each model call
+resends the whole history, so a tool result is billed again on every later call.
 """
 
 import argparse
@@ -27,7 +31,7 @@ import sys
 import time
 from pathlib import Path
 
-from airport_agent.llm import ChatSession, add_usage, settings_from_env
+from airport_agent.llm import ChatSession, GeminiClient, add_usage, settings_from_env
 from airport_agent.number_check import unsupported_numbers
 
 # (file name, questions in one chat). The first four are the chat's example questions.
@@ -61,10 +65,14 @@ PRICES = {
 }
 
 COST_CAVEAT = (
-    "The token counts are those the API reports. Checked 2026-10-11: the reported input count "
+    "Reported: the token counts the API reports. Checked 2026-10-11, the reported input count "
     "hardly grows when a tool result is sent back (a ranking result of about 11,000 characters "
-    "added about 30 input tokens), so tool results seem not to be counted, and the real input "
-    "cost may be higher than shown. No cache discount is applied."
+    "added 27 input tokens), so tool results seem not to be counted. Estimated with tool "
+    "results: before each model call, every tool result already in the conversation is counted "
+    "with the API's token counter and added to that call's input, because each model call "
+    "resends the whole conversation, so a tool result is billed again on every later call "
+    "(a follow-up question included). It is an estimate: the result is counted as plain text, "
+    "without the framing around it. No cache discount is applied to either."
 )
 
 _LOCAL_PATH = re.compile(r"(?<![\w:/.])/(?:root|home|tmp|Users|var|opt|srv|mnt)/[^\s\"'`)<>]*")
@@ -96,7 +104,53 @@ def money(cost):
     return "unknown" if cost is None else f"${cost:.4f}"
 
 
+def with_tool_results(usage, tool_result_tokens):
+    """`usage` with the estimated tool-result tokens added to its input; None if not known."""
+    if tool_result_tokens is None or not usage:
+        return None
+    total = dict(usage)
+    total["total_input_tokens"] = total.get("total_input_tokens", 0) + tool_result_tokens
+    return total
+
+
+def estimated_cost(model, usage, tool_result_tokens, on):
+    """The cost with tool results counted in the input (see COST_CAVEAT); None if unknown."""
+    usage = with_tool_results(usage, tool_result_tokens)
+    return None if usage is None else cost_usd(model, usage, on)
+
+
+class ToolResultMeter:
+    """Wraps a model client; before each call, adds up the tokens of the tool results it resends.
+
+    `count_tokens(text)` -> int counts one text (the API's counter in a real run); each distinct
+    text is counted once. `tool_result_tokens` is the running total over every call so far.
+    """
+
+    def __init__(self, client, count_tokens):
+        self.client, self.count_tokens = client, count_tokens
+        self.tool_result_tokens, self._counted = 0, {}
+
+    @property
+    def last_usage(self):
+        return getattr(self.client, "last_usage", None)
+
+    def next_steps(self, history, *args, **kwargs):
+        for step in history:
+            if step.get("type") == "function_result":
+                for part in step.get("result") or []:
+                    text = part.get("text") or ""
+                    if text not in self._counted:
+                        self._counted[text] = self.count_tokens(text)
+                    self.tool_result_tokens += self._counted[text]
+        return self.client.next_steps(history, *args, **kwargs)
+
+
 # --- Running the questions --------------------------------------------------------------------
+
+
+def _metered(chat):
+    """The chat's tool-result token total so far, or None if its client isn't metered."""
+    return getattr(chat.client, "tool_result_tokens", None)
 
 
 def run_conversation(chat, questions):
@@ -104,6 +158,7 @@ def run_conversation(chat, questions):
     turns, results_so_far = [], []
     for question in questions:
         started = time.perf_counter()
+        metered_before = _metered(chat)
         try:
             answer = chat.send(question)
         except Exception as error:  # the run goes on; the transcript shows the failure
@@ -114,6 +169,7 @@ def run_conversation(chat, questions):
                     "seconds": time.perf_counter() - started,
                     "calls": [],
                     "usage": {},
+                    "tool_result_tokens": None,
                     "text": "",
                     "unsupported": [],
                     "stopped_at_limit": False,
@@ -130,6 +186,9 @@ def run_conversation(chat, questions):
                 "seconds": seconds,
                 "calls": answer.tool_calls,
                 "usage": answer.usage,
+                "tool_result_tokens": (
+                    None if metered_before is None else _metered(chat) - metered_before
+                ),
                 "text": answer.text,
                 "unsupported": unsupported,
                 "stopped_at_limit": answer.stopped_at_limit,
@@ -201,6 +260,16 @@ def _tokens(usage):
     )
 
 
+def _count(tokens):
+    return "unknown" if tokens is None else f"{tokens:,}"
+
+
+def _sum_known(values):
+    """The sum, or None if any value is None."""
+    values = list(values)
+    return None if any(v is None for v in values) else sum(values)
+
+
 def transcript(name, model, turns, on):
     """One conversation as Markdown."""
     lines = [f"# {name}", "", f"Model: `{model}`. Run on {on.isoformat()}.", ""]
@@ -234,8 +303,11 @@ def transcript(name, model, turns, on):
             "### Run",
             "",
             f"- Seconds: {turn['seconds']:.1f}",
-            f"- Tokens: {_tokens(turn['usage'])}",
-            f"- Cost: {money(cost_usd(model, turn['usage'], on))}",
+            f"- Tokens (reported): {_tokens(turn['usage'])}",
+            f"- Tool-result input tokens (estimated): {_count(turn['tool_result_tokens'])}",
+            f"- Cost (reported): {money(cost_usd(model, turn['usage'], on))}",
+            "- Cost (estimated with tool results): "
+            f"{money(estimated_cost(model, turn['usage'], turn['tool_result_tokens'], on))}",
             f"- Number check: {check}",
             "",
         ]
@@ -251,18 +323,21 @@ def index(model, settings, rows, on):
         f"{settings.thinking_level}, at most {settings.max_tool_calls} tool calls per question. "
         "Each conversation is a fresh chat; the answers are as the model gave them.",
         "",
-        "| Conversation | Questions | Seconds | Tool calls | Tokens (in / out / thinking) "
-        "| Cost (USD) | Numbers not found in tool results |",
-        "|---|---|---|---|---|---|---|",
+        "| Conversation | Questions | Seconds | Tool calls | Tokens reported (in / out / "
+        "thinking) | Tool-result input tokens (estimated) | Cost reported (USD) "
+        "| Cost estimated with tool results (USD) | Numbers not found in tool results |",
+        "|---|---|---|---|---|---|---|---|---|",
     ]
-    total_cost, questions, cost_known = 0.0, 0, True
+    costs, estimates, questions = [], [], 0
     for name, turns in rows:
         usage = {}
         for turn in turns:
             add_usage(usage, turn["usage"])
+        tool_tokens = _sum_known(t["tool_result_tokens"] for t in turns)
         cost = cost_usd(model, usage, on)
-        cost_known = cost_known and cost is not None
-        total_cost += cost or 0.0
+        estimate = estimated_cost(model, usage, tool_tokens, on)
+        costs.append(cost)
+        estimates.append(estimate)
         questions += len(turns)
         flagged = sum(len(t["unsupported"]) for t in turns)
         failed = sum(1 for t in turns if t.get("error"))
@@ -270,13 +345,18 @@ def index(model, settings, rows, on):
             f"| [{name}]({name}.md) | {len(turns)}"
             + (f" ({failed} failed)" if failed else "")
             + f" | {sum(t['seconds'] for t in turns):.1f} | {sum(len(t['calls']) for t in turns)}"
-            f" | {_tokens(usage)} | {money(cost)} | {flagged} |"
+            f" | {_tokens(usage)} | {_count(tool_tokens)} | {money(cost)} | {money(estimate)}"
+            f" | {flagged} |"
         )
-    average = total_cost / questions if cost_known and questions else None
+    lines.append("")
+    for label, values in (("reported", costs), ("estimated with tool results", estimates)):
+        total = _sum_known(values)
+        average = total / questions if total is not None and questions else None
+        lines.append(
+            f"Average cost per question, {label}: {money(average)} "
+            f"(total {money(total)}, {questions} questions)."
+        )
     lines += [
-        "",
-        f"Average cost per question: {money(average)} "
-        f"(total {money(total_cost if cost_known else None)}, {questions} questions).",
         "",
         f"Prices: {PRICES_SOURCE}, checked {PRICES_CHECKED}. Cost = input tokens x input price "
         "+ (output + thinking tokens) x output price.",
@@ -301,7 +381,14 @@ def main(argv=None, make_chat=None, today=None):
     parser.add_argument("--only", nargs="*", help="run only these conversations (file names)")
     args = parser.parse_args(argv)
     settings = dataclasses.replace(settings_from_env(), model=args.model)
-    make_chat = make_chat or (lambda: ChatSession(settings=settings))
+    if make_chat is None:
+
+        def make_chat():
+            client = GeminiClient(settings)
+            return ChatSession(
+                client=ToolResultMeter(client, client.count_tokens), settings=settings
+            )
+
     on = today or datetime.date.today()
     args.out.mkdir(parents=True, exist_ok=True)
     rows = []
@@ -315,9 +402,11 @@ def main(argv=None, make_chat=None, today=None):
         )
         rows.append((name, turns))
         for turn in turns:
+            estimate = estimated_cost(args.model, turn["usage"], turn["tool_result_tokens"], on)
             print(
                 f"  {turn['seconds']:.1f} s, {len(turn['calls'])} tool calls, "
-                f"{money(cost_usd(args.model, turn['usage'], on))}, "
+                f"{money(cost_usd(args.model, turn['usage'], on))} reported, "
+                f"{money(estimate)} estimated with tool results, "
                 f"{len(turn['unsupported'])} numbers not found"
                 + (f", FAILED: {turn['error']}" if turn.get("error") else ""),
                 flush=True,

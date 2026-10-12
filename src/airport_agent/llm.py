@@ -40,6 +40,9 @@ response's `steps` include `function_call` steps (id, name, arguments), answered
 for a function call also its id and name), `step.delta` (`text`, `thought_signature`, or
 `arguments_delta`: a piece of the arguments' JSON, to be joined), `step.stop`,
 `interaction.completed` (no steps in it, but the call's `usage`) and `error`.
+Token counting (read 2026-10-12): `client.models.count_tokens(model=..., contents=text)` returns
+`total_tokens`, the input tokens of that text, without a model call.
+- https://ai.google.dev/gemini-api/docs/tokens
 - https://ai.google.dev/gemini-api/docs/streaming
 - https://ai.google.dev/gemini-api/docs/function-calling
 - https://ai.google.dev/gemini-api/docs/models
@@ -188,6 +191,11 @@ class GeminiClient:
         stream = self.client.interactions.create(**request, stream=True)
         events = (event.model_dump(mode="json", exclude_none=True) for event in stream)
         return assemble_steps(events, on_text, usage=self.last_usage)
+
+    def count_tokens(self, text):
+        """How many input tokens `text` is for this model, by the API's counter (no model call)."""
+        response = self.client.models.count_tokens(model=self.settings.model, contents=text)
+        return response.total_tokens or 0
 
 
 class ModelError(RuntimeError):
