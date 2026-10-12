@@ -110,3 +110,46 @@ The four example questions: **Q1** New England expansion candidates · **Q2** LA
   - **Shown only, not scored** (decision D27).
   - Where the table has separate arrival-priority and departure-priority rows, we take the lowest
     low to the highest high across both.
+
+## Fact-source watch (`airport-agent check-facts`)
+- **Gives:** a re-check of the page behind every verified fact in `docs/DOMAIN_NOTES.md` and every
+  constraint in `data/constraints.yaml`. Each URL is downloaded once, reduced to its visible text,
+  and a sha256 fingerprint is compared with the one in `data/fact_fingerprints.json`. A changed or
+  vanished source is reported. `refresh --check-facts` runs the same report after a refresh. The
+  program never edits a fact: a person re-verifies.
+- **The rule: a missed change costs more than a false alarm.** A false alarm costs a person a
+  minute; a missed change leaves a wrong fact in place. So normalising removes only what is clearly
+  not content: the text inside `script` and `style` (if either is left unclosed, the whole page's
+  text is kept), a date that directly follows a "last updated / modified / reviewed" or "page last
+  ..." label (also with a weekday, "4 March 2026" or an ISO date-time), and a copyright mark with
+  its year(s). Menus and footers are kept. Every other date stays, including a bare "updated on"
+  date. Whitespace is collapsed; nothing else is removed.
+- **Listing pages:** the FAA PFC page, the Alaska airport press releases and the SNA reports page
+  can alarm when a new item is posted, because each holds the fact itself. A person looks and
+  closes the issue. A possible follow-up: compare each fact's quoted wording instead of the page.
+- **Not watched:** a page that changes by design is listed in `NOT_WATCHED` in
+  `src/airport_agent/data/fact_watch.py` with its reason, shown as "not watched (reason)", never
+  downloaded and given no fingerprint. Today that is the BTS download listing behind note 10 ("a
+  download listing that gains a file every month").
+- **A new source:** a source with no stored fingerprint shows as "new". The test that every cited
+  source has a stored fingerprint keeps an unrecorded source from merging; it is the check for this case.
+- **Issues:** `--open-issue` (needs `GITHUB_TOKEN`) opens one issue naming the facts and quoting
+  the old and new text. If one is already open, the run adds one comment to it naming only the
+  changed or gone sources that the issue and its comments do not name yet (nothing if all are named).
+  A source counts as named only if its exact URL appears whole in the issue or in a comment written
+  after the date its fingerprint was last recorded; comments are read page by page.
+- **Recording:** `--accept URL` (repeatable, after a person re-verified its facts) rewrites only
+  that URL, and that URL is not reported or filed in the same run. Only `--record` stores new sources and prunes ones no fact cites any more.
+- **Outcomes:** unchanged (silent), changed, gone (HTTP 404 or 410 only), unreachable (blocked,
+  timeout, DNS or connection error, server error: "can't check", no alarm), new (no stored
+  fingerprint yet), not watched.
+- **Can't, or watch out:**
+  - **It sees that text changed, not whether it matters.** A person decides.
+  - **It misses changes reported elsewhere** (news before the source page itself changes).
+  - **PDFs and other files are fingerprinted by their bytes, which is coarser:** a re-saved PDF
+    alarms although its words are the same.
+  - **Search-index lag:** the GitHub search can lag a few seconds, so two runs started within
+    seconds of each other could each open an issue. The watch runs by hand or monthly, one run at
+    a time; if a duplicate happens, a person closes it.
+  - **The baseline is from the day it was recorded** (the `recorded` date in the file), not the
+    day each fact was checked; a source that changed in between shows as "unchanged".
