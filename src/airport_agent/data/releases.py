@@ -23,9 +23,10 @@ import tarfile
 import tempfile
 import urllib.parse
 import urllib.request
+from datetime import date, datetime
 from pathlib import Path, PurePosixPath
 
-from airport_agent.data.store import open_store, read_manifest, snapshot_problem
+from airport_agent.data.store import open_store, read_manifest, snapshot_problem, sort_key
 
 API = "https://api.github.com"
 DEFAULT_REPO = "uwnt/airport-agent"
@@ -145,6 +146,17 @@ def check(folder):
     unlisted = [s for s in SUMMARIES if f"{s}.json" not in (listed or [])]
     if not isinstance(listed, list) or unlisted:
         raise ReleaseError(f"snapshot {name!r} doesn't list {', '.join(unlisted) or 'its files'}")
+    manifest = read_manifest(folder)
+    try:
+        sort_key(manifest)  # what the store orders by
+        date.fromisoformat(manifest["as_of"])
+        if not manifest.get("built_at"):
+            raise ValueError("no built_at")
+        datetime.fromisoformat(manifest["built_at"])
+    except (ValueError, KeyError, TypeError) as error:
+        raise ReleaseError(
+            f"snapshot {name!r} has a bad as_of or built_at in its manifest"
+        ) from error
     from airport_agent.data.metrics import load_cache  # the loader the server uses
 
     try:

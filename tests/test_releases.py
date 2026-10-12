@@ -156,6 +156,43 @@ def test_release_that_does_not_load_is_refused(monkeypatch, tmp_path, make_snaps
     assert sorted(p.name for p in store.root.iterdir()) == ["latest-2026-10-11"]
 
 
+@pytest.mark.parametrize(
+    "fields",
+    [
+        {"built_at": None},
+        {"built_at": 5},
+        {"built_at": ""},
+        {"built_at": "yesterday"},
+        {"as_of": None},
+        {"as_of": "October"},
+    ],
+)
+def test_release_with_a_bad_manifest_field_is_refused(monkeypatch, tmp_path, make_snapshot, fields):
+    """The store sorts on as_of and built_at: a wrong value there would break latest()."""
+    folder = make_snapshot("latest-2026-10-19", "2026-10-19")
+    manifest = json.loads((folder / "manifest.json").read_text()) | fields
+    (folder / "manifest.json").write_text(json.dumps(manifest))
+    fake_http(monkeypatch, [release("data-2026-10-19")], tar_gz((folder.name, folder)))
+    store = FileStore(tmp_path / "store")
+    make_snapshot("latest-2026-10-11", root=store.root)
+    with pytest.raises(releases.ReleaseError):
+        releases.install_latest(store, REPO)
+    assert sorted(p.name for p in store.root.iterdir()) == ["latest-2026-10-11"]
+    assert store.latest() == "latest-2026-10-11"
+
+
+def test_release_without_as_of_is_refused(monkeypatch, tmp_path, make_snapshot):
+    folder = make_snapshot("latest-2026-10-19", "2026-10-19")
+    manifest = json.loads((folder / "manifest.json").read_text())
+    del manifest["as_of"]
+    (folder / "manifest.json").write_text(json.dumps(manifest))
+    fake_http(monkeypatch, [release("data-2026-10-19")], tar_gz((folder.name, folder)))
+    store = FileStore(tmp_path / "store")
+    with pytest.raises(releases.ReleaseError):
+        releases.install_latest(store, REPO)
+    assert not store.root.exists()
+
+
 def archive_of(*members):
     """A .tar.gz of TarInfo members with no file bodies (only their headers are read)."""
     buffer = io.BytesIO()

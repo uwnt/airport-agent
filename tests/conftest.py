@@ -94,11 +94,13 @@ def no_data_release_check(monkeypatch):
 def make_snapshot(sample_cache, tmp_path_factory):
     """make_snapshot(version, as_of, root=None) -> a complete snapshot folder of the sample data."""
 
-    def make(version, as_of="2026-10-11", root=None, **manifest):
+    def make(version, as_of="2026-10-11", root=None, **fields):
         folder = Path(root or tmp_path_factory.mktemp("snap")) / version
         shutil.copytree(sample_cache, folder)
         files = sorted(p.name for p in folder.glob("*.json"))  # as the real build lists them
-        manifest = {"version": version, "as_of": as_of, "files": files, **manifest}
+        built_at = f"{as_of}T00:00:00+00:00"  # a real build always stamps one
+        manifest = {"version": version, "as_of": as_of, "built_at": built_at, "files": files}
+        manifest.update(fields)
         (folder / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
         return folder
 
