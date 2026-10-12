@@ -138,8 +138,7 @@ def _finish(name, target, *args):
         jobs.update(
             name,
             "failed",
-            message=f"The job stopped with an unexpected error ({type(error).__name__}); "
-            "the data in use stays.",
+            message="The job stopped with an unexpected error; the data in use stays.",
         )
     if jobs.snapshot()[name]["state"] == "running":
         jobs.update(
@@ -165,9 +164,13 @@ def _get_latest(job):
         result = releases.install_latest(_server()._store(), repo())
     except Exception as error:  # network, GitHub, a bad archive: report it, keep serving
         log.warning("Data release check failed, keeping the data in use: %s", error)
-        jobs.update(
-            job, "failed", message=f"Couldn't get a data release ({error}); the data in use stays."
+        refused = isinstance(error, releases.ReleaseError)
+        why = (
+            "The release was refused: it failed the data checks."
+            if refused
+            else ("Could not reach GitHub.")
         )
+        jobs.update(job, "failed", message=f"{why} The data in use stays.")
         return False
     in_use = switch()
     got = "Downloaded" if result["installed"] else "Already had"
@@ -233,7 +236,7 @@ def _local_refresh():
         code = process.wait()
     except OSError as error:
         log.warning("Local refresh could not start: %s", error)
-        jobs.update("local", "failed", message=f"The refresh could not start: {error}")
+        jobs.update("local", "failed", message="The refresh could not start.")
         return
     if code != 0:
         jobs.update("local", "failed", message=f"The refresh failed (exit code {code}).")
@@ -286,7 +289,7 @@ def _github_refresh(token):
             run = _github(f"/actions/runs/{run['id']}", token)
     except Exception as error:  # report it in the panel; the data in use stays
         log.warning("GitHub refresh failed: %s", error)
-        jobs.update("github", "failed", message=f"Couldn't run the refresh on GitHub: {error}")
+        jobs.update("github", "failed", message="Could not run the refresh on GitHub.")
         return
     if run.get("conclusion") != "success":
         state = run.get("conclusion") or "still running"

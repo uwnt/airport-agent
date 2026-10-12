@@ -217,7 +217,7 @@ def test_failed_github_run_is_reported(web, monkeypatch):
     monkeypatch.setattr(releases, "http", http)
     assert web.post("/data/refresh", json={"on": "github"}, headers=ORIGIN).status_code == 202
     state = wait_for("github")
-    assert state["state"] == "failed" and "GitHub is down" in state["message"]
+    assert state["state"] == "failed" and "GitHub" in state["message"]
     assert TOKEN not in web.get("/data/status").text
 
 
@@ -237,7 +237,7 @@ def test_a_job_that_raises_anything_ends_failed(web, monkeypatch):
     assert web.post("/data/latest", headers=ORIGIN).status_code == 202
     state = wait_for("latest")
     assert state["state"] == "failed"
-    assert "TypeError" in state["message"] and "data in use stays" in state["message"]
+    assert "unexpected error" in state["message"] and "data in use stays" in state["message"]
     assert not data_panel.jobs.busy()
 
 
@@ -292,3 +292,40 @@ def test_refresh_child_gets_no_token_or_key(monkeypatch):
 )  # fmt: skip
 def test_progress_shows_only_the_source_name(line, shown):
     assert data_panel._progress(line) == shown
+
+
+LEAKY = "/secret/path https://example.invalid"
+
+
+def assert_plain(web, job):
+    """The job failed, and the public status shows neither the path nor the URL of the error."""
+    state = wait_for(job)
+    assert state["state"] == "failed", state
+    text = web.get("/data/status").text
+    assert "/secret/path" not in text and "example.invalid" not in text
+
+
+def test_failure_messages_never_show_error_text(local, monkeypatch):
+    monkeypatch.setenv("DATA_RELEASES", "on")
+
+    def boom(*args, **kwargs):
+        raise OSError(LEAKY)
+
+    def refused(*args, **kwargs):
+        raise releases.ReleaseError(LEAKY)
+
+    def fire(path, job, body=None):
+        data_panel.latest_limit.last = data_panel.refresh_limit.last = None
+        assert local.post(path, json=body, headers=ORIGIN).status_code == 202
+        assert_plain(local, job)
+
+    monkeypatch.setattr(releases, "install_latest", boom)  # GitHub unreachable
+    fire("/data/latest", "latest")
+    monkeypatch.setattr(releases, "install_latest", refused)  # a release that fails the checks
+    fire("/data/latest", "latest")
+    monkeypatch.setattr(data_panel, "_get_latest", boom)  # the job boundary
+    fire("/data/latest", "latest")
+    monkeypatch.setattr(releases, "http", boom)  # the GitHub refresh
+    fire("/data/refresh", "github", {"on": "github"})
+    monkeypatch.setattr(data_panel.subprocess, "Popen", boom)  # the local process cannot start
+    fire("/data/refresh", "local", {"on": "local"})
