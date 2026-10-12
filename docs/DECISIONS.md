@@ -364,9 +364,9 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
 - Decided by the owner on 2026-10-12 (source and shown-only).
 
 ## D28: Watch fact sources with a fingerprint; a person re-verifies
-- Chose: `airport-agent check-facts` downloads the source of every verified fact, strips scripts,
-  menus, footers, "last updated" dates and copyright years (nothing else: a missed change costs
-  more than a false alarm), and compares a sha256 fingerprint of the text with the one stored in
+- Chose: `airport-agent check-facts` downloads the source of every verified fact, strips the text of
+  `script` and `style`, dates right after a "last updated / modified / reviewed" label, and
+  copyright years (nothing else: a missed change costs more than a false alarm), and compares a sha256 fingerprint of the text with the one stored in
   `data/fact_fingerprints.json`. A changed or vanished source is reported, and with a token one
   GitHub issue names the facts and quotes old against new (a later run comments on the open one).
   A page that changes by design is listed as "not watched". Blocked or slow sources are
@@ -377,7 +377,9 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
   when its source moves).
 - Because: dates say how old a fact is; the watch says when to look again, cheaply and with the
   standard library only.
-- Limits: it sees that text changed, not whether it matters; it does not see news reported
+- Limits: listing pages (FAA PFC, Alaska press releases, SNA reports) may alarm when an item is
+  added, and a person closes it; comparing each fact's quoted wording is a possible follow-up;
+  it sees that text changed, not whether it matters; it does not see news reported
   elsewhere before the page changes; PDFs are compared by bytes, so a re-saved file alarms;
   the baseline is the day it was recorded, not the day each fact was checked.
 - Revisit if: false alarms swamp real ones, or a source needs a smarter comparison.

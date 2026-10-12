@@ -2,7 +2,7 @@
 
 For every verified (✅) row of docs/DOMAIN_NOTES.md and every constraint in data/constraints.yaml
 it downloads each source URL once, reduces the page to its visible text (dropping scripts,
-styles, menus, footers, "last updated" dates and copyright years) and compares a sha256
+styles, "last updated" dates and copyright years) and compares a sha256
 fingerprint with the one in data/fact_fingerprints.json. The program never edits a fact: a
 changed or vanished source is reported (and, with `--open-issue`, filed as one GitHub issue) and
 a person re-verifies.
@@ -33,8 +33,8 @@ REPO = Path(__file__).resolve().parents[3]
 FINGERPRINTS_PATH = REPO / "data" / "fact_fingerprints.json"
 CONSTRAINTS_PATH = REPO / "data" / "constraints.yaml"
 ISSUE_TITLE = "Fact source changed"
-MARKER = "<!-- uwnt:session -->"
 EXCERPT_CHARS = 2000
+PAGE = 100  # comments per GitHub API page
 TIMEOUT = 20
 USER_AGENT = (
     "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) "
@@ -42,26 +42,28 @@ USER_AGENT = (
 )
 # Hosts and servers answer these when they refuse a robot: we could not look, nothing changed.
 GONE_STATUS = {404, 410}
-SKIP_TAGS = {"script", "style", "noscript", "nav", "footer"}
+# The two tags whose text a reader never sees. Nothing else is skipped: a false alarm is cheap.
+SKIP_TAGS = {"script", "style"}
 # Pages that change by design: collected and reported, never downloaded, no fingerprint.
 NOT_WATCHED = {
     "https://transtats.bts.gov/PREZIP/": "a download listing that gains a file every month",
 }
 LINK = re.compile(r"\]\((https?://[^)\s]+)\)")
 # A missed change costs more than a false alarm, so only two things are removed: a date that
-# directly follows an "updated" style label, and a copyright mark with its year(s). Every other
-# date stays: it may be the fact (an agreement's end date, a curfew year, a year range).
+# directly follows a "last updated/modified/reviewed" label, and a copyright mark with its
+# year(s). Every other date stays: it may be the fact (an agreement's end date, a curfew year).
 MONTH = r"(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?"
+WEEKDAY = r"(?:(?:mon|tue|wed|thu|fri|sat|sun)[a-z]*\.?,?\s+)?"
+ISO = r"\d{4}-\d{2}-\d{2}(?:[T ]\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|[+-]\d{2}:?\d{2})?)?"
 DATE = (
-    rf"(?:\d{{4}}-\d{{2}}-\d{{2}}|{MONTH} (?:\d{{1,2}},? )?\d{{4}}|\d{{1,2}}/\d{{1,2}}/\d{{2,4}})"
+    rf"{WEEKDAY}(?:{ISO}|{MONTH}\s+(?:\d{{1,2}},?\s+)?\d{{4}}"
+    rf"|\d{{1,2}}\s+{MONTH}\s+\d{{4}}|\d{{1,2}}/\d{{1,2}}/\d{{2,4}})"
 )
-LABEL = r"(?:last\s+(?:updated|modified|reviewed)|page\s+(?:last\s+)?updated|updated\s+on)"
+LABEL = r"(?:page\s+)?last\s+(?:updated|modified|reviewed)"
 NOISE = [
     re.compile(rf"\b{LABEL}\s*:?\s*(?:on\s+)?{DATE}", re.I),
     re.compile(r"(?:©|copyright)\s*(?:\(c\)\s*)?\d{4}(?:\s*[-–]\s*\d{4})?", re.I),
 ]
-# Page furniture dropped when the markup is well formed (see normalise_html).
-STRUCTURE_TAGS = {"nav", "footer"}
 
 
 class Fetched:
@@ -110,8 +112,8 @@ def normalise_html(html):
     parser = _VisibleText(SKIP_TAGS)
     parser.feed(html)
     parser.close()
-    if parser.skipping:  # an unclosed <nav> would hide the rest of the page: keep the furniture
-        parser = _VisibleText(SKIP_TAGS - STRUCTURE_TAGS)
+    if parser.skipping:  # an unclosed <script> or <style> would hide the rest: keep everything
+        parser = _VisibleText(set())
         parser.feed(html)
         parser.close()
     text = " ".join(parser.parts)
@@ -253,24 +255,45 @@ def open_issue(results, token, repo, api=_github):
         "These sources changed or disappeared since their fingerprint was recorded. "
         "Re-verify each fact against its source; the watch never edits a fact.\n\n"
         + "\n".join(describe_change(r) for r in problems)
-        + f"\n\n{MARKER}"
     )
     title = f"{ISSUE_TITLE}: {len(problems)} source(s)"
     made = api("POST", f"/repos/{repo}/issues", token, {"title": title, "body": body})
     return f"Opened issue #{made['number']}."
 
 
+def _all_comments(number, token, repo, api):
+    """Every comment of an issue, read page by page until a short page."""
+    comments, page = [], 1
+    while True:
+        path = f"/repos/{repo}/issues/{number}/comments?per_page={PAGE}&page={page}"
+        got = api("GET", path, token)
+        comments += got
+        if len(got) < PAGE:
+            return comments
+        page += 1
+
+
+def _names(text, url):
+    """True when `url` appears whole in `text`, not as the start of a longer URL."""
+    return re.search(rf"(?<!\w){re.escape(url)}(?![\w/%~#?&=+@:-]|\.\w)", text) is not None
+
+
+def _is_named(result, issue, comments):
+    """Named in the body or a comment written after the URL's stored `recorded` date."""
+    since = (result["old"] or {}).get("recorded", "")
+    posts = [(issue.get("created_at") or "9999", issue.get("body") or "")]
+    posts += [(c.get("created_at") or "9999", c.get("body") or "") for c in comments]
+    return any(made[:10] > since and _names(text, result["url"]) for made, text in posts)
+
+
 def _comment_on(issue, problems, token, repo, api):
     number = issue["number"]
-    comments = api("GET", f"/repos/{repo}/issues/{number}/comments?per_page=100", token)
-    named = (issue.get("body") or "") + "\n".join(c.get("body") or "" for c in comments)
-    fresh = [r for r in problems if r["url"] not in named]
+    comments = _all_comments(number, token, repo, api)
+    fresh = [r for r in problems if not _is_named(r, issue, comments)]
     if not fresh:
         return f"Issue #{number} is already open and names every changed source: no comment added."
-    body = (
-        "More sources changed or disappeared since this issue was opened.\n\n"
-        + "\n".join(describe_change(r) for r in fresh)
-        + f"\n\n{MARKER}"
+    body = "More sources changed or disappeared since this issue was opened.\n\n" + "\n".join(
+        describe_change(r) for r in fresh
     )
     api("POST", f"/repos/{repo}/issues/{number}/comments", token, {"body": body})
     return f"Added a comment to issue #{number} naming {len(fresh)} more source(s)."
@@ -308,7 +331,9 @@ def check_facts(record_baseline=False, accept=(), issue=False, fetch_fn=None, ou
     """Run the watch; returns the results. Never edits a fact."""
     stored = load_stored()
     results = check_all(collect_sources(), stored, fetch_fn or fetch)
-    out(format_report(results))
+    taken = {r["url"] for r in results if r["outcome"] == "changed" and r["url"] in accept}
+    shown = [r for r in results if r["url"] not in taken]  # accepted now: verified, not reported
+    out(format_report(shown))
     if record_baseline or accept:
         new, accepted, pruned = record(results, stored, accept, baseline=record_baseline)
         out(
@@ -327,7 +352,7 @@ def check_facts(record_baseline=False, accept=(), issue=False, fetch_fn=None, ou
             out("No GITHUB_TOKEN: report only, no issue.")
         else:
             try:
-                out(open_issue(results, secret, repo, api=api or _github))
+                out(open_issue(shown, secret, repo, api=api or _github))
             except (OSError, http.client.HTTPException, KeyError, ValueError) as error:
                 code = getattr(
                     error, "code", None

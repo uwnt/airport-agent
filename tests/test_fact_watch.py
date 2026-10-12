@@ -14,6 +14,7 @@ from airport_agent.data import fact_watch as fw
 
 URL = "https://example.org/a"
 FACTS = ["DOMAIN_NOTES note 2"]
+LATE = "2030-01-01T00:00:00Z"  # after any recorded date in these tests
 
 
 def html(text="The cap is 12.2 million.", foot="Last updated March 3, 2026. © 2026 Example"):
@@ -63,21 +64,30 @@ def test_binary_files_are_fingerprinted_by_bytes():
 
 
 class FakeApi:
-    def __init__(self, open_titles=(), body="", comments=()):
+    def __init__(self, open_titles=(), body="", comments=(), created=LATE):
         self.open_titles = list(open_titles)
         self.body = body
-        self.comments = [{"body": c} for c in comments]
         self.created = []
+        self.issue_created = created
+        self.comments = [
+            c if isinstance(c, dict) else {"body": c, "created_at": LATE} for c in comments
+        ]
+        self.pages = []
         self.commented = []
 
     def __call__(self, method, path, token, payload=None):
         if method == "GET" and "/search/issues" in path:
             self.search = path
-            items = [{"title": t, "number": 5, "body": self.body} for t in self.open_titles]
+            items = [
+                {"title": t, "number": 5, "body": self.body, "created_at": self.issue_created}
+                for t in self.open_titles
+            ]
             return {"items": items}
         if method == "GET":
             self.comments_path = path
-            return self.comments
+            page = int(path.split("&page=")[1]) if "&page=" in path else 1
+            self.pages.append(page)
+            return self.comments[(page - 1) * 100 : page * 100]
         if path.endswith("/comments"):
             self.commented.append(payload)
             return {"id": 1}
@@ -120,7 +130,7 @@ def test_open_issue_gets_a_comment_naming_only_new_sources():
     )
     comment = api.commented[0]["body"]
     assert "https://example.org/b" in comment and URL not in comment
-    assert comment.endswith("<!-- uwnt:session -->") and len(api.commented) == 1
+    assert len(api.commented) == 1
     assert api.created == [] and "#5" in message
     assert api.comments_path.startswith("/repos/o/r/issues/5/comments")
 
@@ -233,8 +243,38 @@ def test_unclosed_nav_does_not_hide_the_page():
     assert "cap 12.2" in fw.normalise_html("<nav>x<p>cap 12.2</p>")
 
 
-def test_closed_nav_is_still_dropped():
-    assert fw.normalise_html("<nav>Menu</nav><p>cap 12.2</p>") == "cap 12.2"
+def test_nav_and_footer_text_is_kept():
+    assert fw.normalise_html("<nav>Menu</nav><p>x</p>") == "Menu x"
+
+
+def test_script_and_style_text_is_dropped():
+    assert fw.normalise_html("<script>var a=1;</script><style>p{}</style><p>x</p>") == "x"
+
+
+def test_unclosed_script_keeps_the_page_and_still_sees_a_change():
+    one = fw.normalise_html("<script>var a=1;</p><p>cap 12.2")
+    two = fw.normalise_html("<script>var a=1;</p><p>cap 14.9")
+    assert one and "cap 12.2" in one and one != two
+
+
+def test_bare_updated_on_is_not_a_label():
+    one = fw.normalise_html("<p>Updated on January 1, 2031 to 12.5M</p>")
+    two = fw.normalise_html("<p>Updated on January 1, 2032 to 12.5M</p>")
+    assert one != two
+
+
+@pytest.mark.parametrize(
+    "first, second",
+    [
+        ("Last updated: Monday, March 2, 2026", "Last updated: Friday, May 1, 2026"),
+        ("Last Updated 4 March 2026", "Last Updated 19 June 2027"),
+        ("last updated: 2026-03-04T10:00:00Z", "last updated: 2027-05-06T23:15:00+02:00"),
+        ("Page last modified March 4, 2026", "Page last modified May 1, 2027"),
+    ],
+)
+def test_label_date_forms_are_stripped_cleanly(first, second):
+    one = fw.normalise_html(f"<p>Cap 12.2M. {first}</p>")
+    assert one == fw.normalise_html(f"<p>Cap 12.2M. {second}</p>") == "Cap 12.2M."
 
 
 # --- fetch classifies every failure ---------------------------------------------------------
@@ -424,3 +464,65 @@ def test_github_helper_sends_bearer_header_and_json(monkeypatch):
     assert request.full_url == "https://api.github.com/repos/o/r/issues"
     assert request.get_header("Authorization") == "Bearer abc"
     assert json.loads(request.data) == {"title": "t"} and request.get_method() == "POST"
+
+
+def test_url_accepted_in_the_same_run_is_not_reported_or_filed(watch, monkeypatch):
+    monkeypatch.setenv("GITHUB_TOKEN", "secret-value")
+    api = FakeApi()
+    lines = []
+    fw.check_facts(accept=[URL], issue=True, out=lines.append, api=api)
+    assert api.created == [] and "No changed or missing sources" in lines[-1]
+    assert "Was:" not in "\n".join(lines)
+
+
+# --- "already named" in an open issue ---------------------------------------------------------
+
+
+def named_result(recorded):
+    result = changed_result()
+    return {**result, "old": {**result["old"], "recorded": recorded}}
+
+
+def test_prefix_url_does_not_count_as_named():
+    api = FakeApi(open_titles=["Fact source changed"], body=f"- {URL}/longer/page (changed)")
+    fw.open_issue([changed_result()], "t", "o/r", api)
+    assert len(api.commented) == 1
+
+
+def test_whole_url_in_a_link_counts_as_named():
+    api = FakeApi(open_titles=["Fact source changed"], body=f"see [a]({URL}). Done")
+    fw.open_issue([changed_result()], "t", "o/r", api)
+    assert api.commented == []
+
+
+def test_url_accepted_and_changed_again_gets_a_new_comment():
+    old = FakeApi(
+        open_titles=["Fact source changed"],
+        body=f"- {URL} (changed)",
+        created="2026-09-01T08:00:00Z",
+        comments=[{"body": f"- {URL} (changed)", "created_at": "2026-09-02T08:00:00Z"}],
+    )
+    fw.open_issue([named_result("2026-10-01")], "t", "o/r", old)
+    assert len(old.commented) == 1
+    after = FakeApi(
+        open_titles=["Fact source changed"],
+        created="2026-09-01T08:00:00Z",
+        comments=[{"body": f"- {URL} (changed)", "created_at": "2026-10-05T08:00:00Z"}],
+    )
+    fw.open_issue([named_result("2026-10-01")], "t", "o/r", after)
+    assert after.commented == []
+
+
+def test_comments_on_page_two_are_seen():
+    filler = [f"note {n}" for n in range(100)]
+    api = FakeApi(open_titles=["Fact source changed"], comments=[*filler, f"- {URL} (changed)"])
+    fw.open_issue([changed_result()], "t", "o/r", api)
+    assert api.commented == [] and api.pages == [1, 2]
+
+
+def test_program_posted_text_carries_no_internal_marker():
+    api = FakeApi()
+    fw.open_issue([changed_result()], "t", "o/r", api)
+    commenting = FakeApi(open_titles=["Fact source changed"])
+    fw.open_issue([changed_result()], "t", "o/r", commenting)
+    assert "uwnt" not in api.created[0]["body"] + commenting.commented[0]["body"]

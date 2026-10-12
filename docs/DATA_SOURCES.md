@@ -119,10 +119,14 @@ The four example questions: **Q1** New England expansion candidates · **Q2** LA
   program never edits a fact: a person re-verifies.
 - **The rule: a missed change costs more than a false alarm.** A false alarm costs a person a
   minute; a missed change leaves a wrong fact in place. So normalising removes only what is clearly
-  not content: `script`, `style`, `nav` and `footer` blocks (not `header`, a headline can hold the
-  fact), a date that directly follows a "last updated / modified / reviewed", "page updated" or
-  "updated on" label, and a copyright mark with its year(s). Every other date stays, including
-  bare dates and year ranges. Whitespace is collapsed; nothing else is removed.
+  not content: the text inside `script` and `style` (if either is left unclosed, the whole page's
+  text is kept), a date that directly follows a "last updated / modified / reviewed" or "page last
+  ..." label (also with a weekday, "4 March 2026" or an ISO date-time), and a copyright mark with
+  its year(s). Menus and footers are kept. Every other date stays, including a bare "updated on"
+  date. Whitespace is collapsed; nothing else is removed.
+- **Listing pages:** the FAA PFC page, the Alaska airport press releases and the SNA reports page
+  can alarm when a new item is posted, because each holds the fact itself. A person looks and
+  closes the issue. A possible follow-up: compare each fact's quoted wording instead of the page.
 - **Not watched:** a page that changes by design is listed in `NOT_WATCHED` in
   `src/airport_agent/data/fact_watch.py` with its reason, shown as "not watched (reason)", never
   downloaded and given no fingerprint. Today that is the BTS download listing behind note 10 ("a
@@ -132,8 +136,10 @@ The four example questions: **Q1** New England expansion candidates · **Q2** LA
 - **Issues:** `--open-issue` (needs `GITHUB_TOKEN`) opens one issue naming the facts and quoting
   the old and new text. If one is already open, the run adds one comment to it naming only the
   changed or gone sources that the issue and its comments do not name yet (nothing if all are named).
+  A source counts as named only if its exact URL appears whole in the issue or in a comment written
+  after the date its fingerprint was last recorded; comments are read page by page.
 - **Recording:** `--accept URL` (repeatable, after a person re-verified its facts) rewrites only
-  that URL. Only `--record` stores new sources and prunes ones no fact cites any more.
+  that URL, and that URL is not reported or filed in the same run. Only `--record` stores new sources and prunes ones no fact cites any more.
 - **Outcomes:** unchanged (silent), changed, gone (HTTP 404 or 410 only), unreachable (blocked,
   timeout, DNS or connection error, server error: "can't check", no alarm), new (no stored
   fingerprint yet), not watched.
