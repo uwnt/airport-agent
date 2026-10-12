@@ -95,3 +95,18 @@ The four example questions: **Q1** New England expansion candidates · **Q2** LA
   - **Destination unknown for ~14%** of flights.
   - **Terms restrict commercial use** (see decision D5).
   - **No deep history on a free account.**
+
+## FAA Airport Capacity Profiles (2014), Table 1
+- **Gives:** for 30 large US airports, the range of aircraft operations an hour the runways can
+  handle in visual, marginal and instrument (bad-weather) conditions, from page 9 of the FAA
+  report, typed into `data/faa_capacity_profiles.yaml`. We turn it into one signal,
+  `bad_weather_capacity_loss`: the share of hourly runway capacity lost in instrument weather
+  compared with visual (SFO: instrument 70–72 against visual 100–110 an hour, 32% lost).
+- **Helps with:** Q2 and Q4 (is bad weather part of why an airport runs short of room).
+- **Can't, or watch out:**
+  - **30 airports only;** every other airport shows the signal as missing, with that reason.
+  - **From 2014.** Runways and procedures have changed since; the page marks it stale.
+  - **Runway capacity, not terminal space.** It says nothing about gates or the terminal.
+  - **Shown only, not scored** (decision D27).
+  - Where the table has separate arrival-priority and departure-priority rows, we take the lowest
+    low to the highest high across both.

@@ -1,0 +1,47 @@
+# Runway capacity in good and bad weather, for 30 US airports.
+# Source: FAA, "Airport Capacity Profiles" (2014), page 9, "Table 1. Capacity Rate Ranges for
+# Current Operations at the Core Airports".
+# https://www.faa.gov/sites/faa.gov/files/airports/planning_capacity/profiles/Airport-Capacity-Profiles-2014.pdf
+# Transcribed by hand; aircraft operations (arrivals and departures) per hour.
+# Per airport: `visual`, `marginal` and `instrument` weather, each a list of [low, high] ranges
+# (a single number N is [N, N]). Where the table has an Arrival Priority (AP) row and a
+# Departure Priority (DP) row, both ranges are listed. `note` is for anything not used.
+# Shown only, never scored (D27): see docs/DATA_SOURCES.md.
+
+ATL:
+  visual: [[216, 226], [219, 222]]
+  marginal: [[201, 208], [206, 206]]
+  instrument: [[175, 190], [183, 186]]
+  note: Low Instrument (LIMC) is 168-169 (AP) and 168-179 (DP); not used.
+BOS: {visual: [[116, 125]], marginal: [[109, 112]], instrument: [[84, 86]]}
+BWI: {visual: [[68, 80]], marginal: [[64, 80]], instrument: [[62, 64]]}
+CLT: {visual: [[176, 182]], marginal: [[161, 162]], instrument: [[138, 147]]}
+DCA: {visual: [[69, 72]], marginal: [[69, 72]], instrument: [[54, 64]]}
+DEN: {visual: [[262, 266], [266, 298]], marginal: [[224, 279]], instrument: [[224, 243]]}
+DFW: {visual: [[226, 264]], marginal: [[194, 245]], instrument: [[170, 170]]}
+DTW: {visual: [[178, 184]], marginal: [[163, 164]], instrument: [[136, 136]]}
+EWR: {visual: [[94, 99], [94, 100]], marginal: [[76, 84]], instrument: [[68, 70]]}
+FLL: {visual: [[74, 82]], marginal: [[66, 72]], instrument: [[56, 66]]}
+HNL: {visual: [[117, 120]], marginal: [[91, 105]], instrument: [[60, 77]]}
+IAD:
+  visual: [[150, 159], [156, 164]]
+  marginal: [[112, 120], [136, 145]]
+  instrument: [[108, 111], [125, 132]]
+IAH: {visual: [[172, 199]], marginal: [[152, 180]], instrument: [[144, 151]]}
+JFK: {visual: [[84, 87], [90, 93]], marginal: [[85, 86]], instrument: [[74, 84]]}
+LAS: {visual: [[122, 128]], marginal: [[106, 111]], instrument: [[78, 83]]}
+LAX: {visual: [[167, 176]], marginal: [[147, 153]], instrument: [[133, 143]]}
+LGA: {visual: [[80, 86]], marginal: [[76, 77]], instrument: [[74, 76]]}
+MCO: {visual: [[160, 171]], marginal: [[148, 161]], instrument: [[144, 144]]}
+MDW: {visual: [[64, 84]], marginal: [[64, 74]], instrument: [[52, 70]]}
+MEM: {visual: [[144, 160]], marginal: [[133, 150]], instrument: [[111, 134]]}
+MIA: {visual: [[132, 150]], marginal: [[132, 148]], instrument: [[100, 104]]}
+MSP: {visual: [[156, 167]], marginal: [[142, 151]], instrument: [[114, 141]]}
+ORD: {visual: [[214, 225]], marginal: [[194, 200]], instrument: [[168, 178]]}
+PHL: {visual: [[120, 126]], marginal: [[94, 96]], instrument: [[84, 88]]}
+PHX: {visual: [[138, 145]], marginal: [[108, 109]], instrument: [[96, 101]]}
+SAN: {visual: [[48, 57]], marginal: [[48, 52]], instrument: [[48, 48]]}
+SEA: {visual: [[100, 112]], marginal: [[86, 100]], instrument: [[76, 78]]}
+SFO: {visual: [[100, 110]], marginal: [[90, 93]], instrument: [[70, 72]]}
+SLC: {visual: [[148, 150]], marginal: [[138, 140]], instrument: [[114, 120]]}
+TPA: {visual: [[113, 115]], marginal: [[95, 115]], instrument: [[90, 95]]}

@@ -16,6 +16,8 @@ on:
       - src/**
       - config/**
       - data/snapshots/**
+      - data/constraints.yaml
+      - data/faa_capacity_profiles.yaml
       - data/samples/opensky_departures_panc.json
       - .github/workflows/image.yml
   push:
@@ -84,6 +86,14 @@ jobs:
             echo "::error::/health reports no data snapshot"
             exit 1
           fi
+
+      # /health reads no airport data: load every airport's signals once, so a data file the
+      # image is missing fails here, not on the site. Plain `docker run`, not compose: compose
+      # mounts the checkout's data/ over the image's, which would hide a missing COPY.
+      - name: Every airport's signals load from the image alone
+        run: >-
+          docker run --rm --entrypoint python "$TEST_TAG" -c
+          "from airport_agent.data.metrics import all_airport_metrics as a; print(len(a()), 'airports')"
 
       # The second command of the image; --help needs no network or credentials.
       - name: refresh command runs

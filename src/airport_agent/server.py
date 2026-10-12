@@ -45,6 +45,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field, field_validator
 
 from airport_agent import cli, llm, tools
+from airport_agent.data import faa_capacity
 from airport_agent.data.cache import CacheMissingError, load_config
 from airport_agent.data.metrics import load_cache
 from airport_agent.data.store import open_store, read_manifest, snapshot_problem
@@ -304,6 +305,15 @@ def info(version: str = "latest"):
         }
         for key, s in sorted(manifest.get("sources", {}).items())
     ]
+    # The committed FAA table is not in any snapshot's manifest, so it is listed here.
+    sources.append(
+        {
+            "name": "faa_capacity",
+            "source": faa_capacity.SOURCE,
+            "as_of": "2014",
+            "stale": is_stale("2014", reference, months),
+        }
+    )
     return {
         "model": llm.has_api_key(),
         "versions": ["latest", *point_in_time_versions()],

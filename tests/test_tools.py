@@ -97,6 +97,12 @@ def test_profile_has_every_metric_with_source_and_missing_reasons(run):
     assert result["missing"]["long_haul_share"] == "computed only for Anchorage (OpenSky)"
 
 
+def test_profile_gives_the_capacity_loss_as_a_percentage(run):
+    sfo = run("airport_profile", code="SFO")["metrics"]["bad_weather_capacity_loss"]
+    assert sfo["value_pct"] == 32.4 and sfo["as_of"] == "2014"
+    assert "runway capacity only, not terminal space" in sfo["note"]
+
+
 def test_verified_facts_are_only_checked_rows_naming_the_airport():
     sna = tools.domain_facts("SNA")
     assert [f["note"] for f in sna] == [2, 3, 5]
@@ -331,6 +337,12 @@ def test_compare_over_time_gives_each_signal_in_both_snapshots_with_its_change()
     cancel = result["signals"]["cancellation_rate"]
     assert cancel["change_pct_points"] == round(cancel["change"] * 100, 1)
     assert "change_pct_points" not in delay
+
+
+def test_compare_over_time_leaves_out_the_single_2014_capacity_reading():
+    # The FAA table is one 2014 reading in every snapshot: a 0 change would read as "no change".
+    result = over_time(code="SFO", from_version="2019-12", to_version="latest")
+    assert "bad_weather_capacity_loss" not in result["signals"]
 
 
 def test_compare_over_time_flags_a_signal_missing_on_one_side_and_computes_no_change():

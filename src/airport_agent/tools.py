@@ -52,7 +52,14 @@ def _notes_path(repo=_REPO):
 
 DOMAIN_NOTES_PATH = _notes_path()
 DEFAULT_TOP = 10  # rows shown when a ranking asks for no region and no codes
-FRACTIONS = {"cancellation_rate", "largest_carrier_share", "long_haul_share"}
+FRACTIONS = {
+    "cancellation_rate",
+    "largest_carrier_share",
+    "long_haul_share",
+    "bad_weather_capacity_loss",
+}
+# One dated reading shared by every snapshot (D27): it has no change over time to compare.
+NOT_COMPARED = {"bad_weather_capacity_loss"}
 TOP_QUARTILE = 75
 BOTTOM_QUARTILE = 25
 
@@ -350,7 +357,8 @@ def compare_over_time(code, from_version, to_version, preset=None, cache_dir=Non
         "signals": {
             name: _signal_change(name, m_before, m_after, versions)
             for name in SIGNALS
-            if getattr(m_before, name) is not None or getattr(m_after, name) is not None
+            if name not in NOT_COMPARED
+            and (getattr(m_before, name) is not None or getattr(m_after, name) is not None)
         },
         "note": (
             "score and rank use today's settings in both snapshots; rank is among the airports "

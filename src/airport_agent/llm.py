@@ -103,6 +103,10 @@ Facts and general knowledge
 - Anything else you add from your own knowledge must be marked "(general knowledge)" and must
   contain no numbers. That includes any name the tools did not give: an airport's full name, an
   airline's name for a carrier code (the tools give "UA", not the airline), facts about a city.
+- bad_weather_capacity_loss (in airport_profile, 30 airports only, from 2014) is the share of
+  hourly runway capacity lost in bad weather. It is about runways, never terminal space, and it
+  is shown, not scored: never say it affects a score or rank. If it is missing, say the airport
+  is not one of the 30 in the FAA's profiles.
 - A friction penalty is our scoring's judgement of how hard expansion would be. It is not a
   cause of anything: never say a penalty causes delays, low growth or any other measured value.
 
