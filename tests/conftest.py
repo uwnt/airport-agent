@@ -1,8 +1,11 @@
 """Shared test setup: no test may use the network, and a data cache built from data/samples/."""
 
 import csv
+import io
 import json
+import shutil
 import socket
+import tarfile
 from pathlib import Path
 
 import pytest
@@ -79,3 +82,32 @@ def sample_cache(tmp_path):
         fetched_at=FETCHED_AT,
     )
     return tmp_path
+
+
+@pytest.fixture(autouse=True)
+def no_data_release_check(monkeypatch):
+    """The server's startup check for GitHub data releases stays off unless a test turns it on."""
+    monkeypatch.setenv("DATA_RELEASES", "off")
+
+
+@pytest.fixture
+def make_snapshot(sample_cache, tmp_path_factory):
+    """make_snapshot(version, as_of, root=None) -> a complete snapshot folder of the sample data."""
+
+    def make(version, as_of="2026-10-11", root=None, **manifest):
+        folder = Path(root or tmp_path_factory.mktemp("snap")) / version
+        shutil.copytree(sample_cache, folder)
+        manifest = {"version": version, "as_of": as_of, "files": [], **manifest}
+        (folder / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
+        return folder
+
+    return make
+
+
+def tar_gz(*entries):
+    """A .tar.gz archive (bytes) of (name in the archive, folder or file on disk) pairs."""
+    buffer = io.BytesIO()
+    with tarfile.open(fileobj=buffer, mode="w:gz") as tar:
+        for name, path in entries:
+            tar.add(path, arcname=name)
+    return buffer.getvalue()
