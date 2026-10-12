@@ -432,7 +432,9 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
   anyone with the page could start heavy work); a worker and a queue (right at scale, too much
   here); publishing straight into an object store (one more account and credential).
 - Because: new data reaches every copy without a rebuild, bad data rolls back by deleting its
-  release (servers load the previous one when they next start), the app stays small and keeps
+  release (on Fly, where a restart throws installed files away, servers load the previous one
+  when they next start; where installed files are kept, also delete the installed `latest-…`
+  folder from the data store, or set `DATA_RELEASES=off` to stop downloads), the app stays small and keeps
   working when GitHub is down, and the only write permission is the workflow's own, on its
   publishing job.
 - Revisit if: published data needs a person's review first (the workflow would open a pull request

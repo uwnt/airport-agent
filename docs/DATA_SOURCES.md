@@ -162,7 +162,11 @@ with the previous data release (each source's as-of date and the national top 10
 it as a GitHub release `data-YYYY-MM-DD` (`-2`, `-3` for a second run that day): the snapshot
 folder as one `.tar.gz`, its `manifest.json`, and the comparison as the release text. Running
 servers download the newest one (`data/releases.py`), refusing an archive that is not one complete
-snapshot or has a path outside it. OpenSky credentials are optional repository secrets
-(`OPENSKY_CLIENT_ID`, `OPENSKY_CLIENT_SECRET`); without them the release uses the committed
-OpenSky sample and its manifest says so. Rolling back bad data is deleting its release: servers
-then load the previous one when they next start.
+snapshot (every summary listed and loading with the server's own loader), has a path or link
+outside it, or is over 2,000 files or 200 MB unpacked. OpenSky credentials are optional repository
+secrets (`OPENSKY_CLIENT_ID`, `OPENSKY_CLIENT_SECRET`); without them the release uses the committed
+OpenSky sample and its manifest says so. Rolling back bad data starts with deleting its release.
+Where a restart throws installed files away (Fly: the data store is inside the machine, with no
+volume), servers then load the previous release when they next start. Where installed files are
+kept (a data store on a disk or volume), also delete the installed `latest-…` folder from the
+data store; `DATA_RELEASES=off` stops a server from downloading releases at all.
