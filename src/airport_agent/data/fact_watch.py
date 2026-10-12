@@ -7,17 +7,18 @@ fingerprint with the one in data/fact_fingerprints.json. The program never edits
 changed or vanished source is reported (and, with `--open-issue`, filed as one GitHub issue) and
 a person re-verifies.
 
-Outcomes per URL: unchanged, changed, gone (404/410 or the host no longer resolves), unreachable
-(blocked, timeout, server error: "can't check", never an alarm), new (no stored fingerprint).
+Outcomes per URL: unchanged, changed, gone (HTTP 404/410 only), unreachable (blocked, timeout,
+DNS or connection error, server error: "can't check", never an alarm), new (no stored fingerprint).
 A PDF or other non-HTML file is fingerprinted by its bytes, which is coarser: a re-saved PDF alarms.
 """
 
 import hashlib
+import http.client
 import json
 import os
 import re
-import socket
 import urllib.error
+import urllib.parse
 import urllib.request
 from datetime import date
 from html.parser import HTMLParser
@@ -39,22 +40,26 @@ USER_AGENT = (
 )
 # Hosts and servers answer these when they refuse a robot: we could not look, nothing changed.
 GONE_STATUS = {404, 410}
-SKIP_TAGS = {"script", "style", "nav", "footer", "header", "noscript"}
+SKIP_TAGS = {"script", "style", "noscript"} | {"nav", "footer", "header"}
 LINK = re.compile(r"\]\((https?://[^)\s]+)\)")
 # Text that changes on every visit or every year, not because a fact did.
+MONTH = r"(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?"
+DATE = (
+    rf"(?:\d{{4}}-\d{{2}}-\d{{2}}|{MONTH} (?:\d{{1,2}},? )?\d{{4}}|\d{{1,2}}/\d{{1,2}}/\d{{2,4}})"
+)
+# Only the date phrase itself goes: a label directly followed by a date, a copyright mark with
+# its year(s), or a bare date. Words and numbers around them (a year range, "revised to 12.2")
+# stay, because they may be the fact.
 NOISE = [
     re.compile(
-        r"(last|page)?\s*(updated|modified|reviewed|revised)\s*:?\s*"
-        r"(on\s*)?[A-Za-z0-9,/. -]{0,30}\d{4}",
+        rf"\b(?:page\s+)?(?:last\s+)?(?:updated|modified|reviewed|revised)\s*:?\s*(?:on\s+)?{DATE}",
         re.I,
     ),
-    re.compile(r"(©|copyright)[^.]{0,60}\d{4}[^.]{0,40}", re.I),
-    re.compile(r"\b\d{4}-\d{2}-\d{2}\b"),
-    re.compile(
-        r"\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.? \d{1,2},? \d{4}\b", re.I
-    ),
-    re.compile(r"\b\d{1,2}/\d{1,2}/\d{2,4}\b"),
+    re.compile(r"(?:©|copyright)\s*(?:\(c\)\s*)?\d{4}(?:\s*[-–]\s*\d{4})?", re.I),
+    re.compile(rf"\b{DATE}", re.I),
 ]
+# Page furniture dropped when the markup is well formed (see normalise_html).
+STRUCTURE_TAGS = {"nav", "footer", "header"}
 
 
 class Fetched:
@@ -74,25 +79,23 @@ def fetch(url):
             return Fetched("ok", response.read(), response.headers.get("Content-Type", ""))
     except urllib.error.HTTPError as error:
         return Fetched("gone" if error.code in GONE_STATUS else "unreachable")
-    except urllib.error.URLError as error:
-        dns_failure = isinstance(error.reason, socket.gaierror)
-        return Fetched("gone" if dns_failure else "unreachable")
-    except (TimeoutError, OSError):
+    except (OSError, http.client.HTTPException):  # DNS, refused, timeout, cut-off body
         return Fetched("unreachable")
 
 
 class _VisibleText(HTMLParser):
-    def __init__(self):
+    def __init__(self, skip_tags):
         super().__init__()
+        self.skip_tags = skip_tags
         self.parts = []
         self.skipping = 0
 
     def handle_starttag(self, tag, attrs):
-        if tag in SKIP_TAGS:
+        if tag in self.skip_tags:
             self.skipping += 1
 
     def handle_endtag(self, tag):
-        if tag in SKIP_TAGS and self.skipping:
+        if tag in self.skip_tags and self.skipping:
             self.skipping -= 1
 
     def handle_data(self, data):
@@ -102,8 +105,13 @@ class _VisibleText(HTMLParser):
 
 def normalise_html(html):
     """Visible text with whitespace collapsed and date-like strings removed."""
-    parser = _VisibleText()
+    parser = _VisibleText(SKIP_TAGS)
     parser.feed(html)
+    parser.close()
+    if parser.skipping:  # an unclosed <nav> would hide the rest of the page: keep the furniture
+        parser = _VisibleText(SKIP_TAGS - STRUCTURE_TAGS)
+        parser.feed(html)
+        parser.close()
     text = " ".join(parser.parts)
     for pattern in NOISE:
         text = pattern.sub(" ", text)
@@ -219,8 +227,9 @@ def open_issue(results, token, repo, api=_github):
     problems = [r for r in results if r["outcome"] in ("changed", "gone")]
     if not problems:
         return "No changed or missing sources: no issue opened."
-    open_ones = api("GET", f"/repos/{repo}/issues?state=open&per_page=100", token)
-    if any(i["title"].startswith(ISSUE_TITLE) and "pull_request" not in i for i in open_ones):
+    query = urllib.parse.quote(f'repo:{repo} is:issue is:open in:title "{ISSUE_TITLE}"')
+    found = api("GET", f"/search/issues?q={query}", token)["items"]
+    if any(i["title"].startswith(ISSUE_TITLE) for i in found):
         return "A fact-source issue is already open: not opening another."
     body = (
         "These sources changed or disappeared since their fingerprint was recorded. "
@@ -233,34 +242,58 @@ def open_issue(results, token, repo, api=_github):
     return f"Opened issue #{made['number']}."
 
 
-def load_stored(path=FINGERPRINTS_PATH):
+def load_stored(path=None):
+    path = path or FINGERPRINTS_PATH
     return json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
 
 
-def record(results, stored, path=FINGERPRINTS_PATH):
-    """Write fresh fingerprints for every URL that was read; keep the rest as they were."""
-    merged = {r["url"]: r["new"] for r in results if r["new"]} | {
-        url: old
-        for url, old in stored.items()
-        if url not in {r["url"] for r in results if r["new"]}
-    }
+def record(results, stored, accept=(), path=None):
+    """Store new URLs, re-store the accepted changed ones, prune URLs no fact cites any more.
+
+    A changed URL is never re-recorded on its own: that would accept a change nobody verified.
+    Returns (recorded, accepted, pruned) as lists of URLs.
+    """
+    path = path or FINGERPRINTS_PATH
+    cited = {r["url"] for r in results}
+    new = [r["url"] for r in results if r["outcome"] == "new"]
+    accepted = [r["url"] for r in results if r["outcome"] == "changed" and r["url"] in accept]
+    pruned = sorted(set(stored) - cited)
+    fresh = {r["url"]: r["new"] for r in results if r["url"] in new + accepted}
+    kept = {url: old for url, old in stored.items() if url in cited}
+    merged = kept | fresh
     live = {url: merged[url] for url in sorted(merged)}
     path.write_text(json.dumps(live, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    return new, accepted, pruned
 
 
-def check_facts(record_baseline=False, issue=False, fetch_fn=fetch, out=print):
+class IssueError(Exception):
+    """The GitHub issue could not be opened; the message is safe to print."""
+
+
+def check_facts(record_baseline=False, accept=(), issue=False, fetch_fn=None, out=print, api=None):
     """Run the watch; returns the results. Never edits a fact."""
-    sources = collect_sources()
     stored = load_stored()
-    results = check_all(sources, stored, fetch_fn)
+    results = check_all(collect_sources(), stored, fetch_fn or fetch)
     out(format_report(results))
-    if record_baseline:
-        record(results, stored)
-        out(f"Recorded fingerprints in {FINGERPRINTS_PATH.name}.")
-    if issue:
-        token = os.environ.get("GITHUB_TOKEN")
-        repo = os.environ.get("GITHUB_REPOSITORY", "uwnt/airport-agent")
+    if record_baseline or accept:
+        new, accepted, pruned = record(results, stored, accept)
         out(
-            open_issue(results, token, repo) if token else "No GITHUB_TOKEN: report only, no issue."
+            f"Recorded {len(new)} new, accepted {len(accepted)} changed, "
+            f"pruned {len(pruned)} no longer cited, in {FINGERPRINTS_PATH.name}."
         )
+        lines = [f"  recorded {u}" for u in new]
+        lines += [f"  accepted {u}" for u in accepted] + [f"  pruned {u}" for u in pruned]
+        lines += [f"  not changed, ignored: {u}" for u in accept if u not in accepted]
+        for line in lines:
+            out(line)
+    if issue:
+        secret = os.environ.get("GITHUB_TOKEN")
+        repo = os.environ.get("GITHUB_REPOSITORY", "uwnt/airport-agent")
+        if not secret:
+            out("No GITHUB_TOKEN: report only, no issue.")
+        else:
+            try:
+                out(open_issue(results, secret, repo, api=api or _github))
+            except (OSError, http.client.HTTPException, KeyError, ValueError) as error:
+                raise IssueError(f"Could not open the issue ({type(error).__name__}).") from None
     return results

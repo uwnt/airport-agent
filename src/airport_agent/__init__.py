@@ -2,7 +2,7 @@
 
 Command line (installed as `airport-agent`):
     airport-agent refresh [--as-of YYYY-MM] [--cache-dir data/cache] [--keep-raw] [--check-facts]
-    airport-agent check-facts [--record] [--open-issue]
+    airport-agent check-facts [--record] [--accept URL] [--open-issue]
 """
 
 import argparse
@@ -48,14 +48,25 @@ def main(argv=None):
     check = commands.add_parser(
         "check-facts", help="re-download the source of every verified fact and report changes"
     )
-    check.add_argument("--record", action="store_true", help="store today's fingerprints")
+    check.add_argument("--record", action="store_true", help="store fingerprints of new sources")
+    check.add_argument(
+        "--accept",
+        action="append",
+        default=[],
+        metavar="URL",
+        help="re-store a changed source after a person re-verified its facts (repeatable)",
+    )
     check.add_argument("--open-issue", action="store_true", help="file one GitHub issue")
     args = parser.parse_args(argv)
 
     if args.command == "check-facts":
-        from airport_agent.data.fact_watch import check_facts
+        from airport_agent.data.fact_watch import IssueError, check_facts
 
-        check_facts(record_baseline=args.record, issue=args.open_issue)
+        try:
+            check_facts(record_baseline=args.record, accept=args.accept, issue=args.open_issue)
+        except IssueError as error:
+            print(error, file=sys.stderr)
+            return 1
         return 0
 
     from airport_agent.data.build import BuildError
