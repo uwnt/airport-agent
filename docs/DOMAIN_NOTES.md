@@ -27,7 +27,8 @@ Status: ⬜ unverified · ✅ checked against the primary source (corrections ap
 - **Not adopted:**
   - Code execution per question (undercuts determinism; see PLAN Step 5).
   - ASPM (login-gated, down when checked).
-  - TAF as a live source (no data download found).
+  - TAF as a live source (no download found at first; a yearly spreadsheet download was found on
+    2026-10-12, see D30, but it is not adopted yet).
   - OpenAI Whisper by default (second vendor; still an option at Step 6).
 
 ## Verification log
