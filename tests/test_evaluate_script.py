@@ -111,3 +111,30 @@ def test_prices_change_on_the_announced_day():
     assert script.cost_usd("gemini-3.8-flash", usage, datetime.date(2027, 1, 1)) == 9.0
     assert script.cost_usd("gemini-3.1-pro-preview", usage, DAY) == 14.0
     assert script.cost_usd("other", usage, DAY) is None
+
+
+def test_a_failing_token_count_keeps_the_answer_and_makes_the_estimate_unknown(tmp_path):
+    script = load_script()
+
+    def count_tokens(text):  # the API's counter hitting a rate limit
+        raise RuntimeError("429 Too Many Requests")
+
+    def make_chat():
+        return ChatSession(
+            client=script.ToolResultMeter(FakeModel(), count_tokens),
+            settings=Settings("gemini-3.8-flash", 100, 8, 1),
+            tools=[],
+            run_tool=fake_tool,
+        )
+
+    out = tmp_path / "flash"
+    args = ["--model", "gemini-3.8-flash", "--out", str(out), "--only", "h-trap-region-switch"]
+    script.main(args, make_chat, DAY)
+    text = (out / "h-trap-region-switch.md").read_text(encoding="utf-8")
+    assert "The model call failed" not in text
+    assert text.count("Score 55; 77%.") == 2
+    assert "- Cost (reported): $0.0022" in text
+    assert "- Tool-result input tokens (estimated): unknown" in text
+    assert "- Cost (estimated with tool results): unknown" in text
+    readme = (out / "README.md").read_text(encoding="utf-8")
+    assert "Average cost per question, estimated with tool results: unknown" in readme

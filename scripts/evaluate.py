@@ -123,12 +123,18 @@ class ToolResultMeter:
     """Wraps a model client; before each call, adds up the tokens of the tool results it resends.
 
     `count_tokens(text)` -> int counts one text (the API's counter in a real run); each distinct
-    text is counted once. `tool_result_tokens` is the running total over every call so far.
+    text is counted once. `tool_result_tokens` is the running total over every call so far, or
+    None once a count has failed (a rate limit or a network error): the estimate is then
+    unknown, but the answer goes on.
     """
 
     def __init__(self, client, count_tokens):
         self.client, self.count_tokens = client, count_tokens
-        self.tool_result_tokens, self._counted = 0, {}
+        self._total, self._counted, self.count_failed = 0, {}, False
+
+    @property
+    def tool_result_tokens(self):
+        return None if self.count_failed else self._total
 
     @property
     def last_usage(self):
@@ -138,11 +144,19 @@ class ToolResultMeter:
         for step in history:
             if step.get("type") == "function_result":
                 for part in step.get("result") or []:
-                    text = part.get("text") or ""
-                    if text not in self._counted:
-                        self._counted[text] = self.count_tokens(text)
-                    self.tool_result_tokens += self._counted[text]
+                    self._add(part.get("text") or "")
         return self.client.next_steps(history, *args, **kwargs)
+
+    def _add(self, text):
+        if self.count_failed:
+            return
+        if text not in self._counted:
+            try:
+                self._counted[text] = self.count_tokens(text)
+            except Exception:  # the estimate becomes unknown; the answer must not fail
+                self.count_failed = True
+                return
+        self._total += self._counted[text]
 
 
 # --- Running the questions --------------------------------------------------------------------
@@ -151,6 +165,11 @@ class ToolResultMeter:
 def _metered(chat):
     """The chat's tool-result token total so far, or None if its client isn't metered."""
     return getattr(chat.client, "tool_result_tokens", None)
+
+
+def _difference(after, before):
+    """after - before, or None if either is unknown."""
+    return None if after is None or before is None else after - before
 
 
 def run_conversation(chat, questions):
@@ -186,9 +205,7 @@ def run_conversation(chat, questions):
                 "seconds": seconds,
                 "calls": answer.tool_calls,
                 "usage": answer.usage,
-                "tool_result_tokens": (
-                    None if metered_before is None else _metered(chat) - metered_before
-                ),
+                "tool_result_tokens": _difference(_metered(chat), metered_before),
                 "text": answer.text,
                 "unsupported": unsupported,
                 "stopped_at_limit": answer.stopped_at_limit,
