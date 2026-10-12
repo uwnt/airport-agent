@@ -31,6 +31,8 @@ Settings come from the environment, each with a default:
   REQUEST_TIMEOUT_SECONDS per model call (default 120).
 - GEMINI_THINKING_LEVEL: minimal, low, medium or high (default low). Measured 2026-10-11 on one
   question: a call at the model's default level took about 44 s, at low about 11 s.
+- GEMINI_LIVE_MODEL: the Talk mode's Live API model, default `gemini-3.8-live` (see the end of
+  this module).
 
 SDK calls follow Google's docs, read 2026-10-11 (google-genai 2.29.0): the Interactions API,
 `client.interactions.create(model=..., input=history, tools=..., system_instruction=...,
@@ -51,6 +53,7 @@ Token counting (read 2026-10-12): `client.models.count_tokens(model=..., content
 
 import json
 import os
+from contextlib import asynccontextmanager
 from dataclasses import dataclass, field
 
 from google import genai
@@ -385,3 +388,127 @@ class ChatSession:
         text = TOOL_LIMIT_MESSAGE.format(limit=self.settings.max_tool_calls)
         self.history.append({"type": "model_output", "content": [{"type": "text", "text": text}]})
         return Answer(text, calls, stopped_at_limit=True)
+
+
+# --- Talk mode: a spoken conversation on the Live API -----------------------------------------
+#
+# Read 2026-10-12 (google-genai 2.29.0): `client.aio.live.connect(model=..., config=...)` opens a
+# stateful session. Microphone audio goes in with `send_realtime_input(audio=Blob(data, mime_type=
+# "audio/pcm;rate=16000"))` (16-bit little-endian PCM, mono); the model hears when the speaker
+# stops by itself (voice activity detection). `receive()` yields the messages of one model turn
+# and stops after it, so it is called again for the next turn. The model's audio arrives as
+# 16-bit PCM at 24 kHz in `server_content.model_turn.parts[].inline_data`; transcripts of both
+# sides in `input_transcription` / `output_transcription` when switched on in the config. A
+# `tool_call` lists function calls (id, name, args); the client runs them and answers with
+# `send_tool_response(function_responses=[FunctionResponse(id, name, response)])`.
+# - https://ai.google.dev/gemini-api/docs/live
+# - https://ai.google.dev/gemini-api/docs/live-guide
+# - https://ai.google.dev/gemini-api/docs/live-tools
+# - https://ai.google.dev/api/live
+
+DEFAULT_LIVE_MODEL = "gemini-3.8-live"
+LIVE_INPUT_MIME = "audio/pcm;rate=16000"
+LIVE_OUTPUT_RATE = 24_000  # Hz; the page plays the audio at this rate
+
+VOICE_NOTE = """
+Speaking (this conversation is spoken, not written)
+- Keep each answer short: two or three sentences. Say numbers plainly, rounded as the rules above
+  allow, and never read a table aloud: the full table and the tools' sources are on screen.
+- Instead of the "Assumptions and data" section, name the preset you used in a few words.
+"""
+
+
+def live_model(env=None):
+    """The Live API model: GEMINI_LIVE_MODEL, else DEFAULT_LIVE_MODEL."""
+    env = os.environ if env is None else env
+    return env.get("GEMINI_LIVE_MODEL") or DEFAULT_LIVE_MODEL
+
+
+def live_function_declarations(tools):
+    """The typed chat's tool declarations in the Live API's form (same names and JSON Schema)."""
+    return [
+        {
+            "name": t["name"],
+            "description": t["description"],
+            "parameters_json_schema": t["parameters"],
+        }
+        for t in tools
+    ]
+
+
+def live_events(message):
+    """One Live API message as plain event dicts, so callers never see the SDK's types.
+
+    Kinds: "heard" {text} (what the user said), "said" {text} (what the model said), "audio"
+    {data: PCM bytes}, "tool_calls" {calls: [{id, name, args}]}, "interrupted" (the user spoke
+    over the model: drop the audio not yet played) and "turn_complete".
+    """
+    found = []
+    content = message.server_content
+    if content:
+        if content.input_transcription and content.input_transcription.text:
+            found.append({"kind": "heard", "text": content.input_transcription.text})
+        if content.model_turn:
+            for part in content.model_turn.parts or []:
+                if part.inline_data and part.inline_data.data:
+                    found.append({"kind": "audio", "data": part.inline_data.data})
+        if content.output_transcription and content.output_transcription.text:
+            found.append({"kind": "said", "text": content.output_transcription.text})
+        if content.interrupted:
+            found.append({"kind": "interrupted"})
+        if content.turn_complete:
+            found.append({"kind": "turn_complete"})
+    if message.tool_call and message.tool_call.function_calls:
+        calls = [
+            {"id": c.id, "name": c.name, "args": dict(c.args or {})}
+            for c in message.tool_call.function_calls
+        ]
+        found.append({"kind": "tool_calls", "calls": calls})
+    return found
+
+
+class LiveSession:
+    """An open Live API session: audio in, plain event dicts out (see `live_events`)."""
+
+    def __init__(self, session):
+        self._session = session
+
+    async def send_audio(self, pcm):
+        await self._session.send_realtime_input(
+            audio=types.Blob(data=pcm, mime_type=LIVE_INPUT_MIME)
+        )
+
+    async def send_tool_results(self, results):
+        """Answer tool calls: `results` is a list of (call id, tool name, result dict)."""
+        responses = [
+            types.FunctionResponse(id=call_id, name=name, response=result)
+            for call_id, name, result in results
+        ]
+        await self._session.send_tool_response(function_responses=responses)
+
+    async def events(self):
+        """Every event of the session, turn after turn, until the session ends."""
+        while True:
+            async for message in self._session.receive():
+                for event in live_events(message):
+                    yield event
+
+
+@asynccontextmanager
+async def open_live(tools=None, system_prompt=None):
+    """A Live API session with the typed chat's tools and system prompt, plus VOICE_NOTE."""
+    from airport_agent import tools as toolbox
+
+    declarations = live_function_declarations(
+        tools if tools is not None else toolbox.TOOL_DECLARATIONS
+    )
+    config = {
+        "response_modalities": ["AUDIO"],
+        "system_instruction": (system_prompt or SYSTEM_PROMPT) + VOICE_NOTE,
+        "tools": [{"function_declarations": declarations}],
+        "input_audio_transcription": {},
+        "output_audio_transcription": {},
+    }
+    client = genai.Client()  # reads GEMINI_API_KEY from the environment
+    async with client.aio.live.connect(model=live_model(), config=config) as session:
+        yield LiveSession(session)

@@ -384,6 +384,24 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
   the baseline is the day it was recorded, not the day each fact was checked.
 - Revisit if: false alarms swamp real ones, or a source needs a smarter comparison.
 
+## D29: Talk mode: the server relays the audio
+- Chose: the browser streams microphone audio over a WebSocket to our server (`/talk`), and the
+  server holds the Gemini Live API session and relays both ways: microphone audio up, the model's
+  speech and the tool results down. Tools run on the server through the same code as typed
+  questions, so the page draws the same tables. Switched off unless `TALK_MODE=on`; each session
+  counts as one question for the daily cap, lasts at most 5 minutes, ends after a minute of
+  silence, and is accepted only from pages served by the same host.
+- Over: the browser talking to Gemini directly with a short-lived token (less latency and less
+  load on our server, but tool calls would arrive in the browser, which would have to send them
+  back to the server to run, and the daily cap could not see the conversation); a browser
+  speech-to-text and text-to-speech loop around typed chat (no new API, but slow turn-taking and
+  no interruptions).
+- Because: the key never leaves the server, tools and the cap stay where they already are, and
+  one WebSocket needs no new dependency (the web server already handles them).
+- Revisit if: the extra hop's latency is noticeable, or the site gets enough Talk sessions to
+  load the server.
+- Decided by the owner on 2026-10-12 (relay, not a browser token).
+
 ## D30: Scoring checked against outside research; hard cap and Strain mix kept
 - Chose: keep the hard cap as a 30-point penalty (SNA still ranks, marked down with its reason),
   and keep Strain's mix at delay 50 / cancellations 25 / fares 25.
