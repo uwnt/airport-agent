@@ -47,6 +47,7 @@ jobs:
       - name: Stage runtime secrets on Fly (applied by the deploy below)
         env:
           DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN_PRD }}
+        shell: bash  # GitHub then runs: bash --noprofile --norc -eo pipefail {0}
         run: |
           # An explicit allowlist: only GEMINI_API_KEY is copied. No file is written: the value
           # goes from the secrets manager to Fly on stdin, masked in case anything echoes it.

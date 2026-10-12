@@ -320,6 +320,25 @@ def test_a_question_over_the_size_limit_is_refused(web):
     assert web.post("/chat", json={"message": too_long[:-1], "calls": [CALL]}).status_code == 200
 
 
+def test_the_refusal_message_is_readable_in_the_422_body(web):
+    body = web.post("/chat", json={"message": "x" * (server.MAX_QUESTION_CHARS + 1)}).json()
+    assert isinstance(body["detail"], list)
+    assert f"at most {server.MAX_QUESTION_CHARS} characters" in body["detail"][0]["msg"]
+    turns = [
+        {"role": "user", "text": "x" * server.MAX_HISTORY_CHARS},
+        {"role": "model", "text": "y"},
+    ]
+    msg = web.post("/chat", json={"calls": [CALL], "history": turns}).json()["detail"][0]["msg"]
+    assert msg.startswith("Value error, ")  # the page strips this prefix
+
+
+def test_the_page_shows_the_messages_of_a_422_refusal():
+    script = (Path(server.__file__).parent / "static" / "app.js").read_text(encoding="utf-8")
+    assert "Array.isArray(problem.detail)" in script
+    assert "problem.detail.map(" in script
+    assert 'replace(/^Value error, /, "")' in script
+
+
 def test_more_than_ten_earlier_turns_are_refused(web):
     turns = [{"role": "user", "text": "Hi"}, {"role": "model", "text": "Hello."}] * 6
     assert len(turns) == server.MAX_HISTORY_TURNS + 2
