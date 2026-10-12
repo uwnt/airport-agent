@@ -1,6 +1,6 @@
 # e-trap-uncovered-airport
 
-Model: `gemini-3.8-flash`. Run on 2026-10-11.
+Model: `gemini-3.8-flash`. Run on 2026-10-12.
 
 ## Question 1
 
@@ -52,18 +52,24 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
 
 ### Answer
 
-San Juan (SJU) cannot be evaluated or ranked for terminal expansion because it is not included in the dataset. Only lower-48 US airports covered in the US Department of Transportation (DOT) data are tracked and ranked; Luis Muñoz Marín International Airport (SJU) is located in Puerto Rico and is excluded.
+San Juan (SJU) cannot be evaluated for terminal expansion because it is not included in the ranking dataset. 
 
-### Tool Results and Limitations
-When attempting to look up San Juan (SJU), the analysis tools returned the following error:
-* `No airport for code 'SJU': in BTS On-Time Performance (Reporting Carrier), BTS passenger boardings (top 50 airports); OurAirports lists it in PR, not the US`
+The tool returned the following error:
+> "No airport for code 'SJU': in BTS On-Time Performance (Reporting Carrier), BTS passenger boardings (top 50 airports); OurAirports lists it in PR, not the US"
 
-### What Can Be Done Instead
-I can evaluate and rank commercial airports located within the contiguous United States (lower-48), examine demand pressure signals, compare airports side by side, or analyze changes over time since 2019 or 2021 for supported airports.
+Only lower-48 US commercial airports included in the DOT fare data are ranked and analyzed by this system. 
+
+### What we can do instead
+Instead of SJU, I can evaluate, rank, or compare commercial airports located within the contiguous United States (or provide flight share data for Anchorage, ANC). For example, I can:
+- Rank airports nationally or across specific regions (such as New England or the LA area).
+- Evaluate terminal expansion potential and demand strain for hub or focus airports in the lower-48 states (e.g., Miami [MIA], Orlando [MCO], Fort Lauderdale [FLL], or Tampa [TPA]).
+- Provide profiles, demand pressure metrics, or historical performance comparisons since 2019 or 2021 for any supported lower-48 US airport.
 
 ### Run
 
-- Seconds: 6.5
-- Tokens: 3,359 in / 246 out / 0 thinking
-- Cost: $0.0034
+- Seconds: 4.3
+- Tokens (reported): 3,907 in / 299 out / 0 thinking
+- Tool-result input tokens (estimated): 138
+- Cost (reported): $0.0041
+- Cost (estimated with tool results): $0.0042
 - Number check: all numbers found in tool results

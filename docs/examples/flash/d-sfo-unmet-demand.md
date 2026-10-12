@@ -1,6 +1,6 @@
 # d-sfo-unmet-demand
 
-Model: `gemini-3.8-flash`. Run on 2026-10-11.
+Model: `gemini-3.8-flash`. Run on 2026-10-12.
 
 ## Question 1
 
@@ -11,10 +11,10 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
 1. `demand_pressure` {"code": "SFO"}
 
    - SFO: top quartile nationally: delay; bottom quartile: cancellations, growth.
-   - delay: percentile 100.0, value 9.84
-   - cancellations: percentile 24.6, value 0.0107
-   - fare premium: percentile 44.9, value 1.005
-   - growth: percentile 20.2, value -8.8
+   - delay: percentile 100, value 9.84
+   - cancellations: percentile 25, value 0.0107
+   - fare premium: percentile 45, value 1.005
+   - growth: percentile 20, value -8.8
 
    <details><summary>Full result</summary>
 
@@ -23,11 +23,11 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
      "code": "SFO",
      "name": "San Francisco International Airport",
      "ranked": true,
-     "ranked_nationally": 138,
+     "ranked_count": 138,
      "signals": {
        "delay": {
          "group": "strain",
-         "percentile": 100.0,
+         "percentile": 100,
          "value": 9.84,
          "unit": "NAS delay minutes per landed flight",
          "source": "BTS On-Time Performance (Reporting Carrier) (https://transtats.bts.gov/PREZIP/)",
@@ -36,7 +36,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
        },
        "cancellations": {
          "group": "strain",
-         "percentile": 24.6,
+         "percentile": 25,
          "value": 0.0107,
          "unit": "cancelled ÷ (scheduled − diverted)",
          "source": "BTS On-Time Performance (Reporting Carrier) (https://transtats.bts.gov/PREZIP/)",
@@ -46,7 +46,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
        },
        "fare premium": {
          "group": "strain",
-         "percentile": 44.9,
+         "percentile": 45,
          "value": 1.005,
          "unit": "ratio to national fare per mile",
          "source": "DOT Consumer Airfare Report, Table 1a (https://datahub.transportation.gov/resource/tfrh-tu9e.json)",
@@ -55,7 +55,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
        },
        "growth": {
          "group": "growth",
-         "percentile": 20.2,
+         "percentile": 20,
          "value": -8.8,
          "unit": "% change in passengers per day",
          "source": "DOT Consumer Airfare Report, Table 1a (https://datahub.transportation.gov/resource/tfrh-tu9e.json)",
@@ -79,7 +79,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
      },
      "confidence": "High",
      "summary": "SFO: top quartile nationally: delay; bottom quartile: cancellations, growth.",
-     "percentile_note": "percentile 100 = highest of all airports ranked nationally; higher means more strain or more growth"
+     "percentile_note": "percentile 100 = highest of the ranked_count airports ranked nationally; higher means more strain or more growth. ranked_count is how many airports are ranked, not this airport's rank: this tool gives no rank (rank_airports gives national_rank)"
    }
    ```
 
@@ -199,42 +199,39 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
 
 ### Answer
 
-At San Francisco International Airport (SFO), signs of unmet demand are mixed: while the airport suffers from severe operational strain in delays (highest nationally), actual passenger traffic remains below pre-pandemic levels, and cancellation and fare premium strain remain moderate to low.
+San Francisco International Airport (SFO) shows severe operational strain through air traffic delays, placing in the 100th percentile nationally for delays, but it does not show typical signs of unmet passenger demand across pricing or traffic growth. Its passenger volume has contracted compared to 2019 levels (placing in the 20th percentile nationally for growth), its cancellation rate is low (25th percentile), and its fares are below the 50th percentile (45th percentile).
 
-The severe operational strain at SFO is heavily driven by physical airfield constraints:
-- **Runway spacing:** Runways 28L and 28R are 750 ft apart (centreline to centreline). In visual conditions, two planes can land side by side, but in instrument conditions (low cloud or fog), they cannot and arrivals must be flown as staggered pairs. According to the FAA's capacity profile, the hourly rate drops from 104–107 operations to 71–78 operations (Note 6, [FAA Order JO 7110.308B](https://www.faa.gov/documentLibrary/media/Order/2017-07-10_JO_7110.308B_Simultaneous_Dependent_Approaches_to_Closely_Parallel_Runways.pdf) and [FAA SFO Capacity Profile](https://www.faa.gov/sites/faa.gov/files/airports/planning_capacity/profiles/SFO-Airport-Capacity-Profile-2019.pdf), checked 2026-10-11).
-- **Physical expansion barriers:** SFO cannot widen this runway gap without Bay fill. Any permit requires BCDC approval under the McAteer-Petris Act. Following the 1999 runway reconfiguration plan (which considered up to about 1,500 acres of fill), San Francisco voters passed Proposition D in 2001, requiring a public vote for any city project with more than 100 acres of Bay fill, covering every option studied; the runways were never moved (Note 7, [Federal Register Notice](https://www.govinfo.gov/content/pkg/FR-1999-07-01/html/99-16756.htm), [SF Board of Supervisors](https://sfbos.org/introduction-4), and [CEQAnet](https://ceqanet.lci.ca.gov/1999072002), checked 2026-10-11).
+The extreme delays at SFO stem from airfield capacity constraints during adverse weather:
+* **Runway spacing and weather sensitivity:** Runways 28L and 28R are 750 ft apart (centreline to centreline). In good weather, two planes can land side by side; in instrument conditions (low cloud or fog), they cannot, and arrivals are flown as staggered pairs instead. FAA's capacity profile shows the airport's hourly rate falling from 104–107 operations (visual, side by side) to 71–78 (instrument) (Note 6, checked 2026-10-11, [FAA Order JO 7110.308B](https://www.faa.gov/documentLibrary/media/Order/2017-07-10_JO_7110.308B_Simultaneous_Dependent_Approaches_to_Closely_Parallel_Runways.pdf), [FAA Airport Capacity Profile](https://www.faa.gov/sites/faa.gov/files/airports/planning_capacity/profiles/SFO-Airport-Capacity-Profile-2019.pdf)).
+* **Runway expansion barriers:** SFO cannot widen the runway gap without Bay fill. The Bay Conservation and Development Commission (BCDC) issues Bay fill permits under the McAteer-Petris Act. A 1999 runway reconfiguration plan considered up to about 1,500 acres of fill; in 2001, San Francisco voters passed Proposition D, requiring a public vote for any city project with more than 100 acres of Bay fill. The runways were never moved (Note 7, checked 2026-10-11, [Federal Register Notice](https://www.govinfo.gov/content/pkg/FR-1999-07-01/html/99-16756.htm), [SF Board of Supervisors](https://sfbos.org/introduction-4), [CEQA Net](https://ceqanet.lci.ca.gov/1999072002)).
 
-### Demand and Strain Numbers
+### Measured Demand and Strain Signals (SFO)
 
-| Signal | Group | Measured Value | National Percentile | Details |
-| :--- | :--- | :--- | :--- | :--- |
-| **Delay** | Strain | 9.84 NAS delay min / landed flight | 100.0 | 145,831 landed of 147,716 scheduled |
-| **Fare premium** | Strain | 1.005 ratio | 44.9 | 1.0 = normal fares for distances |
-| **Cancellations** | Strain | 0.0107 (1.1%) | 24.6 | 1,579 cancelled, 306 diverted |
-| **Growth** | Growth | -8.8% | 20.2 | 58,683.3 passengers/day in 2019 Q1 |
+| Signal | Group | Measured Value | National Percentile | Source | As of |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Delay** | Strain | 9.84 NAS delay minutes per landed flight | 100th | BTS On-Time Performance | Aug 2025 to Jul 2026 |
+| **Cancellations** | Strain | 1.1% (0.0107 cancelled ÷ [scheduled − diverted]) | 25th | BTS On-Time Performance | Aug 2025 to Jul 2026 |
+| **Fare Premium** | Strain | 1.005 ratio to national fare per mile | 45th | DOT Consumer Airfare Report, Table 1a | 2026 Q1 |
+| **Growth** | Growth | -8.8% change in passengers per day | 20th | DOT Consumer Airfare Report, Table 1a | 2026 Q1 vs 2019 Q1 |
 
-- **Friction Penalty:** Applied (20 points, tier: major) due to runway spacing and Bay fill constraints (checked 2026-10-11).
-- **Confidence:** High.
-- **National Rank:** Ranked 138 nationally for unmet demand pressure.
-
----
+### Friction and Confidence
+* **Friction Penalty:** Applied under tier "major" (20 points) for "Runway spacing and Bay fill" (checked 2026-10-11, review by 2027-10-11).
+* **Confidence:** High.
 
 ### Assumptions and data
-- **Thresholds & Definitions:** 
-  - Percentile 100 = highest of all airports ranked nationally; higher means more strain or more growth.
-  - Delay measured as NAS delay minutes per landed flight.
-  - Cancellations measured as cancelled ÷ (scheduled − diverted).
-  - Fare premium measured as ratio to national fare per mile.
-  - Growth measured as % change in passengers per day (domestic listed markets).
-- **Data Sources:**
-  - BTS On-Time Performance (Reporting Carrier) ([BTS](https://transtats.bts.gov/PREZIP/)): as of Aug 2025 to Jul 2026.
-  - DOT Consumer Airfare Report, Table 1a ([DOT Data Hub](https://datahub.transportation.gov/resource/tfrh-tu9e.json)): as of 2026 Q1 and 2026 Q1 vs 2019 Q1.
-  - Verified facts and friction details: FAA capacity profile and orders, SF Board of Supervisors, CEQAnet, Federal Register (checked 2026-10-11).
+* **Definitions:**
+  * National percentiles are calculated out of 138 ranked airports nationally (percentile 100 indicates the highest value).
+  * Fare premium: ratio of 1.0 represents normal fares for those distances.
+  * Growth: measured as passenger-per-day change in 2026 Q1 relative to 58,683.3 passengers per day in 2019 Q1.
+* **Sources and Dates:**
+  * Bureau of Transportation Statistics (BTS) On-Time Performance (Reporting Carrier): August 2025 to July 2026 (145,831 landed of 147,716 scheduled flights; 1,579 cancelled, 306 diverted).
+  * Department of Transportation (DOT) Consumer Airfare Report, Table 1a: 2026 Q1 and 2019 Q1.
 
 ### Run
 
-- Seconds: 10.9
-- Tokens: 3,328 in / 1,069 out / 0 thinking
-- Cost: $0.0065
+- Seconds: 7.6
+- Tokens (reported): 3,876 in / 1,135 out / 0 thinking
+- Tool-result input tokens (estimated): 2,325
+- Cost (reported): $0.0072
+- Cost (estimated with tool results): $0.0089
 - Number check: all numbers found in tool results

@@ -1,6 +1,6 @@
 # h-trap-region-switch
 
-Model: `gemini-3.8-flash`. Run on 2026-10-11.
+Model: `gemini-3.8-flash`. Run on 2026-10-12.
 
 ## Question 1
 
@@ -31,7 +31,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
        "fare premium": 12.5,
        "growth": 50.0
      },
-     "ranked_nationally": 138,
+     "ranked_count": 138,
      "region": "New England",
      "rows": [
        {
@@ -45,7 +45,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
          "signals": {
            "delay": {
              "points": 24.1,
-             "percentile": 96.4,
+             "percentile": 96,
              "weight_pct": 25.0,
              "value": 6.88,
              "unit": "NAS delay minutes per landed flight",
@@ -55,7 +55,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
            },
            "cancellations": {
              "points": 10.8,
-             "percentile": 86.2,
+             "percentile": 86,
              "weight_pct": 12.5,
              "value": 0.0279,
              "unit": "cancelled ÷ (scheduled − diverted)",
@@ -66,7 +66,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
            },
            "fare premium": {
              "points": 4.4,
-             "percentile": 35.5,
+             "percentile": 36,
              "weight_pct": 12.5,
              "value": 0.959,
              "unit": "ratio to national fare per mile",
@@ -76,7 +76,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
            },
            "growth": {
              "points": 8.9,
-             "percentile": 17.8,
+             "percentile": 18,
              "weight_pct": 50.0,
              "value": -10.2,
              "unit": "% change in passengers per day",
@@ -102,7 +102,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
          "signals": {
            "delay": {
              "points": 21.7,
-             "percentile": 43.5,
+             "percentile": 43,
              "weight_pct": 50.0,
              "value": 2.31,
              "unit": "NAS delay minutes per landed flight",
@@ -112,7 +112,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
            },
            "cancellations": {
              "points": 23.9,
-             "percentile": 95.7,
+             "percentile": 96,
              "weight_pct": 25.0,
              "value": 0.034,
              "unit": "cancelled ÷ (scheduled − diverted)",
@@ -123,7 +123,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
            },
            "fare premium": {
              "points": 0.4,
-             "percentile": 1.4,
+             "percentile": 1,
              "weight_pct": 25.0,
              "value": 0.437,
              "unit": "ratio to national fare per mile",
@@ -156,7 +156,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
          "signals": {
            "delay": {
              "points": 19.0,
-             "percentile": 76.1,
+             "percentile": 76,
              "weight_pct": 25.0,
              "value": 3.02,
              "unit": "NAS delay minutes per landed flight",
@@ -166,7 +166,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
            },
            "cancellations": {
              "points": 11.1,
-             "percentile": 88.4,
+             "percentile": 88,
              "weight_pct": 12.5,
              "value": 0.0287,
              "unit": "cancelled ÷ (scheduled − diverted)",
@@ -177,7 +177,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
            },
            "fare premium": {
              "points": 5.1,
-             "percentile": 40.6,
+             "percentile": 41,
              "weight_pct": 12.5,
              "value": 0.984,
              "unit": "ratio to national fare per mile",
@@ -187,7 +187,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
            },
            "growth": {
              "points": 1.2,
-             "percentile": 2.3,
+             "percentile": 2,
              "weight_pct": 50.0,
              "value": -56.3,
              "unit": "% change in passengers per day",
@@ -216,7 +216,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
          "signals": {
            "delay": {
              "points": 8.9,
-             "percentile": 35.5,
+             "percentile": 36,
              "weight_pct": 25.0,
              "value": 2.13,
              "unit": "NAS delay minutes per landed flight",
@@ -226,7 +226,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
            },
            "cancellations": {
              "points": 10.2,
-             "percentile": 81.9,
+             "percentile": 82,
              "weight_pct": 12.5,
              "value": 0.0267,
              "unit": "cancelled ÷ (scheduled − diverted)",
@@ -237,7 +237,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
            },
            "fare premium": {
              "points": 2.8,
-             "percentile": 22.5,
+             "percentile": 22,
              "weight_pct": 12.5,
              "value": 0.869,
              "unit": "ratio to national fare per mile",
@@ -247,7 +247,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
            },
            "growth": {
              "points": 12.8,
-             "percentile": 25.6,
+             "percentile": 26,
              "weight_pct": 50.0,
              "value": -2.9,
              "unit": "% change in passengers per day",
@@ -273,7 +273,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
          "signals": {
            "delay": {
              "points": 12.9,
-             "percentile": 51.4,
+             "percentile": 51,
              "weight_pct": 25.0,
              "value": 2.43,
              "unit": "NAS delay minutes per landed flight",
@@ -283,7 +283,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
            },
            "cancellations": {
              "points": 9.1,
-             "percentile": 72.5,
+             "percentile": 72,
              "weight_pct": 12.5,
              "value": 0.0235,
              "unit": "cancelled ÷ (scheduled − diverted)",
@@ -294,7 +294,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
            },
            "fare premium": {
              "points": 5.4,
-             "percentile": 43.5,
+             "percentile": 43,
              "weight_pct": 12.5,
              "value": 0.996,
              "unit": "ratio to national fare per mile",
@@ -304,7 +304,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
            },
            "growth": {
              "points": 4.7,
-             "percentile": 9.3,
+             "percentile": 9,
              "weight_pct": 50.0,
              "value": -22.8,
              "unit": "% change in passengers per day",
@@ -330,7 +330,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
          "signals": {
            "delay": {
              "points": 8.0,
-             "percentile": 31.9,
+             "percentile": 32,
              "weight_pct": 25.0,
              "value": 2.06,
              "unit": "NAS delay minutes per landed flight",
@@ -340,7 +340,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
            },
            "cancellations": {
              "points": 10.0,
-             "percentile": 79.7,
+             "percentile": 80,
              "weight_pct": 12.5,
              "value": 0.0256,
              "unit": "cancelled ÷ (scheduled − diverted)",
@@ -351,7 +351,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
            },
            "fare premium": {
              "points": 8.1,
-             "percentile": 64.5,
+             "percentile": 64,
              "weight_pct": 12.5,
              "value": 1.057,
              "unit": "ratio to national fare per mile",
@@ -361,7 +361,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
            },
            "growth": {
              "points": 3.5,
-             "percentile": 7.0,
+             "percentile": 7,
              "weight_pct": 50.0,
              "value": -27.5,
              "unit": "% change in passengers per day",
@@ -390,7 +390,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
          "signals": {
            "delay": {
              "points": 2.3,
-             "percentile": 9.1,
+             "percentile": 9,
              "weight_pct": 25.0,
              "value": 1.35,
              "unit": "NAS delay minutes per landed flight",
@@ -400,7 +400,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
            },
            "cancellations": {
              "points": 9.1,
-             "percentile": 73.2,
+             "percentile": 73,
              "weight_pct": 12.5,
              "value": 0.0236,
              "unit": "cancelled ÷ (scheduled − diverted)",
@@ -411,7 +411,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
            },
            "fare premium": {
              "points": 3.7,
-             "percentile": 29.7,
+             "percentile": 30,
              "weight_pct": 12.5,
              "value": 0.942,
              "unit": "ratio to national fare per mile",
@@ -421,7 +421,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
            },
            "growth": {
              "points": 2.7,
-             "percentile": 5.4,
+             "percentile": 5,
              "weight_pct": 50.0,
              "value": -29.2,
              "unit": "% change in passengers per day",
@@ -452,70 +452,49 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
 
 ### Answer
 
-Boston Logan International Airport (BOS) ranks first in New England for terminal expansion potential with an overall score of 48.2 (national rank 77 of 138), followed by Bangor (BGR) and Burlington (BTV). Tweed New Haven Airport (HVN) is not ranked due to missing delay data.
+Boston Logan International Airport (BOS) ranks highest among New England airports for terminal expansion with an overall score of 48.2 (national rank 77 of 138), followed by Bangor International Airport (BGR) and Patrick Leahy Burlington International Airport (BTV). Tweed New Haven Airport (HVN) is not ranked due to having no measured delay data.
 
 ### New England Airport Rankings
 
-| Regional Rank | Airport | Code | Score | National Rank | Confidence | Friction Penalty |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 1 | Boston Logan International Airport | BOS | 48.2 | 77 | High | 0 |
-| 2 | Bangor International Airport | BGR | 46.0 | 85 | Low | 0 |
-| 3 | Patrick Leahy Burlington International Airport | BTV | 36.3 | 100 | Low | 0 |
-| 4 | Rhode Island T. F. Green International Airport | PVD | 34.7 | 106 | High | 0 |
-| 5 | Bradley International Airport | BDL | 32.0 | 113 | High | 0 |
-| 6 | Portland International Jetport | PWM | 29.5 | 116 | Low | 0 |
-| 7 | Manchester-Boston Regional Airport | MHT | 17.8 | 130 | High | 0 |
+| Regional Rank | Airport Code | Airport Name | State | Score | National Rank (of 138) | Friction Penalty | Confidence |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 1 | BOS | Boston Logan International Airport | MA | 48.2 | 77 | 0 | High |
+| 2 | BGR | Bangor International Airport | ME | 46.0 | 85 | 0 | Low |
+| 3 | BTV | Patrick Leahy Burlington International Airport | VT | 36.3 | 100 | 0 | Low |
+| 4 | PVD | Rhode Island T. F. Green International Airport | RI | 34.7 | 106 | 0 | High |
+| 5 | BDL | Bradley International Airport | CT | 32.0 | 113 | 0 | High |
+| 6 | PWM | Portland International Jetport | ME | 29.5 | 116 | 0 | Low |
+| 7 | MHT | Manchester-Boston Regional Airport | NH | 17.8 | 130 | 0 | High |
 
-*Unranked:* HVN (Tweed New Haven Airport) — no measured delay data.
-
----
-
-### Key Signal Measurements
-
-* **BOS:** Delay: 6.88 NAS delay minutes per landed flight (96.4th percentile); Cancellations: 2.8% (86.2nd percentile); Fare premium: 0.959 ratio to national fare per mile (35.5th percentile); Growth: -10.2% passenger change per day (17.8th percentile).
-* **BGR:** Delay: 2.31 NAS delay minutes per landed flight (43.5th percentile); Cancellations: 3.4% (95.7th percentile); Fare premium: 0.437 ratio (1.4th percentile); Growth: Missing (no DOT Table 1a rows for 2019 Q1).
-* **BTV:** Delay: 3.02 NAS delay minutes per landed flight (76.1st percentile); Cancellations: 2.9% (88.4th percentile); Fare premium: 0.984 ratio (40.6th percentile); Growth: -56.3% (2.3rd percentile).
-* **PVD:** Delay: 2.13 NAS delay minutes per landed flight (35.5th percentile); Cancellations: 2.7% (81.9th percentile); Fare premium: 0.869 ratio (22.5th percentile); Growth: -2.9% (25.6th percentile).
-* **BDL:** Delay: 2.43 NAS delay minutes per landed flight (51.4th percentile); Cancellations: 2.4% (72.5th percentile); Fare premium: 0.996 ratio (43.5th percentile); Growth: -22.8% (9.3rd percentile).
-* **PWM:** Delay: 2.06 NAS delay minutes per landed flight (31.9th percentile); Cancellations: 2.6% (79.7th percentile); Fare premium: 1.057 ratio (64.5th percentile); Growth: -27.5% (7.0th percentile).
-* **MHT:** Delay: 1.35 NAS delay minutes per landed flight (9.1st percentile); Cancellations: 2.4% (73.2nd percentile); Fare premium: 0.942 ratio (29.7th percentile); Growth: -29.2% (5.4th percentile).
-
----
-
-### Flags and Friction Penalties
-
-* **Low confidence flags:**
-  * **BGR:** Missing growth data (no DOT Table 1a rows for 2019 Q1) and fewer than 10 markets in DOT Table 1a (2 markets).
-  * **BTV:** Fewer than 10 markets in DOT Table 1a (3 markets).
-  * **PWM:** Fewer than 10 markets in DOT Table 1a (8 markets).
-* **Friction penalties:** None on file (0 points) for all ranked New England airports.
+### Confidence Flags and Friction
+- **Low confidence flags:**
+  - **BGR:** Growth signal is missing (no DOT Table 1a rows for 2019 Q1), and only 2 markets are present in DOT Table 1a (fewer than 10).
+  - **BTV:** Only 3 markets in DOT Table 1a (fewer than 10).
+  - **PWM:** Only 8 markets in DOT Table 1a (fewer than 10).
+- **Friction penalties:** None on file for any ranked New England airport (penalty points: 0).
 
 ---
 
 ### Assumptions and data
-
-* **Preset:** balanced
-* **Weights:**
-  * Growth: 50.0%
-  * Delay: 25.0%
-  * Cancellations: 12.5%
-  * Fare premium: 12.5%
-  *(Note: For BGR, where growth is missing, weights reallocated to delay: 50.0%, cancellations: 25.0%, fare premium: 25.0%.)*
-* **Definitions & thresholds:**
-  * Score: Sum of each signal's national percentile (0–100) multiplied by its weight, minus the largest friction penalty (minimum score 0).
-  * Delay: NAS delay minutes per landed flight.
-  * Cancellations: cancelled ÷ (scheduled − diverted).
-  * Fare premium: Ratio to national fare per mile (1.0 = normal fares for those distances).
-  * Growth: % change in passengers per day (2026 Q1 vs 2019 Q1).
-* **Data sources:**
-  * BTS On-Time Performance (Reporting Carrier): as of Aug 2025 to Jul 2026.
-  * DOT Consumer Airfare Report, Table 1a: as of 2026 Q1 (and 2026 Q1 vs 2019 Q1 for growth).
+- **Preset:** balanced
+- **Weights:**
+  - Growth: 50.0%
+  - Delay: 25.0%
+  - Cancellations: 12.5%
+  - Fare premium: 12.5%
+- **Scoring Method:** Score = sum of each signal's percentile (0–100, across all airports ranked nationally) times its weight, minus the largest friction penalty, never below 0.
+- **Data Sources:**
+  - **BTS On-Time Performance (Reporting Carrier):** Delay (NAS delay minutes per landed flight) and Cancellations (cancelled ÷ [scheduled − diverted]), as of Aug 2025 to Jul 2026.
+  - **DOT Consumer Airfare Report, Table 1a:** Fare premium (ratio to national fare per mile, where 1.0 = normal fares for those distances), as of 2026 Q1.
+  - **DOT Consumer Airfare Report, Table 1a:** Growth (% change in passengers per day), as of 2026 Q1 vs 2019 Q1.
 
 ### Run
 
-- Seconds: 11.7
-- Tokens: 3,295 in / 1,338 out / 0 thinking
-- Cost: $0.0075
+- Seconds: 6.5
+- Tokens (reported): 3,843 in / 761 out / 0 thinking
+- Tool-result input tokens (estimated): 4,196
+- Cost (reported): $0.0057
+- Cost (estimated with tool results): $0.0089
 - Number check: all numbers found in tool results
 
 ## Question 2
@@ -544,7 +523,7 @@ Boston Logan International Airport (BOS) ranks first in New England for terminal
        "fare premium": 12.5,
        "growth": 50.0
      },
-     "ranked_nationally": 138,
+     "ranked_count": 138,
      "region": "LA area",
      "rows": [
        {
@@ -558,7 +537,7 @@ Boston Logan International Airport (BOS) ranks first in New England for terminal
          "signals": {
            "delay": {
              "points": 1.4,
-             "percentile": 5.8,
+             "percentile": 6,
              "weight_pct": 25.0,
              "value": 1.2,
              "unit": "NAS delay minutes per landed flight",
@@ -568,7 +547,7 @@ Boston Logan International Airport (BOS) ranks first in New England for terminal
            },
            "cancellations": {
              "points": 1.7,
-             "percentile": 13.8,
+             "percentile": 14,
              "weight_pct": 12.5,
              "value": 0.008,
              "unit": "cancelled ÷ (scheduled − diverted)",
@@ -579,7 +558,7 @@ Boston Logan International Airport (BOS) ranks first in New England for terminal
            },
            "fare premium": {
              "points": 3.8,
-             "percentile": 30.4,
+             "percentile": 30,
              "weight_pct": 12.5,
              "value": 0.944,
              "unit": "ratio to national fare per mile",
@@ -589,7 +568,7 @@ Boston Logan International Airport (BOS) ranks first in New England for terminal
            },
            "growth": {
              "points": 25.2,
-             "percentile": 50.4,
+             "percentile": 50,
              "weight_pct": 50.0,
              "value": 11.0,
              "unit": "% change in passengers per day",
@@ -615,7 +594,7 @@ Boston Logan International Airport (BOS) ranks first in New England for terminal
          "signals": {
            "delay": {
              "points": 4.3,
-             "percentile": 17.4,
+             "percentile": 17,
              "weight_pct": 25.0,
              "value": 1.64,
              "unit": "NAS delay minutes per landed flight",
@@ -625,7 +604,7 @@ Boston Logan International Airport (BOS) ranks first in New England for terminal
            },
            "cancellations": {
              "points": 3.7,
-             "percentile": 29.3,
+             "percentile": 29,
              "weight_pct": 12.5,
              "value": 0.0117,
              "unit": "cancelled ÷ (scheduled − diverted)",
@@ -636,7 +615,7 @@ Boston Logan International Airport (BOS) ranks first in New England for terminal
            },
            "fare premium": {
              "points": 3.9,
-             "percentile": 31.5,
+             "percentile": 32,
              "weight_pct": 12.5,
              "value": 0.947,
              "unit": "ratio to national fare per mile",
@@ -646,7 +625,7 @@ Boston Logan International Airport (BOS) ranks first in New England for terminal
            },
            "growth": {
              "points": 17.4,
-             "percentile": 34.9,
+             "percentile": 35,
              "weight_pct": 50.0,
              "value": 2.4,
              "unit": "% change in passengers per day",
@@ -672,7 +651,7 @@ Boston Logan International Airport (BOS) ranks first in New England for terminal
          "signals": {
            "delay": {
              "points": 8.2,
-             "percentile": 32.6,
+             "percentile": 33,
              "weight_pct": 25.0,
              "value": 2.09,
              "unit": "NAS delay minutes per landed flight",
@@ -682,7 +661,7 @@ Boston Logan International Airport (BOS) ranks first in New England for terminal
            },
            "cancellations": {
              "points": 2.7,
-             "percentile": 21.7,
+             "percentile": 22,
              "weight_pct": 12.5,
              "value": 0.0099,
              "unit": "cancelled ÷ (scheduled − diverted)",
@@ -693,7 +672,7 @@ Boston Logan International Airport (BOS) ranks first in New England for terminal
            },
            "fare premium": {
              "points": 4.8,
-             "percentile": 38.4,
+             "percentile": 38,
              "weight_pct": 12.5,
              "value": 0.972,
              "unit": "ratio to national fare per mile",
@@ -703,7 +682,7 @@ Boston Logan International Airport (BOS) ranks first in New England for terminal
            },
            "growth": {
              "points": 6.2,
-             "percentile": 12.4,
+             "percentile": 12,
              "weight_pct": 50.0,
              "value": -21.1,
              "unit": "% change in passengers per day",
@@ -729,7 +708,7 @@ Boston Logan International Airport (BOS) ranks first in New England for terminal
          "signals": {
            "delay": {
              "points": 0.7,
-             "percentile": 2.9,
+             "percentile": 3,
              "weight_pct": 25.0,
              "value": 0.93,
              "unit": "NAS delay minutes per landed flight",
@@ -739,7 +718,7 @@ Boston Logan International Airport (BOS) ranks first in New England for terminal
            },
            "cancellations": {
              "points": 0.4,
-             "percentile": 2.9,
+             "percentile": 3,
              "weight_pct": 12.5,
              "value": 0.0042,
              "unit": "cancelled ÷ (scheduled − diverted)",
@@ -750,7 +729,7 @@ Boston Logan International Airport (BOS) ranks first in New England for terminal
            },
            "fare premium": {
              "points": 2.6,
-             "percentile": 20.7,
+             "percentile": 21,
              "weight_pct": 12.5,
              "value": 0.86,
              "unit": "ratio to national fare per mile",
@@ -760,7 +739,7 @@ Boston Logan International Airport (BOS) ranks first in New England for terminal
            },
            "growth": {
              "points": 9.7,
-             "percentile": 19.4,
+             "percentile": 19,
              "weight_pct": 50.0,
              "value": -9.3,
              "unit": "% change in passengers per day",
@@ -786,7 +765,7 @@ Boston Logan International Airport (BOS) ranks first in New England for terminal
          "signals": {
            "delay": {
              "points": 5.8,
-             "percentile": 23.2,
+             "percentile": 23,
              "weight_pct": 25.0,
              "value": 1.75,
              "unit": "NAS delay minutes per landed flight",
@@ -796,7 +775,7 @@ Boston Logan International Airport (BOS) ranks first in New England for terminal
            },
            "cancellations": {
              "points": 2.4,
-             "percentile": 18.8,
+             "percentile": 19,
              "weight_pct": 12.5,
              "value": 0.0091,
              "unit": "cancelled ÷ (scheduled − diverted)",
@@ -807,7 +786,7 @@ Boston Logan International Airport (BOS) ranks first in New England for terminal
            },
            "fare premium": {
              "points": 7.7,
-             "percentile": 61.2,
+             "percentile": 61,
              "weight_pct": 12.5,
              "value": 1.052,
              "unit": "ratio to national fare per mile",
@@ -817,7 +796,7 @@ Boston Logan International Airport (BOS) ranks first in New England for terminal
            },
            "growth": {
              "points": 14.7,
-             "percentile": 29.5,
+             "percentile": 29,
              "weight_pct": 50.0,
              "value": -0.7,
              "unit": "% change in passengers per day",
@@ -853,59 +832,44 @@ Boston Logan International Airport (BOS) ranks first in New England for terminal
 
 ### Answer
 
-Ontario International Airport (ONT) ranks first in the Los Angeles area for terminal expansion potential with an overall score of 32.2 (national rank 112 of 138), followed by Burbank (BUR) and Los Angeles International (LAX). John Wayne Orange County (SNA) ranks last due to a 30-point passenger cap friction penalty.
+Ontario International Airport (ONT) ranks highest among LA area airports for terminal expansion with an overall score of 32.2 (national rank 112 of 138), followed by Hollywood Burbank/Bob Hope Airport (BUR) and Los Angeles International Airport (LAX). John Wayne Orange County International Airport (SNA) ranks 5th locally (national rank 138 of 138) after a 30-point friction penalty.
 
 ### LA Area Airport Rankings
 
-| Regional Rank | Airport | Code | Score | Score Before Friction | National Rank | Friction Penalty | Confidence |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 1 | Ontario International Airport | ONT | 32.2 | 32.2 | 112 | 0 | High |
-| 2 | Hollywood Burbank/Bob Hope Airport | BUR | 29.4 | 29.4 | 117 | 0 | High |
-| 3 | Los Angeles International Airport | LAX | 21.9 | 21.9 | 127 | 0 | High |
-| 4 | Long Beach International Airport | LGB | 13.4 | 13.4 | 134 | 0 | High |
-| 5 | John Wayne Orange County International Airport | SNA | 0.5 | 30.5 | 138 | 30 | High |
+| Regional Rank | Airport Code | Airport Name | State | Score | Score Before Friction | National Rank (of 138) | Friction Penalty | Confidence |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 1 | ONT | Ontario International Airport | CA | 32.2 | 32.2 | 112 | 0 | High |
+| 2 | BUR | Hollywood Burbank/Bob Hope Airport | CA | 29.4 | 29.4 | 117 | 0 | High |
+| 3 | LAX | Los Angeles International Airport | CA | 21.9 | 21.9 | 127 | 0 | High |
+| 4 | LGB | Long Beach International Airport | CA | 13.4 | 13.4 | 134 | 0 | High |
+| 5 | SNA | John Wayne Orange County International Airport | CA | 0.5 | 30.5 | 138 | 30 | High |
 
----
-
-### Key Signal Measurements
-
-* **ONT:** Delay: 1.2 NAS delay minutes per landed flight (5.8th percentile); Cancellations: 0.8% (13.8th percentile); Fare premium: 0.944 ratio to national fare per mile (30.4th percentile); Growth: 11.0% passenger change per day (50.4th percentile).
-* **BUR:** Delay: 1.64 NAS delay minutes per landed flight (17.4th percentile); Cancellations: 1.2% (29.3rd percentile); Fare premium: 0.947 ratio (31.5th percentile); Growth: 2.4% (34.9th percentile).
-* **LAX:** Delay: 2.09 NAS delay minutes per landed flight (32.6th percentile); Cancellations: 1.0% (21.7th percentile); Fare premium: 0.972 ratio (38.4th percentile); Growth: -21.1% (12.4th percentile).
-* **LGB:** Delay: 0.93 NAS delay minutes per landed flight (2.9th percentile); Cancellations: 0.4% (2.9th percentile); Fare premium: 0.86 ratio (20.7th percentile); Growth: -9.3% (19.4th percentile).
-* **SNA:** Delay: 1.75 NAS delay minutes per landed flight (23.2nd percentile); Cancellations: 0.9% (18.8th percentile); Fare premium: 1.052 ratio (61.2th percentile); Growth: -0.7% (29.5th percentile).
-
----
-
-### Friction Penalties and Flags
-
-* **SNA Friction Penalty:** 30 points deducted for a Passenger cap (checked 2026-10-11; review by 2030-12-31). Annual passenger cap under the 1985 settlement agreement as amended: 11.8 million through 2025; 12.2 million for 2026 to 2030, or 12.5 million only if 11.21 million were served in 2021 to 2025 and certain mitigation measures are met. Sources: [OC Air Settlement Key Provisions](https://www.ocair.com/about/administration/settlement-agreement/key-provisions-settlement-agreement), [OC Air Settlement FAQs](https://www.ocair.com/about/administration/settlement-agreement/settlement-agreement-faqs). SNA also has a Curfew friction (minor, 10 points) which is not counted because only the largest penalty applies.
-* **Other Airports:** ONT, BUR, LAX, and LGB have no friction penalties on file (0 points).
-* **Confidence:** All airports in the LA area have High confidence.
+### Confidence and Friction Details
+- **Confidence:** All 5 airports have High confidence ratings.
+- **Friction Penalties:**
+  - **SNA:** Receives a 30-point friction penalty for a "Passenger cap" (checked 2026-10-11, review_by 2030-12-31; sources: https://www.ocair.com/about/administration/settlement-agreement/key-provisions-settlement-agreement and https://www.ocair.com/about/administration/settlement-agreement/settlement-agreement-faqs). SNA also has an uncounted friction entry: "Curfew (minor, 10 points; only the largest penalty counts)".
+  - **ONT, BUR, LAX, LGB:** None on file (0 points).
 
 ---
 
 ### Assumptions and data
-
-* **Preset:** balanced
-* **Weights:**
-  * Growth: 50.0%
-  * Delay: 25.0%
-  * Cancellations: 12.5%
-  * Fare premium: 12.5%
-* **Definitions & thresholds:**
-  * Score: Sum of each signal's national percentile (0–100) multiplied by its weight, minus the largest friction penalty (never below 0).
-  * Delay: NAS delay minutes per landed flight.
-  * Cancellations: cancelled ÷ (scheduled − diverted).
-  * Fare premium: Ratio to national fare per mile (1.0 = normal fares for those distances).
-  * Growth: % change in passengers per day (2026 Q1 vs 2019 Q1).
-* **Data sources:**
-  * BTS On-Time Performance (Reporting Carrier): as of Aug 2025 to Jul 2026.
-  * DOT Consumer Airfare Report, Table 1a: as of 2026 Q1 (and 2026 Q1 vs 2019 Q1 for growth).
+- **Preset:** balanced
+- **Weights:**
+  - Growth: 50.0%
+  - Delay: 25.0%
+  - Cancellations: 12.5%
+  - Fare premium: 12.5%
+- **Scoring Method:** Score = sum of each signal's percentile (0–100, across all airports ranked nationally) times its weight, minus the largest friction penalty, never below 0.
+- **Data Sources:**
+  - **BTS On-Time Performance (Reporting Carrier):** Delay (NAS delay minutes per landed flight) and Cancellations (cancelled ÷ [scheduled − diverted]), as of Aug 2025 to Jul 2026.
+  - **DOT Consumer Airfare Report, Table 1a:** Fare premium (ratio to national fare per mile, where 1.0 = normal fares for those distances), as of 2026 Q1.
+  - **DOT Consumer Airfare Report, Table 1a:** Growth (% change in passengers per day), as of 2026 Q1 vs 2019 Q1.
 
 ### Run
 
-- Seconds: 10.5
-- Tokens: 6,011 in / 1,247 out / 0 thinking
-- Cost: $0.0092
+- Seconds: 5.9
+- Tokens (reported): 5,405 in / 801 out / 0 thinking
+- Tool-result input tokens (estimated): 11,632
+- Cost (reported): $0.0071
+- Cost (estimated with tool results): $0.0158
 - Number check: all numbers found in tool results

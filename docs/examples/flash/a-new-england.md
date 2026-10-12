@@ -1,6 +1,6 @@
 # a-new-england
 
-Model: `gemini-3.8-flash`. Run on 2026-10-11.
+Model: `gemini-3.8-flash`. Run on 2026-10-12.
 
 ## Question 1
 
@@ -31,7 +31,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
        "fare premium": 12.5,
        "growth": 50.0
      },
-     "ranked_nationally": 138,
+     "ranked_count": 138,
      "region": "New England",
      "rows": [
        {
@@ -45,7 +45,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
          "signals": {
            "delay": {
              "points": 24.1,
-             "percentile": 96.4,
+             "percentile": 96,
              "weight_pct": 25.0,
              "value": 6.88,
              "unit": "NAS delay minutes per landed flight",
@@ -55,7 +55,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
            },
            "cancellations": {
              "points": 10.8,
-             "percentile": 86.2,
+             "percentile": 86,
              "weight_pct": 12.5,
              "value": 0.0279,
              "unit": "cancelled ÷ (scheduled − diverted)",
@@ -66,7 +66,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
            },
            "fare premium": {
              "points": 4.4,
-             "percentile": 35.5,
+             "percentile": 36,
              "weight_pct": 12.5,
              "value": 0.959,
              "unit": "ratio to national fare per mile",
@@ -76,7 +76,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
            },
            "growth": {
              "points": 8.9,
-             "percentile": 17.8,
+             "percentile": 18,
              "weight_pct": 50.0,
              "value": -10.2,
              "unit": "% change in passengers per day",
@@ -102,7 +102,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
          "signals": {
            "delay": {
              "points": 21.7,
-             "percentile": 43.5,
+             "percentile": 43,
              "weight_pct": 50.0,
              "value": 2.31,
              "unit": "NAS delay minutes per landed flight",
@@ -112,7 +112,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
            },
            "cancellations": {
              "points": 23.9,
-             "percentile": 95.7,
+             "percentile": 96,
              "weight_pct": 25.0,
              "value": 0.034,
              "unit": "cancelled ÷ (scheduled − diverted)",
@@ -123,7 +123,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
            },
            "fare premium": {
              "points": 0.4,
-             "percentile": 1.4,
+             "percentile": 1,
              "weight_pct": 25.0,
              "value": 0.437,
              "unit": "ratio to national fare per mile",
@@ -156,7 +156,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
          "signals": {
            "delay": {
              "points": 19.0,
-             "percentile": 76.1,
+             "percentile": 76,
              "weight_pct": 25.0,
              "value": 3.02,
              "unit": "NAS delay minutes per landed flight",
@@ -166,7 +166,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
            },
            "cancellations": {
              "points": 11.1,
-             "percentile": 88.4,
+             "percentile": 88,
              "weight_pct": 12.5,
              "value": 0.0287,
              "unit": "cancelled ÷ (scheduled − diverted)",
@@ -177,7 +177,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
            },
            "fare premium": {
              "points": 5.1,
-             "percentile": 40.6,
+             "percentile": 41,
              "weight_pct": 12.5,
              "value": 0.984,
              "unit": "ratio to national fare per mile",
@@ -187,7 +187,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
            },
            "growth": {
              "points": 1.2,
-             "percentile": 2.3,
+             "percentile": 2,
              "weight_pct": 50.0,
              "value": -56.3,
              "unit": "% change in passengers per day",
@@ -216,7 +216,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
          "signals": {
            "delay": {
              "points": 8.9,
-             "percentile": 35.5,
+             "percentile": 36,
              "weight_pct": 25.0,
              "value": 2.13,
              "unit": "NAS delay minutes per landed flight",
@@ -226,7 +226,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
            },
            "cancellations": {
              "points": 10.2,
-             "percentile": 81.9,
+             "percentile": 82,
              "weight_pct": 12.5,
              "value": 0.0267,
              "unit": "cancelled ÷ (scheduled − diverted)",
@@ -237,7 +237,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
            },
            "fare premium": {
              "points": 2.8,
-             "percentile": 22.5,
+             "percentile": 22,
              "weight_pct": 12.5,
              "value": 0.869,
              "unit": "ratio to national fare per mile",
@@ -247,7 +247,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
            },
            "growth": {
              "points": 12.8,
-             "percentile": 25.6,
+             "percentile": 26,
              "weight_pct": 50.0,
              "value": -2.9,
              "unit": "% change in passengers per day",
@@ -273,7 +273,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
          "signals": {
            "delay": {
              "points": 12.9,
-             "percentile": 51.4,
+             "percentile": 51,
              "weight_pct": 25.0,
              "value": 2.43,
              "unit": "NAS delay minutes per landed flight",
@@ -283,7 +283,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
            },
            "cancellations": {
              "points": 9.1,
-             "percentile": 72.5,
+             "percentile": 72,
              "weight_pct": 12.5,
              "value": 0.0235,
              "unit": "cancelled ÷ (scheduled − diverted)",
@@ -294,7 +294,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
            },
            "fare premium": {
              "points": 5.4,
-             "percentile": 43.5,
+             "percentile": 43,
              "weight_pct": 12.5,
              "value": 0.996,
              "unit": "ratio to national fare per mile",
@@ -304,7 +304,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
            },
            "growth": {
              "points": 4.7,
-             "percentile": 9.3,
+             "percentile": 9,
              "weight_pct": 50.0,
              "value": -22.8,
              "unit": "% change in passengers per day",
@@ -330,7 +330,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
          "signals": {
            "delay": {
              "points": 8.0,
-             "percentile": 31.9,
+             "percentile": 32,
              "weight_pct": 25.0,
              "value": 2.06,
              "unit": "NAS delay minutes per landed flight",
@@ -340,7 +340,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
            },
            "cancellations": {
              "points": 10.0,
-             "percentile": 79.7,
+             "percentile": 80,
              "weight_pct": 12.5,
              "value": 0.0256,
              "unit": "cancelled ÷ (scheduled − diverted)",
@@ -351,7 +351,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
            },
            "fare premium": {
              "points": 8.1,
-             "percentile": 64.5,
+             "percentile": 64,
              "weight_pct": 12.5,
              "value": 1.057,
              "unit": "ratio to national fare per mile",
@@ -361,7 +361,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
            },
            "growth": {
              "points": 3.5,
-             "percentile": 7.0,
+             "percentile": 7,
              "weight_pct": 50.0,
              "value": -27.5,
              "unit": "% change in passengers per day",
@@ -390,7 +390,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
          "signals": {
            "delay": {
              "points": 2.3,
-             "percentile": 9.1,
+             "percentile": 9,
              "weight_pct": 25.0,
              "value": 1.35,
              "unit": "NAS delay minutes per landed flight",
@@ -400,7 +400,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
            },
            "cancellations": {
              "points": 9.1,
-             "percentile": 73.2,
+             "percentile": 73,
              "weight_pct": 12.5,
              "value": 0.0236,
              "unit": "cancelled ÷ (scheduled − diverted)",
@@ -411,7 +411,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
            },
            "fare premium": {
              "points": 3.7,
-             "percentile": 29.7,
+             "percentile": 30,
              "weight_pct": 12.5,
              "value": 0.942,
              "unit": "ratio to national fare per mile",
@@ -421,7 +421,7 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
            },
            "growth": {
              "points": 2.7,
-             "percentile": 5.4,
+             "percentile": 5,
              "weight_pct": 50.0,
              "value": -29.2,
              "unit": "% change in passengers per day",
@@ -452,55 +452,61 @@ Model: `gemini-3.8-flash`. Run on 2026-10-11.
 
 ### Answer
 
-**Boston Logan International Airport (BOS)** ranks highest in New England for terminal expansion potential with an overall score of **48.2** (national rank 77 of 138), primarily driven by severe delay (96.4th percentile) and high cancellation rates (86.2nd percentile). 
+**Boston Logan International Airport (BOS)** ranks highest among New England airports for terminal expansion, followed by **Bangor International Airport (BGR)**, though New England airports generally score in the lower half nationally. 
 
-Overall, New England airports rank in the bottom half nationally (ranks 77 through 130), reflecting negative passenger traffic growth across the region since 2019.
+BOS stands out regionally due to severe congestion strain—ranking in the 96th percentile nationally for NAS flight delays and the 86th percentile for cancellations—even as passenger growth has contracted (-10.2%). BGR scores second regionally, but carries a **Low confidence** flag because passenger growth data is missing.
+
+---
 
 ### New England Airport Rankings
 
-| Rank | Airport | Code | Score | National Rank | Delay Pctile (Value) | Cancellations Pctile (Value) | Fare Premium Pctile (Value) | Growth Pctile (Value) | Confidence |
-|:---|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| 1 | Boston Logan | BOS | 48.2 | 77 | 96.4 (6.88 min) | 86.2 (2.8%) | 35.5 (0.959) | 17.8 (-10.2%) | High |
-| 2 | Bangor Intl | BGR | 46.0 | 85 | 43.5 (2.31 min) | 95.7 (3.4%) | 1.4 (0.437) | Missing | **Low** |
-| 3 | Patrick Leahy Burlington | BTV | 36.3 | 100 | 76.1 (3.02 min) | 88.4 (2.9%) | 40.6 (0.984) | 2.3 (-56.3%) | **Low** |
-| 4 | Rhode Island T. F. Green | PVD | 34.7 | 106 | 35.5 (2.13 min) | 81.9 (2.7%) | 22.5 (0.869) | 25.6 (-2.9%) | High |
-| 5 | Bradley Intl (Hartford) | BDL | 32.0 | 113 | 51.4 (2.43 min) | 72.5 (2.4%) | 43.5 (0.996) | 9.3 (-22.8%) | High |
-| 6 | Portland Intl Jetport | PWM | 29.5 | 116 | 31.9 (2.06 min) | 79.7 (2.6%) | 64.5 (1.057) | 7.0 (-27.5%) | **Low** |
-| 7 | Manchester-Boston Reg. | MHT | 17.8 | 130 | 9.1 (1.35 min) | 73.2 (2.4%) | 29.7 (0.942) | 5.4 (-29.2%) | High |
+| Regional Rank | Airport | Code | Score | National Rank (out of 138) | Confidence | Primary Strain / Signals |
+|---|---|---|---|---|---|---|
+| 1 | Boston Logan International Airport | BOS | 48.2 | 77 | High | Delays (96th percentile), Cancellations (86th percentile) |
+| 2 | Bangor International Airport | BGR | 46.0 | 85 | **Low** | Cancellations (96th percentile), Missing growth data |
+| 3 | Patrick Leahy Burlington International Airport | BTV | 36.3 | 100 | **Low** | Cancellations (88th percentile), Delays (76th percentile) |
+| 4 | Rhode Island T. F. Green International Airport | PVD | 34.7 | 106 | High | Cancellations (82nd percentile), Growth (-2.9%, 26th percentile) |
+| 5 | Bradley International Airport | BDL | 32.0 | 113 | High | Cancellations (72nd percentile), Delays (51st percentile) |
+| 6 | Portland International Jetport | PWM | 29.5 | 116 | **Low** | Cancellations (80th percentile), Fare premium (64th percentile) |
+| 7 | Manchester-Boston Regional Airport | MHT | 17.8 | 130 | High | Cancellations (73rd percentile), Delays (9th percentile) |
 
-*Note: Tweed New Haven Airport (HVN) is not ranked because it has no measured delay data.*
+*Note: Tweed New Haven Airport (HVN) was not ranked due to "no measured delay data".*
+
+---
 
 ### Confidence Flags and Friction Penalties
-* **Friction penalties:** None on file (0 points deducted) for any ranked New England airport.
-* **Low confidence flags:**
-  * **BGR:** Missing growth data (no DOT Table 1a rows for 2019 Q1) and fewer than 10 markets in DOT Table 1a (only 2 markets).
-  * **BTV:** Fewer than 10 markets in DOT Table 1a (only 3 markets).
-  * **PWM:** Fewer than 10 markets in DOT Table 1a (only 8 markets).
+
+- **Friction Penalties:** None on file (0 points deducted) for all ranked New England airports.
+- **Low Confidence Flags:**
+  - **BGR:** Growth missing ("no DOT Table 1a rows for 2019 Q1") and only 2 markets in DOT Table 1a (fewer than 10).
+  - **BTV:** Only 3 markets in DOT Table 1a (fewer than 10).
+  - **PWM:** Only 8 markets in DOT Table 1a (fewer than 10).
 
 ---
 
 ### Assumptions and data
 
-* **Preset:** balanced
-* **Weights:**
-  * Growth: 50.0%
-  * Delay: 25.0%
-  * Cancellations: 12.5%
-  * Fare premium: 12.5%
-  * *(Note: When growth is missing, as for BGR, weights are reallocated: delay 50.0%, cancellations 25.0%, fare premium 25.0%.)*
-* **Definitions & Units:**
-  * **Delay:** NAS delay minutes per landed flight.
-  * **Cancellations:** Cancelled ÷ (scheduled − diverted).
-  * **Fare premium:** Ratio to national fare per mile (1.0 = normal fares for those distances).
-  * **Growth:** % change in passengers per day (2026 Q1 vs 2019 Q1).
-  * **Scoring:** Sum of each signal's national percentile (0–100) multiplied by its weight, minus the largest friction penalty (minimum 0).
-* **Data Sources & As-Of Dates:**
-  * **BTS On-Time Performance (Reporting Carrier):** As of Aug 2025 to Jul 2026 (source for delay and cancellations).
-  * **DOT Consumer Airfare Report, Table 1a:** As of 2026 Q1 (fare premium) and 2026 Q1 vs 2019 Q1 (growth).
+- **Scoring Preset:** `balanced`
+  - Weights:
+    - Growth: 50.0%
+    - Delay: 25.0%
+    - Cancellations: 12.5%
+    - Fare premium: 12.5%
+- **Scoring Method:** Score equals the sum of each signal's percentile (0–100, across 138 airports ranked nationally) multiplied by its weight, minus the largest friction penalty (never below 0).
+- **Data Sources:**
+  - **Delays & Cancellations:** BTS On-Time Performance (Reporting Carrier) (https://transtats.bts.gov/PREZIP/), as of Aug 2025 to Jul 2026.
+    - *Delay:* NAS delay minutes per landed flight.
+    - *Cancellations:* Cancelled ÷ (scheduled − diverted).
+  - **Fare Premium:** DOT Consumer Airfare Report, Table 1a (https://datahub.transportation.gov/resource/tfrh-tu9e.json), as of 2026 Q1.
+    - *Fare premium ratio:* Ratio to national fare per mile (1.0 = normal fares for those distances).
+  - **Growth:** DOT Consumer Airfare Report, Table 1a (https://datahub.transportation.gov/resource/tfrh-tu9e.json), as of 2026 Q1 vs 2019 Q1.
+    - *Growth rate:* % change in passengers per day.
 
 ### Run
 
-- Seconds: 11.5
-- Tokens: 3,307 in / 1,202 out / 0 thinking
-- Cost: $0.0070
+- Seconds: 8.6
+- Tokens (reported): 3,855 in / 985 out / 0 thinking
+- Tool-result input tokens (estimated): 4,196
+- Cost (reported): $0.0066
+- Cost (estimated with tool results): $0.0097
 - Number check: all numbers found in tool results
