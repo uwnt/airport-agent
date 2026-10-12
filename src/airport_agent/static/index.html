@@ -72,6 +72,17 @@
     </details>
 
     <p id="mode-note" class="mode-note" hidden></p>
+    <!-- Shown on a site with an access code, until the right code is entered. -->
+    <div id="access" hidden>
+      <form id="access-form" class="picker-form">
+        <label class="field">
+          <span>Access code</span>
+          <input id="access-code" type="password" autocomplete="off" spellcheck="false"
+            maxlength="200" placeholder="Enter access code">
+        </label>
+        <button type="submit" class="button">Unlock free questions</button>
+      </form>
+    </div>
     <form id="ask" class="ask">
       <label for="question" class="sr-only">Your question</label>
       <textarea id="question" rows="1" maxlength="2000"

@@ -9,7 +9,31 @@ const $ = (selector) => document.querySelector(selector);
 const MAX_TURNS = 40;
 const MAX_TURN_CHARS = 20000;
 
-const state = { info: null, version: "latest", history: [], busy: false };
+// On a site with an access code, the code entered is kept for this browser tab only. Storage can
+// be blocked (private windows, strict settings): then it lasts until the page is reloaded.
+const CODE_KEY = "airport-agent-access-code";
+function storedCode() {
+  try { return sessionStorage.getItem(CODE_KEY) || ""; } catch { return ""; }
+}
+function storeCode(code) {
+  try { sessionStorage.setItem(CODE_KEY, code); } catch { /* kept in memory only */ }
+}
+function forgetCode() {
+  state.code = "";
+  try { sessionStorage.removeItem(CODE_KEY); } catch { /* nothing stored */ }
+}
+
+const state = { info: null, version: "latest", history: [], busy: false, code: storedCode() };
+
+function codeHeaders() {
+  return state.code ? { "X-Access-Code": state.code } : {};
+}
+
+// Free-form questions (and voice) need the model, and on a site with an access code, the code.
+function freeQuestions() {
+  const info = state.info;
+  return Boolean(info?.model && (!info.access_code_required || info.access_ok));
+}
 
 const STEP_LABELS = {
   rank_airports: "Ranking airports",
@@ -289,10 +313,16 @@ async function ask({ message = "", calls = [], label }) {
   try {
     const response = await fetch("/chat", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", ...codeHeaders() },
       body: JSON.stringify({ message, calls, history: state.history, version: state.version }),
     });
     if (!response.ok) {
+      if (response.status === 401 && state.info) {
+        // The code is no longer accepted (it was changed on the server): ask for it again.
+        forgetCode();
+        state.info.access_ok = false;
+        applyMode();
+      }
       const problem = await response.json().catch(() => ({}));
       const detail = typeof problem.detail === "string" ? problem.detail : `The server answered ${response.status}.`;
       fail(detail);
@@ -328,7 +358,7 @@ async function ask({ message = "", calls = [], label }) {
         draw();
         view.body.classList.remove("typing");
         markScrollers(view.body);
-        if (message && !calls.length && state.info?.model) {
+        if (message && !calls.length && freeQuestions()) {
           state.history.push({ role: "user", text: message }, { role: "model", text: data.text.slice(0, MAX_TURN_CHARS) });
           state.history = state.history.slice(-MAX_TURNS);
         }
@@ -347,18 +377,19 @@ async function ask({ message = "", calls = [], label }) {
 }
 
 function setBusy(busy) {
-  const model = state.info?.model;
-  $("#send").disabled = busy || !model;
-  $("#question").disabled = busy || !model;
+  const free = freeQuestions();
+  $("#send").disabled = busy || !free;
+  $("#question").disabled = busy || !free;
   for (const button of document.querySelectorAll(".suggestion, #picker-form button")) button.disabled = busy;
 }
 
 // --- Header: versions and data freshness -------------------------------------------------------
 
 async function loadInfo(version) {
-  const response = await fetch(`/info?version=${encodeURIComponent(version)}`);
+  const response = await fetch(`/info?version=${encodeURIComponent(version)}`, { headers: codeHeaders() });
   const info = await response.json();
   if (!response.ok) throw new Error(info.detail || `The server answered ${response.status}.`);
+  if (info.access_code_required && !info.access_ok && state.code) forgetCode();
   state.info = info;
   state.version = version;
 
@@ -395,18 +426,63 @@ function setUpChoices(info) {
   $("#pick-region").replaceChildren(...info.regions.map((r) => el("option", { value: r, text: r })));
   $("#pick-preset").replaceChildren(...info.presets.map((p) => el("option", { value: p, text: p })));
 
-  if (!info.model) {
-    const note = $("#mode-note");
+  applyMode();
+}
+
+// Free questions on or off: the note, the access code field, the question box and the microphone.
+function applyMode() {
+  const info = state.info;
+  const note = $("#mode-note");
+  const free = freeQuestions();
+  $("#access").hidden = !(info.model && !free);
+  $("#mic").hidden = !(micSupported && free);
+  if (free) {
+    note.hidden = true;
+    hintFollowsWidth = true;
+    updateHint();
+  } else {
     note.hidden = false;
-    note.textContent =
-      "No model is connected (no Gemini API key on the server), so free-form questions are off. " +
-      "The suggested questions and the picker still run the tools and show their results.";
-    $("#question").placeholder = "Needs the model";
+    note.textContent = info.model
+      ? "Free-form questions on this site need an access code. Without it, the suggested " +
+        "questions and the picker still run the tools and show their results."
+      : "No model is connected (no Gemini API key on the server), so free-form questions are off. " +
+        "The suggested questions and the picker still run the tools and show their results.";
+    $("#question").placeholder = info.model ? "Needs the access code" : "Needs the model";
     hintFollowsWidth = false;
     // Open on wide screens only: on a phone it would cover the suggested questions.
     $("#picker").open = matchMedia("(min-width: 700px)").matches;
   }
-  setBusy(false);
+  setBusy(state.busy);
+}
+
+// --- Access code (a public site) ---------------------------------------------------------------
+
+function setUpAccess() {
+  $("#access-form").addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const input = $("#access-code");
+    const code = input.value.trim();
+    if (!code) {
+      input.focus();
+      return;
+    }
+    state.code = code;
+    try {
+      await loadInfo(state.version); // the server says whether the code is right
+    } catch (error) {
+      $("#log").append(el("div", { class: "error", role: "alert", text: error.message }));
+      return;
+    }
+    input.value = "";
+    applyMode();
+    if (state.info.access_ok) {
+      storeCode(code);
+      $("#question").focus();
+    } else {
+      $("#mode-note").textContent = "That access code was not accepted. Check it and try again.";
+      input.focus();
+    }
+  });
 }
 
 // --- Picker: rank / compare / profile without the model ---------------------------------------
@@ -473,11 +549,13 @@ function setUpQuestionBox() {
 
 // Hold the button (or Space / Enter on it) to talk; on release the words are asked.
 // The Web Speech API runs in Chrome and Edge, on localhost or HTTPS; elsewhere the button stays hidden.
+let micSupported = false;
 function setUpMicrophone(submit) {
   const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   const button = $("#mic");
-  if (!Recognition || !state.info.model) return;
-  button.hidden = false;
+  if (!Recognition) return;
+  micSupported = true;
+  button.hidden = !freeQuestions(); // shown later too, once the access code is entered
   const box = $("#question");
   let recognition = null;
   let sendWhenDone = false;
@@ -535,15 +613,16 @@ function setUpMicrophone(submit) {
 
 // The full hint is in index.html; a phone gets a shorter one so it never wraps onto a hidden line.
 let hintFollowsWidth = true;
+let updateHint = () => {};
 function setUpHint() {
   const box = $("#question");
   const full = box.placeholder;
   const narrow = matchMedia("(max-width: 700px)");
-  const update = () => {
+  updateHint = () => {
     if (hintFollowsWidth) box.placeholder = narrow.matches ? "Ask about airports…" : full;
   };
-  narrow.addEventListener("change", update);
-  update();
+  narrow.addEventListener("change", () => updateHint());
+  updateHint();
   // Tables may start or stop overflowing when the width changes (rotating a phone).
   addEventListener("resize", () => {
     for (const body of document.querySelectorAll(".answer .body:not(.typing)")) markScrollers(body);
@@ -555,6 +634,7 @@ async function start() {
   setUpHint();
   const submit = setUpQuestionBox();
   setUpPicker();
+  setUpAccess();
   $("#version").addEventListener("change", async (event) => {
     const before = state.version;
     try {

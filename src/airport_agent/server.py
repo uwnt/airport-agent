@@ -13,6 +13,14 @@ version picked. The answer comes back as server-sent events, in this order:
 Without GEMINI_API_KEY there is no model: the suggested questions and the picker run their tools
 directly, and the answer is a fixed-wording summary of the results.
 
+Access code (for a public site): when ACCESS_CODE is set, a question goes to the model only if the
+request carries that code in the `X-Access-Code` header. Without it the server behaves as if there
+were no model: suggested questions and the picker still run their tools, and a free-form question
+is refused with 401. GET /info with the header says whether the code was right (`access_ok`).
+MAX_MODEL_QUESTIONS_PER_DAY caps the questions sent to the model per UTC day (default 200 when
+ACCESS_CODE is set; no cap when neither is set); over the cap a free-form question gets 429.
+Without ACCESS_CODE (local runs, Docker) nothing changes.
+
 Data: the server answers from one snapshot of the data store (DATA_STORE, see data/store.py),
 read fully into memory: the latest at startup. On use, once DATA_CHECK_MINUTES (default 5) have
 passed, it asks the store for its latest again and, if that is a new one, loads it and switches to
@@ -20,6 +28,7 @@ it in one step, so a new snapshot from `airport-agent refresh` is picked up with
 /health reports the version of that same loaded snapshot.
 """
 
+import hmac
 import json
 import logging
 import os
@@ -30,11 +39,11 @@ import threading
 import time
 from contextlib import asynccontextmanager
 from dataclasses import dataclass
-from datetime import date
+from datetime import UTC, date, datetime
 from pathlib import Path
 from typing import Literal
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, Header, HTTPException
 from fastapi.responses import FileResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field, field_validator
@@ -232,8 +241,68 @@ def is_stale(as_of, reference, months):
     return (reference.year - end[0]) * 12 + (reference.month - end[1]) > months
 
 
+# --- Access code and daily cap (a public site) -----------------------------------------------
+
+
+def access_code_required():
+    return bool(os.environ.get("ACCESS_CODE", "").strip())
+
+
+def access_ok(given):
+    """True if the model may be used for this request: no code is set, or `given` matches it."""
+    code = os.environ.get("ACCESS_CODE", "").strip()
+    if not code:
+        return True
+    # compare_digest takes the same time however much of the code matches: no guessing by timing.
+    return hmac.compare_digest((given or "").strip().encode(), code.encode())
+
+
+class DailyCap:
+    """Counts the questions sent to the model per UTC day and refuses those over the cap.
+
+    The count lives in memory only: it starts again at 0 when the server restarts, and Fly may stop
+    an idle machine and start it on the next visit. So this is a second guard on spending, not an
+    exact limit; the first is the access code, and the Gemini key's own spending cap is the last.
+    """
+
+    def __init__(self, clock=lambda: datetime.now(UTC).date()):
+        self.clock = clock
+        self.lock = threading.Lock()
+        self.day, self.count = None, 0
+
+    def limit(self):
+        """The cap for today, or None for no cap."""
+        text = os.environ.get("MAX_MODEL_QUESTIONS_PER_DAY", "").strip()
+        if not text:
+            return DEFAULT_DAILY_CAP if access_code_required() else None
+        try:
+            limit = int(text)
+            if limit < 0:
+                raise ValueError("must not be negative")
+            return limit
+        except ValueError:
+            log.warning("MAX_MODEL_QUESTIONS_PER_DAY=%r is not a whole number, using 200", text)
+            return DEFAULT_DAILY_CAP
+
+    def take(self):
+        """Count one model question; False (and not counted) if today's cap is already reached."""
+        limit = self.limit()
+        with self.lock:
+            today = self.clock()
+            if today != self.day:
+                self.day, self.count = today, 0
+            if limit is not None and self.count >= limit:
+                return False
+            self.count += 1
+            return True
+
+
+DEFAULT_DAILY_CAP = 200
+daily_cap = DailyCap()
+
+
 @app.get("/info")
-def info(version: str = "latest"):
+def info(version: str = "latest", x_access_code: str | None = Header(None, max_length=200)):
     """What the page needs to draw itself: mode, versions, sources with as-of dates, choices."""
     try:
         name, folder = snapshot_for(version)
@@ -253,6 +322,8 @@ def info(version: str = "latest"):
     ]
     return {
         "model": llm.has_api_key(),
+        "access_code_required": access_code_required(),  # never the code itself
+        "access_ok": access_ok(x_access_code),
         "versions": ["latest", *point_in_time_versions()],
         "version": name,
         "as_of": manifest["as_of"],
@@ -294,6 +365,14 @@ class ChatRequest(BaseModel):
     calls: list[Call] = Field(default_factory=list, max_length=4)  # the picker: tools to run
 
 
+NO_CODE_MESSAGE = (
+    "Free-form questions on this site need the access code. Enter it above the question box, "
+    "or pick a suggested question or use the rank / compare / profile picker (no code needed)."
+)
+CAP_MESSAGE = (
+    "This site has reached today's limit of questions to the model. It resets at midnight UTC. "
+    "The suggested questions and the rank / compare / profile picker still work."
+)
 NO_KEY_MESSAGE = (
     "Free-form questions need the model, and no GEMINI_API_KEY is set on the server. "
     "Pick a suggested question, or use the rank / compare / profile picker."
@@ -358,7 +437,7 @@ def _run_calls(calls, run_tool, emit):
 
 
 @app.post("/chat")
-def chat(request: ChatRequest):
+def chat(request: ChatRequest, x_access_code: str | None = Header(None, max_length=200)):
     """Answer one question as server-sent events (see the module notes for the events)."""
     try:
         _, folder = snapshot_for(request.version)
@@ -381,6 +460,15 @@ def chat(request: ChatRequest):
                 iter([_event("error", {"message": NO_KEY_MESSAGE})]),
                 media_type="text/event-stream",
             )
+    elif not access_ok(x_access_code):
+        # Without the code the site works as if there were no model.
+        calls = fixed.get(request.message.strip())
+        if calls is None:
+            raise HTTPException(status_code=401, detail=NO_CODE_MESSAGE)
+    elif not daily_cap.take():
+        calls = fixed.get(request.message.strip())  # a suggested question still runs its tools
+        if calls is None:
+            raise HTTPException(status_code=429, detail=CAP_MESSAGE)
     else:
         calls = None
 
