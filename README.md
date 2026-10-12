@@ -95,4 +95,22 @@ Weights, presets and friction penalties live in `config/scoring.yaml`; the const
 penalties are in `data/constraints.yaml`. Edit those files and restart: no Python is needed.
 
 ## How I work with AI
-_Written at Step 8, in my own words: the AI-assisted engineering system I use (standards, worker and reviewer agents, guards, decision log), what was AI-drafted in this repo vs. what I decided and wrote, and an offer to demo the full setup._
+**I decide; AI agents build; I review.** I chose the scope, the measure of "promising" (strain
+plus growth), the weights and presets, the friction penalties and the model. AI agents (Claude
+Code) wrote the code, each step on its own branch and pull request. I reviewed every step and can
+explain and change every part; the weights live in [`config/scoring.yaml`](config/scoring.yaml) so
+I can change them live.
+
+How that is kept honest:
+- **Written standards** the agents must follow: code style, security and workflow.
+- **Separate writers and reviewers.** One agent writes a change; a different agent reads the final
+  version of the pull request and records its verdict and findings on it. Each finding is fixed or
+  declined with a reason before I merge. Any merged pull request shows the record.
+- **Guards** block secrets and unsafe commands. Secrets come only from a secrets manager, never
+  from files in the repo, and every push is scanned.
+- **Decisions are logged as they happen**: 27 entries in [docs/DECISIONS.md](docs/DECISIONS.md),
+  each with what was chosen, what wasn't, and why.
+- **Numbers are checked, not trusted**: a test confirms every number in the agent's answers comes
+  from a tool result ([docs/examples/](docs/examples/)).
+
+I'm happy to demo the whole setup live on the call.
