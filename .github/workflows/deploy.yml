@@ -1,0 +1,66 @@
+# Deploy: build the image remotely on Fly and release it, then check /health reports this commit.
+# Started by hand only (no push trigger), and only on the `prod` branch or a release tag: one run
+# per release, and a rollback is the same workflow started on an older tag.
+# The only GitHub secret is DOPPLER_TOKEN_PRD, a read-only token for the secrets manager's
+# production config; FLY_API_TOKEN comes from there at run time. The app's runtime secrets
+# (GEMINI_API_KEY, ACCESS_CODE) are Fly secrets, set once from the same config (README).
+name: Deploy
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-fly
+  cancel-in-progress: false # never stop a release halfway
+
+permissions:
+  contents: read
+
+env:
+  APP_URL: https://airport-agent.fly.dev # matches `app` in fly.toml
+
+jobs:
+  deploy:
+    name: deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN_PRD }}
+    steps:
+      - name: Refuse anything but prod or a release tag
+        env:
+          REF: ${{ github.ref }}
+        run: |
+          case "$REF" in
+            refs/heads/prod | refs/tags/v*) echo "Deploying $REF" ;;
+            *) echo "::error::Deploy runs only on prod or a v* tag, not $REF"; exit 1 ;;
+          esac
+
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          persist-credentials: false
+
+      - uses: dopplerhq/cli-action@4819d808ab99e5cde19a0637a16536a4038fad73 # v4
+      - uses: superfly/flyctl-actions/setup-flyctl@ed8efb33836e8b2096c7fd3ba1c8afe303ebbff1 # 1.6
+
+      - name: Deploy (remote build)
+        env:
+          SHA: ${{ github.sha }}
+        run: doppler run -- flyctl deploy --remote-only --build-arg "RELEASE_SHA=$SHA"
+
+      - name: Check /health reports this commit
+        env:
+          SHA: ${{ github.sha }}
+        run: |
+          # The machine may still be starting: try for up to two minutes.
+          for attempt in $(seq 1 24); do
+            commit=$(curl -fsS --max-time 10 "$APP_URL/health" | jq -r .commit || true)
+            if [ "$commit" = "$SHA" ]; then
+              echo "Live: $APP_URL runs $SHA"
+              exit 0
+            fi
+            echo "Attempt $attempt: /health reports '${commit:-nothing}', waiting"
+            sleep 5
+          done
+          echo "::error::$APP_URL/health does not report $SHA"
+          exit 1
