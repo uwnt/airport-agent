@@ -1,7 +1,7 @@
 # Deploy: build the image remotely on Fly and release it, then check /health reports this commit.
 # Started by hand only (no push trigger), and only on the `prod` branch or a release tag: one run
 # per release, and a rollback is the same workflow started on an older tag.
-# The only GitHub secret is DOPPLER_TOKEN_PRD, a read-only token for the secrets manager's
+# The only GitHub secret is a read-only token (see `env` below) for the secrets manager's
 # production config; FLY_API_TOKEN comes from there at run time. The app's runtime secrets
 # (GEMINI_API_KEY) are copied from the same config to Fly by this workflow, before the deploy.
 name: Deploy
