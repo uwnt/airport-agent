@@ -125,6 +125,10 @@ def test_system_prompt_states_the_rules():
         "Otherwise don't mention scope",
         "Never state ranked_count as an airport's rank",
         "Percentiles are whole numbers",
+        "Never claim an average, median or other statistic the tools did not return",
+        "any name the tools did not give",
+        "never say a penalty causes",
+        "quote its reason as the tool gave it",
     ):
         assert rule in SYSTEM_PROMPT, rule
 
