@@ -33,11 +33,14 @@ IDLE_SECONDS = 60  # nothing heard, said or run for this long ends the session
 TICK_SECONDS = 1.0  # how often the time limits are checked
 MAX_TEXT_CHARS = 2_000  # a typed turn, as for a typed question
 MAX_AUDIO_BYTES = 64_000  # one microphone frame (2 s at 16 kHz); the page sends about 0.1 s
+AUDIO_BYTES_PER_SECOND = 32_000  # real time: 16 kHz, 2 bytes a sample, one channel
+AUDIO_BURST = 2  # how far ahead of real time the microphone may run (network jitter)
 
 OFF_MESSAGE = "Talk mode is switched off on this server."
 LIMIT_MESSAGE = "This talk reached its {minutes}-minute limit. Press Talk to start a new one."
 IDLE_MESSAGE = "This talk ended after {seconds} seconds of silence. Press Talk to start again."
 FAILED_MESSAGE = "The voice connection failed. Press Talk to try again."
+AUDIO_RATE_MESSAGE = "Audio arrived faster than anyone speaks, so this talk was ended."
 TOOL_LIMIT_RESULT = {"error": "tool-call limit reached for this question"}
 clock = time.monotonic  # replaced in tests, so the time limits are tried without waiting
 
@@ -78,12 +81,23 @@ async def relay(ws, run_tool, open_live=None, max_tool_calls=None):
         nonlocal last_activity
         last_activity = clock()
 
+    def audio_allowed(received):
+        # A script could push audio far faster than real time into one billed session. Counted
+        # from the start, with one second's grace so the first frames always pass.
+        elapsed = clock() - started
+        return received <= AUDIO_BYTES_PER_SECOND * AUDIO_BURST * (elapsed + 1)
+
     async def from_browser(live):
+        audio_received = 0
         while True:
             message = await ws.receive()
             if message["type"] == "websocket.disconnect":
                 return None
             if message.get("bytes"):
+                audio_received += len(message["bytes"])
+                if not audio_allowed(audio_received):
+                    await send_event(ws, "error", {"message": AUDIO_RATE_MESSAGE})
+                    return AUDIO_RATE_MESSAGE
                 await live.send_audio(message["bytes"][:MAX_AUDIO_BYTES])
             elif message.get("text"):
                 text = str(json.loads(message["text"]).get("text", "")).strip()

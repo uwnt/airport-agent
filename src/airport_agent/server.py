@@ -27,6 +27,7 @@ it in one step, so a new snapshot from `airport-agent refresh` is picked up with
 /health reports the version of that same loaded snapshot.
 """
 
+import asyncio
 import json
 import logging
 import os
@@ -510,7 +511,9 @@ async def talk_socket(ws: WebSocket, version: str = "latest"):
     if not llm.has_api_key():
         return await talk.refuse(ws, NO_KEY_MESSAGE)
     try:
-        _, folder = snapshot_for(version)
+        # A due snapshot reload or an older version's scan reads files: off the event loop, so
+        # it never stalls the sessions already relaying.
+        _, folder = await asyncio.to_thread(snapshot_for, version)
     except LookupError as error:
         return await talk.refuse(ws, str(error))
     if not daily_cap.take():  # one Talk session counts as one question

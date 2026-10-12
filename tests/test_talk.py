@@ -269,3 +269,45 @@ def test_the_microphone_worklet_is_served_from_this_site(web):
     # The page's content policy allows scripts from this site only, so the worklet is a file.
     assert web.get("/static/talk-worklet.js").status_code == 200
     assert web.get("/").text.count('id="talk"') == 1
+
+
+def test_audio_faster_than_real_time_ends_the_session(web, monkeypatch, live):
+    clock = [0.0]
+    monkeypatch.setattr(talk, "clock", lambda: clock[0])
+    allowance = talk.AUDIO_BYTES_PER_SECOND * talk.AUDIO_BURST  # the first second's share
+    with connect(web) as ws:
+        assert ws.receive_json()["data"] == {"state": "listening"}
+        ws.send_bytes(b"\x00" * allowance)
+        clock[0] = 10.0  # ten seconds of real-time speech later, ten seconds' audio still passes
+        for _ in range(10):
+            ws.send_bytes(b"\x00" * talk.AUDIO_BYTES_PER_SECOND)
+        wait_until(lambda: len(live.audio) == 11)
+        ws.send_bytes(b"\x00" * allowance * 10)  # then a burst far ahead of real time
+        wait_until(lambda: live.closed)  # with a deadline, so a missing limit fails, not hangs
+        assert ws.receive_json() == {
+            "event": "error",
+            "data": {"message": talk.AUDIO_RATE_MESSAGE},
+        }
+        assert ws.receive_json()["event"] == "closed"
+        with pytest.raises(WebSocketDisconnect):
+            ws.receive_json()
+    assert live.closed
+    assert len(live.audio) == 11  # the burst never reached the model
+
+
+def test_the_snapshot_is_looked_up_off_the_event_loop(web, monkeypatch, live):
+    lookup, seen = server.snapshot_for, []
+
+    def snapshot_for(version):
+        try:
+            asyncio.get_running_loop()
+            seen.append("on the event loop")
+        except RuntimeError:
+            seen.append("in a worker thread")
+        return lookup(version)
+
+    monkeypatch.setattr(server, "snapshot_for", snapshot_for)
+    with connect(web) as ws:
+        assert ws.receive_json()["data"] == {"state": "listening"}
+        leave(ws, live)
+    assert seen == ["in a worker thread"]
