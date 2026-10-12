@@ -300,9 +300,17 @@ def info(version: str = "latest"):
         name, folder = snapshot_for(version)
     except LookupError as error:
         raise HTTPException(status_code=404, detail=str(error)) from error
+    return info_payload(name, folder, date.today() if version == "latest" else None)
+
+
+def info_payload(name, folder, today=None):
+    """The /info body for snapshot `name` in `folder`; the release check builds it too.
+
+    Staleness is judged against `today`, or, for a point-in-time snapshot (None), its as-of date.
+    """
     manifest = read_manifest(folder)
     months = load_config()["freshness"]["stale_after_months"]
-    reference = date.today() if version == "latest" else date.fromisoformat(manifest["as_of"])
+    reference = today or date.fromisoformat(manifest["as_of"])
     sources = [
         {
             "name": key,
