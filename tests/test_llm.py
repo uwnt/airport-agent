@@ -124,6 +124,7 @@ def test_system_prompt_states_the_rules():
         "out of scope",
         "Otherwise don't mention scope",
         "Never state ranked_count as an airport's rank",
+        "Percentiles are whole numbers",
     ):
         assert rule in SYSTEM_PROMPT, rule
 

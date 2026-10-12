@@ -135,6 +135,15 @@ def test_demand_pressure_has_percentiles_and_a_summary_built_in_code(run):
     assert ", ".join(high) in result["summary"]
 
 
+def test_percentiles_are_whole_numbers(run):
+    # The evaluation run: the model wrote "61.2th percentile".
+    rows = run("rank_airports", region="LA area")["rows"]
+    pressure = run("demand_pressure", code="SNA")["signals"].values()
+    signals = [s for r in rows for s in r["signals"].values()] + list(pressure)
+    percentiles = [s["percentile"] for s in signals if "missing" not in s]
+    assert percentiles and all(isinstance(p, int) and 0 <= p <= 100 for p in percentiles)
+
+
 def test_rank_count_is_named_apart_from_a_rank(run):
     # The evaluation run: a count named ranked_nationally was read as "ranked 138 nationally".
     ranking = run("rank_airports", region="New England")

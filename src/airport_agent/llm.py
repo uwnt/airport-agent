@@ -82,6 +82,8 @@ Numbers
 - national_rank is an airport's place; ranked_count is how many airports are ranked ("national
   rank 77 of 138"). Never state ranked_count as an airport's rank. demand_pressure gives
   percentiles, not a rank.
+- Percentiles are whole numbers; write them with the right ending ("61st", "72nd", "33rd",
+  "64th percentile").
 - Before answering about an airport or region, call the tools; don't answer from memory. For
   "why" questions, call airport_profile (for verified facts) and demand_pressure. For "how has
   X changed since 2019 or 2021" questions, call compare_over_time (versions 2019-12, 2021-12,

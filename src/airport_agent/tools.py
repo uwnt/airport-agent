@@ -101,7 +101,8 @@ def _row(result):
         else:
             signals[s.label] = {
                 "points": round(s.contribution, 1),
-                "percentile": round(s.percentile, 1),
+                # Whole numbers read naturally ("61st"); "61.2th" did not. Points use the exact one.
+                "percentile": round(s.percentile),
                 "weight_pct": round(s.weight * 100, 1),
                 **_metric(s.metric, s.name),
             }
@@ -498,14 +499,11 @@ def demand_pressure(code, cache_dir=None, settings=None):
         if s.metric is None:
             signals[s.label] = {"group": group, "missing": s.missing or "no value"}
             continue
-        signals[s.label] = {
-            "group": group,
-            "percentile": round(s.percentile, 1),
-            **_metric(s.metric, s.name),
-        }
-        if s.percentile >= TOP_QUARTILE:
+        percentile = round(s.percentile)  # as shown, so the summary agrees with it
+        signals[s.label] = {"group": group, "percentile": percentile, **_metric(s.metric, s.name)}
+        if percentile >= TOP_QUARTILE:
             high.append(s.label)
-        elif s.percentile <= BOTTOM_QUARTILE:
+        elif percentile <= BOTTOM_QUARTILE:
             low.append(s.label)
     parts = [
         f"top quartile nationally: {', '.join(high) if high else 'none'}",
