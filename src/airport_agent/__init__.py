@@ -1,7 +1,8 @@
 """Airport Investment Intelligence Agent.
 
 Command line (installed as `airport-agent`):
-    airport-agent refresh [--as-of YYYY-MM] [--cache-dir data/cache] [--keep-raw]
+    airport-agent refresh [--as-of YYYY-MM] [--cache-dir data/cache] [--keep-raw] [--check-facts]
+    airport-agent check-facts [--record] [--open-issue]
 """
 
 import argparse
@@ -19,6 +20,16 @@ def _as_of(text):
     return text
 
 
+def _report_fact_changes():
+    """Report only: a network error here must not fail a refresh that already succeeded."""
+    from airport_agent.data.fact_watch import check_facts
+
+    try:
+        check_facts()
+    except Exception as error:  # noqa: BLE001 - the watch is advisory
+        print(f"Fact check skipped: {error}", file=sys.stderr)
+
+
 def main(argv=None):
     """Entry point of the `airport-agent` command; returns the exit code."""
     parser = argparse.ArgumentParser(prog="airport-agent")
@@ -31,7 +42,21 @@ def main(argv=None):
     )
     refresh.add_argument("--cache-dir", type=Path, default=Path("data/cache"))
     refresh.add_argument("--keep-raw", action="store_true", help="keep the BTS ZIPs")
+    refresh.add_argument(
+        "--check-facts", action="store_true", help="afterwards, report changed fact sources"
+    )
+    check = commands.add_parser(
+        "check-facts", help="re-download the source of every verified fact and report changes"
+    )
+    check.add_argument("--record", action="store_true", help="store today's fingerprints")
+    check.add_argument("--open-issue", action="store_true", help="file one GitHub issue")
     args = parser.parse_args(argv)
+
+    if args.command == "check-facts":
+        from airport_agent.data.fact_watch import check_facts
+
+        check_facts(record_baseline=args.record, issue=args.open_issue)
+        return 0
 
     from airport_agent.data.build import BuildError
     from airport_agent.data.refresh import refresh as run_refresh
@@ -41,4 +66,6 @@ def main(argv=None):
     except (BuildError, ValueError) as error:
         print(f"Refresh stopped: {error}", file=sys.stderr)
         return 1
+    if args.check_facts:
+        _report_fact_changes()
     return 0

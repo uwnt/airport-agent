@@ -110,3 +110,23 @@ The four example questions: **Q1** New England expansion candidates · **Q2** LA
   - **Shown only, not scored** (decision D27).
   - Where the table has separate arrival-priority and departure-priority rows, we take the lowest
     low to the highest high across both.
+
+## Fact-source watch (`airport-agent check-facts`)
+- **Gives:** a re-check of the page behind every verified fact in `docs/DOMAIN_NOTES.md` and every
+  constraint in `data/constraints.yaml`. Each URL is downloaded once, reduced to its visible text
+  (menus, footers, scripts and date-like strings such as "Last updated …" are dropped), and a
+  sha256 fingerprint is compared with the one in `data/fact_fingerprints.json`. A changed or
+  vanished source is reported; with `--open-issue` (needs `GITHUB_TOKEN`) one GitHub issue names
+  the facts and quotes the old and new text. `--record` stores fresh fingerprints;
+  `refresh --check-facts` runs the same report after a refresh. The program never edits a fact:
+  a person re-verifies.
+- **Outcomes:** unchanged (silent), changed, gone (404/410 or the host no longer exists),
+  unreachable (blocked, timeout, server error: "can't check", no alarm), new (no stored
+  fingerprint yet).
+- **Can't, or watch out:**
+  - **It sees that text changed, not whether it matters.** A person decides.
+  - **It misses changes reported elsewhere** (news before the source page itself changes).
+  - **PDFs and other files are fingerprinted by their bytes, which is coarser:** a re-saved PDF
+    alarms although its words are the same.
+  - **The baseline is from the day it was recorded** (the `recorded` date in the file), not the
+    day each fact was checked; a source that changed in between shows as "unchanged".

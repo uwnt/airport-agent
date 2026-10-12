@@ -362,3 +362,20 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
   report, and showing it adds a bad-weather angle without moving any rank.
 - Revisit if: the FAA publishes a newer summary table, or its coverage grows enough to score.
 - Decided by the owner on 2026-10-12 (source and shown-only).
+
+## D28: Watch fact sources with a fingerprint; a person re-verifies
+- Chose: `airport-agent check-facts` downloads the source of every verified fact, strips menus,
+  footers and dates, and compares a sha256 fingerprint of the text with the one stored in
+  `data/fact_fingerprints.json`. A changed or vanished source is reported, and with a token one
+  GitHub issue names the facts and quotes old against new. Blocked or slow sources are
+  "unreachable", never an alarm. The program never edits a fact. It also runs after a refresh
+  with `refresh --check-facts`, a flag so the monthly build does not need the network twice by default.
+- Over: updating facts automatically (a model or script rewriting a verified claim breaks the
+  rule that a person verifies); no watch (a fact's "checked" date would quietly go out of date
+  when its source moves).
+- Because: dates say how old a fact is; the watch says when to look again, cheaply and with the
+  standard library only.
+- Limits: it sees that text changed, not whether it matters; it does not see news reported
+  elsewhere before the page changes; PDFs are compared by bytes, so a re-saved file alarms;
+  the baseline is the day it was recorded, not the day each fact was checked.
+- Revisit if: false alarms swamp real ones, or a source needs a smarter comparison.
