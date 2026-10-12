@@ -252,6 +252,8 @@ function answerCard() {
     el("p", { class: "muted", text: "The tools that ran, their inputs, and the numbers they returned with source and date." }),
     howList,
   );
+  // A closed panel has no width, so its tables are marked when it opens (and again on resize).
+  how.addEventListener("toggle", () => { if (how.open) markScrollers(how); });
   card.append(steps, visuals, body, how);
   return { card, steps, visuals, body, how, howList };
 }
@@ -276,6 +278,9 @@ async function ask({ message = "", calls = [], label }) {
     view.body.replaceChildren(render(text));
   };
   const fail = (messageText) => {
+    // Draw what arrived once, and stop any frame already queued, so it cannot replace the marked tables.
+    finished = true;
+    draw();
     view.body.classList.remove("typing");
     markScrollers(view.body);
     view.card.append(el("div", { class: "error", role: "alert", text: messageText }));
@@ -541,6 +546,7 @@ function setUpHint() {
   // Tables may start or stop overflowing when the width changes (rotating a phone).
   addEventListener("resize", () => {
     for (const body of document.querySelectorAll(".answer .body:not(.typing)")) markScrollers(body);
+    for (const panel of document.querySelectorAll(".answer details.how[open]")) markScrollers(panel);
   });
 }
 
