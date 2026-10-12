@@ -624,14 +624,18 @@ function setUpTalk() {
     t.playing.clear();
     t.playAt = 0;
   };
+  // Close one session's socket, microphone and audio; safe to call more than once.
+  const release = (t) => {
+    t.socket?.close();
+    for (const track of t.mic?.getTracks() || []) track.stop();
+    if (t.audio.state !== "closed") t.audio.close();
+  };
   const stop = (problem, note) => {
     const t = talk;
     if (!t) return;
     talk = null;
     endTurn(t);
-    t.socket?.close();
-    for (const track of t.mic?.getTracks() || []) track.stop();
-    t.audio.close();
+    release(t);
     button.textContent = "Talk";
     button.setAttribute("aria-pressed", "false");
     delete button.dataset.state;
@@ -672,14 +676,18 @@ function setUpTalk() {
         audio: { channelCount: 1, echoCancellation: true, noiseSuppression: true },
       });
     } catch (error) {
+      if (talk !== t) return release(t); // stopped meanwhile: a newer session may have started
       stop(error.name === "NotAllowedError"
         ? "Microphone access was refused. Allow it in the browser's site settings, then press Talk."
         : `The microphone could not be opened (${error.message}).`);
       return;
     }
-    if (talk !== t) return; // stopped while the browser asked for the microphone
+    // After every wait, check this start was not stopped (or replaced) meanwhile; if it was,
+    // close what it opened and leave the current session alone.
+    if (talk !== t) return release(t);
     try {
       await t.audio.audioWorklet.addModule("/static/talk-worklet.js");
+      if (talk !== t) return release(t);
       const scheme = location.protocol === "https:" ? "wss:" : "ws:";
       t.socket = new WebSocket(`${scheme}//${location.host}/talk?version=${encodeURIComponent(state.version)}`);
       t.socket.binaryType = "arraybuffer";
@@ -698,6 +706,7 @@ function setUpTalk() {
         if (talk === t) stop("The voice connection was lost. Press Talk to start again.");
       };
     } catch (error) {
+      if (talk !== t) return release(t); // only ever stop this start's own session
       stop(`Talk mode could not start (${error.message}).`);
     }
   };
