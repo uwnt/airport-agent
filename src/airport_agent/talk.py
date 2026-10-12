@@ -3,8 +3,8 @@
 The browser opens a WebSocket to /talk (registered in server.py, which checks the guards first).
 The server opens a Live API session (llm.open_live: the typed chat's tools and system prompt) and
 relays between the two, so the API key never leaves the server:
-- browser to server: binary frames are microphone audio, 16-bit PCM at 16 kHz, mono; a text frame
-  {"text": ...} is a typed turn (used to try the relay without a microphone);
+- browser to server: binary frames are microphone audio, 16-bit PCM at 16 kHz, mono; text frames
+  are ignored (typed turns go through the typed chat, not here);
 - server to browser: binary frames are the model's speech, 16-bit PCM at 24 kHz, mono (binary,
   not base64 in JSON: a third smaller and nothing to decode); text frames are JSON events
   {"event": kind, "data": {...}}, with the typed chat's shapes where they overlap:
@@ -29,9 +29,8 @@ from airport_agent import llm
 log = logging.getLogger(__name__)
 
 MAX_SECONDS = 5 * 60  # one Talk session at most; each session counts as one question for the cap
-IDLE_SECONDS = 60  # nothing heard, said or run for this long ends the session
+IDLE_SECONDS = 60  # nothing heard, said or run (refused tool calls do not count) for this long
 TICK_SECONDS = 1.0  # how often the time limits are checked
-MAX_TEXT_CHARS = 2_000  # a typed turn, as for a typed question
 MAX_AUDIO_BYTES = 64_000  # one microphone frame (2 s at 16 kHz); the page sends about 0.1 s
 AUDIO_BYTES_PER_SECOND = 32_000  # real time: 16 kHz, 2 bytes a sample, one channel
 AUDIO_BURST = 2  # how far ahead of real time the microphone may run (network jitter)
@@ -42,6 +41,7 @@ IDLE_MESSAGE = "This talk ended after {seconds} seconds of silence. Press Talk t
 FAILED_MESSAGE = "The voice connection failed. Press Talk to try again."
 AUDIO_RATE_MESSAGE = "Audio arrived faster than anyone speaks, so this talk was ended."
 TOOL_LIMIT_RESULT = {"error": "tool-call limit reached for this question"}
+TOOL_ABUSE_MESSAGE = "The assistant kept asking for lookups past the limit, so this talk was ended."
 clock = time.monotonic  # replaced in tests, so the time limits are tried without waiting
 
 
@@ -99,17 +99,13 @@ async def relay(ws, run_tool, open_live=None, max_tool_calls=None):
                     await send_event(ws, "error", {"message": AUDIO_RATE_MESSAGE})
                     return AUDIO_RATE_MESSAGE
                 await live.send_audio(message["bytes"][:MAX_AUDIO_BYTES])
-            elif message.get("text"):
-                text = str(json.loads(message["text"]).get("text", "")).strip()
-                if text:
-                    active()
-                    await live.send_text(text[:MAX_TEXT_CHARS])
 
     async def from_model(live):
-        calls_this_turn, speaking, answer_due = 0, False, False
+        calls_this_turn, refused, speaking, answer_due, answered = 0, 0, False, False, False
         async for event in live.events():
             kind = event["kind"]
-            active()
+            if kind in ("heard", "said", "audio"):
+                active()
             if kind == "turn_complete" and answer_due:
                 # The Live API ends the model's turn at a tool call and answers in a new turn
                 # once it has the results: the spoken exchange (and the page's card) goes on.
@@ -117,6 +113,8 @@ async def relay(ws, run_tool, open_live=None, max_tool_calls=None):
                 continue
             if kind in ("tool_calls", "audio", "said", "interrupted"):
                 answer_due = kind == "tool_calls"
+            if kind in ("audio", "said"):
+                answered = True
             if kind == "audio":
                 if not speaking:
                     speaking = True
@@ -126,13 +124,16 @@ async def relay(ws, run_tool, open_live=None, max_tool_calls=None):
                 await send_event(ws, kind, {"text": event["text"]})
             elif kind == "tool_calls":
                 await send_event(ws, "state", {"state": "thinking"})
-                results = []
+                results, ran = [], False
                 for call in event["calls"]:
                     name, args = call["name"], call["args"]
                     if calls_this_turn >= max_tool_calls:
+                        refused += 1
                         results.append((call["id"], name, TOOL_LIMIT_RESULT))
                         continue
                     calls_this_turn += 1
+                    ran = True
+                    active()
                     await send_event(ws, "tool_start", {"name": name, "args": args})
                     result = await asyncio.to_thread(run_tool, name, args)
                     await send_event(
@@ -140,11 +141,17 @@ async def relay(ws, run_tool, open_live=None, max_tool_calls=None):
                     )
                     results.append((call["id"], name, result))
                 await live.send_tool_results(results)
+                # A refused call has nothing to wait for: its turn end must reach the page.
+                answer_due = ran
+                if refused >= 2:
+                    await send_event(ws, "error", {"message": TOOL_ABUSE_MESSAGE})
+                    return TOOL_ABUSE_MESSAGE
             elif kind in ("interrupted", "turn_complete"):
                 if kind == "interrupted":
                     await send_event(ws, "interrupted")
-                else:
-                    calls_this_turn = 0
+                elif answered:
+                    # Counts restart with a real answer, not with a turn that only hit the limit.
+                    calls_this_turn, refused, answered = 0, 0, False
                 speaking = False
                 await send_event(ws, "state", {"state": "listening"})
         return FAILED_MESSAGE  # the model's side ended on its own

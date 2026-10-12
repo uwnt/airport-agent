@@ -47,7 +47,7 @@ class FakeLive:
         self.audio.append(pcm)
 
     async def send_text(self, text):
-        self.texts.append(text)
+        self.texts.append(text)  # the relay never calls this: a test asserts it stays empty
 
     async def send_tool_results(self, results):
         self.tool_results.extend(results)
@@ -229,13 +229,72 @@ def test_tool_calls_past_the_limit_are_answered_with_an_error(web, monkeypatch, 
     assert live.tool_results[1] == ("b", "airport_profile", talk.TOOL_LIMIT_RESULT)
 
 
-def test_a_typed_turn_goes_to_the_model_as_text(web, live):
+def test_text_frames_from_the_browser_never_reach_the_model(web, live):
     with connect(web) as ws:
         ws.receive_json()
-        ws.send_text(json.dumps({"text": "  Rank New England  "}))
-        wait_until(lambda: live.texts)
+        for i in range(500):
+            ws.send_text(json.dumps({"text": f"question {i}"}))
+        ws.send_bytes(b"\x00" * 64)  # an audio frame sent after them shows they were all read
+        wait_until(lambda: live.audio)
         leave(ws, live)
-    assert live.texts == ["Rank New England"]
+    assert live.texts == []
+
+
+def test_a_model_that_keeps_calling_tools_past_the_limit_ends_the_session(web, monkeypatch, live):
+    monkeypatch.setenv("MAX_TOOL_CALLS", "1")
+    live.script = []
+    for i in range(1 + 3 + 1):
+        live.script += [
+            {
+                "kind": "tool_calls",
+                "calls": [tool_call("airport_profile", {"code": "BDL"}, str(i))],
+            },
+            {"kind": "turn_complete"},
+        ]
+    with connect(web) as ws:
+        events = []
+        while True:
+            try:
+                events.append(ws.receive_json())
+            except WebSocketDisconnect:
+                break
+    kinds = [(e["event"], e["data"].get("state")) for e in events]
+    # the first call runs; the first refused call ends in "listening"; the second ends the talk
+    assert kinds == [
+        ("state", "listening"),
+        ("state", "thinking"),
+        ("tool_start", None),
+        ("tool_result", None),
+        ("state", "thinking"),
+        ("state", "listening"),
+        ("state", "thinking"),
+        ("error", None),
+        ("closed", None),
+    ]
+    assert events[-2]["data"]["message"] == talk.TOOL_ABUSE_MESSAGE
+    assert len(live.tool_results) == 3
+    assert live.closed
+
+
+def test_refused_tool_calls_do_not_keep_a_session_from_going_idle(web, monkeypatch, live):
+    clock = [0.0]
+    monkeypatch.setattr(talk, "clock", lambda: clock[0])
+    monkeypatch.setattr(talk, "TICK_SECONDS", 0.01)
+    monkeypatch.setenv("MAX_TOOL_CALLS", "1")
+    calls = [tool_call("airport_profile", {"code": "BDL"}, "a")]
+    live.script = [
+        {"kind": "tool_calls", "calls": calls},
+        {"kind": "turn_complete"},
+        {"kind": "tool_calls", "calls": calls},
+    ]
+    with connect(web) as ws:
+        wait_until(lambda: len(live.tool_results) == 2)  # the second was refused
+        clock[0] = talk.IDLE_SECONDS
+        message = talk.IDLE_MESSAGE.format(seconds=talk.IDLE_SECONDS)
+        events = []
+        while not events or events[-1]["event"] != "closed":
+            events.append(ws.receive_json())
+    assert events[-1]["data"] == {"message": message}
 
 
 @pytest.mark.parametrize(
