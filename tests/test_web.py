@@ -320,6 +320,21 @@ def test_tables_scroll_by_keyboard_and_short_hint_is_set_from_script():
     css = (static / "app.css").read_text(encoding="utf-8")
     assert script.index("DOMPurify.sanitize") < script.index("function markScrollers")
     assert "wrap.scrollWidth > wrap.clientWidth" in script and "scrolls sideways" in script
-    assert script.count("markScrollers(") >= 4  # definition, done, fail, resize
+    assert (
+        script.count("markScrollers(") >= 6
+    )  # definition, done, fail, resize, panel open, panel resize
+    # The "How I got this" tables are marked when the panel opens and on resize while it is open.
+    assert 'how.addEventListener("toggle"' in script and "markScrollers(how)" in script
+    assert "details.how[open]" in script and 'class: "table-wrap"' in script
+    assert "if (view.how.open) markScrollers(view.how)" in script
+    # A failure marks the tables only after the final draw, and stops stale frames.
+    fail_body = script[
+        script.index("const fail =") : script.index("try {", script.index("const fail ="))
+    ]
+    assert (
+        fail_body.index("finished = true")
+        < fail_body.index("draw()")
+        < fail_body.index("markScrollers(")
+    )
     assert "matchMedia" in script
     assert "::placeholder" not in css
