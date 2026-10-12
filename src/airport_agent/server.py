@@ -25,6 +25,8 @@ read fully into memory: the latest at startup. On use, once DATA_CHECK_MINUTES (
 passed, it asks the store for its latest again and, if that is a new one, loads it and switches to
 it in one step, so a new snapshot from `airport-agent refresh` is picked up without a restart.
 /health reports the version of that same loaded snapshot.
+At startup the server also looks for a newer GitHub data release (DATA_RELEASES, on unless "off")
+in the background, and the Data panel can get or build newer data: see data_panel.py.
 """
 
 import asyncio
@@ -47,7 +49,7 @@ from fastapi.responses import FileResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field, field_validator
 
-from airport_agent import cli, llm, talk, tools
+from airport_agent import cli, data_panel, llm, talk, tools
 from airport_agent.data import faa_capacity
 from airport_agent.data.cache import CacheMissingError, load_config
 from airport_agent.data.metrics import load_cache
@@ -124,12 +126,14 @@ data = DataVersion()
 @asynccontextmanager
 async def lifespan(app):
     data.current()  # load the latest snapshot at startup
+    data_panel.start_release_check()  # in the background: startup never waits on GitHub
     yield
 
 
 app = FastAPI(title="Airport Investment Intelligence Agent", lifespan=lifespan)
 STATIC = Path(__file__).resolve().parent / "static"
 app.mount("/static", StaticFiles(directory=STATIC), name="static")
+app.include_router(data_panel.router)  # the Data panel: /data/status, /data/latest, /data/refresh
 
 
 def current_commit():
