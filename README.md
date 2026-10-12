@@ -48,6 +48,14 @@ Optional settings (defaults are in `src/airport_agent/llm.py`): `GEMINI_MODEL`,
 `GEMINI_THINKING_LEVEL` (minimal, low, medium or high), `MAX_ANSWER_TOKENS`, `MAX_TOOL_CALLS`
 (per question) and `REQUEST_TIMEOUT_SECONDS` (per model call).
 
+**Talk mode** (off by default; start the server with `TALK_MODE=on`) adds a Talk button: a spoken
+conversation with the agent on Gemini's Live API (`GEMINI_LIVE_MODEL`, default in `llm.py`). The
+page streams the microphone to this server over a WebSocket (`/talk`) and the server relays it to
+the model, so the key never reaches the browser. The model uses the same tools as typed chat, its
+tables appear on screen, and its spoken answers stay short. Each Talk session counts as one
+question for the daily cap and ends after 5 minutes, or after a minute with nothing said.
+Headphones work best, so the model doesn't hear itself.
+
 ## Run with Docker
 Needs only Docker (with Compose); the image runs on amd64 and arm64. A Gemini API key is needed
 for free-form questions.
