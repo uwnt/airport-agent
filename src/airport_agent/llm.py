@@ -17,6 +17,12 @@ result) after it, and "text" (a piece of the answer) as the model writes it. Wit
 model call streams (`stream=True`) and its steps are put back together from the stream's events
 (`assemble_steps`), so the history is the same as without streaming.
 
+Token usage: each model call reports how many tokens it read and wrote (`usage` on the
+interaction; when streamed, on the final `interaction.completed` event). The client keeps the
+last call's counts in `last_usage`, and `send` adds up its calls into `Answer.usage`: a dict
+such as {"total_input_tokens": ..., "total_output_tokens": ..., "total_thought_tokens": ...},
+empty when the client reports none (a test's fake model, for example).
+
 Settings come from the environment, each with a default:
 - GEMINI_API_KEY: the key; without it there is no model (the CLI offers fixed questions instead).
 - GEMINI_MODEL: default `gemini-3.8-flash` (Flash tier, stable). A Pro-tier alternative is
@@ -33,7 +39,10 @@ response's `steps` include `function_call` steps (id, name, arguments), answered
 `function_result` steps. Streaming (`stream=True`) yields events: `step.start` (the step's type;
 for a function call also its id and name), `step.delta` (`text`, `thought_signature`, or
 `arguments_delta`: a piece of the arguments' JSON, to be joined), `step.stop`,
-`interaction.completed` (no steps in it) and `error`.
+`interaction.completed` (no steps in it, but the call's `usage`) and `error`.
+Token counting (read 2026-10-12): `client.models.count_tokens(model=..., contents=text)` returns
+`total_tokens`, the input tokens of that text, without a model call.
+- https://ai.google.dev/gemini-api/docs/tokens
 - https://ai.google.dev/gemini-api/docs/streaming
 - https://ai.google.dev/gemini-api/docs/function-calling
 - https://ai.google.dev/gemini-api/docs/models
@@ -52,6 +61,15 @@ PRO_MODEL = "gemini-3.1-pro-preview"
 # Retried: short-lived server errors only. Not 429: a spent daily quota comes back as 429 with a
 # Retry-After of hours, and the SDK would sleep that long; the user should see the error at once.
 RETRY = types.HttpRetryOptions(attempts=3, http_status_codes=[408, 500, 502, 503, 504])
+# The token counts kept from a call's `usage` (the SDK's names); the per-modality lists are not.
+USAGE_FIELDS = (
+    "total_input_tokens",
+    "total_output_tokens",
+    "total_thought_tokens",
+    "total_cached_tokens",
+    "total_tool_use_tokens",
+    "total_tokens",
+)
 
 SYSTEM_PROMPT = """\
 You help investment analysts judge which US airports are most promising for terminal expansion.
@@ -64,6 +82,14 @@ Numbers
   percentage). Never compute a new number (no differences, ratios, sums or averages of your own)
   and never recall one from memory.
   If you need a number no tool gives, say it isn't available.
+- national_rank is an airport's place; ranked_count is how many airports are ranked ("national
+  rank 77 of 138"). Never state ranked_count as an airport's rank. demand_pressure gives
+  percentiles, not a rank.
+- Percentiles are whole numbers; write them with the right ending ("61st", "72nd", "33rd",
+  "64th percentile").
+- Never claim an average, median or other statistic the tools did not return. The tools give
+  percentiles: say "below the median airport" only as "below the 50th percentile", and don't
+  call anything "above (or below) the national average".
 - Before answering about an airport or region, call the tools; don't answer from memory. For
   "why" questions, call airport_profile (for verified facts) and demand_pressure. For "how has
   X changed since 2019 or 2021" questions, call compare_over_time (versions 2019-12, 2021-12,
@@ -75,14 +101,18 @@ Facts and general knowledge
   fact's checked date ("checked 2026-10-11"). If a fact or a friction penalty has stale: true,
   say it may be out of date and give its review_by date (the penalty still applies).
 - Anything else you add from your own knowledge must be marked "(general knowledge)" and must
-  contain no numbers.
+  contain no numbers. That includes any name the tools did not give: an airport's full name, an
+  airline's name for a carrier code (the tools give "UA", not the airline), facts about a city.
+- A friction penalty is our scoring's judgement of how hard expansion would be. It is not a
+  cause of anything: never say a penalty causes delays, low growth or any other measured value.
 
 Places
 - "LA" means LAX, the airport; "LA area" means the Los Angeles region (LAX, SNA, BUR, LGB, ONT).
   Named regions: New England, LA area. A city name means its main airport (Hartford = BDL).
 - Only lower-48 airports in the DOT fare data are ranked. Anchorage is not ranked; for it, use
   long_haul_share and airport_profile.
-- If a tool returns an error, say so plainly and suggest what you can do instead.
+- If a tool returns an error, say so plainly, quote its reason as the tool gave it (don't
+  guess another reason), and suggest what you can do instead.
 
 Out of scope
 - Cargo economics, financing, airline strategy and construction cost are out of scope. Only when
@@ -136,6 +166,7 @@ class GeminiClient:
         self.settings = settings
         # Reads GEMINI_API_KEY from the environment.
         self.client = genai.Client(http_options=types.HttpOptions(retry_options=RETRY))
+        self.last_usage = {}
 
     def next_steps(self, history, tools, system_prompt, on_text=None):
         """The model's next steps; with `on_text`, streamed, calling it with each piece of text."""
@@ -151,29 +182,53 @@ class GeminiClient:
             store=False,
             timeout=self.settings.timeout_seconds,
         )
+        self.last_usage = {}
         if on_text is None:
             interaction = self.client.interactions.create(**request)
-            return [step.model_dump(mode="json", exclude_none=True) for step in interaction.steps]
+            data = interaction.model_dump(mode="json", exclude_none=True)
+            self.last_usage = usage_counts(data.get("usage"))
+            return data.get("steps") or []
         stream = self.client.interactions.create(**request, stream=True)
         events = (event.model_dump(mode="json", exclude_none=True) for event in stream)
-        return assemble_steps(events, on_text)
+        return assemble_steps(events, on_text, usage=self.last_usage)
+
+    def count_tokens(self, text):
+        """How many input tokens `text` is for this model, by the API's counter (no model call)."""
+        response = self.client.models.count_tokens(model=self.settings.model, contents=text)
+        return response.total_tokens or 0
 
 
 class ModelError(RuntimeError):
     """The model reported an error in the middle of a streamed answer."""
 
 
-def assemble_steps(events, on_text):
+def usage_counts(usage):
+    """The token counts (whole numbers) from a call's `usage` dict; {} if there is none."""
+    usage = usage or {}
+    return {k: usage[k] for k in USAGE_FIELDS if isinstance(usage.get(k), int)}
+
+
+def add_usage(total, usage):
+    """Add one call's token counts into `total` (a dict), field by field."""
+    for key, count in usage_counts(usage).items():
+        total[key] = total.get(key, 0) + count
+    return total
+
+
+def assemble_steps(events, on_text, usage=None):
     """Join a stream's events (dicts) back into whole steps, as a non-streamed call returns them.
 
     Each piece of answer text is also passed to `on_text` as it arrives. Function-call arguments
-    arrive as pieces of one JSON text and are decoded once the stream has ended.
+    arrive as pieces of one JSON text and are decoded once the stream has ended. If `usage` (a
+    dict) is given, the token counts from the `interaction.completed` event are put into it.
     """
     steps, arguments = {}, {}
     for event in events:
         kind = event.get("event_type")
         if kind == "error":
             raise ModelError((event.get("error") or {}).get("message") or "the model failed")
+        if kind == "interaction.completed" and usage is not None:
+            usage.update(usage_counts((event.get("interaction") or {}).get("usage")))
         index = event.get("index")
         if kind == "step.start":
             steps[index] = dict(event.get("step") or {})
@@ -224,6 +279,7 @@ class Answer:
     text: str
     tool_calls: list[ToolCall] = field(default_factory=list)
     stopped_at_limit: bool = False
+    usage: dict = field(default_factory=dict)  # token counts summed over the model calls
 
 
 def _text_of(steps):
@@ -248,7 +304,8 @@ class ChatSession:
     """A conversation with the model; keeps the history so follow-up questions work.
 
     `client` needs one method, `next_steps(history, tools, system_prompt)` -> list of step dicts;
-    tests pass a fake. `run_tool(name, args)` -> dict runs a tool and never raises.
+    tests pass a fake. If it also has `last_usage` (the token counts of its latest call), they
+    are added up into `Answer.usage`. `run_tool(name, args)` -> dict runs a tool and never raises.
     """
 
     def __init__(self, client=None, settings=None, tools=None, run_tool=None, system_prompt=None):
@@ -278,31 +335,37 @@ class ChatSession:
             del self.history[start:]
             raise
 
-    def _next_steps(self, on_event):
+    def _next_steps(self, on_event, usage):
         if on_event is None:
-            return self.client.next_steps(self.history, self.tools, self.system_prompt)
-        return self.client.next_steps(
-            self.history,
-            self.tools,
-            self.system_prompt,
-            on_text=lambda piece: on_event("text", {"text": piece}),
-        )
+            steps = self.client.next_steps(self.history, self.tools, self.system_prompt)
+        else:
+            steps = self.client.next_steps(
+                self.history,
+                self.tools,
+                self.system_prompt,
+                on_text=lambda piece: on_event("text", {"text": piece}),
+            )
+        add_usage(usage, getattr(self.client, "last_usage", None))
+        return steps
 
     def _answer(self, user_text, on_event=None):
         tell = on_event or (lambda kind, data: None)
         self.history.append(
             {"type": "user_input", "content": [{"type": "text", "text": user_text}]}
         )
-        calls = []
+        calls, usage = [], {}
         while True:
-            steps = self._next_steps(on_event)
+            steps = self._next_steps(on_event, usage)
             self.history.extend(steps)
             requested = [s for s in steps if s.get("type") == "function_call"]
             if not requested:
-                return Answer(_text_of(steps) or "(no answer from the model)", calls)
+                text = _text_of(steps) or "(no answer from the model)"
+                return Answer(text, calls, usage=usage)
             for call in requested:
                 if len(calls) >= self.settings.max_tool_calls:
-                    return self._stop_at_limit(requested, call, calls)
+                    answer = self._stop_at_limit(requested, call, calls)
+                    answer.usage = usage
+                    return answer
                 args = call.get("arguments") or {}
                 tell("tool_start", {"name": call["name"], "args": args})
                 result = self.run_tool(call["name"], args)

@@ -176,7 +176,7 @@ function rankingView(name, result) {
         el("span", {
           class: "parts",
           text: `Strain ${strainText} · Growth ${row.signals.growth?.points ?? "missing"} · ` +
-            `Friction ${frictionText} · National rank ${row.national_rank} of ${result.ranked_nationally}`,
+            `Friction ${frictionText} · National rank ${row.national_rank} of ${result.ranked_count}`,
         }),
       ),
     );

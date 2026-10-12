@@ -3,10 +3,17 @@
 import json
 import re
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 
-from airport_agent.llm import SYSTEM_PROMPT, ChatSession, Settings, settings_from_env
+from airport_agent.llm import (
+    SYSTEM_PROMPT,
+    ChatSession,
+    GeminiClient,
+    Settings,
+    settings_from_env,
+)
 
 SRC = Path(__file__).resolve().parents[1] / "src"
 
@@ -123,6 +130,12 @@ def test_system_prompt_states_the_rules():
         "not investment advice",
         "out of scope",
         "Otherwise don't mention scope",
+        "Never state ranked_count as an airport's rank",
+        "Percentiles are whole numbers",
+        "Never claim an average, median or other statistic the tools did not return",
+        "any name the tools did not give",
+        "never say a penalty causes",
+        "quote its reason as the tool gave it",
     ):
         assert rule in SYSTEM_PROMPT, rule
 
@@ -287,3 +300,104 @@ def test_history_from_turns_keeps_only_text_turns():
         {"type": "user_input", "content": [{"type": "text", "text": "Rank New England."}]},
         text("BOS leads."),
     ]
+
+
+# --- Token usage ------------------------------------------------------------------------------
+
+
+def test_usage_of_every_model_call_is_added_up_into_the_answer():
+    class CountingModel(FakeModel):
+        def next_steps(self, history, tools, system_prompt):
+            n = len(self.seen) + 1
+            self.last_usage = {"total_input_tokens": 100 * n, "total_output_tokens": n}
+            return super().next_steps(history, tools, system_prompt)
+
+    model = CountingModel([call("rank_airports", {}, "c1")], [text("BOS.")])
+    answer = session(model).send("Rank?")
+    assert answer.usage == {"total_input_tokens": 300, "total_output_tokens": 3}
+
+
+def test_a_model_that_reports_no_usage_gives_empty_usage():
+    assert session(FakeModel([text("hi")])).send("hello").usage == {}
+
+
+def test_usage_counts_keeps_only_the_whole_number_totals():
+    from airport_agent.llm import add_usage, usage_counts
+
+    raw = {
+        "total_input_tokens": 10,
+        "total_thought_tokens": 4,
+        "input_tokens_by_modality": [{"modality": "text", "tokens": 10}],
+        "total_output_tokens": None,
+    }
+    assert usage_counts(raw) == {"total_input_tokens": 10, "total_thought_tokens": 4}
+    assert usage_counts(None) == {}
+    assert add_usage({"total_input_tokens": 5}, raw) == {
+        "total_input_tokens": 15,
+        "total_thought_tokens": 4,
+    }
+
+
+def test_streamed_usage_comes_from_the_completed_event():
+    from airport_agent.llm import assemble_steps
+
+    events = [
+        {"event_type": "step.start", "index": 0, "step": {"type": "model_output"}},
+        {"event_type": "step.delta", "index": 0, "delta": {"type": "text", "text": "Hi"}},
+        {
+            "event_type": "interaction.completed",
+            "interaction": {
+                "status": "completed",
+                "usage": {"total_input_tokens": 7, "total_output_tokens": 2, "total_tokens": 9},
+            },
+        },
+    ]
+    usage = {}
+    assert assemble_steps(events, lambda piece: None, usage=usage) == [text("Hi")]
+    assert usage == {"total_input_tokens": 7, "total_output_tokens": 2, "total_tokens": 9}
+
+
+def test_client_keeps_the_last_calls_usage_streamed_or_not():
+    from airport_agent.llm import GeminiClient
+
+    class Dumpable:
+        def __init__(self, data):
+            self.data = data
+
+        def model_dump(self, **kwargs):
+            return self.data
+
+    class Interactions:
+        def create(self, stream=False, **request):
+            if stream:
+                return [
+                    Dumpable(
+                        {
+                            "event_type": "interaction.completed",
+                            "interaction": {"usage": {"total_output_tokens": 3}},
+                        }
+                    )
+                ]
+            return Dumpable({"steps": [text("Hi")], "usage": {"total_input_tokens": 11}})
+
+    client = GeminiClient.__new__(GeminiClient)
+    client.settings = Settings("fake-model", 100, 8, 1)
+    client.client = type("Fake", (), {"interactions": Interactions()})()
+    assert client.next_steps([], [], "prompt") == [text("Hi")]
+    assert client.last_usage == {"total_input_tokens": 11}
+    client.next_steps([], [], "prompt", on_text=lambda piece: None)
+    assert client.last_usage == {"total_output_tokens": 3}
+
+
+def test_count_tokens_asks_the_api_counter_for_the_model_in_use():
+    asked = []
+
+    def count_tokens(model, contents):
+        asked.append((model, contents))
+        return SimpleNamespace(total_tokens=7)
+
+    client = GeminiClient.__new__(GeminiClient)  # no SDK client, so no key or network
+    client.settings = Settings("gemini-3.8-flash", 100, 8, 1)
+    client.client = SimpleNamespace(models=SimpleNamespace(count_tokens=count_tokens))
+    assert client.count_tokens('{"score": 55}') == 7
+    assert asked == [("gemini-3.8-flash", '{"score": 55}')]

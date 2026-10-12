@@ -135,6 +135,27 @@ def test_demand_pressure_has_percentiles_and_a_summary_built_in_code(run):
     assert ", ".join(high) in result["summary"]
 
 
+def test_percentiles_are_whole_numbers(run):
+    # The evaluation run: the model wrote "61.2th percentile".
+    rows = run("rank_airports", region="LA area")["rows"]
+    pressure = run("demand_pressure", code="SNA")["signals"].values()
+    signals = [s for r in rows for s in r["signals"].values()] + list(pressure)
+    percentiles = [s["percentile"] for s in signals if "missing" not in s]
+    assert percentiles and all(isinstance(p, int) and 0 <= p <= 100 for p in percentiles)
+
+
+def test_rank_count_is_named_apart_from_a_rank(run):
+    # The evaluation run: a count named ranked_nationally was read as "ranked 138 nationally".
+    ranking = run("rank_airports", region="New England")
+    pressure = run("demand_pressure", code="SFO")
+    for result in (ranking, pressure):
+        assert "ranked_nationally" not in result
+        assert result["ranked_count"] >= 2
+    assert all(1 <= r["national_rank"] <= ranking["ranked_count"] for r in ranking["rows"])
+    assert "national_rank" not in pressure
+    assert "not this airport's rank" in pressure["percentile_note"]
+
+
 def test_demand_pressure_outside_scope(run):
     result = run("demand_pressure", code="ANC")
     assert result["ranked"] is False and "lower-48" in result["reason"]
@@ -530,3 +551,29 @@ def test_a_stale_penalty_that_does_not_count_is_still_flagged():
     sna = tools.rank_airports(codes=["SNA"], today=datetime.date(2031, 1, 1))["rows"][0]
     assert sna["friction_not_counted"]
     assert all("may be out of date" in text for text in sna["friction_not_counted"])
+
+
+# --- Determinism: the same question gives the same numbers -----------------------------------
+
+SAME_TWICE = {
+    "rank_airports": {"region": "New England"},
+    "compare_airports": {"codes": ["BOS", "BDL"]},
+    "airport_profile": {"code": "BOS"},
+    "long_haul_share": {"code": "ANC"},
+    "compare_over_time": {"code": "SFO", "from_version": "2019-12", "to_version": "latest"},
+    "demand_pressure": {"code": "BOS"},
+}
+
+
+def test_every_tool_has_a_determinism_case():
+    assert set(SAME_TWICE) == {d["name"] for d in tools.TOOL_DECLARATIONS}
+
+
+@pytest.mark.parametrize("name", sorted(SAME_TWICE))
+def test_each_tool_gives_identical_results_when_run_twice(sample_cache, name):
+    # compare_over_time reads a folder of snapshots, so it runs on the committed ones.
+    cache_dir = None if name == "compare_over_time" else sample_cache
+    first = run_tool(name, copy.deepcopy(SAME_TWICE[name]), cache_dir=cache_dir)
+    second = run_tool(name, copy.deepcopy(SAME_TWICE[name]), cache_dir=cache_dir)
+    assert "error" not in first, first
+    assert json.dumps(first, sort_keys=False) == json.dumps(second, sort_keys=False)
