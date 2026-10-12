@@ -270,13 +270,17 @@ function answerCard() {
 }
 
 // A tool step in an answer card: a step line on "tool_start"; on "tool_result" the step is ticked
-// and its table, score bars and "How I got this" entry are drawn. Typed and spoken answers share it.
+// and its table, score bars and "How I got this" entry are drawn.
+// Typed and spoken answers share it.
 function showTool(view, event, data) {
   if (event === "tool_start") {
-    view.steps.append(el("li", { text: `${STEP_LABELS[data.name] || data.name} (${describeArgs(data.args)})…` }));
+    const label = STEP_LABELS[data.name] || data.name;
+    view.steps.append(el("li", { text: `${label} (${describeArgs(data.args)})…` }));
     return;
   }
-  const item = Array.from(view.steps.children).find((i) => !i.classList.contains("done") && !i.classList.contains("failed"));
+  const item = Array.from(view.steps.children).find(
+    (i) => !i.classList.contains("done") && !i.classList.contains("failed"),
+  );
   if (item) {
     item.textContent = item.textContent.replace(/…$/, "");
     item.classList.add(data.result.error ? "failed" : "done");
@@ -599,7 +603,10 @@ function setUpTalk() {
     t.view.body.classList.remove("typing");
     markScrollers(t.view.body);
     if (t.heard && t.said) {
-      state.history.push({ role: "user", text: t.heard }, { role: "model", text: t.said.slice(0, MAX_TURN_CHARS) });
+      state.history.push(
+        { role: "user", text: t.heard },
+        { role: "model", text: t.said.slice(0, MAX_TURN_CHARS) },
+      );
       state.history = trimHistory(state.history);
     }
     t.view = null;
@@ -689,7 +696,8 @@ function setUpTalk() {
       await t.audio.audioWorklet.addModule("/static/talk-worklet.js");
       if (talk !== t) return release(t);
       const scheme = location.protocol === "https:" ? "wss:" : "ws:";
-      t.socket = new WebSocket(`${scheme}//${location.host}/talk?version=${encodeURIComponent(state.version)}`);
+      const version = encodeURIComponent(state.version);
+      t.socket = new WebSocket(`${scheme}//${location.host}/talk?version=${version}`);
       t.socket.binaryType = "arraybuffer";
       const mic = new AudioWorkletNode(t.audio, "mic-pcm");
       t.audio.createMediaStreamSource(t.mic).connect(mic);
