@@ -349,7 +349,6 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
   two-day exposure stays bounded (the Gemini key's own spending cap is the last guard).
 - Revisit if: the site stays up longer or the cap is hit.
 
-
 ## D27: Bad-weather runway capacity as a committed reference table, shown only
 - Chose: Table 1 of the FAA's "Airport Capacity Profiles" (2014), typed into
   `data/faa_capacity_profiles.yaml` and read directly (like `data/constraints.yaml`), giving a
