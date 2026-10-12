@@ -153,3 +153,16 @@ The four example questions: **Q1** New England expansion candidates · **Q2** LA
     a time; if a duplicate happens, a person closes it.
   - **The baseline is from the day it was recorded** (the `recorded` date in the file), not the
     day each fact was checked; a source that changed in between shows as "unchanged".
+
+## Data releases (the `Refresh data` workflow)
+`airport-agent refresh` can also run on GitHub's machine: the `Refresh data` workflow
+(`.github/workflows/refresh.yml`, weekly on Mondays or started by hand) builds a snapshot, checks
+it like any snapshot (manifest present, names its version, every listed file there), compares it
+with the previous data release (each source's as-of date and the national top 10) and publishes
+it as a GitHub release `data-YYYY-MM-DD` (`-2`, `-3` for a second run that day): the snapshot
+folder as one `.tar.gz`, its `manifest.json`, and the comparison as the release text. Running
+servers download the newest one (`data/releases.py`), refusing an archive that is not one complete
+snapshot or has a path outside it. OpenSky credentials are optional repository secrets
+(`OPENSKY_CLIENT_ID`, `OPENSKY_CLIENT_SECRET`); without them the release uses the committed
+OpenSky sample and its manifest says so. Rolling back bad data is deleting its release: servers
+then load the previous one when they next start.

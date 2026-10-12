@@ -56,6 +56,22 @@ tables appear on screen, and its spoken answers stay short. Each Talk session co
 question for the daily cap and ends after 5 minutes, or after a minute with nothing said.
 Headphones work best, so the model doesn't hear itself.
 
+**Data panel** (the gear in the header): which data is in use and who built it (baked into the
+image, a GitHub data release, or this machine), and three ways to get newer data. Three switches,
+all on the server:
+- `DATA_RELEASES` (on unless `off`): at startup, and on **Get latest data**, the server downloads
+  the newest `data-YYYY-MM-DD` release of this repository (public API, no token) and switches to
+  it. It runs in the background; if GitHub can't be reached, the data in the image stays.
+  `GITHUB_REPOSITORY` names the repository (default this one).
+- `ALLOW_LOCAL_REFRESH=true` enables **Refresh on this machine**: `airport-agent refresh` runs
+  inside the server's machine or container. Off by default; keep it off on a public site.
+- `GITHUB_TOKEN_REFRESH` enables **Refresh on GitHub Actions**: the server starts the
+  `Refresh data` workflow and loads the release it publishes. A fine-grained token with
+  Actions: write on this repository only; it stays on the server.
+
+A disabled option is greyed out with its reason. At most one refresh per hour and one "get latest"
+per minute per server.
+
 ## Run with Docker
 Needs only Docker (with Compose); the image runs on amd64 and arm64. A Gemini API key is needed
 for free-form questions.
@@ -66,8 +82,9 @@ docker compose up --build
 ```
 
 Then open http://localhost:8000/. The port is published on `localhost` only. Of the optional
-settings, only `GEMINI_MODEL` and `DATA_CHECK_MINUTES` are passed to the container
-(`docker-compose.yml`).
+settings, only `GEMINI_MODEL`, `DATA_CHECK_MINUTES` and the Data panel's switches are passed to
+the container (`docker-compose.yml`). The `./data` folder is mounted read-only, so for the Data
+panel's downloads and local refresh to write into it, drop the `:ro` from the `serve` volume.
 
 ## Deploy (Fly)
 The live site is https://airport-agent.fly.dev/ (the app name is set in `fly.toml`). It is public
