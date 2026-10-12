@@ -85,6 +85,13 @@ jobs:
             exit 1
           fi
 
+      # /health reads no airport data: load every airport's signals once, so a data file the
+      # image is missing (one the app reads outside the snapshots) fails here, not on the site.
+      - name: Every airport's signals load
+        run: >-
+          docker compose run --rm --no-deps --entrypoint python serve -c
+          "from airport_agent.data.metrics import all_airport_metrics as a; print(len(a()), 'airports')"
+
       # The second command of the image; --help needs no network or credentials.
       - name: refresh command runs
         run: docker compose run --rm refresh --help
