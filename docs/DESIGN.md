@@ -111,8 +111,8 @@ Source run: [docs/examples/flash/a-new-england.md](examples/flash/a-new-england.
   - Domain facts come only from [DOMAIN_NOTES.md](DOMAIN_NOTES.md), and only those marked verified
     are stated as fact, each with a date (D23).
   - At most 8 tool calls per question; a low thinking level for speed (D22).
-- **Checked automatically.** A test checks that every number in an answer appears in a tool
-  result, and that each tool returns the same result twice.
+- **Checked automatically.** A tested checker, run over every evaluation answer, confirms each
+  number appears in a tool result; a test confirms each tool returns the same result twice.
 - **Results (Step 7, [docs/examples/](examples/)).** Four questions and five trick questions, on
   Flash and Pro: every number was found in tool results on both. Flash: about 7 s and under one
   cent per question. Dollar ROI is declined as out of scope; a nonsense airport code gets the
@@ -122,7 +122,7 @@ Source run: [docs/examples/flash/a-new-england.md](examples/flash/a-new-england.
 - **Percentiles, not z-scores (D8).** One extreme airport (EWR's 8% cancellations) can't stretch
   everyone else's scores. Cost: a small gap and a big gap at the top look the same.
 - **Free public data only, and Flash (D5, D25).** A reviewer can reproduce every number, and Flash
-  costs a third of Pro with the same number accuracy. Cost: no gate or terminal capacity data.
+  costs a third of Pro (on reported tokens) with the same number accuracy. Cost: no gate or terminal capacity data.
 - **Friction as a sourced penalty (D10).** Real limits (SNA's passenger cap, SFO's runways) are visible,
   dated judgement in one file, not hidden in code. Cost: it's judgement, so it needs re-checking.
 - **Our own tool loop, no agent framework (D2).** Readable, nothing hidden. Cost: we wrote the loop
@@ -135,9 +135,9 @@ Source run: [docs/examples/flash/a-new-england.md](examples/flash/a-new-england.
 - **Thin data.** Table 1a lists only the busiest markets, so small airports rest on part of their
   traffic; those are flagged low confidence.
 - **Penalties are judgement.** Each is sourced and dated, with a review date (D23).
-- **The model isn't perfect.** Flash sometimes states general knowledge without the label (an
-  agency name, nearby airports), and once led with the balanced preset where congestion-focused
-  fit the question better. Every number stays tool-backed.
+- **The model isn't perfect.** Asked to compare LAX and SNA on congestion, Flash reported the
+  ranks under the balanced preset rather than congestion-focused
+  ([run](examples/flash/b-lax-vs-sna.md)). Every number stays tool-backed.
 
 ## What I'd do next
 1. **Watch the fact sources automatically**, and open an issue when a penalty's evidence changes;
