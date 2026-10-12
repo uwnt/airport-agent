@@ -113,21 +113,37 @@ The four example questions: **Q1** New England expansion candidates · **Q2** LA
 
 ## Fact-source watch (`airport-agent check-facts`)
 - **Gives:** a re-check of the page behind every verified fact in `docs/DOMAIN_NOTES.md` and every
-  constraint in `data/constraints.yaml`. Each URL is downloaded once, reduced to its visible text
-  (menus, footers, scripts and date-like strings such as "Last updated …" are dropped), and a
-  sha256 fingerprint is compared with the one in `data/fact_fingerprints.json`. A changed or
-  vanished source is reported; with `--open-issue` (needs `GITHUB_TOKEN`) one GitHub issue names
-  the facts and quotes the old and new text. `--record` stores only new URLs and prunes URLs no fact cites any more; a changed URL is
-  re-stored only with `--accept URL` (repeatable), after a person re-verified its facts;
-  `refresh --check-facts` runs the same report after a refresh. The program never edits a fact:
-  a person re-verifies.
+  constraint in `data/constraints.yaml`. Each URL is downloaded once, reduced to its visible text,
+  and a sha256 fingerprint is compared with the one in `data/fact_fingerprints.json`. A changed or
+  vanished source is reported. `refresh --check-facts` runs the same report after a refresh. The
+  program never edits a fact: a person re-verifies.
+- **The rule: a missed change costs more than a false alarm.** A false alarm costs a person a
+  minute; a missed change leaves a wrong fact in place. So normalising removes only what is clearly
+  not content: `script`, `style`, `nav` and `footer` blocks (not `header`, a headline can hold the
+  fact), a date that directly follows a "last updated / modified / reviewed", "page updated" or
+  "updated on" label, and a copyright mark with its year(s). Every other date stays, including
+  bare dates and year ranges. Whitespace is collapsed; nothing else is removed.
+- **Not watched:** a page that changes by design is listed in `NOT_WATCHED` in
+  `src/airport_agent/data/fact_watch.py` with its reason, shown as "not watched (reason)", never
+  downloaded and given no fingerprint. Today that is the BTS download listing behind note 10 ("a
+  download listing that gains a file every month").
+- **A new source:** a source with no stored fingerprint shows as "new". The test that every cited
+  source has a stored fingerprint keeps an unrecorded source from merging; it is the check for this case.
+- **Issues:** `--open-issue` (needs `GITHUB_TOKEN`) opens one issue naming the facts and quoting
+  the old and new text. If one is already open, the run adds one comment to it naming only the
+  changed or gone sources that the issue and its comments do not name yet (nothing if all are named).
+- **Recording:** `--accept URL` (repeatable, after a person re-verified its facts) rewrites only
+  that URL. Only `--record` stores new sources and prunes ones no fact cites any more.
 - **Outcomes:** unchanged (silent), changed, gone (HTTP 404 or 410 only), unreachable (blocked,
   timeout, DNS or connection error, server error: "can't check", no alarm), new (no stored
-  fingerprint yet). Only date phrases are stripped before comparing, never the words around them.
+  fingerprint yet), not watched.
 - **Can't, or watch out:**
   - **It sees that text changed, not whether it matters.** A person decides.
   - **It misses changes reported elsewhere** (news before the source page itself changes).
   - **PDFs and other files are fingerprinted by their bytes, which is coarser:** a re-saved PDF
     alarms although its words are the same.
+  - **Search-index lag:** the GitHub search can lag a few seconds, so two runs started within
+    seconds of each other could each open an issue. The watch runs by hand or monthly, one run at
+    a time; if a duplicate happens, a person closes it.
   - **The baseline is from the day it was recorded** (the `recorded` date in the file), not the
     day each fact was checked; a source that changed in between shows as "unchanged".

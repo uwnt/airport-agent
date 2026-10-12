@@ -63,14 +63,24 @@ def test_binary_files_are_fingerprinted_by_bytes():
 
 
 class FakeApi:
-    def __init__(self, open_titles=()):
+    def __init__(self, open_titles=(), body="", comments=()):
         self.open_titles = list(open_titles)
+        self.body = body
+        self.comments = [{"body": c} for c in comments]
         self.created = []
+        self.commented = []
 
     def __call__(self, method, path, token, payload=None):
-        if method == "GET":
+        if method == "GET" and "/search/issues" in path:
             self.search = path
-            return {"items": [{"title": t} for t in self.open_titles]}
+            items = [{"title": t, "number": 5, "body": self.body} for t in self.open_titles]
+            return {"items": items}
+        if method == "GET":
+            self.comments_path = path
+            return self.comments
+        if path.endswith("/comments"):
+            self.commented.append(payload)
+            return {"id": 1}
         self.created.append(payload)
         return {"number": 7}
 
@@ -84,13 +94,45 @@ def test_issue_body_names_the_fact():
     message = fw.open_issue([changed_result()], "t", "o/r", api=api)
     assert message == "Opened issue #7."
     assert api.created[0]["title"] == "Fact source changed: 1 source(s)"
-    assert "DOMAIN_NOTES note 2" in api.created[0]["body"]
+    body = api.created[0]["body"]
+    assert "DOMAIN_NOTES note 2" in body
+    assert "12.2 million" in body and "12.5 million" in body  # old and new text
 
 
-def test_no_duplicate_when_one_is_open():
-    api = FakeApi(open_titles=["Fact source changed: 2 source(s)"])
-    assert "already open" in fw.open_issue([changed_result()], "t", "o/r", api=api)
-    assert api.created == []
+def test_gone_source_issue_names_the_fact_and_says_gone():
+    gone = run(fw.Fetched("gone"), baseline())
+    api = FakeApi()
+    fw.open_issue([gone], "t", "o/r", api=api)
+    body = api.created[0]["body"]
+    assert "DOMAIN_NOTES note 2" in body and URL in body and "(gone)" in body
+    assert "source is gone" in body
+
+
+def other_result(url):
+    result = changed_result()
+    return {**result, "url": url}
+
+
+def test_open_issue_gets_a_comment_naming_only_new_sources():
+    api = FakeApi(open_titles=["Fact source changed: 1 source(s)"], body=f"- {URL} (changed)")
+    message = fw.open_issue(
+        [changed_result(), other_result("https://example.org/b")], "t", "o/r", api
+    )
+    comment = api.commented[0]["body"]
+    assert "https://example.org/b" in comment and URL not in comment
+    assert comment.endswith("<!-- uwnt:session -->") and len(api.commented) == 1
+    assert api.created == [] and "#5" in message
+    assert api.comments_path.startswith("/repos/o/r/issues/5/comments")
+
+
+def test_source_named_in_an_earlier_comment_is_not_repeated():
+    api = FakeApi(
+        open_titles=["Fact source changed: 1 source(s)"],
+        body=f"- {URL} (changed)",
+        comments=["- https://example.org/b (changed)"],
+    )
+    fw.open_issue([changed_result(), other_result("https://example.org/b")], "t", "o/r", api)
+    assert api.commented == []
 
 
 def test_unreachable_opens_no_issue():
@@ -118,10 +160,53 @@ def test_urls_come_from_notes_rows_and_constraints(tmp_path):
 
 
 def test_every_committed_source_has_a_stored_fingerprint():
-    assert set(fw.collect_sources()) <= set(fw.load_stored())
+    watched = set(fw.collect_sources()) - set(fw.NOT_WATCHED)
+    assert watched <= set(fw.load_stored())
+
+
+BTS = "https://transtats.bts.gov/PREZIP/"
+
+
+def test_not_watched_source_is_never_fetched_and_says_why():
+    def refuse(url):
+        raise AssertionError("fetched a source that is not watched")
+
+    result = fw.check_all({BTS: FACTS}, {}, refuse, today="2026-10-12")[0]
+    assert result["outcome"] == "not watched" and result["new"] is None
+    report = fw.format_report([result])
+    assert "1 not watched" in report and "gains a file every month" in report
+    assert "not watched (a download listing" in report
+
+
+def test_bts_listing_is_in_the_not_watched_list_and_not_stored():
+    assert "gains a file every month" in fw.NOT_WATCHED[BTS]
+    assert BTS in fw.collect_sources() and BTS not in fw.load_stored()
 
 
 # --- normalisation keeps the fact, drops only the date phrase -------------------------------
+
+
+def test_dates_that_are_the_fact_change_the_fingerprint():
+    a = "The agreement runs through December 31, 2030. Curfew until 12/31/2035."
+    b = "The agreement runs through December 31, 2040. Curfew until 12/31/2045."
+    assert fw.normalise_html(f"<p>{a}</p>") == a
+    assert fw.normalise_html(f"<p>{a}</p>") != fw.normalise_html(f"<p>{b}</p>")
+
+
+def test_label_dates_do_not_change_the_fingerprint():
+    one = fw.normalise_html("<p>Cap is 12.2M. Last updated: March 4, 2026</p>")
+    two = fw.normalise_html("<p>Cap is 12.2M. Last updated: May 1, 2026</p>")
+    assert one == two == "Cap is 12.2M."
+
+
+def test_text_in_a_header_is_kept():
+    one = fw.normalise_html("<header><h1>Cap 12.2M</h1></header>")
+    two = fw.normalise_html("<header><h1>Cap 14.9M</h1></header>")
+    assert one == "Cap 12.2M" and one != two
+
+
+def test_revised_date_stays_whole():
+    assert fw.normalise_html("<p>Revised May 2027: cap 12.5M</p>") == "Revised May 2027: cap 12.5M"
 
 
 @pytest.mark.parametrize("figure", ["12.2", "14.9"])
@@ -237,7 +322,7 @@ def test_record_stores_new_only_and_prunes_uncited(tmp_path):
     path = tmp_path / "f.json"
     results = three_results()
     stored = {URL: results[0]["old"], OLD: {"sha256": "x"}}
-    new, accepted, pruned = fw.record(results, stored, path=path)
+    new, accepted, pruned = fw.record(results, stored, baseline=True, path=path)
     saved = json.loads(path.read_text())
     assert (new, accepted, pruned) == ([NEW_URL], [], [OLD])
     assert saved[URL] == stored[URL] and NEW_URL in saved and OLD not in saved
@@ -274,6 +359,20 @@ def test_check_facts_reports_and_leaves_file_alone(watch):
     assert watch.read_text() == before
 
 
+def test_accept_alone_does_not_record_new_or_prune(watch, monkeypatch):
+    stored = json.loads(watch.read_text())
+    stored[OLD] = {"sha256": "x"}
+    watch.write_text(json.dumps(stored))
+    monkeypatch.setattr(fw, "collect_sources", lambda: {URL: FACTS, NEW_URL: FACTS})
+    fw.check_facts(accept=[URL], out=lambda line: None)
+    saved = json.loads(watch.read_text())
+    assert NEW_URL not in saved and OLD in saved
+    assert saved[URL]["sha256"] != baseline()["sha256"]
+    fw.check_facts(record_baseline=True, out=lambda line: None)
+    saved = json.loads(watch.read_text())
+    assert NEW_URL in saved and OLD not in saved
+
+
 def test_check_facts_accept_rewrites_only_that_url(watch):
     lines = []
     fw.check_facts(accept=[URL], out=lines.append)
@@ -308,6 +407,7 @@ def test_api_error_is_one_plain_line_and_nonzero_exit(watch, monkeypatch, capsys
     shown = capsys.readouterr()
     assert "secret-value" not in shown.out + shown.err
     assert "Traceback" not in shown.err and shown.err.count("\n") == 1
+    assert "GitHub API error: HTTP 401" in shown.err
 
 
 def test_github_helper_sends_bearer_header_and_json(monkeypatch):

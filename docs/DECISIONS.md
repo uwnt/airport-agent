@@ -364,10 +364,12 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
 - Decided by the owner on 2026-10-12 (source and shown-only).
 
 ## D28: Watch fact sources with a fingerprint; a person re-verifies
-- Chose: `airport-agent check-facts` downloads the source of every verified fact, strips menus,
-  footers and dates, and compares a sha256 fingerprint of the text with the one stored in
+- Chose: `airport-agent check-facts` downloads the source of every verified fact, strips scripts,
+  menus, footers, "last updated" dates and copyright years (nothing else: a missed change costs
+  more than a false alarm), and compares a sha256 fingerprint of the text with the one stored in
   `data/fact_fingerprints.json`. A changed or vanished source is reported, and with a token one
-  GitHub issue names the facts and quotes old against new. Blocked or slow sources are
+  GitHub issue names the facts and quotes old against new (a later run comments on the open one).
+  A page that changes by design is listed as "not watched". Blocked or slow sources are
   "unreachable", never an alarm. The program never edits a fact. It also runs after a refresh
   with `refresh --check-facts`, a flag so the monthly build does not need the network twice by default.
 - Over: updating facts automatically (a model or script rewriting a verified claim breaks the

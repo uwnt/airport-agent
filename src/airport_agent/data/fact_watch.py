@@ -2,13 +2,14 @@
 
 For every verified (✅) row of docs/DOMAIN_NOTES.md and every constraint in data/constraints.yaml
 it downloads each source URL once, reduces the page to its visible text (dropping scripts,
-menus, footers and date-like strings that change for no reason), and compares a sha256
+styles, menus, footers, "last updated" dates and copyright years) and compares a sha256
 fingerprint with the one in data/fact_fingerprints.json. The program never edits a fact: a
 changed or vanished source is reported (and, with `--open-issue`, filed as one GitHub issue) and
 a person re-verifies.
 
 Outcomes per URL: unchanged, changed, gone (HTTP 404/410 only), unreachable (blocked, timeout,
-DNS or connection error, server error: "can't check", never an alarm), new (no stored fingerprint).
+DNS or connection error, server error: "can't check", never an alarm), new (no stored fingerprint),
+not watched (a page that changes by design, listed in NOT_WATCHED, never downloaded).
 A PDF or other non-HTML file is fingerprinted by its bytes, which is coarser: a re-saved PDF alarms.
 """
 
@@ -32,6 +33,7 @@ REPO = Path(__file__).resolve().parents[3]
 FINGERPRINTS_PATH = REPO / "data" / "fact_fingerprints.json"
 CONSTRAINTS_PATH = REPO / "data" / "constraints.yaml"
 ISSUE_TITLE = "Fact source changed"
+MARKER = "<!-- uwnt:session -->"
 EXCERPT_CHARS = 2000
 TIMEOUT = 20
 USER_AGENT = (
@@ -40,26 +42,26 @@ USER_AGENT = (
 )
 # Hosts and servers answer these when they refuse a robot: we could not look, nothing changed.
 GONE_STATUS = {404, 410}
-SKIP_TAGS = {"script", "style", "noscript"} | {"nav", "footer", "header"}
+SKIP_TAGS = {"script", "style", "noscript", "nav", "footer"}
+# Pages that change by design: collected and reported, never downloaded, no fingerprint.
+NOT_WATCHED = {
+    "https://transtats.bts.gov/PREZIP/": "a download listing that gains a file every month",
+}
 LINK = re.compile(r"\]\((https?://[^)\s]+)\)")
-# Text that changes on every visit or every year, not because a fact did.
+# A missed change costs more than a false alarm, so only two things are removed: a date that
+# directly follows an "updated" style label, and a copyright mark with its year(s). Every other
+# date stays: it may be the fact (an agreement's end date, a curfew year, a year range).
 MONTH = r"(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?"
 DATE = (
     rf"(?:\d{{4}}-\d{{2}}-\d{{2}}|{MONTH} (?:\d{{1,2}},? )?\d{{4}}|\d{{1,2}}/\d{{1,2}}/\d{{2,4}})"
 )
-# Only the date phrase itself goes: a label directly followed by a date, a copyright mark with
-# its year(s), or a bare date. Words and numbers around them (a year range, "revised to 12.2")
-# stay, because they may be the fact.
+LABEL = r"(?:last\s+(?:updated|modified|reviewed)|page\s+(?:last\s+)?updated|updated\s+on)"
 NOISE = [
-    re.compile(
-        rf"\b(?:page\s+)?(?:last\s+)?(?:updated|modified|reviewed|revised)\s*:?\s*(?:on\s+)?{DATE}",
-        re.I,
-    ),
+    re.compile(rf"\b{LABEL}\s*:?\s*(?:on\s+)?{DATE}", re.I),
     re.compile(r"(?:©|copyright)\s*(?:\(c\)\s*)?\d{4}(?:\s*[-–]\s*\d{4})?", re.I),
-    re.compile(rf"\b{DATE}", re.I),
 ]
 # Page furniture dropped when the markup is well formed (see normalise_html).
-STRUCTURE_TAGS = {"nav", "footer", "header"}
+STRUCTURE_TAGS = {"nav", "footer"}
 
 
 class Fetched:
@@ -104,7 +106,7 @@ class _VisibleText(HTMLParser):
 
 
 def normalise_html(html):
-    """Visible text with whitespace collapsed and date-like strings removed."""
+    """Visible text with whitespace collapsed; label dates and copyright years removed."""
     parser = _VisibleText(SKIP_TAGS)
     parser.feed(html)
     parser.close()
@@ -170,6 +172,11 @@ def check_all(sources, stored, fetch_fn=fetch, today=None):
     results = []
     for url, facts in sources.items():
         old = stored.get(url)
+        if url in NOT_WATCHED:
+            results.append(
+                {"url": url, "facts": facts, "outcome": "not watched", "old": old, "new": None}
+            )
+            continue
         outcome, new = check_source(url, facts, old, fetch_fn, today)
         results.append({"url": url, "facts": facts, "outcome": outcome, "old": old, "new": new})
     return results
@@ -185,6 +192,12 @@ def _first_difference(old, new, width=300):
 def describe_change(result):
     """Plain lines naming the facts and quoting the old and new text of a changed source."""
     lines = [f"- {result['url']} ({result['outcome']})", f"  Facts: {'; '.join(result['facts'])}"]
+    if result["outcome"] == "not watched":
+        lines[0] = f"- {result['url']} (not watched ({NOT_WATCHED[result['url']]}))"
+    elif result["outcome"] == "gone":
+        lines.append(
+            "  The source is gone (the page no longer exists): re-verify the fact elsewhere."
+        )
     if result["outcome"] == "changed" and result["new"]["kind"] == "html":
         before, after = _first_difference(result["old"]["excerpt"], result["new"]["excerpt"])
         lines += [
@@ -223,23 +236,44 @@ def _github(method, path, token, payload=None):
 
 
 def open_issue(results, token, repo, api=_github):
-    """File one issue for all changed/gone sources unless one is already open; returns a message."""
+    """File one issue for all changed/gone sources, or comment on the one already open.
+
+    The comment names only the sources the open issue (body and comments) does not name yet.
+    Returns a message.
+    """
     problems = [r for r in results if r["outcome"] in ("changed", "gone")]
     if not problems:
         return "No changed or missing sources: no issue opened."
     query = urllib.parse.quote(f'repo:{repo} is:issue is:open in:title "{ISSUE_TITLE}"')
     found = api("GET", f"/search/issues?q={query}", token)["items"]
-    if any(i["title"].startswith(ISSUE_TITLE) for i in found):
-        return "A fact-source issue is already open: not opening another."
+    existing = next((i for i in found if i["title"].startswith(ISSUE_TITLE)), None)
+    if existing:
+        return _comment_on(existing, problems, token, repo, api)
     body = (
         "These sources changed or disappeared since their fingerprint was recorded. "
         "Re-verify each fact against its source; the watch never edits a fact.\n\n"
         + "\n".join(describe_change(r) for r in problems)
-        + "\n\n<!-- uwnt:session -->"
+        + f"\n\n{MARKER}"
     )
     title = f"{ISSUE_TITLE}: {len(problems)} source(s)"
     made = api("POST", f"/repos/{repo}/issues", token, {"title": title, "body": body})
     return f"Opened issue #{made['number']}."
+
+
+def _comment_on(issue, problems, token, repo, api):
+    number = issue["number"]
+    comments = api("GET", f"/repos/{repo}/issues/{number}/comments?per_page=100", token)
+    named = (issue.get("body") or "") + "\n".join(c.get("body") or "" for c in comments)
+    fresh = [r for r in problems if r["url"] not in named]
+    if not fresh:
+        return f"Issue #{number} is already open and names every changed source: no comment added."
+    body = (
+        "More sources changed or disappeared since this issue was opened.\n\n"
+        + "\n".join(describe_change(r) for r in fresh)
+        + f"\n\n{MARKER}"
+    )
+    api("POST", f"/repos/{repo}/issues/{number}/comments", token, {"body": body})
+    return f"Added a comment to issue #{number} naming {len(fresh)} more source(s)."
 
 
 def load_stored(path=None):
@@ -247,20 +281,20 @@ def load_stored(path=None):
     return json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
 
 
-def record(results, stored, accept=(), path=None):
-    """Store new URLs, re-store the accepted changed ones, prune URLs no fact cites any more.
+def record(results, stored, accept=(), *, baseline=False, path=None):
+    """Re-store the accepted changed URLs; with `baseline` also store new URLs and prune.
 
     A changed URL is never re-recorded on its own: that would accept a change nobody verified.
+    Without `baseline`, nothing but the accepted URLs is touched.
     Returns (recorded, accepted, pruned) as lists of URLs.
     """
     path = path or FINGERPRINTS_PATH
-    cited = {r["url"] for r in results}
-    new = [r["url"] for r in results if r["outcome"] == "new"]
+    cited = {r["url"] for r in results if r["outcome"] != "not watched"}
+    new = [r["url"] for r in results if r["outcome"] == "new"] if baseline else []
     accepted = [r["url"] for r in results if r["outcome"] == "changed" and r["url"] in accept]
-    pruned = sorted(set(stored) - cited)
+    pruned = sorted(set(stored) - cited) if baseline else []
     fresh = {r["url"]: r["new"] for r in results if r["url"] in new + accepted}
-    kept = {url: old for url, old in stored.items() if url in cited}
-    merged = kept | fresh
+    merged = {url: old for url, old in stored.items() if url not in pruned} | fresh
     live = {url: merged[url] for url in sorted(merged)}
     path.write_text(json.dumps(live, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     return new, accepted, pruned
@@ -276,7 +310,7 @@ def check_facts(record_baseline=False, accept=(), issue=False, fetch_fn=None, ou
     results = check_all(collect_sources(), stored, fetch_fn or fetch)
     out(format_report(results))
     if record_baseline or accept:
-        new, accepted, pruned = record(results, stored, accept)
+        new, accepted, pruned = record(results, stored, accept, baseline=record_baseline)
         out(
             f"Recorded {len(new)} new, accepted {len(accepted)} changed, "
             f"pruned {len(pruned)} no longer cited, in {FINGERPRINTS_PATH.name}."
@@ -295,5 +329,10 @@ def check_facts(record_baseline=False, accept=(), issue=False, fetch_fn=None, ou
             try:
                 out(open_issue(results, secret, repo, api=api or _github))
             except (OSError, http.client.HTTPException, KeyError, ValueError) as error:
+                code = getattr(
+                    error, "code", None
+                )  # an HTTPError carries the status, never the token
+                if code:
+                    raise IssueError(f"GitHub API error: HTTP {code}") from None
                 raise IssueError(f"Could not open the issue ({type(error).__name__}).") from None
     return results
