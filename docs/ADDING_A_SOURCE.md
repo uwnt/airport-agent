@@ -77,7 +77,10 @@ There is no `fetch_…`, no `write_<name>` in `build.py` and no refresh; a new e
 - **FAA yearly enplanements** for all commercial airports: would fill the airports the BTS top-50
   list lacks (most of New England; `docs/DATA_SOURCES.md`). Not tried; check it has a data download.
 - **FAA ASPM**: login-gated and down when checked (`docs/PLAN.md`); not adopted.
-- **FAA Terminal Area Forecast**: no data download found (`docs/PLAN.md`); not adopted.
+- **FAA Terminal Area Forecast**: not adopted. `docs/PLAN.md` found no data download on 2026-10-11;
+  a later check (2026-10-12, D30) found yearly zip files of spreadsheets on `taf.faa.gov` (the 2018
+  edition, posted February 2019, would suit a 2019 snapshot). The strongest candidate if a forecast
+  signal is wanted.
 
 ## Reviewer checklist
 - [ ] Module has `SOURCE`, `URL`, `SUMMARY_NAME`; only `fetch_…` uses the network

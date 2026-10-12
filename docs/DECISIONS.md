@@ -401,3 +401,21 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
 - Revisit if: the extra hop's latency is noticeable, or the site gets enough Talk sessions to
   load the server.
 - Decided by the owner on 2026-10-12 (relay, not a browser token).
+
+## D30: Scoring checked against outside research; hard cap and Strain mix kept
+- Chose: keep the hard cap as a 30-point penalty (SNA still ranks, marked down with its reason),
+  and keep Strain's mix at delay 50 / cancellations 25 / fares 25.
+- Over: taking hard-capped airports out of the ranking (hides a case an analyst wants to see and
+  discuss); lowering delay's share (the outside research notes delay reflects airspace and runways
+  as much as terminal space).
+- Because: both are numbers in `config/scoring.yaml`, so an analyst who weighs them differently can
+  change them live, and `docs/DESIGN.md` already states the limit of delay as a terminal signal.
+- Also checked (#72): the FAA Terminal Area Forecast has a yearly spreadsheet download after all
+  (`taf.faa.gov/Downloads`), so it is the first candidate for a forecast signal; TSA checkpoint
+  counts per airport appear to exist only as weekly PDFs from about 2020 (from search results, not
+  confirmed on the primary page), so they are not adopted; a backtest against announced terminal
+  projects needs each project's date and cost checked first. `docs/DESIGN.md` still says the
+  forecast has no bulk download; the owner writes that file and will correct it.
+- Revisit if: an analyst's use shows capped airports should be hidden, or a backtest shows another
+  Strain mix ranks past expansions better.
+- Decided by the owner on 2026-10-12.
