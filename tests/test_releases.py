@@ -151,7 +151,7 @@ def test_release_that_does_not_load_is_refused(monkeypatch, tmp_path, make_snaps
     fake_http(monkeypatch, [release("data-2026-10-19")], tar_gz((folder.name, folder)))
     store = FileStore(tmp_path / "store")
     make_snapshot("latest-2026-10-11", root=store.root)
-    with pytest.raises(releases.ReleaseError, match="can't be loaded"):
+    with pytest.raises(releases.ReleaseError, match="failed the data checks"):
         releases.install_latest(store, REPO)
     assert sorted(p.name for p in store.root.iterdir()) == ["latest-2026-10-11"]
 
@@ -191,6 +191,62 @@ def test_release_without_as_of_is_refused(monkeypatch, tmp_path, make_snapshot):
     with pytest.raises(releases.ReleaseError):
         releases.install_latest(store, REPO)
     assert not store.root.exists()
+
+
+@pytest.mark.parametrize("sources", [["opensky"], {"opensky": "x"}])
+def test_release_the_server_cannot_read_is_refused(monkeypatch, tmp_path, make_snapshot, sources):
+    """A manifest /info can't read (sources not a dict of dicts) fails the server's own reads."""
+    folder = make_snapshot("latest-2026-10-19", "2026-10-19", sources=sources)
+    fake_http(monkeypatch, [release("data-2026-10-19")], tar_gz((folder.name, folder)))
+    store = FileStore(tmp_path / "store")
+    make_snapshot("latest-2026-10-11", root=store.root)
+    with pytest.raises(releases.ReleaseError, match="failed the data checks") as caught:
+        releases.install_latest(store, REPO)
+    assert caught.value.kind == releases.CHECKS
+    assert sorted(p.name for p in store.root.iterdir()) == ["latest-2026-10-11"]
+    assert store.latest() == "latest-2026-10-11"
+
+
+def test_committed_snapshot_as_a_release_is_accepted(monkeypatch, tmp_path):
+    folder = Path(__file__).resolve().parents[1] / "data" / "snapshots" / "latest-2026-10-11"
+    fake_http(monkeypatch, [release("data-2026-10-11")], tar_gz((folder.name, folder)))
+    store = FileStore(tmp_path / "store")
+    assert releases.install_latest(store, REPO)["installed"] is True
+    assert store.latest() == "latest-2026-10-11"
+    assert sorted(p.name for p in tmp_path.iterdir()) == ["store"]  # no temporary store left
+
+
+@pytest.mark.parametrize(
+    ("listing", "archive", "kind"),
+    [
+        ([release("v1.0.0")], b"", "none"),
+        ([{**release("data-2026-10-19"), "assets": []}], b"", "no_snapshot"),
+        ([release("data-2026-10-19")], b"not a gzip file", "checks"),
+    ],
+)
+def test_release_errors_say_their_kind(monkeypatch, tmp_path, listing, archive, kind):
+    fake_http(monkeypatch, listing, archive)
+    with pytest.raises(releases.ReleaseError) as caught:
+        releases.install_latest(FileStore(tmp_path / "store"), REPO)
+    assert caught.value.kind == kind
+
+
+def test_a_download_over_its_limit_is_too_large(monkeypatch):
+    class Response(io.BytesIO):
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *args):
+            self.close()
+
+    class Opener:
+        def open(self, request, timeout):
+            return Response(b"x" * 11)
+
+    monkeypatch.setattr(urllib.request, "build_opener", lambda *handlers: Opener())
+    with pytest.raises(releases.ReleaseError) as caught:
+        releases.http("https://example.test/big", limit=10)
+    assert caught.value.kind == releases.TOO_LARGE
 
 
 def archive_of(*members):

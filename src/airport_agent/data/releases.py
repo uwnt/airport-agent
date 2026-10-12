@@ -17,6 +17,7 @@ Workflow helpers (no network except `previous`):
 
 import io
 import json
+import logging
 import re
 import sys
 import tarfile
@@ -26,7 +27,15 @@ import urllib.request
 from datetime import date, datetime
 from pathlib import Path, PurePosixPath
 
-from airport_agent.data.store import open_store, read_manifest, snapshot_problem, sort_key
+from airport_agent.data.store import (
+    FileStore,
+    open_store,
+    read_manifest,
+    snapshot_problem,
+    sort_key,
+)
+
+log = logging.getLogger(__name__)
 
 API = "https://api.github.com"
 DEFAULT_REPO = "uwnt/airport-agent"
@@ -42,8 +51,19 @@ PLAIN = re.compile(r"^latest-\d{4}-\d{2}-\d{2}(-\d+)?$")  # the versions store.l
 ORIGIN_FILE = "release.json"  # who built it: written by the workflow, the tag added on install
 
 
+# What kind of failure a ReleaseError is: the Data panel shows a fixed message for each.
+NONE, NO_SNAPSHOT, TOO_LARGE, CHECKS, REDIRECT = (
+    "none", "no_snapshot", "too_large", "checks", "redirect"
+)  # fmt: skip
+CHECKS_FAILED = "The release failed the data checks."
+
+
 class ReleaseError(Exception):
-    """A data release that can't be used, in plain words."""
+    """A data release that can't be used: the detail in plain words, and its `kind` (above)."""
+
+    def __init__(self, message, kind=CHECKS):
+        super().__init__(message)
+        self.kind = kind
 
 
 class SameHostRedirect(urllib.request.HTTPRedirectHandler):
@@ -56,7 +76,9 @@ class SameHostRedirect(urllib.request.HTTPRedirectHandler):
     def redirect_request(self, req, fp, code, msg, headers, newurl):
         old, new = urllib.parse.urlsplit(req.full_url), urllib.parse.urlsplit(newurl)
         if (old.scheme, old.netloc) != (new.scheme, new.netloc):
-            raise ReleaseError(f"refused a redirect to {new.netloc!r} for a request with a token")
+            raise ReleaseError(
+                f"refused a redirect to {new.netloc!r} for a request with a token", REDIRECT
+            )
         return super().redirect_request(req, fp, code, msg, headers, newurl)
 
 
@@ -74,7 +96,7 @@ def http(url, *, method="GET", headers=None, body=None, limit=MAX_JSON_BYTES):
     with opener.open(request, timeout=TIMEOUT_SECONDS) as response:
         data = response.read(limit + 1)
     if len(data) > limit:
-        raise ReleaseError(f"the download from {url} is over {limit} bytes")
+        raise ReleaseError(f"the download from {url} is over {limit} bytes", TOO_LARGE)
     return data
 
 
@@ -116,7 +138,8 @@ def unpack(archive, dest):
                 count, size = count + 1, size + member.size
                 if count > MAX_MEMBERS or size > MAX_UNPACKED_BYTES:
                     raise ReleaseError(
-                        f"the archive is over {MAX_MEMBERS} files or {MAX_UNPACKED_BYTES} bytes"
+                        f"the archive is over {MAX_MEMBERS} files or {MAX_UNPACKED_BYTES} bytes",
+                        TOO_LARGE,
                     )
                 path = PurePosixPath(member.name)
                 if path.is_absolute() or ".." in path.parts:
@@ -131,10 +154,10 @@ def unpack(archive, dest):
 
 
 def check(folder):
-    """Raise ReleaseError unless `folder` is a plain snapshot (`latest-YYYY-MM-DD`) that loads.
+    """Raise ReleaseError unless `folder` is a plain snapshot (`latest-YYYY-MM-DD`) that serves.
 
-    Complete: its manifest lists every summary the server reads and they all exist. Loads: the
-    server's own loader reads it without an error, so a release that passes can be switched to.
+    Quick checks first: its manifest lists every summary the server reads, they all exist, and
+    the fields the store sorts on are dates. Then `serve_trial` runs the server's own reads on it.
     """
     name = Path(folder).name
     problem = snapshot_problem(folder)
@@ -157,12 +180,32 @@ def check(folder):
         raise ReleaseError(
             f"snapshot {name!r} has a bad as_of or built_at in its manifest"
         ) from error
-    from airport_agent.data.metrics import load_cache  # the loader the server uses
+    serve_trial(folder)
 
+
+def serve_trial(folder):
+    """Run what a request would run on snapshot `folder`, from a temporary store next to it.
+
+    The store picks it as latest and the server loads it (DataVersion), /info is built for it and
+    the Data panel says who built it. Any error refuses it (ReleaseError, detail logged); the
+    real store is never touched, so a release that passes can be switched to.
+    """
+    from airport_agent import data_panel, server  # imported here: they import this module
+
+    folder = Path(folder)
     try:
-        load_cache(folder)
+        with tempfile.TemporaryDirectory(prefix=".trial-", dir=folder.parent) as tmp:
+            trial = FileStore(tmp)
+            trial.publish(folder)
+            snapshot = server.DataVersion(trial, clock=lambda: 0.0).current()
+            if snapshot is None or snapshot.version != folder.name:
+                raise ValueError("the store did not pick it as latest, or it did not load")
+            copy = trial.get(snapshot.version)
+            server.info_payload(snapshot.version, copy, date.today())
+            data_panel.built_by(copy, snapshot.version)
     except Exception as error:  # any error at all means the server couldn't use it either
-        raise ReleaseError(f"snapshot {name!r} can't be loaded: {error!r}") from error
+        log.warning("Data release %r failed the data checks: %r", folder.name, error)
+        raise ReleaseError(CHECKS_FAILED) from error
 
 
 def install_latest(store, repo):
@@ -173,11 +216,11 @@ def install_latest(store, repo):
     """
     release = latest_release(repo)
     if release is None:
-        raise ReleaseError(f"{repo} has no data releases yet")
+        raise ReleaseError(f"{repo} has no data releases yet", NONE)
     tag = release["tag_name"]
     asset = next((a for a in release.get("assets", []) if a["name"].endswith(".tar.gz")), None)
     if asset is None:
-        raise ReleaseError(f"release {tag} has no .tar.gz snapshot")
+        raise ReleaseError(f"release {tag} has no .tar.gz snapshot", NO_SNAPSHOT)
     archive = http(asset["browser_download_url"], limit=MAX_ARCHIVE_BYTES)
     with tempfile.TemporaryDirectory(prefix="airport-agent-release-") as tmp:
         folder = unpack(archive, tmp)
