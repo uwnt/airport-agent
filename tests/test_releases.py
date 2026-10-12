@@ -1,10 +1,14 @@
 """Data releases (data/releases.py): lookup, download and checks, with a fake HTTP layer."""
 
+import email.message
+import gzip
 import io
 import json
 import tarfile
 import time
 import urllib.error
+import urllib.request
+import urllib.response
 from pathlib import Path
 
 import pytest
@@ -128,6 +132,120 @@ def with_member(archive, name):
         extra.size = 2
         tar.addfile(extra, io.BytesIO(b"{}"))
     return buffer.getvalue()
+
+
+def test_release_listing_no_files_is_refused(monkeypatch, tmp_path, make_snapshot):
+    folder = make_snapshot("latest-2026-10-19", "2026-10-19", files=[])
+    fake_http(monkeypatch, [release("data-2026-10-19")], tar_gz((folder.name, folder)))
+    store_root = tmp_path / "store"
+    with pytest.raises(releases.ReleaseError, match="doesn't list ourairports"):
+        releases.install_latest(FileStore(store_root), REPO)
+    assert not store_root.exists()
+
+
+def test_release_that_does_not_load_is_refused(monkeypatch, tmp_path, make_snapshot):
+    """A summary the loader can't use (here `[]`) is caught by a trial load, not by the server."""
+    folder = make_snapshot("latest-2026-10-19", "2026-10-19")
+    (folder / "ourairports.json").write_text("[]", encoding="utf-8")
+    fake_http(monkeypatch, [release("data-2026-10-19")], tar_gz((folder.name, folder)))
+    store = FileStore(tmp_path / "store")
+    make_snapshot("latest-2026-10-11", root=store.root)
+    with pytest.raises(releases.ReleaseError, match="can't be loaded"):
+        releases.install_latest(store, REPO)
+    assert sorted(p.name for p in store.root.iterdir()) == ["latest-2026-10-11"]
+
+
+def archive_of(*members):
+    """A .tar.gz of TarInfo members with no file bodies (only their headers are read)."""
+    buffer = io.BytesIO()
+    with tarfile.open(fileobj=buffer, mode="w:gz") as tar:
+        for member in members:
+            tar.addfile(member)
+    return buffer.getvalue()
+
+
+def link(name, target, kind):
+    member = tarfile.TarInfo(name)
+    member.type, member.linkname = kind, target
+    return member
+
+
+@pytest.mark.parametrize(
+    "member",
+    [
+        link("latest-2026-10-19/passwd", "/etc/passwd", tarfile.SYMTYPE),
+        link("latest-2026-10-19/up", "../../outside", tarfile.SYMTYPE),
+        link("latest-2026-10-19/hard", "/etc/passwd", tarfile.LNKTYPE),
+        link("latest-2026-10-19/hard", "../outside", tarfile.LNKTYPE),
+    ],
+)
+def test_links_out_of_the_archive_are_refused(tmp_path, member):
+    folder = tarfile.TarInfo("latest-2026-10-19")
+    folder.type = tarfile.DIRTYPE
+    with pytest.raises(releases.ReleaseError, match="can't be unpacked"):
+        releases.unpack(archive_of(folder, member), tmp_path)
+    assert not (tmp_path / "latest-2026-10-19" / member.name.split("/")[-1]).exists()
+
+
+def test_archive_over_the_size_cap_is_refused(tmp_path):
+    """A header declaring 300 MB is refused at that header: the body is never read."""
+    huge = tarfile.TarInfo("latest-2026-10-19/huge.json")
+    huge.size = 300_000_000
+    buffer = io.BytesIO()
+    with gzip.GzipFile(fileobj=buffer, mode="wb") as gz:
+        gz.write(huge.tobuf())  # the header only: the archive is a few hundred bytes
+    with pytest.raises(releases.ReleaseError, match="over 2000 files or 200000000 bytes"):
+        releases.unpack(buffer.getvalue(), tmp_path)
+    assert list(tmp_path.iterdir()) == []
+
+
+def test_archive_over_the_member_cap_is_refused(tmp_path):
+    members = [tarfile.TarInfo(f"latest-2026-10-19/{i}.json") for i in range(2_001)]
+    with pytest.raises(releases.ReleaseError, match="over 2000 files"):
+        releases.unpack(archive_of(*members), tmp_path)
+    assert list(tmp_path.iterdir()) == []
+
+
+class FakeHTTPS(urllib.request.HTTPSHandler):
+    """Stands in for HTTPS: /start redirects to `FakeHTTPS.to`, anything else answers "{}"."""
+
+    to, seen = "", []
+
+    def https_open(self, req):
+        FakeHTTPS.seen.append((req.full_url, req.get_header("Authorization")))
+        headers = email.message.Message()
+        moved = req.full_url.endswith("/start")
+        if moved:
+            headers["Location"] = FakeHTTPS.to
+        response = urllib.response.addinfourl(
+            io.BytesIO(b"" if moved else b"{}"), headers, req.full_url, 302 if moved else 200
+        )
+        response.msg = "Found" if moved else "OK"
+        return response
+
+
+@pytest.fixture
+def redirecting(monkeypatch):
+    monkeypatch.setattr(urllib.request, "HTTPSHandler", FakeHTTPS)
+    FakeHTTPS.seen = []
+    return FakeHTTPS
+
+
+def test_token_is_not_sent_to_another_host_on_redirect(redirecting):
+    redirecting.to = "https://elsewhere.test/collect"
+    with pytest.raises(releases.ReleaseError, match="refused a redirect"):
+        releases.http("https://api.github.test/start", headers={"Authorization": "Bearer t"})
+    assert redirecting.seen == [("https://api.github.test/start", "Bearer t")]
+    # Without a token the same redirect is followed (release downloads redirect to a CDN).
+    assert releases.http("https://api.github.test/start") == b"{}"
+    assert redirecting.seen[-1] == ("https://elsewhere.test/collect", None)
+
+
+def test_token_follows_a_redirect_on_the_same_host(redirecting):
+    redirecting.to = "https://api.github.test/moved"
+    headers = {"Authorization": "Bearer t"}
+    assert releases.http("https://api.github.test/start", headers=headers) == b"{}"
+    assert redirecting.seen[-1] == ("https://api.github.test/moved", "Bearer t")
 
 
 def test_notes_compare_sources_and_top_ten(make_snapshot):

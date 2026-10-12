@@ -21,6 +21,7 @@ import re
 import sys
 import tarfile
 import tempfile
+import urllib.parse
 import urllib.request
 from pathlib import Path, PurePosixPath
 
@@ -31,6 +32,10 @@ DEFAULT_REPO = "uwnt/airport-agent"
 TIMEOUT_SECONDS = 10
 MAX_JSON_BYTES = 2_000_000
 MAX_ARCHIVE_BYTES = 50_000_000  # snapshots are a few MB (scripts/check_snapshots.py budget)
+MAX_UNPACKED_BYTES = 200_000_000  # a gzip bomb stops here, counted from the member headers
+MAX_MEMBERS = 2_000
+# The summaries the server's loader (metrics.load_cache) reads: a release must list them all.
+SUMMARIES = ("ourairports", "dot_fares", "bts_ontime", "bts_enplanements", "opensky")
 TAG = re.compile(r"^data-(\d{4}-\d{2}-\d{2})(?:-(\d+))?$")
 PLAIN = re.compile(r"^latest-\d{4}-\d{2}-\d{2}(-\d+)?$")  # the versions store.latest() reads
 ORIGIN_FILE = "release.json"  # who built it: written by the workflow, the tag added on install
@@ -38,6 +43,20 @@ ORIGIN_FILE = "release.json"  # who built it: written by the workflow, the tag a
 
 class ReleaseError(Exception):
     """A data release that can't be used, in plain words."""
+
+
+class SameHostRedirect(urllib.request.HTTPRedirectHandler):
+    """Follows a redirect only to the same scheme, host and port.
+
+    urllib copies every header, Authorization included, onto the redirected request, so a request
+    carrying a token must never follow a redirect to another host.
+    """
+
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        old, new = urllib.parse.urlsplit(req.full_url), urllib.parse.urlsplit(newurl)
+        if (old.scheme, old.netloc) != (new.scheme, new.netloc):
+            raise ReleaseError(f"refused a redirect to {new.netloc!r} for a request with a token")
+        return super().redirect_request(req, fp, code, msg, headers, newurl)
 
 
 def http(url, *, method="GET", headers=None, body=None, limit=MAX_JSON_BYTES):
@@ -49,7 +68,9 @@ def http(url, *, method="GET", headers=None, body=None, limit=MAX_JSON_BYTES):
     request.add_header("User-Agent", "airport-agent")
     for key, value in (headers or {}).items():
         request.add_header(key, value)
-    with urllib.request.urlopen(request, timeout=TIMEOUT_SECONDS) as response:
+    authenticated = any(key.lower() == "authorization" for key in headers or {})
+    opener = urllib.request.build_opener(*([SameHostRedirect] if authenticated else []))
+    with opener.open(request, timeout=TIMEOUT_SECONDS) as response:
         data = response.read(limit + 1)
     if len(data) > limit:
         raise ReleaseError(f"the download from {url} is over {limit} bytes")
@@ -83,11 +104,19 @@ def unpack(archive, dest):
     """Unpack a snapshot archive into `dest`; returns the one snapshot folder it holds.
 
     Refuses any member that would land outside `dest` (an absolute path or `..`), checked here by
-    name and again by tarfile's "data" filter (which also refuses links out and device files).
+    name and again by tarfile's "data" filter (which also refuses links out and device files), and
+    an archive over MAX_MEMBERS members or MAX_UNPACKED_BYTES unpacked, counted from the member
+    headers while reading them, before anything is written.
     """
     try:
         with tarfile.open(fileobj=io.BytesIO(archive), mode="r:gz") as tar:
-            for member in tar.getmembers():
+            count, size = 0, 0
+            for member in tar:  # one header at a time: stops at the first member over a cap
+                count, size = count + 1, size + member.size
+                if count > MAX_MEMBERS or size > MAX_UNPACKED_BYTES:
+                    raise ReleaseError(
+                        f"the archive is over {MAX_MEMBERS} files or {MAX_UNPACKED_BYTES} bytes"
+                    )
                 path = PurePosixPath(member.name)
                 if path.is_absolute() or ".." in path.parts:
                     raise ReleaseError(f"unsafe path in the archive: {member.name!r}")
@@ -101,12 +130,27 @@ def unpack(archive, dest):
 
 
 def check(folder):
-    """Raise ReleaseError unless `folder` is a complete plain snapshot (`latest-YYYY-MM-DD`)."""
+    """Raise ReleaseError unless `folder` is a plain snapshot (`latest-YYYY-MM-DD`) that loads.
+
+    Complete: its manifest lists every summary the server reads and they all exist. Loads: the
+    server's own loader reads it without an error, so a release that passes can be switched to.
+    """
+    name = Path(folder).name
     problem = snapshot_problem(folder)
     if problem:
-        raise ReleaseError(f"snapshot {Path(folder).name!r} is incomplete: {problem}")
-    if not PLAIN.match(Path(folder).name):
-        raise ReleaseError(f"snapshot {Path(folder).name!r} is not a latest-YYYY-MM-DD snapshot")
+        raise ReleaseError(f"snapshot {name!r} is incomplete: {problem}")
+    if not PLAIN.match(name):
+        raise ReleaseError(f"snapshot {name!r} is not a latest-YYYY-MM-DD snapshot")
+    listed = read_manifest(folder).get("files")
+    unlisted = [s for s in SUMMARIES if f"{s}.json" not in (listed or [])]
+    if not isinstance(listed, list) or unlisted:
+        raise ReleaseError(f"snapshot {name!r} doesn't list {', '.join(unlisted) or 'its files'}")
+    from airport_agent.data.metrics import load_cache  # the loader the server uses
+
+    try:
+        load_cache(folder)
+    except Exception as error:  # any error at all means the server couldn't use it either
+        raise ReleaseError(f"snapshot {name!r} can't be loaded: {error!r}") from error
 
 
 def install_latest(store, repo):

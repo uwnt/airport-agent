@@ -97,7 +97,8 @@ def make_snapshot(sample_cache, tmp_path_factory):
     def make(version, as_of="2026-10-11", root=None, **manifest):
         folder = Path(root or tmp_path_factory.mktemp("snap")) / version
         shutil.copytree(sample_cache, folder)
-        manifest = {"version": version, "as_of": as_of, "files": [], **manifest}
+        files = sorted(p.name for p in folder.glob("*.json"))  # as the real build lists them
+        manifest = {"version": version, "as_of": as_of, "files": files, **manifest}
         (folder / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
         return folder
 
