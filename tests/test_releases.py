@@ -4,6 +4,7 @@ import email.message
 import gzip
 import io
 import json
+import re
 import tarfile
 import time
 import urllib.error
@@ -322,3 +323,9 @@ def test_refresh_workflow_writes_only_in_the_publish_job():
     publish = workflow["jobs"]["publish"]
     assert publish["permissions"] == {"contents": "write", "actions": "read"}
     assert all("uses" not in step for step in publish["steps"])  # no action holds the write
+    assert publish["if"] == (
+        "github.ref == format('refs/heads/{0}', github.event.repository.default_branch)"
+    )
+    for step in workflow["jobs"]["build"]["steps"]:  # every action pinned to a full commit
+        if "uses" in step:
+            assert re.fullmatch(r"[\w./-]+@[0-9a-f]{40}", step["uses"]), step["uses"]
