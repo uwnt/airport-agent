@@ -19,6 +19,9 @@ services:
       - GEMINI_API_KEY
       - GEMINI_MODEL
       - DATA_CHECK_MINUTES
+      # Talk mode (README, "Talk mode"): TALK_MODE=on adds the Talk button.
+      - TALK_MODE
+      - GEMINI_LIVE_MODEL
       # The Data panel (README, "Data panel"). ALLOW_LOCAL_REFRESH=true lets it run `refresh` in
       # this container; off unless you set it. Releases and local refresh write into ./data, so
       # they need the `:ro` below removed; read-only, the panel reports why and keeps the data.
