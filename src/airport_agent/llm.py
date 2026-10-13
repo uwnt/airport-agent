@@ -135,6 +135,7 @@ Every answer
   tools used with its as_of date, exactly as the tools gave them.
 """
 
+NO_ANSWER_TEXT = "(no answer from the model)"
 TOOL_LIMIT_MESSAGE = (
     "I stopped after {limit} tool calls without a final answer. Please ask a narrower question "
     "(one region or a few airports)."
@@ -366,7 +367,7 @@ class ChatSession:
             self.history.extend(steps)
             requested = [s for s in steps if s.get("type") == "function_call"]
             if not requested:
-                text = _text_of(steps) or "(no answer from the model)"
+                text = _text_of(steps) or NO_ANSWER_TEXT
                 return Answer(text, calls, usage=usage)
             for call in requested:
                 if len(calls) >= self.settings.max_tool_calls:

@@ -140,6 +140,13 @@ def test_a_failing_token_count_keeps_the_answer_and_makes_the_estimate_unknown(t
     assert "Average cost per question, estimated with tool results: unknown" in readme
 
 
+def check_steps(history, answer_text):
+    """One tool call for a new question, then a text answer."""
+    if history[-1]["type"] == "user_input":
+        return [{"type": "function_call", "id": "c1", "name": "fake_tool", "arguments": {}}]
+    return [{"type": "model_output", "content": [{"type": "text", "text": answer_text}]}]
+
+
 def check_chat_maker(answer_text="Score 55.", broken=False):
     class Model(FakeModel):
         def next_steps(self, history, tools, system_prompt):
@@ -157,13 +164,15 @@ def check_chat_maker(answer_text="Score 55.", broken=False):
     )
 
 
-def test_check_passes_when_every_conversation_is_clean(tmp_path, capsys):
+def test_check_passes_when_every_conversation_is_clean(tmp_path, capsys, monkeypatch):
+    monkeypatch.chdir(tmp_path)  # anything written relative to the working folder lands here
     script = load_script()
-    assert script.main(["--check"], check_chat_maker(), DAY) == 0
+    out_dir = tmp_path / "transcripts"
+    assert script.main(["--check", "--out", str(out_dir)], check_chat_maker(), DAY) == 0
     out = capsys.readouterr().out
     assert out.count("PASS ") == len(script.CONVERSATIONS)
     assert "FAIL" not in out
-    assert not list(tmp_path.iterdir())
+    assert not list(tmp_path.iterdir())  # no transcripts, not even in --out
 
 
 def test_check_fails_naming_the_conversation_with_an_invented_number(capsys):
@@ -199,4 +208,50 @@ def test_check_with_no_matching_conversation_fails(capsys):
     # A mistyped --only must not turn the release check into "0 of 0 passed", exit 0.
     script = load_script()
     assert script.main(["--check", "--only", "no-such-name"], check_chat_maker(), DAY) == 1
+    assert "FAIL no conversation matched" in capsys.readouterr().out
+
+
+def test_check_fails_when_only_a_follow_up_question_errors(capsys):
+    # The region-switch conversation has two questions; the first is fine, the second fails.
+    class SecondFails(FakeModel):
+        asked = 0
+
+        def next_steps(self, history, tools, system_prompt):
+            if history[-1]["type"] == "user_input":
+                self.asked += 1
+                if self.asked == 2:
+                    raise TimeoutError("slow")
+            return check_steps(history, "Score 55.")
+
+    script = load_script()
+    chat = lambda: ChatSession(  # noqa: E731
+        client=SecondFails(), settings=Settings("m", 100, 8, 1), tools=[], run_tool=fake_tool
+    )
+    assert script.main(["--check", "--only", "h-trap-region-switch"], chat, DAY) == 1
+    out = capsys.readouterr().out
+    assert "FAIL h-trap-region-switch \u2014 model call failed: TimeoutError" in out
+
+
+def test_check_fails_when_the_model_stops_at_the_tool_call_limit(capsys):
+    class AlwaysCalls(FakeModel):
+        def next_steps(self, history, tools, system_prompt):
+            return [{"type": "function_call", "id": "c", "name": "fake_tool", "arguments": {}}]
+
+    script = load_script()
+    chat = lambda: ChatSession(  # noqa: E731
+        client=AlwaysCalls(), settings=Settings("m", 100, 8, 1), tools=[], run_tool=fake_tool
+    )
+    assert script.main(["--check", "--only", "a-new-england"], chat, DAY) == 1
+    assert "FAIL a-new-england \u2014 stopped at the tool-call limit" in capsys.readouterr().out
+
+
+def test_check_fails_when_the_model_gives_no_answer(capsys):
+    script = load_script()
+    assert script.main(["--check", "--only", "a-new-england"], check_chat_maker(""), DAY) == 1
+    assert "no answer" in capsys.readouterr().out
+
+
+def test_check_with_a_bare_only_flag_fails(capsys):
+    script = load_script()
+    assert script.main(["--check", "--only"], check_chat_maker(), DAY) == 1
     assert "FAIL no conversation matched" in capsys.readouterr().out

@@ -456,10 +456,11 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
 ## D33: A production deploy waits for the example questions
 - Chose: before a deploy from `prod`, the Deploy workflow runs `scripts/evaluate.py --check`: the
   nine example conversations against the live model, and all nine must pass. A conversation
-  passes when it finishes without an error and the number check finds no number in any answer
-  that no tool result gave. No model grades anything. It costs about $0.07 and about a minute per
-  release. It is skipped when the workflow runs on a `v*` tag, because that is a rollback. A
-  failure stops the job before anything is deployed; a flaky one is re-run by hand.
+  passes when every question gets an answer (no error, no stop at the tool-call limit, not
+  empty) and the number check finds no number in any answer that no tool result gave. No model
+  grades anything. It costs about $0.07 and about a minute per release. It is skipped when the
+  workflow runs on a `v*` tag, because that is a rollback. A failure stops the job before anything
+  is deployed; a flaky one is re-run by hand.
 - Over: a lower bar such as 8 of 9 (the number check is exact, so a miss is a real finding); a
   model grading the answers (not deterministic, costs more); checking on every pull request
   (spends money on work that never ships); blocking rollbacks too (a bad day for the model

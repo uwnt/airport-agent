@@ -4,9 +4,10 @@ Run: doppler run -- uv run python scripts/evaluate.py --model gemini-3.8-flash \
          --out docs/examples/flash
 
 Release check: `--check` asks the same questions, writes no files, prints PASS or FAIL per
-conversation and exits 1 if any fails. A conversation passes when no question ended in an error
-and every number in every answer was found in a tool result (the number check below). The Deploy
-workflow runs it before a production deploy.
+conversation and exits 1 if any fails, or if no conversation was run. A conversation passes when
+every question got an answer (no error, no stop at the tool-call limit, not empty) and every number
+in every answer was found in a tool result (the number check below). The Deploy workflow runs it
+before a production deploy.
 
 Each conversation is a fresh chat; a follow-up question goes to the same chat. For each one a
 Markdown transcript is written: the questions, every tool call (arguments, the key numbers, and
@@ -36,7 +37,13 @@ import sys
 import time
 from pathlib import Path
 
-from airport_agent.llm import ChatSession, GeminiClient, add_usage, settings_from_env
+from airport_agent.llm import (
+    NO_ANSWER_TEXT,
+    ChatSession,
+    GeminiClient,
+    add_usage,
+    settings_from_env,
+)
 from airport_agent.number_check import unsupported_numbers
 
 # (file name, questions in one chat). The first four are the chat's example questions.
@@ -401,6 +408,10 @@ def check_failure(turns):
     for turn in turns:
         if turn.get("error"):
             return f"model call failed: {turn['error']}"
+        if turn["stopped_at_limit"]:
+            return "stopped at the tool-call limit without an answer"
+        if turn["text"].strip() in ("", NO_ANSWER_TEXT):
+            return "no answer from the model"
     flagged = [n for turn in turns for n in turn["unsupported"]]
     if flagged:
         return "numbers not found in tool results: " + ", ".join(flagged)
@@ -411,7 +422,7 @@ def run_check(make_chat, only=None):
     """Run the conversations, print PASS or FAIL for each; 0 if all pass, else 1."""
     failed = total = 0
     for name, questions in CONVERSATIONS:
-        if only and name not in only:
+        if only is not None and name not in only:
             continue
         total += 1
         reason = check_failure(run_conversation(make_chat(), questions))
