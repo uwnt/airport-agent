@@ -452,3 +452,15 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
   address (an office) count as one; a restart resets the counts; the header is trusted only because
   Fly's proxy sets it, so anywhere else a client could send its own.
 - Revisit if: the site runs on more than one machine, or real visitors hit 20.
+
+## D34: Type checking with mypy, default strictness, source only
+- Chose: `mypy` on `src/airport_agent` at its default strictness, run by `scripts/ci-local` and by
+  CI after the lint step, with the `pandas-stubs` and `types-PyYAML` stub packages as dev
+  dependencies. Tests are not type-checked.
+- Over: pyright (its pip package downloads Node.js on first run, and this project is pure Python);
+  `--strict` (it would mean annotating every function for little gain at this size); no type
+  checking (annotations would drift from what the code does).
+- Because: it found real gaps cheaply (an unannotated empty set, a list of questions typed as
+  `object`) and keeps the annotations honest as the code changes.
+- Revisit if: the project grows enough that unannotated functions hide bugs (turn on `disallow_untyped_defs`),
+  or mypy's speed or stubs become a drag.

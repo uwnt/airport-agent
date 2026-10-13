@@ -112,7 +112,7 @@ the deployed commit. **Rollback:** start the same workflow on the previous relea
 ## Test
 ```bash
 uv run pytest                    # the tests
-scripts/ci-local                 # CI's checks (lint, format, tests, snapshot sizes, TODOs need an issue number), not the secrets scan
+scripts/ci-local                 # CI's checks (lint, format, types with mypy, tests, snapshot sizes, TODOs need an issue number), not the secrets scan
 ```
 
 The tests run offline: no network and no model. They cover the scoring, the tools, the data
