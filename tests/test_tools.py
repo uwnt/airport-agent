@@ -10,7 +10,7 @@ from pathlib import Path
 
 import pytest
 
-from airport_agent import tools
+from airport_agent import tools, tools_domain_notes, tools_over_time
 from airport_agent.data.metrics import all_airport_metrics
 from airport_agent.scoring import load_settings
 from airport_agent.tools import run_tool
@@ -426,7 +426,7 @@ def test_compare_over_time_gives_the_asked_airports_own_reason_when_unranked():
         for m in all_airport_metrics()
     ]
     sfo = next(m for m in metrics_list if m.iata == "SFO")
-    standing = tools._standing(sfo, metrics_list, None, settings)
+    standing = tools_over_time._standing(sfo, metrics_list, None, settings)
     assert standing["score"] is None
     assert standing["not_ranked"] == "no measured cancellations data"
 
@@ -473,11 +473,11 @@ def test_out_of_scope_and_unmeasured_reasons_carry_no_decision_labels(run):
 def test_domain_notes_are_found_from_the_working_folder_when_installed(tmp_path, monkeypatch):
     # Installed as a package (the Docker image), there is no repo around the code: the notes
     # are read from docs/ under the working folder, where the Dockerfile copies them (/app).
-    assert tools._notes_path(tmp_path / "venv") == Path("docs/DOMAIN_NOTES.md")
+    assert tools_domain_notes._notes_path(tmp_path / "venv") == Path("docs/DOMAIN_NOTES.md")
     (tmp_path / "docs").mkdir()
     shutil.copy(tools.DOMAIN_NOTES_PATH, tmp_path / "docs" / "DOMAIN_NOTES.md")
     monkeypatch.chdir(tmp_path)
-    assert tools.domain_facts("SFO", path=tools._notes_path(tmp_path / "venv"))
+    assert tools.domain_facts("SFO", path=tools_domain_notes._notes_path(tmp_path / "venv"))
 
 
 def test_verified_facts_carry_dates_and_are_flagged_stale_after_review_by():
