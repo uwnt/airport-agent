@@ -45,7 +45,7 @@ from contextlib import asynccontextmanager
 from dataclasses import dataclass
 from datetime import UTC, date, datetime
 from pathlib import Path
-from typing import Literal
+from typing import Any, Literal
 
 from fastapi import FastAPI, HTTPException, Request, WebSocket
 from fastapi.responses import FileResponse, StreamingResponse
@@ -470,7 +470,7 @@ def _event(kind, payload):
 
 def _stream(work):
     """Run `work(emit)` in a thread and yield each emitted event as soon as it is emitted."""
-    events = queue.Queue()
+    events: queue.Queue = queue.Queue()
 
     def run():
         try:
@@ -521,6 +521,7 @@ def chat(request: ChatRequest, http: Request):
     run_tool = tool_runner(folder)
 
     fixed = dict(cli.FIXED_QUESTIONS)
+    calls: list[tuple[str, dict[str, Any]]] | None
     if request.calls:
         calls = [(c.name, c.args) for c in request.calls]
     elif not request.message.strip():

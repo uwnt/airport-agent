@@ -109,7 +109,7 @@ def build_lookup(airports, source_codes=()):
     ordered = [
         {**airport, "data_code": airport["iata"]} for airport in sorted(airports, key=_preference)
     ]
-    lookup = {}
+    lookup: dict[str, dict] = {}
     for airport in ordered:
         lookup.setdefault(airport["iata"], airport)
         if airport["icao"]:
@@ -153,7 +153,7 @@ def parse_coordinates(source):
     Keys are the ICAO code (or four-letter GPS code) and the OurAirports `ident`, which is what
     OpenSky reports as a destination. Returns {code: (lat, lon)}.
     """
-    coords = {}
+    coords: dict[str, tuple[float, float]] = {}
     for row in _read_rows(source):
         point = (float(row["latitude_deg"]), float(row["longitude_deg"]))
         for code in (icao_of(row), (row.get("ident") or "").strip().upper()):

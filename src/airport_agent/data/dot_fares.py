@@ -50,7 +50,7 @@ def fetch_latest_quarter():
 
 def fetch_quarter(year, quarter, cache_dir):
     """Download every Table 1a row of one quarter into the cache (paged). Network."""
-    rows = []
+    rows: list[dict] = []
     while True:
         page = get_json(
             URL,

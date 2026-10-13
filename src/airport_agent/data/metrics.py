@@ -283,7 +283,8 @@ def _add_capacity_loss(airport, iata, cache, signals, missing):
 
 
 def _build(airport, cache):
-    signals, missing = {}, {}
+    signals: dict = {}
+    missing: dict = {}
     in_scope, scope_reason = _scope(airport, cache)
     iata = airport["data_code"]  # the code DOT and BTS use for this airport
 

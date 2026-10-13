@@ -136,7 +136,7 @@ class Jobs:
 jobs = Jobs()
 refresh_limit = RateLimit(60 * 60)
 latest_limit = RateLimit(60)
-startup_versions = set()  # snapshots in the store when the server started (see built_by)
+startup_versions: set[str] = set()  # snapshots in the store when the server started (see built_by)
 
 
 def _finish(name, target, *args):
@@ -173,7 +173,7 @@ def _get_latest(job):
     try:
         result = releases.install_latest(_server()._store(), repo())
     except Exception as error:  # network, GitHub, a bad archive: report it, keep serving
-        kind = getattr(error, "kind", None)  # only a ReleaseError has one
+        kind = getattr(error, "kind", "")  # only a ReleaseError has one
         if kind == releases.NONE:  # a normal state, not a failure
             jobs.update(job, "done", message=RELEASE_MESSAGES[kind])
             return False
@@ -238,6 +238,7 @@ def _local_refresh():
             errors="replace",  # a stray byte in a download error must not stop the reading
             env=_child_env(),
         )
+        assert process.stdout is not None  # stdout=PIPE above
         for line in process.stdout:
             progress = _progress(line.strip())
             if progress:
