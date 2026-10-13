@@ -9,6 +9,11 @@
   <!-- Vendored copies, versions and licenses in /static/vendor/README.md: no third-party requests. -->
   <script src="/static/vendor/marked.umd.js" defer></script>
   <script src="/static/vendor/purify.min.js" defer></script>
+  <!-- Deferred scripts run in this order; app.js last, as it starts the page. -->
+  <script src="/static/ranking-view.js" defer></script>
+  <script src="/static/data-panel.js" defer></script>
+  <script src="/static/question-input.js" defer></script>
+  <script src="/static/talk-mode.js" defer></script>
   <script src="/static/app.js" defer></script>
 </head>
 <body>

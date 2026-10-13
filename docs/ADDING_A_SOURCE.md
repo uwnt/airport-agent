@@ -22,7 +22,7 @@ repo root: code is under `src/airport_agent/data/`, samples are in the repo-root
    (summarise), `tests/conftest.py` (write it into the sample cache) and
    `tests/test_data_metrics.py` (the value reaches the airport).
 7. **`docs/DATA_SOURCES.md`**: an entry with what it gives, what it helps with, what it can't do.
-8. **If scored:** a weight in `config/scoring.yaml` and the signal name in `scoring.py`
+8. **If scored:** a weight in `config/scoring.yaml` and the signal name in `scoring_settings.py`
    (`STRAIN_SIGNALS` or `GROWTH_SIGNAL`, which make up `SCORED_SIGNALS`; a name outside it is
    rejected when the file loads). Context-only numbers like boardings skip this step.
 9. **Rebuild and commit the snapshots.** `load_cache` reads every source's summary, and

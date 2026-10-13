@@ -8,7 +8,7 @@ from pathlib import Path
 import pytest
 import yaml
 
-from airport_agent import scoring
+from airport_agent import scoring, scoring_settings
 from airport_agent.data.metrics import Metric, Metrics, all_airport_metrics
 from airport_agent.scoring import (
     CONSTRAINTS_PATH,
@@ -536,13 +536,13 @@ def test_cli_prints_a_settings_mistake_plainly_and_exits_2(tmp_path, monkeypatch
 def test_settings_root_is_the_repo_when_it_holds_the_config(tmp_path):
     (tmp_path / "config").mkdir()
     (tmp_path / "config" / "scoring.yaml").write_text("{}", encoding="utf-8")
-    assert scoring._settings_root(tmp_path) == tmp_path
+    assert scoring_settings._settings_root(tmp_path) == tmp_path
 
 
 def test_settings_root_is_the_working_folder_when_installed_as_a_package(tmp_path, monkeypatch):
     monkeypatch.chdir(tmp_path)
-    assert scoring._settings_root(tmp_path / "site-packages") == Path()
-    assert (scoring._settings_root(tmp_path / "site-packages") / "config").resolve() == (
+    assert scoring_settings._settings_root(tmp_path / "site-packages") == Path()
+    assert (scoring_settings._settings_root(tmp_path / "site-packages") / "config").resolve() == (
         tmp_path / "config"
     )
 
