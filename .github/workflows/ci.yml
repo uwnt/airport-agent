@@ -32,7 +32,7 @@ jobs:
           fetch-depth: 0 # the secrets scan reads history
           persist-credentials: false # later steps don't need the token
 
-      - uses: astral-sh/setup-uv@v6
+      - uses: astral-sh/setup-uv@v7
 
       # uv reads the Python version from .python-version; --locked fails if uv.lock is stale
       - name: Install
