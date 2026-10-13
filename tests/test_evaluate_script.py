@@ -138,3 +138,58 @@ def test_a_failing_token_count_keeps_the_answer_and_makes_the_estimate_unknown(t
     assert "- Cost (estimated with tool results): unknown" in text
     readme = (out / "README.md").read_text(encoding="utf-8")
     assert "Average cost per question, estimated with tool results: unknown" in readme
+
+
+def check_chat_maker(answer_text="Score 55.", broken=False):
+    class Model(FakeModel):
+        def next_steps(self, history, tools, system_prompt):
+            if broken:
+                raise TimeoutError("slow")
+            steps = super().next_steps(history, tools, system_prompt)
+            if history[-1]["type"] != "user_input":
+                steps = [
+                    {"type": "model_output", "content": [{"type": "text", "text": answer_text}]}
+                ]
+            return steps
+
+    return lambda: ChatSession(
+        client=Model(), settings=Settings("m", 100, 8, 1), tools=[], run_tool=fake_tool
+    )
+
+
+def test_check_passes_when_every_conversation_is_clean(tmp_path, capsys):
+    script = load_script()
+    assert script.main(["--check"], check_chat_maker(), DAY) == 0
+    out = capsys.readouterr().out
+    assert out.count("PASS ") == len(script.CONVERSATIONS)
+    assert "FAIL" not in out
+    assert not list(tmp_path.iterdir())
+
+
+def test_check_fails_naming_the_conversation_with_an_invented_number(capsys):
+    script = load_script()
+    assert script.main(["--check"], check_chat_maker("Score 55; 77%."), DAY) == 1
+    out = capsys.readouterr().out
+    assert "FAIL a-new-england" in out and "77" in out
+    assert "0 of 9" in out
+
+
+def test_check_fails_when_a_model_call_errors(capsys):
+    script = load_script()
+    assert (
+        script.main(
+            ["--check", "--only", "f-trap-nonsense-code"], check_chat_maker(broken=True), DAY
+        )
+        == 1
+    )
+    assert "FAIL f-trap-nonsense-code" in capsys.readouterr().out
+
+
+def test_without_check_model_and_out_are_required():
+    script = load_script()
+    try:
+        script.main(["--model", "m"], check_chat_maker(), DAY)
+    except SystemExit as stop:
+        assert stop.code == 2
+    else:
+        raise AssertionError("expected a usage error")
