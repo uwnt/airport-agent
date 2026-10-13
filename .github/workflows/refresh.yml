@@ -45,7 +45,7 @@ jobs:
       # GitHub scopes caches by branch: a run on the default branch restores only caches saved
       # on the default branch, so a cache written by a run on another branch never reaches a
       # published release, and such a run can't publish anyway (the publish job's `if`).
-      - uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: data/cache
           key: refresh-cache-${{ github.run_id }}
