@@ -31,9 +31,15 @@ def web(tmp_path_factory, sample_cache, monkeypatch):
     monkeypatch.setenv("DATA_STORE", f"file://{root}")
     monkeypatch.setattr(server, "data", server.DataVersion(FileStore(root), clock=lambda: 0.0))
     monkeypatch.setattr(server, "daily_cap", server.DailyCap())
+    monkeypatch.setattr(
+        server,
+        "visitor_cap",
+        server.DailyCap("MAX_MODEL_QUESTIONS_PER_VISITOR_PER_DAY", fallback=20),
+    )
     monkeypatch.setenv("GEMINI_API_KEY", "test-key")
     monkeypatch.setenv("TALK_MODE", "on")
     monkeypatch.delenv("MAX_MODEL_QUESTIONS_PER_DAY", raising=False)
+    monkeypatch.delenv("MAX_MODEL_QUESTIONS_PER_VISITOR_PER_DAY", raising=False)
     return TestClient(server.app)
 
 
@@ -140,6 +146,25 @@ def test_talk_is_refused_over_the_daily_cap(web, monkeypatch, live):
         assert ws.receive_json() == {"event": "error", "data": {"message": server.CAP_MESSAGE}}
         with pytest.raises(WebSocketDisconnect):
             ws.receive_json()
+
+
+def test_talk_is_refused_over_the_visitor_limit_for_that_visitor_only(web, monkeypatch, live):
+    monkeypatch.setenv("MAX_MODEL_QUESTIONS_PER_VISITOR_PER_DAY", "1")
+    here, elsewhere = (
+        {**SAME_ORIGIN, "fly-client-ip": "203.0.113.1"},
+        {**SAME_ORIGIN, "fly-client-ip": "203.0.113.2"},
+    )
+    with connect(web, here) as ws:
+        assert ws.receive_json()["data"] == {"state": "listening"}
+        leave(ws, live)
+    with connect(web, here) as ws:  # the same visitor's second session
+        message = {"message": server.VISITOR_CAP_MESSAGE}
+        assert ws.receive_json() == {"event": "error", "data": message}
+        with pytest.raises(WebSocketDisconnect):
+            ws.receive_json()
+    with connect(web, elsewhere) as ws:
+        assert ws.receive_json()["data"] == {"state": "listening"}
+        leave(ws, live)
 
 
 def test_a_spoken_tool_call_runs_the_real_tool_and_draws_like_typed_chat(web, live):

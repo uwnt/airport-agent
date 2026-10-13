@@ -439,3 +439,16 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
   publishing job.
 - Revisit if: published data needs a person's review first (the workflow would open a pull request
   and wait), or the snapshots outgrow release files.
+
+## D32: A daily limit per visitor on model questions
+- Chose: a second limit, `MAX_MODEL_QUESTIONS_PER_VISITOR_PER_DAY` (20 on Fly, unset elsewhere
+  means none), counted per visitor in memory and reset at the UTC day change. The visitor is the
+  `Fly-Client-IP` header when present, else the client address. It applies to typed questions and
+  to Talk mode, and over it the behaviour is the same as over the site-wide cap, with its own message.
+- Over: only the site-wide cap (one visitor could use up all 300 questions and lock everyone else
+  out); a sign-in or access code (friction for reviewers); a shared store for the counts (one more
+  service, for a single machine).
+- Because: one visitor can't drain the site-wide cap. Known limits: visitors behind a shared
+  address (an office) count as one; a restart resets the counts; the header is trusted only because
+  Fly's proxy sets it, so anywhere else a client could send its own.
+- Revisit if: the site runs on more than one machine, or real visitors hit 20.

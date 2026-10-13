@@ -19,6 +19,9 @@ Daily cap (for the public site): MAX_MODEL_QUESTIONS_PER_DAY limits the question
 model per UTC day; unset means no cap (local runs, Docker). Over the cap a free-form question gets
 an `error` event with CAP_MESSAGE, and a suggested question or the picker runs its tools directly,
 as without a model. The count is kept in memory (see DailyCap).
+MAX_MODEL_QUESTIONS_PER_VISITOR_PER_DAY limits each visitor (the Fly-Client-IP header, else the
+client address) the same way, with VISITOR_CAP_MESSAGE, so one visitor cannot use up the whole
+site's cap; unset means no limit.
 
 Data: the server answers from one snapshot of the data store (DATA_STORE, see data/store.py),
 read fully into memory: the latest at startup. On use, once DATA_CHECK_MINUTES (default 5) have
@@ -44,7 +47,7 @@ from datetime import UTC, date, datetime
 from pathlib import Path
 from typing import Literal
 
-from fastapi import FastAPI, HTTPException, WebSocket
+from fastapi import FastAPI, HTTPException, Request, WebSocket
 from fastapi.responses import FileResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field, field_validator
@@ -251,19 +254,25 @@ def is_stale(as_of, reference, months):
 class DailyCap:
     """Counts the questions sent to the model per UTC day and refuses those over the cap.
 
+    With a `visitor` given to take(), each visitor has their own count under the same cap.
     The count lives in memory only, so it starts again at 0 whenever the server restarts (and Fly
     stops an idle machine and starts it on the next visit). It is a guard against one runaway
     client, not an exact limit; the Gemini key's own spending cap is the last guard.
     """
 
-    def __init__(self, clock=lambda: datetime.now(UTC).date()):
-        self.clock = clock
+    def __init__(
+        self,
+        variable="MAX_MODEL_QUESTIONS_PER_DAY",
+        fallback=300,
+        clock=lambda: datetime.now(UTC).date(),
+    ):
+        self.variable, self.fallback, self.clock = variable, fallback, clock
         self.lock = threading.Lock()
-        self.day, self.count = None, 0
+        self.day, self.counts = None, {}
 
     def limit(self):
-        """Today's cap from MAX_MODEL_QUESTIONS_PER_DAY, or None for no cap (the variable unset)."""
-        text = os.environ.get("MAX_MODEL_QUESTIONS_PER_DAY", "").strip()
+        """Today's cap from the environment variable, or None for no cap (the variable unset)."""
+        text = os.environ.get(self.variable, "").strip()
         if not text:
             return None
         try:
@@ -272,25 +281,43 @@ class DailyCap:
             limit = -1
         if limit < 0:
             # A typo must not switch the guard off on a public site.
-            log.warning("MAX_MODEL_QUESTIONS_PER_DAY=%r is not a whole number >= 0", text)
-            return INVALID_CAP_FALLBACK
+            log.warning("%s=%r is not a whole number >= 0", self.variable, text)
+            return self.fallback
         return limit
 
-    def take(self):
+    def take(self, visitor=None):
         """Count one model question; False (and not counted) if today's cap is already reached."""
         limit = self.limit()
         with self.lock:
             today = self.clock()
             if today != self.day:
-                self.day, self.count = today, 0
-            if limit is not None and self.count >= limit:
+                self.day, self.counts = today, {}  # the previous day's counts are dropped
+            if limit is not None and self.counts.get(visitor, 0) >= limit:
                 return False
-            self.count += 1
+            self.counts[visitor] = self.counts.get(visitor, 0) + 1
             return True
 
 
 INVALID_CAP_FALLBACK = 300
 daily_cap = DailyCap()
+visitor_cap = DailyCap("MAX_MODEL_QUESTIONS_PER_VISITOR_PER_DAY", fallback=20)
+
+
+def visitor_of(connection):
+    """Who is asking: Fly-Client-IP (set by Fly's proxy; trusted for that), else the peer."""
+    return connection.headers.get("fly-client-ip") or (
+        connection.client.host if connection.client else "unknown"
+    )
+
+
+def refused_message(connection):
+    """None if this question may go to the model (and counts it), else why it may not.
+
+    The visitor is checked first, so a refused visitor does not use up the site-wide cap.
+    """
+    if not visitor_cap.take(visitor_of(connection)):
+        return VISITOR_CAP_MESSAGE
+    return None if daily_cap.take() else CAP_MESSAGE
 
 
 @app.get("/info")
@@ -396,6 +423,10 @@ CAP_MESSAGE = (
     "This site has reached today's limit of questions to the model; it resets at midnight UTC. "
     "The suggested questions and the rank / compare / profile picker still work."
 )
+VISITOR_CAP_MESSAGE = (
+    "You have reached your daily limit of questions to the model; it resets at midnight UTC. "
+    "The suggested questions and the rank / compare / profile picker still work."
+)
 NO_KEY_MESSAGE = (
     "Free-form questions need the model, and no GEMINI_API_KEY is set on the server. "
     "Pick a suggested question, or use the rank / compare / profile picker."
@@ -470,7 +501,7 @@ def tool_runner(folder):
 
 
 @app.post("/chat")
-def chat(request: ChatRequest):
+def chat(request: ChatRequest, http: Request):
     """Answer one question as server-sent events (see the module notes for the events)."""
     try:
         _, folder = snapshot_for(request.version)
@@ -490,11 +521,11 @@ def chat(request: ChatRequest):
                 iter([_event("error", {"message": NO_KEY_MESSAGE})]),
                 media_type="text/event-stream",
             )
-    elif not daily_cap.take():
+    elif (refused := refused_message(http)) is not None:
         calls = fixed.get(request.message.strip())  # a suggested question still runs its tools
         if calls is None:
             return StreamingResponse(
-                iter([_event("error", {"message": CAP_MESSAGE})]),
+                iter([_event("error", {"message": refused})]),
                 media_type="text/event-stream",
             )
     else:
@@ -528,7 +559,7 @@ async def talk_socket(ws: WebSocket, version: str = "latest"):
         _, folder = await asyncio.to_thread(snapshot_for, version)
     except LookupError as error:
         return await talk.refuse(ws, str(error))
-    if not daily_cap.take():  # one Talk session counts as one question
-        return await talk.refuse(ws, CAP_MESSAGE)
+    if (refused := refused_message(ws)) is not None:  # one Talk session counts as one question
+        return await talk.refuse(ws, refused)
     await ws.accept()
     await talk.relay(ws, tool_runner(folder))

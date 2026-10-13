@@ -412,7 +412,15 @@ FREE = "Which airport should I buy?"
 def fresh_daily_cap(monkeypatch):
     """Every test starts with no cap set and a fresh count on a fixed UTC day."""
     monkeypatch.delenv("MAX_MODEL_QUESTIONS_PER_DAY", raising=False)
+    monkeypatch.delenv("MAX_MODEL_QUESTIONS_PER_VISITOR_PER_DAY", raising=False)
     monkeypatch.setattr(server, "daily_cap", server.DailyCap(clock=lambda: date(2026, 10, 12)))
+    monkeypatch.setattr(server, "visitor_cap", visitor_cap_on(date(2026, 10, 12)))
+
+
+def visitor_cap_on(day):
+    return server.DailyCap(
+        "MAX_MODEL_QUESTIONS_PER_VISITOR_PER_DAY", fallback=20, clock=lambda: day
+    )
 
 
 def test_without_the_cap_set_model_questions_are_not_limited(web, monkeypatch):
@@ -458,3 +466,82 @@ def test_the_cap_starts_again_on_a_new_utc_day(monkeypatch):
 def test_a_mistyped_cap_keeps_a_cap(monkeypatch, text):
     monkeypatch.setenv("MAX_MODEL_QUESTIONS_PER_DAY", text)
     assert server.DailyCap().limit() == server.INVALID_CAP_FALLBACK
+
+
+# --- The per-visitor daily limit ----------------------------------------------------------------
+
+
+def test_one_visitor_at_their_limit_is_blocked_while_another_still_gets_answers(web, monkeypatch):
+    monkeypatch.setenv("MAX_MODEL_QUESTIONS_PER_VISITOR_PER_DAY", "1")
+    model = StreamingModel(streamed("A's answer"), streamed("B's answer"))
+    with_model(monkeypatch, model)
+    a, b = {"fly-client-ip": "203.0.113.1"}, {"fly-client-ip": "203.0.113.2"}
+    assert kinds(events(web.post("/chat", json={"message": FREE}, headers=a)))[-1] == "done"
+    over = events(web.post("/chat", json={"message": FREE}, headers=a))
+    assert over == [("error", {"message": server.VISITOR_CAP_MESSAGE})]
+    assert kinds(events(web.post("/chat", json={"message": FREE}, headers=b)))[-1] == "done"
+    assert len(model.seen) == 2
+
+
+def test_a_visitor_over_their_limit_does_not_use_up_the_site_wide_cap(web, monkeypatch):
+    monkeypatch.setenv("MAX_MODEL_QUESTIONS_PER_VISITOR_PER_DAY", "1")
+    monkeypatch.setenv("MAX_MODEL_QUESTIONS_PER_DAY", "2")
+    model = StreamingModel(streamed("one"), streamed("two"))
+    with_model(monkeypatch, model)
+    for _ in range(3):
+        web.post("/chat", json={"message": FREE}, headers={"fly-client-ip": "203.0.113.1"})
+    other = {"fly-client-ip": "203.0.113.2"}
+    assert kinds(events(web.post("/chat", json={"message": FREE}, headers=other)))[-1] == "done"
+
+
+def test_over_the_visitor_limit_suggested_questions_still_run_tools(web, monkeypatch):
+    monkeypatch.setenv("MAX_MODEL_QUESTIONS_PER_VISITOR_PER_DAY", "0")
+    model = StreamingModel()
+    with_model(monkeypatch, model)
+    found = events(web.post("/chat", json={"message": NEW_ENGLAND}))
+    assert kinds(found) == ["tool_start", "tool_result", "done"]
+    assert model.seen == []
+
+
+def test_the_visitor_is_the_fly_header_when_present_else_the_client_address(web):
+    class Connection:
+        def __init__(self, headers, host):
+            self.headers = headers
+            self.client = None if host is None else type("Client", (), {"host": host})()
+
+    assert (
+        server.visitor_of(Connection({"fly-client-ip": "203.0.113.9"}, "10.0.0.1")) == "203.0.113.9"
+    )
+    assert server.visitor_of(Connection({}, "10.0.0.1")) == "10.0.0.1"
+    assert server.visitor_of(Connection({}, None)) == "unknown"
+
+
+def test_without_the_header_visitors_are_told_apart_by_client_address(web, monkeypatch):
+    monkeypatch.setenv("MAX_MODEL_QUESTIONS_PER_VISITOR_PER_DAY", "1")
+    with_model(monkeypatch, StreamingModel(streamed("one")))
+    assert kinds(events(web.post("/chat", json={"message": FREE})))[-1] == "done"
+    assert events(web.post("/chat", json={"message": FREE})) == [
+        ("error", {"message": server.VISITOR_CAP_MESSAGE})
+    ]
+
+
+def test_the_visitor_counts_start_again_on_a_new_utc_day(monkeypatch):
+    monkeypatch.setenv("MAX_MODEL_QUESTIONS_PER_VISITOR_PER_DAY", "1")
+    today = [date(2026, 10, 12)]
+    cap = server.DailyCap("MAX_MODEL_QUESTIONS_PER_VISITOR_PER_DAY", clock=lambda: today[0])
+    assert cap.take("a") and not cap.take("a") and cap.take("b")
+    today[0] = date(2026, 10, 13)
+    assert cap.take("a")
+    assert list(cap.counts) == ["a"]  # yesterday's visitors are dropped
+
+
+def test_without_the_visitor_limit_set_visitors_are_not_limited(monkeypatch):
+    cap = visitor_cap_on(date(2026, 10, 12))
+    assert cap.limit() is None
+    assert all(cap.take("a") for _ in range(50))
+
+
+@pytest.mark.parametrize("text", ["lots", "-5", "1.5"])
+def test_a_mistyped_visitor_limit_keeps_a_limit(monkeypatch, text):
+    monkeypatch.setenv("MAX_MODEL_QUESTIONS_PER_VISITOR_PER_DAY", text)
+    assert visitor_cap_on(date(2026, 10, 12)).limit() == 20

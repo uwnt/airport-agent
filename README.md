@@ -98,6 +98,8 @@ the model per UTC day. Over the cap, a free-form question gets a message saying 
 suggested questions and the picker still work (they run the tools directly). The count is kept in
 memory: the deploy runs a single machine (`flyctl deploy --ha=false`), so the cap is 300 in
 total, and the count starts again whenever that machine stops (it sleeps when idle) or restarts.
+A second limit, `MAX_MODEL_QUESTIONS_PER_VISITOR_PER_DAY` (20 on Fly; unset means none), counts
+each visitor separately, so one visitor can't use up the whole cap.
 Each request is also size-limited: a question of at most 2,000 characters, and at most 10 earlier
 turns of at most 20,000 characters in total.
 
