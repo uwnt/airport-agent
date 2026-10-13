@@ -193,3 +193,10 @@ def test_without_check_model_and_out_are_required():
         assert stop.code == 2
     else:
         raise AssertionError("expected a usage error")
+
+
+def test_check_with_no_matching_conversation_fails(capsys):
+    # A mistyped --only must not turn the release check into "0 of 0 passed", exit 0.
+    script = load_script()
+    assert script.main(["--check", "--only", "no-such-name"], check_chat_maker(), DAY) == 1
+    assert "FAIL no conversation matched" in capsys.readouterr().out

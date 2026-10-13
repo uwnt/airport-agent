@@ -440,7 +440,7 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
 - Revisit if: published data needs a person's review first (the workflow would open a pull request
   and wait), or the snapshots outgrow release files.
 
-## D32: A production deploy waits for the example questions
+## D33: A production deploy waits for the example questions
 - Chose: before a deploy from `prod`, the Deploy workflow runs `scripts/evaluate.py --check`: the
   nine example conversations against the live model, and all nine must pass. A conversation
   passes when it finishes without an error and the number check finds no number in any answer

@@ -418,7 +418,9 @@ def run_check(make_chat, only=None):
         failed += reason is not None
         print(f"FAIL {name} \u2014 {reason}" if reason else f"PASS {name} \u2014 ok", flush=True)
     print(f"{total - failed} of {total} conversations passed", flush=True)
-    return 1 if failed else 0
+    if not total:
+        print(f"FAIL no conversation matched --only {' '.join(only or [])}", flush=True)
+    return 1 if failed or not total else 0
 
 
 def main(argv=None, make_chat=None, today=None):
