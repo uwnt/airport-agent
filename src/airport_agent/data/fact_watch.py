@@ -145,7 +145,7 @@ def fingerprint(fetched, recorded):
 def collect_sources(notes_path=None, constraints_path=CONSTRAINTS_PATH):
     """{url: [fact labels]} from the verified notes and the constraints, one entry per URL."""
     notes_path = notes_path or tools.DOMAIN_NOTES_PATH
-    sources = {}
+    sources: dict[str, list[str]] = {}
     for cells, _, _ in tools.verified_rows(notes_path.read_text(encoding="utf-8")):
         for url in LINK.findall(cells[4]):
             sources.setdefault(url, []).append(f"DOMAIN_NOTES note {cells[0]}")
@@ -213,7 +213,7 @@ def describe_change(result):
 
 def format_report(results):
     """The plain report: a count per outcome, then every URL that is not unchanged."""
-    counts = {}
+    counts: dict[str, int] = {}
     for r in results:
         counts[r["outcome"]] = counts.get(r["outcome"], 0) + 1
     summary = ", ".join(f"{n} {name}" for name, n in sorted(counts.items()))

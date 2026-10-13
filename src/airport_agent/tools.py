@@ -13,6 +13,8 @@ is given) and the two settings files.
 
 import logging
 import re
+from collections.abc import Callable
+from typing import Any
 
 from airport_agent.data.cache import BUILD_COMMAND, CacheMissingError, load_config
 from airport_agent.data.metrics import SIGNALS, UnknownAirportError, airport_metrics
@@ -102,7 +104,9 @@ def compare_airports(codes, preset=None, cache_dir=None, settings=None):
     """The ranking rows for two or more airports, side by side."""
     if isinstance(codes, str):
         codes = re.split(r"[,\s]+", codes)
-    airports = {}  # IATA code -> the codes asked for that name it ("BOS", "KBOS")
+    airports: dict[
+        str, list[str]
+    ] = {}  # IATA code -> the codes asked for that name it ("BOS", "KBOS")
     for code in codes:
         if not str(code).strip():
             continue
@@ -229,7 +233,7 @@ def demand_pressure(code, cache_dir=None, settings=None):
 
 # --- The dispatcher -------------------------------------------------------------------------
 
-TOOLS = {
+TOOLS: dict[str, Callable[..., Any]] = {
     "rank_airports": rank_airports,
     "compare_airports": compare_airports,
     "airport_profile": airport_profile,

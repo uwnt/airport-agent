@@ -456,7 +456,8 @@ One entry per decision, newest last. Each entry is the raw material for the "Key
 ## D34: Type checking with mypy, default strictness, source only
 - Chose: `mypy` on `src/airport_agent` at its default strictness, run by `scripts/ci-local` and by
   CI after the lint step, with the `pandas-stubs` and `types-PyYAML` stub packages as dev
-  dependencies. Tests are not type-checked.
+  dependencies. Tests are not type-checked. Function bodies are checked even without annotations
+  (`check_untyped_defs`), because most of this code has none and mypy would otherwise skip it.
 - Over: pyright (its pip package downloads Node.js on first run, and this project is pure Python);
   `--strict` (it would mean annotating every function for little gain at this size); no type
   checking (annotations would drift from what the code does).

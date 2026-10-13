@@ -470,7 +470,7 @@ def _event(kind, payload):
 
 def _stream(work):
     """Run `work(emit)` in a thread and yield each emitted event as soon as it is emitted."""
-    events = queue.Queue()
+    events: queue.Queue = queue.Queue()
 
     def run():
         try:

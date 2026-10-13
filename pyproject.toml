@@ -31,6 +31,8 @@ select = ["E", "F", "I", "UP", "B"]
 # Default strictness, source only (tests are not checked)
 files = ["src/airport_agent"]
 python_version = "3.13"
+# Also check the body of functions without annotations (most of this code), which mypy skips by default
+check_untyped_defs = true
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

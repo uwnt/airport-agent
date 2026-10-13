@@ -22,6 +22,7 @@ import urllib.parse
 import urllib.request
 from datetime import UTC, datetime
 from pathlib import Path
+from typing import Any
 
 from airport_agent.data.cache import NETWORK_ERRORS, get_json, write_json
 from airport_agent.data.ourairports import great_circle_miles
@@ -119,7 +120,7 @@ def long_haul_share(flights, airport, coords, prefixes, min_miles, long_haul_mil
     """
     prefixes = {prefix.upper() for prefix in prefixes}
     origin = coords.get(airport)
-    counts = {
+    counts: dict[str, Any] = {
         "departures": len(flights),
         "passenger": 0,
         "unknown_destination": 0,

@@ -21,6 +21,7 @@ import urllib.request
 import zipfile
 from datetime import date
 from pathlib import Path
+from typing import Any
 
 import pandas as pd
 
@@ -59,7 +60,7 @@ def month_label(year, month):
     return f"{_MONTHS[month - 1]} {year}"
 
 
-def latest_available_month(exists, today=None, look_back=12):
+def latest_available_month(exists, today=None, look_back=12) -> tuple[int, int]:
     """The newest (year, month) for which `exists(year, month)` is true, from this month back.
 
     `exists` does the network check (see `month_exists`); kept separate so this is testable.
@@ -144,7 +145,7 @@ def aggregate(monthly):
     `monthly` is a list of {airport: counts} from `summarise_flights`. Airports with no landed
     flights get no delay figure; airports with nothing left after diversions get no rate.
     """
-    totals = {}
+    totals: dict[str, dict[str, Any]] = {}
     for month in monthly:
         for airport, counts in month.items():
             total = totals.setdefault(

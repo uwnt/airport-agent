@@ -9,6 +9,7 @@ The BTS step downloads about 12 × 32 MB; months already summarised are not down
 """
 
 from pathlib import Path
+from typing import Any
 
 from airport_agent.data import (
     asof,
@@ -39,7 +40,7 @@ class BuildError(Exception):
 
 def source_codes(cache_dir):
     """{code: [source names]} for every airport code in the DOT and BTS summaries."""
-    codes = {}
+    codes: dict[str, list[str]] = {}
     for module in CODE_SOURCES:
         for code in read_summary(cache_dir, module.SUMMARY_NAME)["data"]:
             codes.setdefault(code, []).append(module.SOURCE)
@@ -126,7 +127,7 @@ def write_ontime(cache_dir, monthly, fetched_at=None, gaps=None):
     gaps = gaps or {}
     months = sorted(monthly)
     window = sorted([*monthly, *gaps])
-    extra = {}
+    extra: dict[str, Any] = {}
     if gaps:
         missing = ", ".join(f"{bts_ontime.month_label(*m)} ({gaps[m]})" for m in sorted(gaps))
         extra["gaps"] = {f"{y}-{m:02d}": reason for (y, m), reason in sorted(gaps.items())}
@@ -208,7 +209,7 @@ def build_ontime(
     delete_raw=False,
     today=None,
     out_dir=None,
-    newest=None,
+    newest: tuple[int, int] | None = None,
 ):
     """Summarise 12 BTS on-time months ending at `newest` (default: the newest BTS serves).
 
@@ -264,10 +265,10 @@ def build_cache(cache_dir=DEFAULT_CACHE_DIR, delete_raw=False, out_dir=None, as_
     airports_csv = ourairports.fetch_airports(cache_dir)
     coords = ourairports.parse_coordinates(airports_csv)
 
-    latest = dot_fares.fetch_latest_quarter()
+    latest: tuple[int, int] = dot_fares.fetch_latest_quarter()
     if as_of:
         latest = min(latest, asof.newest_fare_quarter(as_of, lags["dot_fares_lag_months"]))
-    baseline = (config["dot_fares"]["baseline_year"], latest[1])
+    baseline: tuple[int, int] = (config["dot_fares"]["baseline_year"], latest[1])
     _log(f"DOT Table 1a: {latest[0]} Q{latest[1]} and {baseline[0]} Q{baseline[1]}")
     rows = {
         q: dot_fares.load_rows(dot_fares.fetch_quarter(*q, cache_dir)) for q in (latest, baseline)

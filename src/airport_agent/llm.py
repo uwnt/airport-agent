@@ -55,6 +55,7 @@ import json
 import os
 from contextlib import asynccontextmanager
 from dataclasses import dataclass, field
+from typing import Any
 
 from google import genai
 from google.genai import types
@@ -229,7 +230,8 @@ def assemble_steps(events, on_text, usage=None):
     arrive as pieces of one JSON text and are decoded once the stream has ended. If `usage` (a
     dict) is given, the token counts from the `interaction.completed` event are put into it.
     """
-    steps, arguments = {}, {}
+    steps: dict = {}
+    arguments: dict = {}
     for event in events:
         kind = event.get("event_type")
         if kind == "error":
@@ -291,7 +293,7 @@ class Answer:
 
 def _text_of(steps):
     """The text parts of the model's output steps, joined."""
-    parts = []
+    parts: list[str] = []
     for step in steps:
         if step.get("type") == "model_output":
             parts.extend(c.get("text", "") for c in step.get("content") or [] if c.get("text"))
@@ -360,7 +362,8 @@ class ChatSession:
         self.history.append(
             {"type": "user_input", "content": [{"type": "text", "text": user_text}]}
         )
-        calls, usage = [], {}
+        calls: list[ToolCall] = []
+        usage: dict = {}
         while True:
             steps = self._next_steps(on_event, usage)
             self.history.extend(steps)
@@ -502,7 +505,7 @@ async def open_live(tools=None, system_prompt=None):
     declarations = live_function_declarations(
         tools if tools is not None else toolbox.TOOL_DECLARATIONS
     )
-    config = {
+    config: dict[str, Any] = {
         "response_modalities": ["AUDIO"],
         "system_instruction": (system_prompt or SYSTEM_PROMPT) + VOICE_NOTE,
         "tools": [{"function_declarations": declarations}],
@@ -510,5 +513,8 @@ async def open_live(tools=None, system_prompt=None):
         "output_audio_transcription": {},
     }
     client = genai.Client()  # reads GEMINI_API_KEY from the environment
-    async with client.aio.live.connect(model=live_model(), config=config) as session:
+    async with client.aio.live.connect(
+        model=live_model(),
+        config=config,  # type: ignore[arg-type]  # SDK expects its own typed dict, not a plain one
+    ) as session:
         yield LiveSession(session)
