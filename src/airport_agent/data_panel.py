@@ -136,7 +136,7 @@ class Jobs:
 jobs = Jobs()
 refresh_limit = RateLimit(60 * 60)
 latest_limit = RateLimit(60)
-startup_versions = set()  # snapshots in the store when the server started (see built_by)
+startup_versions: set[str] = set()  # snapshots in the store when the server started (see built_by)
 
 
 def _finish(name, target, *args):

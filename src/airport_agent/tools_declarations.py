@@ -5,6 +5,7 @@ an argument the model was not told about, or one of the wrong type, comes back a
 """
 
 import math
+from typing import Any
 
 _PRESET = {
     "type": "string",
@@ -18,7 +19,7 @@ _VERSION = {
 }
 _CODES = {"type": "array", "items": {"type": "string"}, "description": "IATA airport codes."}
 
-TOOL_DECLARATIONS = [
+TOOL_DECLARATIONS: list[dict[str, Any]] = [
     {
         "type": "function",
         "name": "rank_airports",

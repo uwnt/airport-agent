@@ -10,10 +10,11 @@ their sources and dates.
 
 import json
 import sys
+from typing import Any
 
 from airport_agent import tools
 
-FIXED_QUESTIONS = [
+FIXED_QUESTIONS: list[tuple[str, list[tuple[str, dict[str, Any]]]]] = [
     (
         "Which New England airports are the best terminal-expansion candidates?",
         [("rank_airports", {"region": "New England"})],
