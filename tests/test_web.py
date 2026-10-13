@@ -118,10 +118,15 @@ def test_page_loads_no_third_party_files(web):
 
 
 def test_markdown_is_always_sanitised(web):
-    script = web.get("/static/app.js").text
-    assert "DOMPurify.sanitize(marked.parse(" in script
-    for sink in ("innerHTML", "outerHTML", "insertAdjacentHTML", "document.write"):
-        assert sink not in script  # the sanitised render is the only way markup gets in
+    # Every script of our own the page loads (not the vendored libraries), so a new file is covered.
+    page = web.get("/").text
+    names = [n for n in re.findall(r'<script src="(/static/[^"]+)"', page) if "/vendor/" not in n]
+    assert "/static/app.js" in names
+    scripts = {name: web.get(name).text for name in names}
+    assert "DOMPurify.sanitize(marked.parse(" in scripts["/static/app.js"]
+    for name, script in scripts.items():
+        for sink in ("innerHTML", "outerHTML", "insertAdjacentHTML", "document.write"):
+            assert sink not in script, name  # the sanitised render is the only way markup gets in
 
 
 def test_region_choices_are_known_regions():
