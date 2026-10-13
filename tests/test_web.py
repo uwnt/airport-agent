@@ -494,6 +494,17 @@ def test_a_visitor_over_their_limit_does_not_use_up_the_site_wide_cap(web, monke
     assert kinds(events(web.post("/chat", json={"message": FREE}, headers=other)))[-1] == "done"
 
 
+def test_a_question_the_site_wide_cap_refuses_costs_the_visitor_nothing(web, monkeypatch):
+    monkeypatch.setenv("MAX_MODEL_QUESTIONS_PER_VISITOR_PER_DAY", "1")
+    monkeypatch.setenv("MAX_MODEL_QUESTIONS_PER_DAY", "0")
+    with_model(monkeypatch, StreamingModel(streamed("one")))
+    me = {"fly-client-ip": "203.0.113.1"}
+    refused = events(web.post("/chat", json={"message": FREE}, headers=me))
+    assert refused == [("error", {"message": server.CAP_MESSAGE})]
+    monkeypatch.setenv("MAX_MODEL_QUESTIONS_PER_DAY", "1")
+    assert kinds(events(web.post("/chat", json={"message": FREE}, headers=me)))[-1] == "done"
+
+
 def test_over_the_visitor_limit_suggested_questions_still_run_tools(web, monkeypatch):
     monkeypatch.setenv("MAX_MODEL_QUESTIONS_PER_VISITOR_PER_DAY", "0")
     model = StreamingModel()

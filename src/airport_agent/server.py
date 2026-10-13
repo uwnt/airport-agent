@@ -297,6 +297,12 @@ class DailyCap:
             self.counts[visitor] = self.counts.get(visitor, 0) + 1
             return True
 
+    def give_back(self, visitor=None):
+        """Undo one take() for `visitor` today, for a question that was refused after all."""
+        with self.lock:
+            if self.day == self.clock() and self.counts.get(visitor, 0) > 0:
+                self.counts[visitor] -= 1
+
 
 INVALID_CAP_FALLBACK = 300
 daily_cap = DailyCap()
@@ -313,11 +319,16 @@ def visitor_of(connection):
 def refused_message(connection):
     """None if this question may go to the model (and counts it), else why it may not.
 
-    The visitor is checked first, so a refused visitor does not use up the site-wide cap.
+    The visitor is checked first, so a refused visitor does not use up the site-wide cap; a
+    question the site-wide cap refuses is given back to the visitor, so it costs them nothing.
     """
-    if not visitor_cap.take(visitor_of(connection)):
+    visitor = visitor_of(connection)
+    if not visitor_cap.take(visitor):
         return VISITOR_CAP_MESSAGE
-    return None if daily_cap.take() else CAP_MESSAGE
+    if not daily_cap.take():
+        visitor_cap.give_back(visitor)
+        return CAP_MESSAGE
+    return None
 
 
 @app.get("/info")
