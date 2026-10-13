@@ -63,7 +63,12 @@ jobs:
 
       # Start it the way a reviewer does, through docker-compose.yml (using the image just built),
       # so the compose file, its localhost port and the HEALTHCHECK are tested too.
+      # TALK_MODE and a placeholder key (no step here calls the model) check that compose passes
+      # Talk mode's switch through: /info reports `talk` only with both set.
       - name: Start with compose and wait until healthy
+        env:
+          TALK_MODE: "on"
+          GEMINI_API_KEY: placeholder-not-a-key
         run: |
           if ! docker compose up -d --no-build --wait --wait-timeout 60; then
             docker compose logs
@@ -84,6 +89,14 @@ jobs:
           fi
           if [ "$(echo "$body" | jq -r .data_version)" = "null" ]; then
             echo "::error::/health reports no data snapshot"
+            exit 1
+          fi
+
+      - name: Talk mode is on when started with TALK_MODE=on
+        run: |
+          talk="$(curl -fsS http://127.0.0.1:8000/info | jq -r .talk)"
+          if [ "$talk" != "true" ]; then
+            echo "::error::/info talk is '$talk' with TALK_MODE=on; docker-compose.yml must pass it"
             exit 1
           fi
 
