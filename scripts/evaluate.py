@@ -3,6 +3,12 @@
 Run: doppler run -- uv run python scripts/evaluate.py --model gemini-3.8-flash \\
          --out docs/examples/flash
 
+Release check: `--check` asks the same questions, writes no files, prints PASS or FAIL per
+conversation and exits 1 if any fails, or if no conversation was run. A conversation passes when
+every question got an answer (no error, no stop at the tool-call limit, not empty) and every number
+in every answer was found in a tool result (the number check below). The Deploy workflow runs it
+before a production deploy.
+
 Each conversation is a fresh chat; a follow-up question goes to the same chat. For each one a
 Markdown transcript is written: the questions, every tool call (arguments, the key numbers, and
 the full result folded away), the answer, seconds taken, tokens, cost in US dollars, and the
@@ -31,7 +37,13 @@ import sys
 import time
 from pathlib import Path
 
-from airport_agent.llm import ChatSession, GeminiClient, add_usage, settings_from_env
+from airport_agent.llm import (
+    NO_ANSWER_TEXT,
+    ChatSession,
+    GeminiClient,
+    add_usage,
+    settings_from_env,
+)
 from airport_agent.number_check import unsupported_numbers
 
 # (file name, questions in one chat). The first four are the chat's example questions.
@@ -391,13 +403,49 @@ def index(model, settings, rows, on):
 # --- Command line -----------------------------------------------------------------------------
 
 
+def check_failure(turns):
+    """Why a conversation fails the release check, or None if it passes (no model judges this)."""
+    for turn in turns:
+        if turn.get("error"):
+            return f"model call failed: {turn['error']}"
+        if turn["stopped_at_limit"]:
+            return "stopped at the tool-call limit without an answer"
+        if turn["text"].strip() in ("", NO_ANSWER_TEXT):
+            return "no answer from the model"
+    flagged = [n for turn in turns for n in turn["unsupported"]]
+    if flagged:
+        return "numbers not found in tool results: " + ", ".join(flagged)
+    return None
+
+
+def run_check(make_chat, only=None):
+    """Run the conversations, print PASS or FAIL for each; 0 if all pass, else 1."""
+    failed = total = 0
+    for name, questions in CONVERSATIONS:
+        if only is not None and name not in only:
+            continue
+        total += 1
+        reason = check_failure(run_conversation(make_chat(), questions))
+        failed += reason is not None
+        print(f"FAIL {name} \u2014 {reason}" if reason else f"PASS {name} \u2014 ok", flush=True)
+    print(f"{total - failed} of {total} conversations passed", flush=True)
+    if not total:
+        print(f"FAIL no conversation matched --only {' '.join(only or [])}", flush=True)
+    return 1 if failed or not total else 0
+
+
 def main(argv=None, make_chat=None, today=None):
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("--model", required=True, help="Gemini model name")
-    parser.add_argument("--out", required=True, type=Path, help="folder for the transcripts")
+    parser.add_argument("--model", help="Gemini model name (default: the app's default)")
+    parser.add_argument("--out", type=Path, help="folder for the transcripts")
+    parser.add_argument("--check", action="store_true", help="release check: no files, exit code")
     parser.add_argument("--only", nargs="*", help="run only these conversations (file names)")
     args = parser.parse_args(argv)
-    settings = dataclasses.replace(settings_from_env(), model=args.model)
+    if not args.check and not (args.model and args.out):
+        parser.error("--model and --out are required unless --check is given")
+    settings = settings_from_env()
+    if args.model:
+        settings = dataclasses.replace(settings, model=args.model)
     if make_chat is None:
 
         def make_chat():
@@ -406,6 +454,8 @@ def main(argv=None, make_chat=None, today=None):
                 client=ToolResultMeter(client, client.count_tokens), settings=settings
             )
 
+    if args.check:
+        return run_check(make_chat, args.only)
     on = today or datetime.date.today()
     args.out.mkdir(parents=True, exist_ok=True)
     rows = []

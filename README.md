@@ -106,7 +106,9 @@ turns of at most 20,000 characters in total.
 `GEMINI_API_KEY` is the only Fly secret, copied from the secrets manager (Doppler) by the deploy
 workflow; it is never in the repo or the image. Releases go `dev` → `stg` → `prod`; the `Deploy`
 workflow is started by hand on `prod`, builds the image on Fly, and checks that `/health` reports
-the deployed commit. **Rollback:** start the same workflow on the previous release tag
+the deployed commit. Before a deploy from `prod` it also runs the example questions against the
+model and stops unless every question gets an answer with no number that a tool didn't give
+(`scripts/evaluate.py --check`; skipped for a rollback). **Rollback:** start the same workflow on the previous release tag
 (`gh workflow run deploy.yml --ref v1.2.3`); this redeploys that release without moving `prod`.
 
 ## Test
