@@ -1,0 +1,4 @@
+# What this project is: read by the shared tooling to pick its checks.
+kind = "service"
+stack = "python"
+addons = ["ai", "public-repo"]
