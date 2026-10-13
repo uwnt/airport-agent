@@ -13,6 +13,8 @@ primary_region = "iad" # US East, near the US data's users
   # cannot run up the bill. The count is in memory, so it starts again when the machine stops or
   # restarts; the Deploy workflow runs one machine (--ha=false), so this is the total, not per machine.
   MAX_MODEL_QUESTIONS_PER_DAY = "300"
+  # And per visitor (Fly-Client-IP), so one visitor cannot use up the whole day's cap.
+  MAX_MODEL_QUESTIONS_PER_VISITOR_PER_DAY = "20"
 
 [http_service]
   internal_port = 8000 # the port the Dockerfile's uvicorn listens on
