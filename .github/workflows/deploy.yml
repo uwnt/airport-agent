@@ -44,6 +44,42 @@ jobs:
       - uses: dopplerhq/cli-action@4819d808ab99e5cde19a0637a16536a4038fad73 # v4
       - uses: superfly/flyctl-actions/setup-flyctl@ed8efb33836e8b2096c7fd3ba1c8afe303ebbff1 # 1.6
 
+      # The example questions must all pass before a release goes out (docs/DECISIONS.md, D33).
+      # Only on `prod`: a v* tag is a rollback to an older release, and a rollback must never be
+      # blocked by the model having a bad day.
+      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7.6.0
+        if: github.ref == 'refs/heads/prod'
+        with:
+          enable-cache: false # this job holds production secrets: install fresh, never from a cache
+
+      - name: Install
+        if: github.ref == 'refs/heads/prod'
+        run: uv sync --locked
+
+      - name: Example questions must all pass
+        if: github.ref == 'refs/heads/prod'
+        env:
+          DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN_PRD }}
+        shell: bash  # GitHub then runs: bash --noprofile --norc -eo pipefail {0}
+        run: |
+          # The model is the one the app runs: GEMINI_MODEL in fly.toml [env] if it sets one,
+          # else the app's own default (so no second copy of the name here). Only GEMINI_API_KEY
+          # reaches the check, masked, never the whole production config: the check runs the
+          # project's code and its dependencies, which have no business seeing the deploy token.
+          # A failed conversation fails the job here, before anything is deployed; a flaky
+          # failure is re-run by hand.
+          # Read with the runner's own python3 (tomllib is in the standard library), not `uv run`,
+          # so no project code runs while the secrets manager's token is in the environment.
+          model=$(python3 -c 'import tomllib; print(tomllib.load(open("fly.toml", "rb"))["env"].get("GEMINI_MODEL", ""))')
+          key=$(doppler secrets get GEMINI_API_KEY --plain)
+          if [ -z "$key" ]; then
+            echo "::error::GEMINI_API_KEY is empty in the secrets manager's production config"
+            exit 1
+          fi
+          echo "::add-mask::$key"
+          env -u DOPPLER_TOKEN GEMINI_API_KEY="$key" \
+            uv run python scripts/evaluate.py --check ${model:+--model "$model"}
+
       - name: Stage runtime secrets on Fly (applied by the deploy below)
         env:
           DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN_PRD }}
