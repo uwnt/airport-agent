@@ -6,8 +6,10 @@ import shutil
 import threading
 import time
 from contextlib import asynccontextmanager
+from pathlib import Path
 
 import pytest
+import yaml
 from fastapi.testclient import TestClient
 from google.genai import types
 from starlette.websockets import WebSocketDisconnect
@@ -414,3 +416,11 @@ def test_the_snapshot_is_looked_up_off_the_event_loop(web, monkeypatch, live):
         assert ws.receive_json()["data"] == {"state": "listening"}
         leave(ws, live)
     assert seen == ["in a worker thread"]
+
+
+def test_docker_compose_passes_the_talk_switches_to_the_server():
+    """Compose hands the container only the variables it lists, so TALK_MODE=on must be one."""
+    compose = yaml.safe_load((Path(__file__).parent.parent / "docker-compose.yml").read_text())
+    passed = compose["services"]["serve"]["environment"]
+    assert "TALK_MODE" in passed
+    assert "GEMINI_LIVE_MODEL" in passed

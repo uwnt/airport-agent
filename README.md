@@ -82,8 +82,8 @@ docker compose up --build
 ```
 
 Then open http://localhost:8000/. The port is published on `localhost` only. Of the optional
-settings, only `GEMINI_MODEL`, `DATA_CHECK_MINUTES` and the Data panel's switches are passed to
-the container (`docker-compose.yml`). The `./data` folder is mounted read-only, so for the Data
+settings, only `GEMINI_MODEL`, `DATA_CHECK_MINUTES`, Talk mode's `TALK_MODE` and
+`GEMINI_LIVE_MODEL`, and the Data panel's switches are passed to the container (`docker-compose.yml`). The `./data` folder is mounted read-only, so for the Data
 panel's downloads and local refresh to write into it, drop the `:ro` from the `serve` volume.
 
 ## Deploy (Fly)
