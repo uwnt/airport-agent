@@ -2,3 +2,4 @@
 kind = "service"
 stack = "python"
 addons = ["ai", "public-repo"]
+doppler = "airport-agent"   # local CI runs under this Doppler project, in any checkout
