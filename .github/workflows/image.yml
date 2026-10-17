@@ -1,32 +1,20 @@
 # Image: build the Docker image, start it and check /health reports this commit, check no secret
 # files are inside, then build it for amd64 and arm64. On a v* tag, publish it to GitHub's
-# container registry. Separate from ci.yml so `ci` stays one job; runs only when files that go
-# into the image change, on the same pull request events as ci.yml.
+# container registry. Separate from ci.yml so `ci` stays one job. Not run on pull requests (each
+# run is billed minutes, and `ci` already tests every PR): it runs on pushes to stg and prod,
+# where a release needs the image, and on v* tags. Start it by hand on any branch with
+# workflow_dispatch to check an image change before release.
 name: Image
 
 on:
-  pull_request:
-    types: [opened, ready_for_review]
-    paths:
-      - Dockerfile
-      - .dockerignore
-      - docker-compose.yml
-      - pyproject.toml
-      - uv.lock
-      - src/**
-      - config/**
-      - data/snapshots/**
-      - data/constraints.yaml
-      - data/faa_capacity_profiles.yaml
-      - data/samples/opensky_departures_panc.json
-      - .github/workflows/image.yml
   push:
+    branches: [stg, prod]
     tags: ["v*"]
   workflow_dispatch:
 
 concurrency:
   group: image-${{ github.ref }}
-  # Never cancel a pull_request run: a "cancelled" check on the PR blocks the merge.
+  # A newer push to the same branch makes the older run pointless.
   cancel-in-progress: ${{ github.event_name == 'push' }}
 
 permissions:
