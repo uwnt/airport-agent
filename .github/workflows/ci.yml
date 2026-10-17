@@ -1,16 +1,17 @@
 # CI: lint, test and a secrets scan, in ONE job named `ci` (one billed minute, one required check).
-# Runs on a PR's opening head and again when it is marked ready after review, and on pushes to
-# stg and prod. Not on every push to a PR (a fix pushed after "ready" needs a re-run:
+# Runs once per PR, when it is marked ready after review, and on pushes to stg, prod and
+# dependabot/** (a bot PR is opened ready, which sends no ready event). Not when a PR is opened or
+# on every push to it (a fix pushed after "ready", or a PR opened ready by hand, needs a re-run:
 # `gh pr ready --undo <N> && gh pr ready <N>`), and not on dev, since PRs already test the merge.
 # The same steps run locally with `scripts/ci-local`.
 name: CI
 
 on:
   pull_request:
-    types: [opened, ready_for_review]
+    types: [ready_for_review]
   workflow_dispatch:
   push:
-    branches: [stg, prod]
+    branches: [stg, prod, "dependabot/**"]
 
 concurrency:
   group: ci-${{ github.ref }}
