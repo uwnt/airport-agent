@@ -190,8 +190,8 @@ website is not required. Aim for:
   2. `docker compose up` after cloning;
   3. `uv run` for Python developers.
 
-  Docker is not used on the development machine, so the image is built and smoke-tested **in GitHub Actions** on every PR,
-  and published to GHCR when the `v1.0` tag is pushed. The tag publishes the image only; it does not deploy.
+  Docker is not used on the development machine, so the image is built and smoke-tested **in GitHub Actions** when `stg` or `prod`
+  is pushed (not on every PR, to save billed minutes), and published to GHCR when the `v1.0` tag is pushed. The tag publishes the image only; it does not deploy.
   The Fly deploy is separate: cut `dev` to `stg`, promote to `prod`, then start the manual deploy workflow on `prod`.
 
 **A reviewer without a Gemini key:**
